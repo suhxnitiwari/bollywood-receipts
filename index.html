@@ -1,0 +1,864 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Bollywood gossip receipts, family trees and relationship webs, each stamped as on the record, alleged, rumor or cap.">
+<style>:root{color-scheme:light dark;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px/1.5 system-ui,-apple-system,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Bollywood Receipts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rozha+One&family=Mukta:wght@400;500;700&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: filmi-magazine masthead, then a wall of torn receipt slips, each stamped with a verdict */
+:root{
+  --bg:#FBE9F0; --paper:#FFFFFF; --ink:#2B0F1F; --muted:#7A5466; --rule:#EBC9D7;
+  --rani:#C8155A; --marigold:#E89A00; --true:#1D7A4C; --alleged:#B25E00; --rumor:#6B3FB0; --cap:#B3261E;
+  --display:"Rozha One", "Georgia", serif;
+  --body:"Mukta", system-ui, -apple-system, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#170A12; --paper:#24121C; --ink:#F8E7EF; --muted:#BB93A6; --rule:#3E2433;
+  --rani:#FF4F8F; --marigold:#FFB627; --true:#4CC98A; --alleged:#F0A050; --rumor:#B395F2; --cap:#FF7A70; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#170A12; --paper:#24121C; --ink:#F8E7EF; --muted:#BB93A6; --rule:#3E2433;
+  --rani:#FF4F8F; --marigold:#FFB627; --true:#4CC98A; --alleged:#F0A050; --rumor:#B395F2; --cap:#FF7A70; color-scheme:dark}
+
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55;padding:0 16px 64px}
+.wrap{max-width:1180px;margin:0 auto}
+header{padding-block:40px 24px;display:grid;gap:10px}
+.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--rani)}
+h1{font-family:var(--display);font-weight:400;font-size:clamp(46px,9vw,104px);line-height:.92;margin:0;text-wrap:balance}
+h1 .hi{color:var(--rani)}
+h1 .deva{display:block;font-size:.42em;color:var(--marigold);margin-top:6px}
+.dek{max-width:62ch;color:var(--muted);font-size:18px;margin:4px 0 0}
+
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px;font-family:var(--mono);font-size:12px;margin-top:10px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+
+.controls{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:12px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;border-bottom:1px solid var(--rule)}
+.chip{font-family:var(--mono);font-size:12px;letter-spacing:.04em;padding:6px 12px;border-radius:999px;border:1px solid var(--rule);background:var(--paper);color:var(--ink);cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--rani);border-color:var(--rani);color:var(--paper)}
+.chip:focus-visible,#q:focus-visible{outline:2px solid var(--marigold);outline-offset:2px}
+#q{flex:1 1 200px;min-width:0;font:inherit;font-size:15px;padding:7px 12px;border-radius:999px;border:1px solid var(--rule);background:var(--paper);color:var(--ink)}
+.count{font-family:var(--mono);font-size:12px;color:var(--muted)}
+
+section.web{margin-top:32px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:24px;align-items:center}
+@media (max-width:760px){section.web{grid-template-columns:1fr}}
+.web h2,.wall h2{font-family:var(--display);font-weight:400;font-size:clamp(28px,4.5vw,40px);line-height:1.05;margin:0 0 8px;text-wrap:balance}
+.web p{margin:0 0 10px;max-width:52ch}
+.svgbox{overflow-x:auto;background:var(--paper);border:1px solid var(--rule);border-radius:6px;padding:8px}
+.svgbox svg{display:block;width:100%;min-width:520px;height:auto}
+svg .n rect{fill:var(--bg);stroke:var(--ink);stroke-width:1.5}
+svg .n.c rect{fill:var(--rani);stroke:var(--rani)}
+svg .n text{fill:var(--ink);font-family:var(--body);font-weight:700;font-size:15px}
+svg .n.c text{fill:var(--paper)}
+svg .e{stroke-width:2;fill:none}
+svg .ex{stroke:var(--muted);stroke-dasharray:5 5}
+svg .wed{stroke:var(--rani)}
+svg .co{stroke:var(--marigold);stroke-width:2.5}
+svg .kid{stroke:var(--ink);stroke-width:1.5;fill:none}
+svg .fd{stroke:var(--cap);stroke-width:2;stroke-dasharray:3 4;fill:none}
+svg .lbl.fd{fill:var(--cap);stroke:none}
+svg .rep{stroke:var(--rani);stroke-width:2;stroke-dasharray:7 5;fill:none}
+svg .weak{stroke:var(--muted);stroke-width:1.5;stroke-dasharray:2 4;fill:none}
+svg .fr{stroke:var(--marigold);stroke-width:2.5;fill:none}
+svg .rum{stroke:var(--marigold);stroke-width:2;stroke-dasharray:7 5}
+svg .lbl{font-family:var(--mono);font-size:11px;fill:var(--muted)}
+svg .lbl.co{fill:var(--marigold);stroke:none}
+svg .lbl.wed{fill:var(--rani);stroke:none}
+
+.wall{margin-top:44px}
+.grid{columns:3 300px;column-gap:20px;margin-top:16px}
+.slip{break-inside:avoid;background:var(--paper);margin:0 0 22px;padding:18px 18px 26px;position:relative;
+  -webkit-mask:conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) 50%/14px 100%;
+          mask:conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) 50%/14px 100%}
+.slip .top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;border-bottom:1px dashed var(--rule);padding-bottom:8px}
+.stamp{font-family:var(--mono);font-weight:600;font-size:11px;letter-spacing:.1em;padding:3px 7px;border:2px solid currentColor;border-radius:3px;transform:rotate(-4deg);white-space:nowrap}
+.v-true{color:var(--true)} .v-alleged{color:var(--alleged)} .v-rumor{color:var(--rumor)} .v-cap{color:var(--cap)}
+.slip h3{font-family:var(--display);font-weight:400;font-size:24px;line-height:1.1;margin:12px 0 8px;text-wrap:balance}
+.slip p{margin:0 0 8px;font-size:15.5px}
+.slip ul{margin:4px 0 8px;padding-left:18px;font-size:15px}
+.slip li{margin:2px 0}
+.slip .tot{display:flex;justify-content:space-between;gap:8px;font-family:var(--mono);font-size:11.5px;border-top:1px dashed var(--rule);padding-top:8px;margin-top:10px;color:var(--muted)}
+.slip .tot b{color:var(--ink);font-weight:600;text-align:right}
+.empty{font-family:var(--mono);color:var(--muted);padding:24px 0}
+
+.kt{margin-top:40px}
+.kt h2{font-family:var(--display);font-weight:400;font-size:clamp(28px,4.5vw,40px);line-height:1.05;margin:0 0 8px}
+.kt .root{font-family:var(--display);font-size:20px;margin:14px 0 4px}
+.kt .root small{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.06em;display:block}
+.branches{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:12px}
+.branch{background:var(--paper);border:1px solid var(--rule);border-radius:6px;padding:14px 16px;min-width:0}
+.branch.wide{grid-column:1/-1}
+.branch h3{font-family:var(--display);font-weight:400;font-size:20px;margin:0 0 2px}
+.branch .sub{font-family:var(--mono);font-size:11px;color:var(--muted);margin:0 0 8px}
+.raj{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:4px 24px}
+.tree,.tree ul{list-style:none;margin:0;padding:0}
+.tree ul{padding-left:16px;margin-left:6px;border-left:1px solid var(--rule)}
+.tree li{position:relative;padding:3px 0 3px 4px;font-size:15px}
+.tree ul>li::before{content:"";position:absolute;left:-16px;top:14px;width:12px;border-top:1px solid var(--rule)}
+.tree .note{font-family:var(--mono);font-size:11px;color:var(--muted)}
+.pp{font:inherit;font-weight:700;color:var(--rani);background:none;border:0;padding:0;cursor:pointer;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+.pp:focus-visible{outline:2px solid var(--marigold);outline-offset:2px}
+
+.pipe{display:grid;gap:6px;margin-top:10px}
+.pipe div{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:14.5px}
+.pipe .st{font-family:var(--mono);font-size:11px;padding:2px 8px;border:1px solid var(--rule);border-radius:999px;color:var(--muted)}
+.pipe .ar{color:var(--marigold)}
+.stars{font-family:var(--mono);font-size:12px;color:var(--marigold);letter-spacing:.1em}
+.branch p.names{margin:6px 0 0;font-size:15px;line-height:1.7}
+
+.routes{display:grid;gap:10px;margin-top:14px}
+.route{background:var(--paper);border:1px solid var(--rule);border-radius:6px;padding:12px 14px;min-width:0}
+.route h3{font-family:var(--display);font-weight:400;font-size:19px;margin:0 0 6px}
+.route .ex{font-size:14px;color:var(--muted);margin:6px 0 0}
+.hubs{display:grid;gap:5px;margin-top:10px}
+.hub{display:grid;grid-template-columns:minmax(0,170px) 1fr;gap:10px;align-items:center;background:none;border:0;padding:3px 4px;font:inherit;color:var(--ink);text-align:left;cursor:pointer;border-radius:4px}
+.hub:hover,.hub[aria-pressed="true"]{background:var(--bg)}
+.hub:focus-visible{outline:2px solid var(--marigold)}
+.hub .hn{font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hub .track{display:flex;align-items:center;gap:8px}
+.hub .bar{height:14px;background:var(--rani);border-radius:0 4px 4px 0;min-width:2px}
+.hub[aria-pressed="true"] .bar{background:var(--marigold)}
+.hub .ct{font-family:var(--mono);font-size:12px;font-variant-numeric:tabular-nums;color:var(--muted)}
+.ptwrap{overflow-x:auto;margin-top:14px;border:1px solid var(--rule);border-radius:6px;background:var(--paper)}
+.pt{border-collapse:collapse;width:100%;min-width:760px;font-size:13.5px}
+.pt th{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);text-align:left;padding:8px 10px;border-bottom:1px solid var(--rule);position:sticky;top:0;background:var(--paper)}
+.pt td{padding:7px 10px;border-bottom:1px solid var(--rule);vertical-align:top}
+.pt td:first-child{font-weight:700;white-space:nowrap}
+.pt .grp{font-family:var(--mono);font-size:11px;color:var(--muted);white-space:nowrap}
+.pipehead{display:flex;flex-wrap:wrap;gap:8px;align-items:baseline;justify-content:space-between;margin-top:22px}
+.pipehead h3{font-family:var(--display);font-weight:400;font-size:22px;margin:0}
+#hubclear{font-family:var(--mono);font-size:12px}
+
+.lane{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:4px 8px;align-items:baseline;padding:6px 0;border-top:1px dashed var(--rule);font-size:14.5px}
+.lane:first-of-type{border-top:0}
+.lane .arr{color:var(--marigold);font-family:var(--mono)}
+.lane .vd{grid-column:1/-1;font-family:var(--mono);font-size:11px;letter-spacing:.04em}
+.lanehead{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:8px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+
+h2[id]{scroll-margin-top:90px}
+.dyn{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;padding-block:4px 14px}
+.dyn a{font-family:var(--display);font-size:20px;color:var(--ink);text-decoration:none;border-bottom:2px solid var(--marigold)}
+.dyn a:hover,.dyn a:focus-visible{color:var(--rani);outline:none}
+
+.tl{list-style:none;margin:16px 0 0;padding:0;display:grid;gap:0}
+.tl li{display:grid;grid-template-columns:86px minmax(0,1fr);gap:14px;padding:12px 0;border-top:1px solid var(--rule)}
+.tl .yr{font-family:var(--mono);font-size:12px;color:var(--rani);font-variant-numeric:tabular-nums;padding-top:3px}
+.tl h4{font-family:var(--display);font-weight:400;font-size:19px;margin:0 0 4px;line-height:1.15}
+.tl p{margin:0;font-size:15px;max-width:68ch}
+.arc{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:12px}
+@media (max-width:520px){.tl li{grid-template-columns:1fr;gap:2px}}
+footer{margin-top:40px;font-size:13px;color:var(--muted);max-width:70ch;border-top:1px solid var(--rule);padding-top:16px}
+@media (prefers-reduced-motion:no-preference){.slip{transition:transform .15s}.slip:hover{transform:rotate(-.6deg) translateY(-2px)}}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="kicker">Filed from Bandra · Juhu · Pali Hill</div>
+  <h1>Bollywood <span class="hi">Receipts</span><span class="deva">रसीदें, गपशप और ड्रामा</span></h1>
+  <p class="dek">Every link-up, love triangle, feud and nepo-baby moment, stamped with how solid the receipt actually is. Some of these are on the record. Some are pure Stardust-era gossip. The stamp tells you which.</p>
+  <div class="legend">
+    <span><i class="dot" style="background:var(--true)"></i>RECEIPT: on the record</span>
+    <span><i class="dot" style="background:var(--alleged)"></i>ALLEGED: widely reported, not confirmed</span>
+    <span><i class="dot" style="background:var(--rumor)"></i>RUMOR: gossip only</span>
+    <span><i class="dot" style="background:var(--cap)"></i>CAP: the facts don't back it</span>
+  </div>
+</header>
+
+
+<nav class="dyn" aria-label="The four dynasties">
+  <span class="kicker">The four dynasties</span>
+  <a href="#kth">Kapoor</a><a href="#web5h">Bachchan</a><a href="#khanh">Salim Khan</a><a href="#choprah">Chopra</a><a href="#famh">+10 more</a>
+</nav>
+
+<div class="controls" role="toolbar" aria-label="Filter receipts">
+  <button class="chip" data-f="all" aria-pressed="true">All</button>
+  <button class="chip" data-f="khan">Khan-daan</button>
+  <button class="chip" data-f="triangle">Love triangles</button>
+  <button class="chip" data-f="engaged">Broken engagements</button>
+  <button class="chip" data-f="feud">Feuds</button>
+  <button class="chip" data-f="nepo">Nepo kids</button>
+  <button class="chip" data-f="legend">Legends</button>
+  <input id="q" type="search" placeholder="Search a name… (try “Ranbir”)" aria-label="Search receipts">
+  <span class="count" id="count"></span>
+</div>
+
+<section class="web" aria-labelledby="webh">
+  <div>
+    <div class="kicker">Exhibit A</div>
+    <h2 id="webh">Alia's very small world</h2>
+    <p>Ranbir's two famous exes married Ranveer and Vicky. Alia has done movies with both husbands, and Sanjay Leela Bhansali's <i>Love &amp; War</i> puts Alia, Ranbir and Vicky in the same film.</p>
+    <p style="color:var(--muted);font-size:14px">Dashed = ex · pink = married · gold = co-stars</p>
+  </div>
+  <div class="svgbox">
+    <svg viewBox="0 0 640 330" role="img" aria-label="Diagram: Ranbir dated Deepika and Katrina, who married Ranveer and Vicky; Alia, Ranbir's wife, co-starred with both Ranveer and Vicky.">
+      <line class="e wed" x1="320" y1="62" x2="320" y2="168"/>
+      <line class="e ex" x1="320" y1="168" x2="140" y2="270"/>
+      <line class="e ex" x1="320" y1="168" x2="500" y2="270"/>
+      <line class="e wed" x1="110" y1="80" x2="140" y2="270"/>
+      <line class="e wed" x1="530" y1="80" x2="500" y2="270"/>
+      <line class="e co" x1="320" y1="44" x2="110" y2="80"/>
+      <line class="e co" x1="320" y1="44" x2="530" y2="80"/>
+      <text class="lbl wed" x="328" y="120">married 2022</text>
+      <text class="lbl" x="196" y="206" text-anchor="end">ex</text>
+      <text class="lbl" x="444" y="206">ex</text>
+      <text class="lbl wed" x="76" y="180" text-anchor="end">m. 2018</text>
+      <text class="lbl wed" x="564" y="180">m. 2021</text>
+      <text class="lbl co" x="200" y="38" text-anchor="middle">Gully Boy · Rocky Aur Rani</text>
+      <text class="lbl co" x="440" y="38" text-anchor="middle">Raazi · Love &amp; War</text>
+      <g class="n c"><rect x="270" y="44" width="100" height="36" rx="18"/><text x="320" y="67" text-anchor="middle">Alia</text></g>
+      <g class="n"><rect x="262" y="150" width="116" height="36" rx="18"/><text x="320" y="173" text-anchor="middle">Ranbir</text></g>
+      <g class="n"><rect x="50" y="62" width="120" height="36" rx="18"/><text x="110" y="85" text-anchor="middle">Ranveer</text></g>
+      <g class="n"><rect x="480" y="62" width="100" height="36" rx="18"/><text x="530" y="85" text-anchor="middle">Vicky</text></g>
+      <g class="n"><rect x="80" y="252" width="120" height="36" rx="18"/><text x="140" y="275" text-anchor="middle">Deepika</text></g>
+      <g class="n"><rect x="440" y="252" width="120" height="36" rx="18"/><text x="500" y="275" text-anchor="middle">Katrina</text></g>
+    </svg>
+  </div>
+</section>
+
+<section class="kt" aria-labelledby="inhh">
+  <div class="kicker">Exhibit B</div>
+  <h2 id="inhh">Alia's inheritance board</h2>
+  <p style="max-width:64ch;margin:0">The "Alia inherits other actresses' lanes" theory, checked line by line. There's a real pattern: she idolized Kareena, trained with Katrina before marrying Katrina's ex, and followed Deepika into Bhansali, L'Oréal and Levi's. "She copies everything" doesn't hold up. Gucci, her kids' brand Ed-a-Mamma, and her own production company Eternal Sunshine (<i>Darlings</i>) are hers alone.</p>
+  <div class="branches"><div class="branch"><h3>Deepika → Alia</h3><p class="sub">Her predecessor in prestige, and Ranbir's ex</p><div class="lanehead"><span>Deepika</span><span></span><span>Alia</span></div><div class="lane"><span>L'Oréal Paris global ambassador, Cannes regular</span><span class="arr">→</span><span>L'Oréal Paris global ambassador from 2024, Cannes debut</span><span class="vd v-true">RECEIPT · both on record</span></div><div class="lane"><span>Levi's global ambassador from 2021, own collections</span><span class="arr">→</span><span>Levi's global ambassador, announced September 2025</span><span class="vd v-true">RECEIPT · Levi's own announcement</span></div><div class="lane"><span>Bhansali's muse: Ram-Leela, Bajirao Mastani, Padmaavat</span><span class="arr">→</span><span>Gangubai Kathiawadi, then Love &amp; War</span><span class="vd v-true">RECEIPT · joked on Koffee that he'd promised her four films</span></div><div class="lane"><span>Dated Ranbir</span><span class="arr">→</span><span>Married Ranbir</span><span class="vd v-true">RECEIPT · the personal overlap</span></div><div class="lane"><span>Global luxury positioning</span><span class="arr">→</span><span>Gucci's first Indian global ambassador</span><span class="vd v-rumor">INTERPRETATION · Gucci was hers alone, not inherited</span></div></div><div class="branch"><h3>Katrina → Alia</h3><p class="sub">Friend, gym partner, and Ranbir's ex</p><div class="lanehead"><span>Katrina</span><span></span><span>Alia</span></div><div class="lane"><span>Fitness icon training with Yasmin Karachiwala</span><span class="arr">→</span><span>Trained alongside her; Katrina said "me and Alia used to train a lot together"</span><span class="vd v-true">RECEIPT · Katrina's own words</span></div><div class="lane"><span>Dated Ranbir about 2010–16</span><span class="arr">→</span><span>Became close to Ranbir by 2018, married him in 2022</span><span class="vd v-true">RECEIPT · the sequence happened</span></div><div class="lane"><span>Reportedly hurt by Alia and Ranbir</span><span class="arr">→</span><span>Katrina: who Alia dates "is not relevant to our equation"</span><span class="vd v-alleged">ALLEGED · the hurt came from unnamed sources</span></div><div class="lane"><span>"Alia stole Ranbir"</span><span class="arr">→</span><span>No evidence of overlap or betrayal</span><span class="vd v-cap">CAP · stan-war version</span></div></div><div class="branch"><h3>Kareena → Alia</h3><p class="sub">Her childhood idol, now family</p><div class="lanehead"><span>Kareena</span><span></span><span>Alia</span></div><div class="lane"><span>Bubbly KJo heroine, "Poo"</span><span class="arr">→</span><span>Openly a Kareena fan; constant comparisons</span><span class="vd v-true">RECEIPT · Alia has said it herself</span></div><div class="lane"><span>Karan Johar ecosystem</span><span class="arr">→</span><span>Launched by Karan in Student of the Year</span><span class="vd v-true">RECEIPT · same producer</span></div><div class="lane"><span>A Kapoor by birth</span><span class="arr">→</span><span>Married her first cousin Ranbir</span><span class="vd v-true">RECEIPT · idol to cousin-in-law</span></div></div></div>
+</section>
+
+
+
+<section class="web" aria-labelledby="web2h">
+  <div>
+    <div class="kicker">Exhibit C</div>
+    <h2 id="web2h">Kartik's co-star web</h2>
+    <p>Every heroine Kartik makes a film with gets linked to him. Ananya's exes then lead straight to Tara, the actress she's been compared to since their shared debut.</p>
+    <p style="color:var(--muted);font-size:14px">Gold dashed = rumored · grey dashed = ex. Nothing here is confirmed by Kartik.</p>
+  </div>
+  <div class="svgbox">
+    <svg viewBox="0 0 640 360" role="img" aria-label="Diagram: Kartik Aaryan rumored with Sara, Kriti, Janhvi, Sreeleela and Ananya; Ananya's exes Ishaan Khatter and Aditya Roy Kapur; Aditya now rumored with Tara Sutaria.">
+      <line class="e rum" x1="320" y1="170" x2="130" y2="55"/>
+      <line class="e rum" x1="320" y1="170" x2="510" y2="55"/>
+      <line class="e rum" x1="320" y1="170" x2="560" y2="190"/>
+      <line class="e rum" x1="320" y1="170" x2="540" y2="315"/>
+      <line class="e rum" x1="320" y1="170" x2="140" y2="215"/>
+      <line class="e ex" x1="140" y1="215" x2="80" y2="320"/>
+      <line class="e ex" x1="140" y1="215" x2="230" y2="320"/>
+      <line class="e rum" x1="230" y1="320" x2="370" y2="320"/>
+      <text class="lbl co" x="232" y="100" text-anchor="middle">Love Aaj Kal</text>
+      <text class="lbl co" x="410" y="100" text-anchor="middle">Luka Chuppi · Shehzada</text>
+      <text class="lbl co" x="445" y="170" text-anchor="middle">Dostana 2</text>
+      <text class="lbl co" x="445" y="262" text-anchor="middle">2025</text>
+      <text class="lbl co" x="268" y="226" text-anchor="middle">Pati Patni Aur Woh</text>
+      <text class="lbl" x="92" y="270" text-anchor="end">Khaali Peeli</text>
+      <text class="lbl" x="200" y="270">2022–24</text>
+      <text class="lbl co" x="300" y="306" text-anchor="middle">2026?</text>
+      <g class="n c"><rect x="260" y="152" width="120" height="36" rx="18"/><text x="320" y="175" text-anchor="middle">Kartik</text></g>
+      <g class="n"><rect x="75" y="37" width="110" height="36" rx="18"/><text x="130" y="60" text-anchor="middle">Sara</text></g>
+      <g class="n"><rect x="460" y="37" width="100" height="36" rx="18"/><text x="510" y="60" text-anchor="middle">Kriti</text></g>
+      <g class="n"><rect x="505" y="172" width="110" height="36" rx="18"/><text x="560" y="195" text-anchor="middle">Janhvi</text></g>
+      <g class="n"><rect x="480" y="297" width="120" height="36" rx="18"/><text x="540" y="320" text-anchor="middle">Sreeleela</text></g>
+      <g class="n"><rect x="80" y="197" width="120" height="36" rx="18"/><text x="140" y="220" text-anchor="middle">Ananya</text></g>
+      <g class="n"><rect x="30" y="302" width="100" height="36" rx="18"/><text x="80" y="325" text-anchor="middle">Ishaan</text></g>
+      <g class="n"><rect x="180" y="302" width="100" height="36" rx="18"/><text x="230" y="325" text-anchor="middle">Aditya</text></g>
+      <g class="n"><rect x="325" y="302" width="90" height="36" rx="18"/><text x="370" y="325" text-anchor="middle">Tara</text></g>
+    </svg>
+  </div>
+</section>
+
+
+<section class="web" aria-labelledby="web3h">
+  <div>
+    <div class="kicker">Exhibit D</div>
+    <h2 id="web3h">The Fabulous Lives web</h2>
+    <p>The four wives of Netflix's <i>Fabulous Lives of Bollywood Wives</i> (pink), their husbands, exes and kids. Follow the lines: Maheep's nephew-in-law Arjun dated Malaika, who was married to Seema's ex-husband's brother.</p>
+    <p style="color:var(--muted);font-size:14px">Pink = married · grey dashed = ex · gold = best friends · thin = family</p>
+  </div>
+  <div class="svgbox">
+    <svg viewBox="0 0 700 460" role="img" aria-label="Diagram of the Fabulous Lives wives: Maheep married to Sanjay Kapoor with daughter Shanaya, whose cousin Arjun Kapoor dated Malaika; Bhavana married to Chunky Panday with daughter Ananya, cousin of Ahaan Panday; Seema divorced from Sohail Khan with sons Nirvaan and Yohan; Malaika was married to Sohail's brother Arbaaz; Shanaya, Ananya and Suhana Khan are best friends; Neelam married to Samir Soni.">
+<line class="e wed" x1="110" y1="35" x2="110" y2="125"/>
+<line class="e wed" x1="330" y1="35" x2="330" y2="125"/>
+<line class="e ex" x1="520" y1="35" x2="520" y2="125"/>
+<line class="kid" x1="110" y1="125" x2="110" y2="215"/>
+<line class="kid" x1="330" y1="125" x2="330" y2="215"/>
+<line class="kid" x1="520" y1="125" x2="500" y2="215"/>
+<line class="e co" x1="110" y1="215" x2="220" y2="295"/>
+<line class="e co" x1="330" y1="215" x2="220" y2="295"/>
+<line class="kid" x1="330" y1="215" x2="470" y2="300"/>
+<path class="kid" d="M60,35 C8,35 8,380 60,380"/>
+<line class="e ex" x1="110" y1="380" x2="330" y2="380"/>
+<path class="e ex" d="M385,380 C690,380 690,35 570,35"/>
+<text class="lbl wed" x="118" y="84">m. 1997</text>
+<text class="lbl wed" x="338" y="84">m. 1998</text>
+<text class="lbl" x="528" y="84">div. 2022</text>
+<text class="lbl co" x="220" y="250" text-anchor="middle">BFF squad</text>
+<text class="lbl" x="412" y="246" text-anchor="middle">cousins</text>
+<text class="lbl" x="22" y="262">uncle</text>
+<text class="lbl" x="220" y="372" text-anchor="middle">dated 2018–24</text>
+<text class="lbl" x="575" y="350" text-anchor="middle">ex of his brother Arbaaz</text>
+<text class="lbl" x="500" y="435" text-anchor="end">m. Samir Soni · daughter Ahana</text>
+<g class="n"><rect x="60" y="17" width="100" height="36" rx="18"/><text x="110" y="40" text-anchor="middle">Sanjay</text></g>
+<g class="n"><rect x="280" y="17" width="100" height="36" rx="18"/><text x="330" y="40" text-anchor="middle">Chunky</text></g>
+<g class="n"><rect x="470" y="17" width="100" height="36" rx="18"/><text x="520" y="40" text-anchor="middle">Sohail</text></g>
+<g class="n c"><rect x="55" y="107" width="110" height="36" rx="18"/><text x="110" y="130" text-anchor="middle">Maheep</text></g>
+<g class="n c"><rect x="270" y="107" width="120" height="36" rx="18"/><text x="330" y="130" text-anchor="middle">Bhavana</text></g>
+<g class="n c"><rect x="470" y="107" width="100" height="36" rx="18"/><text x="520" y="130" text-anchor="middle">Seema</text></g>
+<g class="n"><rect x="55" y="197" width="110" height="36" rx="18"/><text x="110" y="220" text-anchor="middle">Shanaya</text></g>
+<g class="n"><rect x="275" y="197" width="110" height="36" rx="18"/><text x="330" y="220" text-anchor="middle">Ananya</text></g>
+<g class="n"><rect x="425" y="197" width="150" height="36" rx="18"/><text x="500" y="220" text-anchor="middle">Nirvaan · Yohan</text></g>
+<g class="n"><rect x="165" y="277" width="110" height="36" rx="18"/><text x="220" y="300" text-anchor="middle">Suhana</text></g>
+<g class="n"><rect x="420" y="282" width="100" height="36" rx="18"/><text x="470" y="305" text-anchor="middle">Ahaan</text></g>
+<g class="n"><rect x="60" y="362" width="100" height="36" rx="18"/><text x="110" y="385" text-anchor="middle">Arjun</text></g>
+<g class="n"><rect x="275" y="362" width="110" height="36" rx="18"/><text x="330" y="385" text-anchor="middle">Malaika</text></g>
+<g class="n c"><rect x="505" y="412" width="110" height="36" rx="18"/><text x="560" y="435" text-anchor="middle">Neelam</text></g>
+</svg>
+  </div>
+</section>
+
+
+
+<section class="web" aria-labelledby="web4h">
+  <div>
+    <div class="kicker">Exhibit E</div>
+    <h2 id="web4h">King Khan's world</h2>
+    <p>Married to Gauri since 1991, three kids, and the only "affair" ever seriously gossiped about is Priyanka, which neither of them has confirmed. His real fights have been with Salman and, through Aryan, with the NCB officer who arrested him.</p>
+    <p style="color:var(--muted);font-size:14px">Pink = married · thin = kids · gold = co-stars and partners · gold dashed = rumored · red dotted = feud</p>
+  </div>
+  <div class="svgbox">
+    <svg viewBox="0 0 700 440" role="img" aria-label="Diagram of Shah Rukh Khan: married to Gauri, kids Aryan, Suhana and AbRam; rumored link with Priyanka Chopra and rumored cold war between Gauri and Priyanka; co-stars Kajol and Rani, business partner Juhi; feud with Salman; Aryan sued by Sameer Wankhede; Suhana rumored with Agastya Nanda.">
+<line class="e wed" x1="350" y1="80" x2="350" y2="200"/>
+<line class="kid" x1="350" y1="200" x2="220" y2="330"/>
+<line class="kid" x1="350" y1="200" x2="350" y2="330"/>
+<line class="kid" x1="350" y1="200" x2="480" y2="330"/>
+<line class="e rum" x1="350" y1="330" x2="350" y2="410"/>
+<line class="e fd" x1="220" y1="330" x2="90" y2="410"/>
+<line class="e rum" x1="350" y1="200" x2="600" y2="80"/>
+<line class="e fd" x1="350" y1="80" x2="600" y2="80"/>
+<line class="e co" x1="350" y1="200" x2="110" y2="90"/>
+<line class="e co" x1="350" y1="200" x2="90" y2="200"/>
+<line class="e co" x1="350" y1="200" x2="610" y2="200"/>
+<line class="e fd" x1="350" y1="200" x2="610" y2="300"/>
+<text class="lbl wed" x="358" y="150">m. 1991</text>
+<text class="lbl co" x="215" y="128" text-anchor="middle">DDLJ · KKHH</text>
+<text class="lbl co" x="215" y="192" text-anchor="middle">KKHH · Chalte Chalte</text>
+<text class="lbl co" x="485" y="192" text-anchor="middle">KKR partner</text>
+<text class="lbl co" x="505" y="152" text-anchor="middle">Don · Don 2 · the jacket</text>
+<text class="lbl fd" x="475" y="70" text-anchor="middle">"cold war" rumors</text>
+<text class="lbl fd" x="505" y="284" text-anchor="middle">2008 fight · hugged 2013</text>
+<text class="lbl fd" x="172" y="392">sued over his show</text>
+<text class="lbl co" x="358" y="378">rumored</text>
+<g class="n c"><rect x="295" y="182" width="110" height="36" rx="18"/><text x="350" y="205" text-anchor="middle">SRK</text></g>
+<g class="n"><rect x="300" y="62" width="100" height="36" rx="18"/><text x="350" y="85" text-anchor="middle">Gauri</text></g>
+<g class="n"><rect x="170" y="312" width="100" height="36" rx="18"/><text x="220" y="335" text-anchor="middle">Aryan</text></g>
+<g class="n"><rect x="300" y="312" width="100" height="36" rx="18"/><text x="350" y="335" text-anchor="middle">Suhana</text></g>
+<g class="n"><rect x="430" y="312" width="100" height="36" rx="18"/><text x="480" y="335" text-anchor="middle">AbRam</text></g>
+<g class="n"><rect x="295" y="392" width="110" height="36" rx="18"/><text x="350" y="415" text-anchor="middle">Agastya</text></g>
+<g class="n"><rect x="30" y="392" width="120" height="36" rx="18"/><text x="90" y="415" text-anchor="middle">Wankhede</text></g>
+<g class="n"><rect x="545" y="62" width="110" height="36" rx="18"/><text x="600" y="85" text-anchor="middle">Priyanka</text></g>
+<g class="n"><rect x="60" y="72" width="100" height="36" rx="18"/><text x="110" y="95" text-anchor="middle">Kajol</text></g>
+<g class="n"><rect x="40" y="182" width="100" height="36" rx="18"/><text x="90" y="205" text-anchor="middle">Rani</text></g>
+<g class="n"><rect x="565" y="182" width="90" height="36" rx="18"/><text x="610" y="205" text-anchor="middle">Juhi</text></g>
+<g class="n"><rect x="560" y="282" width="100" height="36" rx="18"/><text x="610" y="305" text-anchor="middle">Salman</text></g>
+</svg>
+  </div>
+</section>
+
+
+<section class="web" aria-labelledby="web5h">
+  <div>
+    <div class="kicker">Exhibit F</div>
+    <h2 id="web5h">The Bachchan web</h2>
+    <p>Son of the poet Harivansh Rai Bachchan and Teji Bachchan. The Angry Young Man of <i>Zanjeer</i>, <i>Deewaar</i> and <i>Sholay</i>, and the family that married into everyone. His son got engaged to a Kapoor and married Salman's ex. His daughter married a Kapoor grandson. His grandson may be dating SRK's daughter.</p>
+    <p style="color:var(--muted);font-size:14px">Pink = married · thin = kids · grey dashed = ex · gold dashed = rumored · red dotted = feud</p>
+  </div>
+  <div class="svgbox">
+    <svg viewBox="0 0 700 400" role="img" aria-label="Diagram of Amitabh Bachchan: married to Jaya, rumored with Rekha; Jaya and Rekha went from friends to frost; kids Shweta, married to Raj Kapoor grandson Nikhil Nanda, with children Navya and Agastya, who is rumored with Suhana Khan; and Abhishek, once engaged to Karisma Kapoor, married to Aishwarya, Salman Khan's ex, with daughter Aaradhya.">
+<line class="e wed" x1="300" y1="60" x2="470" y2="60"/>
+<line class="e rum" x1="300" y1="60" x2="120" y2="60"/>
+<path class="e fd" d="M120,42 C120,4 470,4 470,42"/>
+<line class="kid" x1="300" y1="60" x2="200" y2="170"/>
+<line class="kid" x1="300" y1="60" x2="440" y2="170"/>
+<line class="e wed" x1="60" y1="170" x2="200" y2="170"/>
+<line class="kid" x1="200" y1="170" x2="130" y2="270"/>
+<line class="kid" x1="200" y1="170" x2="260" y2="270"/>
+<line class="e rum" x1="260" y1="270" x2="260" y2="360"/>
+<line class="e wed" x1="440" y1="170" x2="440" y2="270"/>
+<line class="kid" x1="440" y1="270" x2="440" y2="360"/>
+<line class="e ex" x1="440" y1="170" x2="620" y2="170"/>
+<line class="e ex" x1="440" y1="270" x2="620" y2="270"/>
+<text class="lbl wed" x="392" y="53" text-anchor="middle">m. 1973</text>
+<text class="lbl co" x="205" y="53" text-anchor="middle">Silsila</text>
+<text class="lbl fd" x="295" y="20" text-anchor="middle">friends → frost</text>
+<text class="lbl" x="15" y="208">Raj Kapoor's grandson</text>
+<text class="lbl wed" x="448" y="226">m. 2007</text>
+<text class="lbl" x="532" y="145" text-anchor="middle">engaged 2002</text>
+<text class="lbl" x="532" y="262" text-anchor="middle">ex</text>
+<text class="lbl co" x="268" y="320">rumored</text>
+<g class="n c"><rect x="240" y="42" width="120" height="36" rx="18"/><text x="300" y="65" text-anchor="middle">Amitabh</text></g>
+<g class="n"><rect x="425" y="42" width="90" height="36" rx="18"/><text x="470" y="65" text-anchor="middle">Jaya</text></g>
+<g class="n"><rect x="70" y="42" width="100" height="36" rx="18"/><text x="120" y="65" text-anchor="middle">Rekha</text></g>
+<g class="n"><rect x="150" y="152" width="100" height="36" rx="18"/><text x="200" y="175" text-anchor="middle">Shweta</text></g>
+<g class="n"><rect x="385" y="152" width="110" height="36" rx="18"/><text x="440" y="175" text-anchor="middle">Abhishek</text></g>
+<g class="n"><rect x="15" y="152" width="90" height="36" rx="18"/><text x="60" y="175" text-anchor="middle">Nikhil</text></g>
+<g class="n"><rect x="80" y="252" width="100" height="36" rx="18"/><text x="130" y="275" text-anchor="middle">Navya</text></g>
+<g class="n"><rect x="210" y="252" width="100" height="36" rx="18"/><text x="260" y="275" text-anchor="middle">Agastya</text></g>
+<g class="n"><rect x="210" y="342" width="100" height="36" rx="18"/><text x="260" y="365" text-anchor="middle">Suhana</text></g>
+<g class="n"><rect x="385" y="252" width="110" height="36" rx="18"/><text x="440" y="275" text-anchor="middle">Aishwarya</text></g>
+<g class="n"><rect x="380" y="342" width="120" height="36" rx="18"/><text x="440" y="365" text-anchor="middle">Aaradhya</text></g>
+<g class="n"><rect x="570" y="152" width="100" height="36" rx="18"/><text x="620" y="175" text-anchor="middle">Karisma</text></g>
+<g class="n"><rect x="570" y="252" width="100" height="36" rx="18"/><text x="620" y="275" text-anchor="middle">Salman</text></g>
+</svg>
+  </div>
+</section>
+
+
+
+<section class="web" aria-labelledby="genzh">
+  <div>
+    <div class="kicker">Exhibit G</div>
+    <h2 id="genzh">The Gen-Z detective board</h2>
+    <p>Six young women (pink) who aren't six separate dating histories. Their moms are friends, they grew up in one group chat, and the same few men keep connecting them. Karan Johar once told Sara and Janhvi on Koffee, "you two dated two brothers."</p>
+    <p>The twist: there's no credible evidence of any friend stealing anyone's boyfriend. The dating pool is just tiny.</p>
+    <p style="color:var(--muted);font-size:14px">Solid pink = acknowledged · pink dashed = widely reported · grey dotted = weak or denied · gold = friends · thin = family</p>
+  </div>
+  <div class="svgbox">
+    <svg viewBox="0 0 760 530" role="img" aria-label="Gen-Z relationship board: Navya, Suhana, Ananya and Shanaya are childhood friends; Navya's brother Agastya is reported with Suhana; Navya linked to Meezaan (denied) and Siddhant (reported); Siddhant is friends with Ishaan, who dated Ananya and was linked to Janhvi; Ananya reported with Aditya Roy Kapur and rumored with Kartik; Sara had a crush on Kartik; Janhvi dated Shikhar Pahariya and Sara dated his brother Veer; Sara and Janhvi are now friends; Shanaya reported with Karan Kothari.">
+<line class="kid" x1="300" y1="70" x2="480" y2="70"/>
+<line class="weak" x1="300" y1="70" x2="100" y2="40"/>
+<line class="rep" x1="300" y1="70" x2="120" y2="130"/>
+<line class="fr" x1="300" y1="70" x2="480" y2="190"/>
+<line class="fr" x1="300" y1="70" x2="300" y2="260"/>
+<line class="rep" x1="480" y1="70" x2="480" y2="190"/>
+<line class="fr" x1="480" y1="190" x2="660" y2="190"/>
+<line class="fr" x1="300" y1="260" x2="480" y2="190"/>
+<line class="fr" x1="300" y1="260" x2="660" y2="190"/>
+<line class="rep" x1="660" y1="190" x2="680" y2="300"/>
+<line class="fr" x1="120" y1="130" x2="120" y2="300"/>
+<line class="e wed" x1="120" y1="300" x2="300" y2="260"/>
+<line class="rep" x1="120" y1="300" x2="120" y2="450"/>
+<line class="rep" x1="300" y1="260" x2="300" y2="360"/>
+<line class="weak" x1="300" y1="260" x2="480" y2="330"/>
+<line class="rep" x1="480" y1="330" x2="660" y2="450"/>
+<line class="e wed" x1="120" y1="450" x2="300" y2="450"/>
+<line class="kid" x1="300" y1="450" x2="480" y2="450"/>
+<line class="e wed" x1="480" y1="450" x2="660" y2="450"/>
+<path class="fr" d="M120,468 C120,518 660,518 660,468"/>
+<text class="lbl" x="390" y="62" text-anchor="middle">siblings</text>
+<text class="lbl" x="200" y="34" text-anchor="middle">denied</text>
+<text class="lbl" x="488" y="135">Archies</text>
+<text class="lbl" x="128" y="220">friends</text>
+<text class="lbl wed" x="200" y="270" text-anchor="middle">Koffee</text>
+<text class="lbl" x="128" y="380">Dhadak</text>
+<text class="lbl" x="390" y="442" text-anchor="middle">brothers</text>
+<text class="lbl" x="686" y="250">reported</text>
+<text class="lbl" x="582" y="398">crush → dated?</text>
+<text class="lbl co" x="390" y="510" text-anchor="middle">friends now</text>
+<g class="n c"><rect x="250" y="52" width="100" height="36" rx="18"/><text x="300" y="75" text-anchor="middle">Navya</text></g>
+<g class="n c"><rect x="430" y="172" width="100" height="36" rx="18"/><text x="480" y="195" text-anchor="middle">Suhana</text></g>
+<g class="n c"><rect x="250" y="242" width="100" height="36" rx="18"/><text x="300" y="265" text-anchor="middle">Ananya</text></g>
+<g class="n c"><rect x="610" y="172" width="100" height="36" rx="18"/><text x="660" y="195" text-anchor="middle">Shanaya</text></g>
+<g class="n c"><rect x="70" y="432" width="100" height="36" rx="18"/><text x="120" y="455" text-anchor="middle">Janhvi</text></g>
+<g class="n c"><rect x="615" y="432" width="90" height="36" rx="18"/><text x="660" y="455" text-anchor="middle">Sara</text></g>
+<g class="n"><rect x="425" y="52" width="110" height="36" rx="18"/><text x="480" y="75" text-anchor="middle">Agastya</text></g>
+<g class="n"><rect x="45" y="22" width="110" height="36" rx="18"/><text x="100" y="45" text-anchor="middle">Meezaan</text></g>
+<g class="n"><rect x="60" y="112" width="120" height="36" rx="18"/><text x="120" y="135" text-anchor="middle">Siddhant</text></g>
+<g class="n"><rect x="70" y="282" width="100" height="36" rx="18"/><text x="120" y="305" text-anchor="middle">Ishaan</text></g>
+<g class="n"><rect x="250" y="342" width="100" height="36" rx="18"/><text x="300" y="365" text-anchor="middle">Aditya</text></g>
+<g class="n"><rect x="430" y="312" width="100" height="36" rx="18"/><text x="480" y="335" text-anchor="middle">Kartik</text></g>
+<g class="n"><rect x="250" y="432" width="100" height="36" rx="18"/><text x="300" y="455" text-anchor="middle">Shikhar</text></g>
+<g class="n"><rect x="435" y="432" width="90" height="36" rx="18"/><text x="480" y="455" text-anchor="middle">Veer</text></g>
+<g class="n"><rect x="615" y="282" width="130" height="36" rx="18"/><text x="680" y="305" text-anchor="middle">Karan Kothari</text></g>
+</svg>
+  </div>
+</section>
+
+<section class="kt" aria-labelledby="schh">
+  <div class="kicker">Exhibit H</div>
+  <h2 id="schh">The school pipeline</h2>
+  <p style="max-width:62ch;margin:0">Film families live in Juhu and Bandra, send their kids to the same few schools, and those kids grow up as each other's best friends, exes and co-stars. The school doesn't make the stars. It's one stop in a very small social network. Tap a pink name to see their receipts.</p>
+  <div class="branches">
+    <div class="branch">
+      <div class="stars">★★★★★ MODERN STAR-KID HUB</div>
+      <h3>Dhirubhai Ambani International</h3>
+      <p class="sub">BKC · founded 2003 by Nita Ambani</p>
+      <p class="names"><button class="pp" data-q="Suhana">Suhana Khan</button> · <button class="pp" data-q="Aryan">Aryan Khan</button> · <button class="pp" data-q="Janhvi">Janhvi Kapoor</button> · <button class="pp" data-q="Khushi">Khushi Kapoor</button> · <button class="pp" data-q="Ananya">Ananya Panday</button> · <button class="pp" data-q="Sara">Sara Ali Khan</button> · <button class="pp" data-q="Ibrahim">Ibrahim Ali Khan</button> · Alizeh Agnihotri · <button class="pp" data-q="Nysa">Nysa Devgan</button></p>
+      <div class="pipe"><div><button class="pp" data-q="Suhana">Suhana Khan</button><span class="ar">→</span><span class="st">DAIS</span><span class="ar">→</span><span class="st">Ardingly, UK</span><span class="ar">→</span><span class="st">NYU Tisch</span><span class="ar">→</span><span class="st">The Archies</span></div>
+<div><button class="pp" data-q="Aryan">Aryan Khan</button><span class="ar">→</span><span class="st">DAIS</span><span class="ar">→</span><span class="st">Sevenoaks, UK</span><span class="ar">→</span><span class="st">USC film school</span><span class="ar">→</span><span class="st">directs Ba***ds</span></div>
+<div><button class="pp" data-q="Khushi">Khushi Kapoor</button><span class="ar">→</span><span class="st">DAIS</span><span class="ar">→</span><span class="st">NY Film Academy</span><span class="ar">→</span><span class="st">The Archies</span></div>
+<div><button class="pp" data-q="Sara">Sara Ali Khan</button><span class="ar">→</span><span class="st">DAIS</span><span class="ar">→</span><span class="st">Columbia</span><span class="ar">→</span><span class="st">Kedarnath</span></div></div>
+    </div>
+    <div class="branch">
+      <div class="stars">★★★★★ MULTI-GENERATION PIPELINE</div>
+      <h3>Jamnabai Narsee School</h3>
+      <p class="sub">Juhu–Vile Parle, the heart of film-family Mumbai</p>
+      <p class="names"><button class="pp" data-q="Alia">Alia Bhatt</button> · <button class="pp" data-q="Kareena">Kareena Kapoor</button> · <button class="pp" data-q="Abhishek">Abhishek Bachchan</button> · <button class="pp" data-q="Shraddha">Shraddha Kapoor</button> · <button class="pp" data-q="Ishaan">Ishaan Khatter</button> · <button class="pp" data-q="Raveena">Raveena Tandon</button> · <button class="pp" data-q="Vedang">Vedang Raina</button> · Esha Deol · Emraan Hashmi · Abhay Deol · Alaya F · Ayan Mukerji · Masaba Gupta · Armaan Malik · Amaal Mallik</p>
+      <p class="sub" style="margin-top:8px">So Alia, Kareena, Ishaan and Vedang shared hallways before they shared exes.</p>
+    </div>
+    <div class="branch">
+      <div class="stars">★★★★ POWER PLAYERS</div>
+      <h3>Bombay Scottish School</h3>
+      <p class="sub">Mahim · actors and the people who hire them</p>
+      <p class="names"><button class="pp" data-q="Aamir">Aamir Khan</button> · <button class="pp" data-q="Hrithik">Hrithik Roshan</button> · <button class="pp" data-q="Abhishek">Abhishek Bachchan</button> · <button class="pp" data-q="Aditya">Aditya Chopra</button> · Ekta Kapoor · Imran Khan · <button class="pp" data-q="John">John Abraham</button> · Lucky Ali</p>
+      <p class="sub" style="margin-top:8px">Aditya Chopra runs Yash Raj, Ekta Kapoor runs Balaji. That's casting power, not just cast.</p>
+    </div>
+    <div class="branch">
+      <div class="stars">★★★ OLD BOMBAY ESTABLISHMENT</div>
+      <h3>Cathedral &amp; John Connon</h3>
+      <p class="sub">Fort · more CEOs and judges than actors</p>
+      <p class="names"><button class="pp" data-q="Kiara">Kiara Advani</button> · <button class="pp" data-q="Karisma">Karisma Kapoor</button> · <button class="pp" data-q="Rahul">Rahul Bose</button> · Mandira Bedi</p>
+      <p class="sub" style="margin-top:8px">Also Anand Mahindra, Salman Rushdie, Fareed Zakaria and a former Chief Justice.</p>
+    </div>
+    <div class="branch">
+      <div class="stars">★★ WEALTHY-FAMILY CIRCLE</div>
+      <h3>École Mondiale</h3>
+      <p class="sub">Juhu · international school</p>
+      <p class="names">Celebrity children including <button class="pp" data-q="Aarav">Akshay Kumar</button>'s son Aarav</p>
+    </div>
+  </div>
+  <p class="sub" style="margin-top:10px;font-family:var(--mono);font-size:11px;color:var(--muted)">Alumni names come from school pages and published lists. Some kids attended more than one school (Abhishek is on two lists), and not every name has been independently confirmed.</p>
+</section>
+
+
+<section class="kt" aria-labelledby="careerh">
+  <div class="kicker">Exhibit I</div>
+  <h2 id="careerh">How 50 stars actually got in</h2>
+  <p style="max-width:62ch;margin:0">There isn't one Bollywood pipeline. Tracing school, college, training, first industry job and launch for 50 actors shows six separate routes, and a handful of people and places that show up again and again.</p>
+  <div class="routes"><div class="route"><h3>1 · Film-family apprenticeship</h3><div class="pipe"><div><span class="st">Bombay Scottish / Jamnabai</span><span class="ar">→</span><span class="st">H.R. / Sydenham / Mithibai</span><span class="ar">→</span><span class="st">assist dad, uncle or a big director</span><span class="ar">→</span><span class="st">family or major studio launch</span></div></div><p class="ex">Aamir, Hrithik, Ranbir, Arjun, Varun, Sonam, Ishaan</p></div>
+<div class="route"><h3>2 · Gen-Z star kid</h3><div class="pipe"><div><span class="st">DAIS / Jamnabai / international school</span><span class="ar">→</span><span class="st">UK boarding or US university</span><span class="ar">→</span><span class="st">NYU Tisch / Lee Strasberg / NYFA</span><span class="ar">→</span><span class="st">Dharma or Zoya Akhtar launch</span></div></div><p class="ex">Suhana, Khushi, Ananya, Janhvi, Agastya</p></div>
+<div class="route"><h3>3 · Delhi or college outsider</h3><div class="pipe"><div><span class="st">Delhi school</span><span class="ar">→</span><span class="st">Delhi University or engineering</span><span class="ar">→</span><span class="st">college theatre or dance</span><span class="ar">→</span><span class="st">Barry John / FTII</span><span class="ar">→</span><span class="st">years of auditions</span></div></div><p class="ex">SRK, Rajkummar, Sanya, Ayushmann, Sidharth</p></div>
+<div class="route"><h3>4 · The engineer who defected</h3><div class="pipe"><div><span class="st">engineering degree (often dropped)</span><span class="ar">→</span><span class="st">acting classes or modelling</span><span class="ar">→</span><span class="st">auditions or South cinema</span><span class="ar">→</span><span class="st">Hindi breakout</span></div></div><p class="ex">Vicky, Kriti, Kartik, Taapsee, Sushant, Avinash</p></div>
+<div class="route"><h3>5 · Model, pageant or TV</h3><div class="pipe"><div><span class="st">modelling, Miss India or VJ/TV work</span><span class="ar">→</span><span class="st">audition or referral</span><span class="ar">→</span><span class="st">studio launch</span></div></div><p class="ex">Deepika, Anushka, Priyanka, Katrina, Disha, Aditya Roy Kapur</p></div>
+<div class="route"><h3>6 · Worked inside first</h3><div class="pipe"><div><span class="st">job at a studio: casting, PR, costumes or AD</span><span class="ar">→</span><span class="st">someone at work notices them</span><span class="ar">→</span><span class="st">launched by their own employer</span></div></div><p class="ex">Bhumi (YRF casting), Parineeti (YRF PR), Sonakshi (costumes), Sidharth (Karan's AD)</p></div></div>
+  <div class="pipehead"><h3>The hubs</h3><span class="count">How many of the 50 actors passed through each. Tap a bar to filter the table.</span></div>
+  <div class="hubs" id="hubs"></div>
+  <div class="pipehead"><h3>All 50 pipelines</h3><button class="chip" id="hubclear" hidden>Show all</button></div>
+  <div class="ptwrap"><table class="pt"><thead><tr><th>Actor</th><th>Route</th><th>School → college</th><th>Training</th><th>Before the debut</th><th>Launch → debut</th></tr></thead><tbody id="ptb"></tbody></table></div>
+  <p class="sub" style="margin-top:8px;font-family:var(--mono);font-size:11px;color:var(--muted)">Compiled from interviews, studio announcements and published bios. "No AD" means no credible record of an assistant-director job was found, not that it never happened. Paths are simplified, and some sources disagree on schools (Janhvi is listed at both École Mondiale and DAIS).</p>
+</section>
+
+<section class="kt" aria-labelledby="kth">
+  <div class="kicker">Exhibit J</div>
+  <h2 id="kth">The Kapoor khandaan</h2>
+  <p style="max-width:62ch;margin:0">Five generations of Bollywood's first family. Names in pink have receipts on the wall; tap one to pull them up. Not to be confused with Anil, Boney and Sanjay's Kapoor family, which is no relation.</p>
+  <div class="root">Prithviraj Kapoor + Ramsarni Mehra<small>THEATRE PIONEER · PRITHVI THEATRES · 4 CHILDREN BELOW</small></div>
+  <div class="branches">
+    <div class="branch wide">
+      <h3>Raj Kapoor + Krishna Malhotra</h3>
+      <p class="sub">"The Showman" · his rumored romance with Nargis is its own legend</p>
+      <div class="raj">
+        <ul class="tree"><li><b>Randhir Kapoor</b> + Babita <span class="note">separated in 1988, never divorced</span><ul>
+          <li><button class="pp" data-q="Karisma">Karisma</button> <span class="note">+ Sunjay Kapur, div. 2016 (d. 2025)</span><ul><li>Samaira</li><li>Kiaan</li></ul></li>
+          <li><button class="pp" data-q="Kareena">Kareena</button> + <button class="pp" data-q="Saif">Saif</button><ul><li>Taimur</li><li>Jeh</li></ul></li></ul></li></ul>
+        <ul class="tree"><li><b>Rishi Kapoor</b> + <button class="pp" data-q="Neetu">Neetu Singh</button><ul>
+          <li>Riddhima + Bharat Sahni<ul><li>Samara</li></ul></li>
+          <li><button class="pp" data-q="Ranbir">Ranbir</button> + <button class="pp" data-q="Alia">Alia</button><ul><li>Raha</li></ul></li></ul></li></ul>
+        <ul class="tree"><li><b>Ritu Nanda</b> + Rajan Nanda<ul>
+          <li>Nitasha Nanda</li>
+          <li>Nikhil Nanda + <button class="pp" data-q="Shweta">Shweta Bachchan</button> <span class="note">the Bachchan link</span><ul><li>Navya Naveli</li><li><button class="pp" data-q="Agastya">Agastya Nanda</button></li></ul></li></ul></li></ul>
+        <ul class="tree"><li><b>Reema Jain</b> + Manoj Jain<ul>
+          <li>Armaan Jain + Anissa Malhotra</li>
+          <li><button class="pp" data-q="Aadar">Aadar Jain</button> + Alekha Advani <span class="note">m. 2025, after years with Tara Sutaria</span></li></ul></li>
+          <li><b>Rajiv Kapoor</b> + Aarti Sabharwal <span class="note">div.; d. 2021</span></li></ul>
+      </div>
+    </div>
+    <div class="branch">
+      <h3>Shammi Kapoor</h3>
+      <p class="sub">+ Geeta Bali (d. 1965), then Neila Devi</p>
+      <ul class="tree"><li><b>Aditya Raj Kapoor</b> + Priti<ul><li>Vishwa</li><li>Tulsi</li></ul></li>
+        <li><b>Kanchan</b> + Ketan Desai <span class="note">director Manmohan Desai's son</span><ul><li>Raj Rajeshwari</li><li>Pooja</li></ul></li></ul>
+    </div>
+    <div class="branch">
+      <h3>Shashi Kapoor + Jennifer Kendal</h3>
+      <p class="sub">English stage actress; Prithvi Theatre revived by them</p>
+      <ul class="tree"><li><b>Kunal</b> + Sheena Sippy <span class="note">Ramesh Sippy's daughter, div.</span><ul><li>Zahan</li><li>Shaira</li></ul></li>
+        <li><b>Karan</b> + Lorna<ul><li>Zak</li><li>Aliya</li></ul></li>
+        <li><b>Sanjana</b> + Valmik Thapar <span class="note">tiger conservationist</span><ul><li>Hamir</li></ul></li></ul>
+    </div>
+    <div class="branch">
+      <h3>Urmila Kapoor + Charanjit Sial</h3>
+      <p class="sub">Prithviraj's daughter, the branch that stayed out of films</p>
+      <ul class="tree"><li>Jatin Sial</li></ul>
+    </div>
+  </div>
+</section>
+
+<section class="kt" aria-labelledby="khanh">
+  <div class="kicker">Exhibit K</div>
+  <h2 id="khanh">The Salim Khan khandaan</h2>
+  <p style="max-width:62ch;margin:0">A father with two wives at once, a son who never married, two sons whose 1998 marriages both ended, and ex-wives who still call the family family. Tap a pink name for receipts.</p>
+  <div class="root">Salim Khan<small>SCREENWRITER · HALF OF SALIM–JAVED (SHOLAY, DEEWAAR, ZANJEER)</small></div>
+  <div class="branches">
+    <div class="branch wide">
+      <h3>+ Salma Khan (born Sushila Charak), m. 1964</h3>
+      <p class="sub">four children, plus Arpita, adopted and raised as their own</p>
+      <div class="raj">
+        <ul class="tree"><li><button class="pp" data-q="Salman">Salman</button> <span class="note">never married</span><ul>
+          <li>Sangeeta Bijlani <span class="note">wedding reportedly planned, 1994</span></li><li>Somy Ali</li><li><button class="pp" data-q="Aishwarya">Aishwarya</button> <span class="note">1999–2002</span></li><li><button class="pp" data-q="Katrina">Katrina</button></li><li>Iulia Vantur <span class="note">reported</span></li></ul></li></ul>
+        <ul class="tree"><li><b>Arbaaz</b><ul>
+          <li>+ <button class="pp" data-q="Malaika">Malaika</button> <span class="note">m. 1998, div. 2017</span><ul><li>Arhaan <span class="note">b. 2002</span></li></ul></li>
+          <li>Giorgia Andriani <span class="note">dated, split</span></li>
+          <li>+ Sshura Khan <span class="note">m. Dec 2023</span><ul><li>daughter <span class="note">b. 2025</span></li></ul></li></ul></li></ul>
+        <ul class="tree"><li><b>Sohail</b><ul>
+          <li>+ <button class="pp" data-q="Seema">Seema Sajdeh</button> <span class="note">eloped 1998, div. 2022</span><ul><li>Nirvaan</li><li>Yohan</li></ul></li></ul></li></ul>
+        <ul class="tree"><li><b>Alvira</b> + Atul Agnihotri<ul><li>Alizeh <span class="note">debut: Farrey (2023)</span></li><li>Ayaan</li></ul></li>
+          <li><b>Arpita</b> + Aayush Sharma <span class="note">he became an actor after the wedding</span><ul><li>Ahil</li><li>Ayat</li></ul></li></ul>
+      </div>
+    </div>
+    <div class="branch">
+      <h3>+ Helen, m. 1981</h3>
+      <p class="sub">the legendary dancer; his second wife, while still married to Salma</p>
+      <ul class="tree"><li>No biological children together</li><li>Now part of one extended family with Salma</li></ul>
+    </div>
+    <div class="branch">
+      <h3>The in-law bridges</h3>
+      <p class="sub">why this family touches every other board</p>
+      <ul class="tree"><li><button class="pp" data-q="Malaika">Malaika</button> → dated <button class="pp" data-q="Arjun">Arjun Kapoor</button>, half-brother of Janhvi and Khushi</li><li>Malaika's sister Amrita Arora → Kareena's best friend</li><li><button class="pp" data-q="Seema">Seema Sajdeh</button> → <i>Fabulous Lives</i> with Maheep and Bhavana</li><li><button class="pp" data-q="Arjun">Arjun Kapoor</button> also once dated Arpita</li></ul>
+    </div>
+  </div>
+</section>
+
+<section class="kt" aria-labelledby="choprah">
+  <div class="kicker">Exhibit L</div>
+  <h2 id="choprah">The Chopra khandaan</h2>
+  <p style="max-width:62ch;margin:0">Two brothers who built two studios, and the son who turned one of them into Yash Raj Films, the studio that launched half of today's stars. Not related to Priyanka or Parineeti Chopra.</p>
+  <div class="root">B.R. Chopra &amp; Yash Chopra<small>BROTHERS · B.R. FILMS (1955) · YASH RAJ FILMS (1970)</small></div>
+  <div class="branches">
+    <div class="branch">
+      <h3>B.R. Chopra</h3>
+      <p class="sub">the elder brother · <i>Naya Daur</i>, <i>Waqt</i>, TV's <i>Mahabharat</i></p>
+      <ul class="tree"><li>His <i>Naya Daur</i> (1957) court case against Madhubala's father is the one where Dilip Kumar testified, ending their romance</li>
+        <li><b>Ravi Chopra</b> <span class="note">d. 2014 · Baghban, Baabul</span><ul><li><b>Abhay Chopra</b> <span class="note">director, Ittefaq (2017)</span></li></ul></li></ul>
+    </div>
+    <div class="branch wide">
+      <h3>Yash Chopra + Pamela Chopra</h3>
+      <p class="sub">"King of Romance" (d. 2012) · Pamela, singer and writer (d. 2023) · started as his brother's assistant</p>
+      <div class="raj">
+        <ul class="tree"><li><button class="pp" data-q="Aditya">Aditya Chopra</button> <span class="note">runs YRF · directed DDLJ</span><ul>
+          <li>+ Payal Khanna <span class="note">love marriage, div. around 2009</span></li>
+          <li>+ <button class="pp" data-q="Rani">Rani</button> <span class="note">m. 2014, Italy</span><ul><li>Adira <span class="note">b. 2015</span></li></ul></li></ul></li></ul>
+        <ul class="tree"><li><b>Uday Chopra</b> <span class="note">actor, the Dhoom films</span><ul>
+          <li>Nargis Fakhri <span class="note">reported, mid-2010s</span></li></ul></li></ul>
+        <ul class="tree"><li><b>Yash's films</b><ul><li><i>Deewaar</i>, <i>Kabhi Kabhie</i>, and <i>Silsila</i> with <button class="pp" data-q="Amitabh">Amitabh</button>, <button class="pp" data-q="Rekha">Rekha</button> and Jaya</li><li><i>Darr</i>, <i>Dil To Pagal Hai</i>, <i>Veer-Zaara</i>, <i>Jab Tak Hai Jaan</i> with <button class="pp" data-q="SRK">SRK</button></li></ul></li></ul>
+        <ul class="tree"><li><b>YRF launches</b><ul><li><button class="pp" data-q="Anushka">Anushka</button>, <button class="pp" data-q="Ranveer">Ranveer</button>, <b>Parineeti</b>, <b>Bhumi</b>, <button class="pp" data-q="Arjun">Arjun Kapoor</button></li></ul></li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="kt" aria-labelledby="famh">
+  <div class="kicker">Exhibit M</div>
+  <h2 id="famh">More film families</h2>
+  <p style="max-width:62ch;margin:0">Ten more dynasties, from the Anands of the 1950s to Jeetendra’s TV empire. Note how often they intermarry, and how often a married man takes a second wife. Tap a pink name for receipts.</p>
+  <div class="branches"><div class="branch wide" id="f-surinder"><h3>The Surinder Kapoor family</h3><p class="sub">producer Surinder + Nirmal Kapoor · no relation to Raj Kapoor’s clan</p><ul class="tree"><li><b>Boney</b><ul><li>+ Mona Shourie <span class="note">m. 1983, div. 1996</span><ul><li><button class="pp" data-q="Arjun">Arjun Kapoor</button></li><li>Anshula</li></ul></li><li>+ <button class="pp" data-q="Sridevi">Sridevi</button> <span class="note">m. 1996, d. 2018</span><ul><li><button class="pp" data-q="Janhvi">Janhvi</button></li><li><button class="pp" data-q="Khushi">Khushi</button></li></ul></li></ul></li><li><button class="pp" data-q="Anil">Anil Kapoor</button> + Sunita <span class="note">dated ~11 yrs, m. 1984</span><ul><li><button class="pp" data-q="Sonam">Sonam</button> + Anand Ahuja<ul><li>Vayu</li></ul></li><li>Rhea + Karan Boolani <span class="note">producer</span></li><li>Harsh Varrdhan</li></ul></li><li><b>Reena</b> + Sandeep Marwah<ul><li>Mohit <span class="note">actor, Fugly</span></li><li>Akshay</li></ul></li><li><b>Sanjay</b> + <button class="pp" data-q="Maheep">Maheep</button> <span class="note">m. 1997</span><ul><li><button class="pp" data-q="Shanaya">Shanaya</button></li><li>Jahaan</li></ul></li></ul></div><div class="branch" id="f-deol"><h3>The Deols</h3><p class="sub">Dharmendra (1935–2025) · two wives at once</p><ul class="tree"><li><b>Dharmendra</b> + Prakash Kaur<ul><li><b>Sunny</b> + Lynda <span class="note">long rumored with Dimple Kapadia</span><ul><li>Karan</li><li>Rajveer</li></ul></li><li><b>Bobby</b> + Tanya<ul><li>Aryaman</li><li>Dharam</li></ul></li><li>Vijeta</li><li>Ajeeta</li></ul></li><li><b>Dharmendra</b> + Hema Malini <span class="note">m. 1980, while still married</span><ul><li>Esha <span class="note">+ Bharat Takhtani, div. 2024</span></li><li>Ahana</li></ul></li><li><b>Abhay Deol</b> <span class="note">nephew</span></li></ul></div><div class="branch" id="f-dutt"><h3>The Dutts</h3><p class="sub">from Jaddanbai to Sanju</p><ul class="tree"><li><b>Jaddanbai</b> <span class="note">singer, early woman film producer</span><ul><li><b>Nargis</b> + Sunil Dutt <span class="note">m. 1958, after her years with Raj Kapoor</span><ul><li><b>Sanjay Dutt</b> <span class="note">jailed in the 1993 blasts arms case, freed 2016</span><ul><li>+ Richa Sharma <span class="note">d. 1996</span> → Trishala</li><li>+ Rhea Pillai <span class="note">div.</span></li><li>+ Maanayata <span class="note">m. 2008</span> → twins Shahraan, Iqra</li></ul></li><li>Namrata + Kumar Gaurav <span class="note">Rajendra Kumar’s son</span></li><li>Priya Dutt <span class="note">politician</span></li></ul></li></ul></li></ul></div><div class="branch" id="f-roshan"><h3>The Roshans</h3><p class="sub">composer Roshan’s sons</p><ul class="tree"><li><b>Rakesh Roshan</b> <span class="note">actor, director</span><ul><li><button class="pp" data-q="Hrithik">Hrithik</button> <span class="note">+ Sussanne, div. 2014; now Saba Azad</span><ul><li>Hrehaan</li><li>Hridaan</li></ul></li><li>Sunaina</li></ul></li><li><b>Rajesh Roshan</b> <span class="note">composer</span><ul><li>Pashmina <span class="note">debut 2024</span></li><li>Eshaan</li></ul></li></ul></div><div class="branch" id="f-bhatt"><h3>The Bhatts</h3><p class="sub">Nanabhai Bhatt’s sons, and Vishesh Films</p><ul class="tree"><li><b>Mahesh Bhatt</b><ul><li>+ Kiran (Lorraine)<ul><li><button class="pp" data-q="Pooja">Pooja Bhatt</button></li><li>Rahul</li></ul></li><li>+ Soni Razdan<ul><li>Shaheen</li><li><button class="pp" data-q="Alia">Alia</button> + <button class="pp" data-q="Ranbir">Ranbir</button> → Raha</li></ul></li></ul></li><li><b>Mukesh Bhatt</b> <span class="note">producer</span><ul><li>Vishesh</li></ul></li><li>Nephews: <b>Mohit Suri</b> <span class="note">director</span>, <b>Emraan Hashmi</b></li></ul></div><div class="branch" id="f-hussain"><h3>The Hussain–Khans</h3><p class="sub">Nasir Hussain’s family, Aamir’s launchpad</p><ul class="tree"><li><b>Nasir Hussain</b> <span class="note">director</span><ul><li>Mansoor Khan <span class="note">directed QSQT</span></li><li>Nuzhat → <b>Imran Khan</b> <span class="note">debut 2008</span></li></ul></li><li><b>Tahir Hussain</b> <span class="note">producer, Nasir’s brother</span><ul><li><button class="pp" data-q="Aamir">Aamir</button><ul><li>+ Reena Dutta → Junaid, Ira</li><li>+ Kiran Rao → Azad</li></ul></li><li>Faisal Khan</li></ul></li></ul></div><div class="branch" id="f-mukherjee"><h3>The Mukherjee–Samarths</h3><p class="sub">Filmistan, Kajol, Rani and Ayan</p><ul class="tree"><li><b>Sasadhar Mukherjee</b> + Sati Devi <span class="note">sister of Ashok and Kishore Kumar</span><ul><li>Joy Mukherjee</li><li>Deb Mukherjee → <b>Ayan Mukerji</b> <span class="note">Brahmastra, Ranbir’s best friend</span></li><li>Shomu + Tanuja → <button class="pp" data-q="Kajol">Kajol</button>, Tanishaa</li></ul></li><li><b>Shobhna Samarth</b> <span class="note">Tanuja’s mother</span><ul><li>Nutan → Mohnish Bahl</li><li>Tanuja</li></ul></li><li>Same clan: Ram Mukherjee → <button class="pp" data-q="Rani">Rani</button>, Raja</li></ul></div><div class="branch" id="f-pataudi"><h3>The Tagore–Pataudis</h3><p class="sub">Sharmila Tagore + cricket captain Mansoor Ali Khan Pataudi</p><ul class="tree"><li><button class="pp" data-q="Saif">Saif</button><ul><li>+ Amrita Singh → <button class="pp" data-q="Sara">Sara</button>, Ibrahim</li><li>+ <button class="pp" data-q="Kareena">Kareena</button> → Taimur, Jeh</li></ul></li><li>Saba <span class="note">jewellery designer</span></li><li>Soha + Kunal Kemmu → Inaaya</li></ul></div><div class="branch" id="f-jeetendra"><h3>Jeetendra’s Kapoors</h3><p class="sub">born Ravi Kapoor · a third, unrelated Kapoor family</p><ul class="tree"><li><b>Jeetendra</b> + Shobha<ul><li><b>Ekta Kapoor</b> <span class="note">Balaji; son Ravie via surrogacy, 2019</span></li><li><b>Tusshar Kapoor</b> <span class="note">son Laksshya via surrogacy, 2016</span></li></ul></li><li>Lore: he nearly married Hema Malini in the 1970s before she chose Dharmendra</li></ul></div><div class="branch" id="f-anand"><h3>The Anands</h3><p class="sub">Chetan, Dev and Vijay Anand · Navketan Films</p><ul class="tree"><li><b>Dev Anand</b> + Kalpana Kartik<ul><li>Suneil</li><li>Devina</li></ul></li><li>His lost love: Suraiya, whose grandmother blocked the match. She never married</li><li><b>Chetan Anand</b> <span class="note">+ Uma; partner Priya Rajvansh</span><ul><li>Ketan</li></ul></li><li><b>Vijay Anand</b> <span class="note">Guide, Jewel Thief</span></li><li>Nephew: <b>Shekhar Kapur</b> <span class="note">Mr. India, Elizabeth</span></li></ul></div></div>
+</section>
+
+<section class="kt" aria-labelledby="sensh">
+  <div class="kicker">Exhibit N</div>
+  <h2 id="sensh">A century of the sexy heroine</h2>
+  <p class="sub" style="font-family:var(--mono);font-size:12px;margin:0 0 8px">How Bollywood kept redefining a "respectable woman" while selling her sexuality</p>
+  <p style="max-width:64ch;margin:0">Bollywood didn't just get steadily bolder. It kissed in 1933, went prudish after independence, invented the cabaret and the wet sari to get around the censors, and then let the heroine take it all back.</p>
+  <p class="sub" style="margin-top:14px;font-family:var(--mono);font-size:11px;letter-spacing:.08em">THE ARC</p><div class="arc pipe"><div><span class="st">1930s: kissing</span><span class="ar">→</span><span class="st">1950s–60s: desire coded into dance and clothes</span><span class="ar">→</span><span class="st">1970s–80s: heroine and vamp merge</span><span class="ar">→</span><span class="st">1990s: the heroine owns it</span><span class="ar">→</span><span class="st">2000s: kissing returns</span></div></div>
+  <p class="sub" style="margin-top:12px;font-family:var(--mono);font-size:11px;letter-spacing:.08em">THE DANCER LINEAGE</p><div class="arc pipe"><div><span class="st">Azurie</span><span class="ar">→</span><span class="st">Cuckoo</span><span class="ar">→</span><span class="st">Helen</span><span class="ar">→</span><span class="st">Bindu · Aruna Irani</span><span class="ar">→</span><span class="st">Zeenat · Parveen</span><span class="ar">→</span><span class="st">Madhuri</span><span class="ar">→</span><span class="st">Raveena · Urmila</span><span class="ar">→</span><span class="st">Malaika</span></div></div>
+  
+  <div class="pipehead"><h3>How the films got away with it</h3><span class="count">Readings from the University of Iowa Indian Cinema archive</span></div>
+  <div class="branches"><div class="branch"><h3>Code it, don't show it</h3><p style="margin:0;font-size:15px">Rain, waterfalls, wet saris, flowers, bathing, dream songs. Censorship didn't remove sex from Hindi film; it built a whole visual vocabulary for it.</p></div><div class="branch"><h3>The "natural" girl</h3><p style="margin:0;font-size:15px">City man meets mountain or village girl: pure, traditional, and somehow always bathing or dancing in the rain. Her innocence becomes the excuse for the camera's gaze. From <i>Kashmir Ki Kali</i> (1964) to <i>Taal</i> (1999).</p></div><div class="branch"><h3>The premarital-sex rule</h3><p style="margin:0;font-size:15px">Old films allowed it on two conditions: the couple treats it as a marriage in all but name, and she gets pregnant. <i>Aradhana</i> (1969) is the template.</p></div><div class="branch"><h3>The courtesan loophole</h3><p style="margin:0;font-size:15px">The tawaif could sing, dance and love outside marriage because she was never fully respectable. <i>Pakeezah</i>, <i>Umrao Jaan</i>. In <i>Guide</i> (1965), Rosie leaves her husband and becomes a celebrated dancer, mirroring how India rebranded courtesan dance as respectable classical art.</p></div><div class="branch"><h3>Clothes as morals</h3><p style="margin:0;font-size:15px">Sari means home and virtue; Western dress means city, money, desire, danger. Yet the films give the "dangerous" woman the best outfits, songs and nightclubs.</p></div><div class="branch"><h3>Raj Kapoor's contradiction</h3><p style="margin:0;font-size:15px">Films about poverty, faith and the nation, shot by a camera with what the archive calls a "voyeuristic preoccupation with female anatomy." <i>Satyam Shivam Sundaram</i> preaches that looks don't matter while eroticizing Zeenat, and splits her into rejected wife by day and desired stranger by night.</p></div></div>
+  <p class="sub" style="margin:8px 0 0;font-family:var(--mono);font-size:11px;color:var(--muted)">Based on close readings of 100+ films by Philip Lutgendorf, with Corey Creekmur, at the <a href="https://uiowa.edu/indiancinema" style="color:var(--rani)">University of Iowa Indian Cinema project</a>. It's film criticism, not a data study.</p>
+  <div class="pipehead"><h3>The timeline</h3></div>
+  <ol class="tl"><li><span class="yr">1933</span><div><h4>Devika Rani kisses on screen</h4><p>In <i>Karma</i>, she and her real-life husband Himanshu Rai share a series of kisses. Often called a four-minute kiss; careful accounts say it was shorter. Either way, Indian cinema kissed before it stopped.</p></div></li><li><span class="yr">1935–47</span><div><h4>Madam Azurie, the first star dancer</h4><p>Doing standalone dance numbers in Hindi films decades before anyone said "item song." She trained Cuckoo.</p></div></li><li><span class="yr">1940s–50s</span><div><h4>Cuckoo Moray, the "Rubber Girl"</h4><p>Made the cabaret dance a fixture of commercial Hindi film, and helped a young Helen get into movies.</p></div></li><li><span class="yr">1951</span><div><h4>Nargis in a swimsuit</h4><p>Raj Kapoor's <i>Awaara</i> starts a line of boundary-pushing images he kept extending for 35 years: Nargis, then Dimple, then Zeenat, then Mandakini.</p></div></li><li><span class="yr">1950s</span><div><h4><button class="pp" data-q="Madhubala">Madhubala</button>, flirt in a strapless dress</h4><p>Strapless gowns, capris, trousers and a very knowing look at the camera. Innocence and sensuality in one face.</p></div></li><li><span class="yr">1950s–70s</span><div><h4><button class="pp" data-q="Helen">Helen</button>, the cabaret queen</h4><p>"Mera Naam Chin Chin Chu," "Piya Tu Ab To Aaja," "Mehbooba Mehbooba." The era split women in two: the sari-clad heroine, and the vamp who could drink, smoke, dance and want things. Helen ruled the second.</p></div></li><li><span class="yr">1960s–70s</span><div><h4>Bindu, Aruna Irani and Mumtaz</h4><p>Bindu's "Mera Naam Shabnam" (<i>Kati Patang</i>, 1971) played straight at the men watching. Mumtaz brought some of that heat into the actual heroine.</p></div></li><li><span class="yr">1970s</span><div><h4>Zeenat Aman and Parveen Babi break the system</h4><p>The Westernized, sexually confident woman becomes the heroine the hero loves, not the vamp next to her. Zeenat's <i>Satyam Shivam Sundaram</i> (1978) pushed costume and kissing further than mainstream film had gone.</p></div></li><li><span class="yr">1973–85</span><div><h4><button class="pp" data-q="Dimple">Dimple</button>, <i>Bobby</i> to <i>Saagar</i></h4><p><i>Bobby</i>'s bikini shaped youth fashion, though she was 16 during the shoot, which reads very differently now. As an adult she shared a landmark kiss with Rishi Kapoor in <i>Saagar</i> (1985).</p></div></li><li><span class="yr">1985</span><div><h4>Mandakini's waterfall</h4><p><i>Ram Teri Ganga Maili</i>'s thin white sari under a waterfall: technically clothed, and everyone understood. Raj Kapoor's most notorious test of the censors.</p></div></li><li><span class="yr">1988–92</span><div><h4>Madhuri Dixit</h4><p>A kiss with Vinod Khanna in <i>Dayavan</i>, then "Dhak Dhak Karne Laga." Sensual dance now belongs to the country's biggest heroine.</p></div></li><li><span class="yr">1994–95</span><div><h4><button class="pp" data-q="Raveena">Raveena</button> and Urmila</h4><p>"Tip Tip Barsa Paani" in a yellow sari in the rain, then Urmila's crop tops and beachwear in <i>Rangeela</i>, played as a modern young woman, not a dangerous one. The heroine–vamp split is dead.</p></div></li><li><span class="yr">1996</span><div><h4><button class="pp" data-q="Karisma">Karisma</button> and Aamir</h4><p>The <i>Raja Hindustani</i> kiss, in a giant mainstream blockbuster. Kissing belongs to the romantic heroine again.</p></div></li><li><span class="yr">1996–98</span><div><h4>Shabana Azmi and Nandita Das in <i>Fire</i></h4><p>Two women, desire and intimacy inside unhappy marriages. Not a sexier scene but a different question: female desire that doesn't revolve around a man.</p></div></li></ol>
+</section>
+
+
+
+
+
+<section class="wall" aria-labelledby="wallh">
+  <h2 id="wallh">The receipt wall</h2>
+  <div class="grid" id="grid"></div>
+  <p class="empty" id="empty" hidden>No receipts match that. Try another name.</p>
+</section>
+
+<footer>Compiled from interviews, court records, award announcements and decades of tabloid coverage, current to October 2026. Anything stamped ALLEGED or RUMOR is gossip, not fact, and is labeled that way on purpose.</footer>
+</div>
+
+<script>
+const V={true:["RECEIPT","v-true"],alleged:["ALLEGED","v-alleged"],rumor:["RUMOR","v-rumor"],cap:["CAP","v-cap"]};
+const R=[
+{t:["khan","legend"],v:"true",h:"SRK & Gauri: the original love story",b:`<p>They met at a Delhi party in 1984. He was 18, she was 14. Her Hindu family wasn't thrilled about a Muslim boyfriend with no film career yet, and they married anyway in 1991.</p><ul><li>Kids: Aryan (1997), Suhana (2000), AbRam (2013, via surrogacy)</li><li>Gauri runs Red Chillies as producer and is a top interior designer; she designed Mannat herself</li></ul>`,w:"SRK, Gauri",k:"34 years married"},
+{t:["khan","nepo"],v:"true",h:"Suhana Khan: daddy's girl goes pro",b:`<p>Debuted in Zoya Akhtar's <i>The Archies</i> (Netflix, 2023), then landed <i>King</i> opposite her own father. Part of the Suhana–Ananya–Shanaya girl squad since childhood.</p><p>Dating rumors with Archies co-star Agastya Nanda (Amitabh Bachchan's grandson) have run for years. Neither has confirmed.</p>`,w:"Suhana, SRK, Agastya Nanda",k:"Bachchan × Khan merger?"},
+{t:["khan","nepo","feud"],v:"true",h:"Aryan Khan: jail, then a Netflix clapback",b:`<p>Arrested in the 2021 cruise drug raid and held for over three weeks. The NCB dropped all charges in 2022 for lack of evidence.</p><p>His directing debut, <i>The Ba***ds of Bollywood</i> (Netflix, 2025), roasts the industry, and the officer who led his arrest, Sameer Wankhede, sued over a character he says mocks him.</p>`,w:"Aryan, Sameer Wankhede",k:"Revenge, served on Netflix"},
+{t:["khan","triangle"],v:"rumor",h:"Priyanka & SRK: the Don years",b:`<p>On screen: <i>Don</i> (2006) and <i>Don 2</i> (2011), plus her song in SRK's <i>Billu</i> (2009). Off screen, the 2011–12 tabloids ran nonstop link-up stories.</p><p>The legend says Gauri put her foot down and SRK stopped working with Priyanka. They never did another film together after <i>Don 2</i>. Nobody involved has ever confirmed any of it.</p>`,w:"Priyanka, SRK, Gauri",k:"0 films since 2011"},
+{t:["khan","triangle"],v:"alleged",h:"The SRK jacket",b:`<p>On the 2017 show <i>The Dirty Laundry</i>, guests brought a treasured possession. Priyanka brought a leather jacket and said it belonged to an ex-boyfriend: it stayed at her house once and she just kept wearing it, until it "stopped being him."</p><p>Fans matched it to a jacket SRK had been photographed in, and Priyanka liked a fan's tweet saying so. She has never named him, and he has never commented.</p>`,w:"Priyanka, SRK",k:"Evidence: one jacket, one like"},
+{t:["khan","triangle"],v:"alleged",h:"Priyanka & Gauri: friends, then a 'cold war'",b:`<p>They were photographed friendly at parties before the rumors. Then came years of stories that Gauri froze Priyanka out of the SRK camp and that Karan Johar's circle followed her lead.</p><p>Priyanka later sat on Karan's own Koffee couch, and Gauri has never said a word against her in public.</p>`,w:"Priyanka, Gauri, Karan Johar",k:"Bestie → silence"},
+{t:["feud"],v:"true",h:"Priyanka says Bollywood pushed her out",b:`<p>On Dax Shepard's <i>Armchair Expert</i> (2023) she said she was being "pushed into a corner" in the industry, that people weren't casting her, and that she was tired of the politics. So she left for Hollywood.</p><p>Kangana immediately blamed Karan Johar. Priyanka married Nick Jonas in 2018; daughter Malti Marie was born in 2022.</p>`,w:"Priyanka, Kangana, Karan Johar",k:"Bollywood → Hollywood"},
+{t:["triangle"],v:"alleged",h:"Priyanka & Shahid's bathrobe moment",b:`<p>Co-stars in <i>Kaminey</i> (2009) and <i>Teri Meri Kahaani</i> (2012). During a 2011 income tax raid on Priyanka's home, Shahid was widely reported to be the one who opened the door. Both stayed quiet about dating.</p>`,w:"Priyanka, Shahid",k:"Caught at the door"},
+{t:["legend"],v:"true",h:"The Complan boy and the Complan girl",b:`<p>Before the movies, a teenage Shahid Kapoor and Ayesha Takia starred together in the famous Complan ads: "I'm a Complan boy!" "I'm a Complan girl!"</p><ul><li>Shahid also danced in the background of <i>Taal</i> and <i>Dil To Pagal Hai</i> before his 2003 debut, <i>Ishq Vishk</i></li><li>Ayesha debuted in <i>Taarzan: The Wonder Car</i> (2004) and became a star with <i>Wanted</i> (2009) opposite Salman</li><li>Both ended up marrying outside the industry: Ayesha married Farhan Azmi in 2009, Shahid married Mira Rajput in 2015</li></ul>`,w:"Shahid, Ayesha Takia",k:"Milk-drink kids to movie stars"},
+{t:["feud"],v:"true",h:"Mira Rajput: \"She's not a puppy\"",b:`<p>Shahid Kapoor's wife chose to be a stay-at-home mom. Explaining why at a 2017 Women's Day event, she said she didn't want to spend just an hour a day with daughter Misha and go back to work, because "she's not a puppy."</p><p>Working mothers were furious, since it sounded like she was saying they treat their kids like pets. In the same talk she also took a swipe at what she called "feminazi" thinking. She later said she was only describing her own choice, not judging anyone else's.</p>`,w:"Mira Rajput, Shahid Kapoor",k:"Worst Women's Day soundbite"},
+{t:["triangle"],v:"cap",h:"Did Shahid cheat on Kareena?",b:`<p>No receipts. They dated from about 2004 to 2007 and broke up around <i>Jab We Met</i>. Kareena went public with Saif during <i>Tashan</i> that same year.</p><p>The famous 2004 kissing photo (they said it was morphed) is real tabloid history. A cheating story isn't. In 2025 they hugged at IIFA and the internet lost it.</p>`,w:"Shahid, Kareena, Saif",k:"Cheating: unproven"},
+{t:["triangle"],v:"true",h:"Kareena Kapoor's dating history",b:`<ul><li>Early 2000s: link-up gossip with Hrithik (rumor only)</li><li>2004–2007: Shahid Kapoor, very public</li><li>2007: Saif Ali Khan on the <i>Tashan</i> set</li><li>2012: married Saif; sons Taimur (2016) and Jeh (2021)</li></ul><p>Shahid married Mira Rajput in 2015.</p>`,w:"Kareena, Shahid, Saif",k:"Bebo's era guide"},
+{t:["khan","nepo"],v:"true",h:"Saif Ali Khan: 2 marriages, 4 kids",b:`<ul><li>1991: eloped with Amrita Singh, 12 years older. Kids Sara (1995) and Ibrahim (2001). Divorced 2004</li><li>Dated Italian model Rosa Catalano in between</li><li>2012: married Kareena. Kids Taimur and Jeh</li></ul><p>In January 2025 he was stabbed during a break-in at his Bandra home and recovered.</p>`,w:"Saif, Amrita, Kareena",k:"4 kids, 2 moms"},
+{t:["triangle"],v:"true",h:"Ranbir Kapoor's exes",b:`<ul><li>Deepika (around 2008–09): she got an "RK" tattoo and later joked on Koffee with Karan that he should endorse a condom brand</li><li>Reports at the time said he grew close to Katrina on <i>Ajab Prem Ki Ghazab Kahani</i> (2009) while still with Deepika. None of them ever confirmed it</li><li>Katrina (around 2010–16): those leaked Ibiza vacation photos</li><li>Alia: married April 2022, daughter Raha born that November</li></ul>`,w:"Ranbir, Deepika, Katrina, Alia",k:"3 for 3, all A-list"},
+{t:["triangle"],v:"true",h:"Alia's husband's exes' husbands",b:`<p>Deepika married Ranveer (2018). Katrina married Vicky (2021). Alia did <i>Gully Boy</i> and <i>Rocky Aur Rani</i> with Ranveer, <i>Raazi</i> with Vicky, and <i>Love &amp; War</i> with Vicky and Ranbir together.</p><p>She and Katrina are also known to be friendly. See Alia's small world above.</p>`,w:"Alia, Ranveer, Vicky",k:"Everyone's fine, apparently"},
+{t:["triangle"],v:"true",h:"Alia & Sharvari: spy girls",b:`<p>Yash Raj paired them in <i>Alpha</i>, the first female-led film in its spy universe, the same world as <i>Pathaan</i> and <i>Tiger</i>.</p><p>Sharvari started as an assistant director on <i>Bajirao Mastani</i>, debuted in <i>Bunty Aur Babli 2</i> (2021), and broke out with the horror-comedy hit <i>Munjya</i> (2024).</p><p>And Alia's small world strikes again: Sharvari has long been rumored to be dating Sunny Kaushal, Vicky's younger brother. Neither has confirmed it.</p>`,w:"Alia, Sharvari, Sunny Kaushal",k:"Another Kaushal connection"},
+{t:["feud","triangle"],v:"alleged",h:"Dear Zindagi: Katrina was the director's pick",b:`<p>Reports on <i>Dear Zindagi</i> (2016) say director Gauri Shinde first wanted Katrina Kaif. Producers Karan Johar and Shah Rukh Khan wanted Alia and talked Shinde into it. Alia got the role.</p><p>What there's no evidence for: Alia herself pushing Katrina out. The pressure came from the producers.</p><p>A similar pattern came up with <i>Jigra</i>: director Vasan Bala said Karan sent Alia his rough idea before he had a proper draft, which annoyed him at first. Vasan later said he'd wanted to work with her anyway.</p>`,w:"Alia, Katrina, Gauri Shinde, Karan Johar, SRK",k:"The producers picked"},
+{t:["feud"],v:"true",h:"Divya Khossla vs Alia and Karan over Jigra",b:`<ul><li><b>October 2024:</b> Divya Khossla said <i>Jigra</i> looked a lot like her own jailbreak film <i>Savi</i></li><li>She then posted a photo of a nearly empty <i>Jigra</i> screening and accused Alia of buying tickets herself to inflate the box office. That's her accusation; nobody proved it</li><li>Karan Johar posted that "silence is the best answer" to fools</li><li>Divya fired back about truth offending fools and people "stealing what rightfully belongs to others"</li></ul><p>Alia never responded publicly. As usual, Karan did the fighting.</p>`,w:"Divya Khossla, Alia, Karan Johar",k:"Alia stayed silent"},
+{t:["feud"],v:"rumor",h:"Shraddha vs Alia vs Ranbir",b:`<p>Mostly fan-made. They broke out around the same time (Alia's <i>Student of the Year</i>, 2012; Shraddha's <i>Aashiqui 2</i>, 2013), and fans have pitted them against each other ever since.</p><p>Then Shraddha did <i>Tu Jhoothi Main Makkaar</i> (2023) with Ranbir, and the comparisons went into overdrive. Neither actress has ever said a bad word about the other.</p>`,w:"Shraddha, Alia, Ranbir",k:"Rivalry: fan-made"},
+{t:["triangle"],v:"true",h:"Deepika Padukone's dating history",b:`<p>Badminton champion Prakash Padukone's daughter, launched opposite SRK in <i>Om Shanti Om</i> (2007).</p><ul><li><b>Nihar Pandya:</b> her boyfriend from modeling days, before fame. He later married singer Neeti Mohan</li><li><b>Yuvraj Singh and MS Dhoni:</b> cricket link-ups around 2007–08, never confirmed</li><li><b>Ranbir Kapoor, 2008–09:</b> the "RK" tattoo on her neck. She later said in interviews that he cheated, she gave him a second chance, and caught him again</li><li><b>Siddharth Mallya, 2010–12:</b> Vijay Mallya's son. Photographed kissing in the stands at an IPL match</li><li><b>Ranveer Singh, from 2012:</b> married 2018, daughter Dua 2024</li></ul><p>She covered up the tattoo, then made <i>Yeh Jawaani Hai Deewani</i> and <i>Tamasha</i> with Ranbir anyway, and both were hits.</p>`,w:"Deepika, Ranbir, Siddharth Mallya, Ranveer",k:"Ex → co-star → hits"},
+{t:["triangle"],v:"true",h:"Ranveer & Deepika",b:`<p>Met on <i>Goliyon Ki Raasleela Ram-Leela</i> (2013), then did <i>Bajirao Mastani</i> and <i>Padmaavat</i>. Married at Lake Como in 2018. Daughter Dua born September 2024.</p><p>Before Deepika, Ranveer was reportedly with his first co-star Anushka Sharma.</p>`,w:"Ranveer, Deepika",k:"6 years of Bhansali"},
+{t:["triangle"],v:"true",h:"Katrina Kaif's dating history",b:`<ul><li>Salman Khan, roughly 2003–2009</li><li>Ranbir Kapoor, roughly 2010–2016</li><li>2019 Koffee with Karan: said she'd look good on screen with Vicky Kaushal</li><li>December 2021: married Vicky in Rajasthan</li><li>November 2025: son born</li></ul>`,w:"Katrina, Salman, Ranbir, Vicky",k:"Ended up with the fan"},
+{t:["triangle"],v:"cap",h:"Katrina's 'weird' father-in-law",b:`<p>Sham Kaushal is a veteran action director who survived cancer and became the internet's favorite proud Punjabi dad. Nothing weird is on record. His posts about his sons are just very wholesome.</p>`,w:"Sham Kaushal, Vicky, Katrina",k:"Weirdness found: 0"},
+{t:["legend","feud"],v:"true",h:"Mahesh & Pooja Bhatt's magazine kiss",b:`<p>In the early 1990s, director Mahesh Bhatt and his daughter Pooja Bhatt, then a teenage star after <i>Daddy</i> (1989), posed for a magazine cover kissing on the lips. It caused a national uproar.</p><ul><li>Mahesh was reported at the time as saying that if Pooja weren't his daughter, he would have married her. That quote has followed him for 30 years</li><li>Pooja has always defended the photo as "absolutely innocent" and said people projected meaning onto it</li></ul><p>Pooja is Alia's half-sister.</p>`,w:"Mahesh Bhatt, Pooja Bhatt",k:"30 years of backlash"},
+{t:["legend","nepo"],v:"true",h:"The two Bhatt families",b:`<p>Mahesh Bhatt has two families:</p><ul><li><b>With first wife Kiran (born Lorraine Bright):</b> Pooja and Rahul</li><li><b>With Soni Razdan,</b> whom he married in 1986: Shaheen and Alia</li></ul><p>In 2026 Rahul described his relationship with Alia, Shaheen and Soni as mostly formal, seeing each other at festivals and their father's birthday.</p><p>Alia and Shaheen, meanwhile, are inseparable. Alia's favorite childhood story: Shaheen told four-year-old her she wasn't really their parents' daughter, and had come free with a packet of Parle-G.</p>`,w:"Mahesh, Pooja, Rahul, Soni, Shaheen, Alia",k:"Free with Parle-G"},
+{t:["triangle"],v:"alleged",h:"Alia & Sid: Karan Johar's first couple",b:`<p>Both debuted in Karan Johar's <i>Student of the Year</i> (2012) alongside Varun Dhawan. Off screen they became one of the industry's worst-kept secrets, and they reunited on screen in <i>Kapoor &amp; Sons</i> (2016).</p><ul><li>They never officially confirmed dating, but spent years being photographed together and dodging the question on Koffee with Karan</li><li>Reports had them splitting around 2017–18, the same time Alia and Ranbir got close on <i>Brahmastra</i></li><li>Both have since said there's no bad blood with exes</li><li>Now Alia is married to Ranbir and Sid to Kiara, and KJo launched or produced all four of their big moments</li></ul>`,w:"Alia, Sidharth, Karan Johar, Ranbir, Kiara",k:"Student of the Year to exes"},
+{t:["nepo"],v:"true",h:"Varun Dhawan, the third Student",b:`<p>Director David Dhawan's son. He was an assistant director on Karan Johar's <i>My Name Is Khan</i> alongside Sidharth Malhotra, and both debuted with Alia in <i>Student of the Year</i> (2012). Of the three, he's the only one who never dated another.</p><ul><li>Married his school sweetheart, designer Natasha Dalal, in January 2021. Daughter Lara born June 2024</li><li>2023: lifted Gigi Hadid and kissed her cheek onstage at the NMACC launch and got slammed online, until Gigi posted that she was in on it</li><li>Clips of him getting overly touchy with co-stars at promotions go viral regularly</li></ul>`,w:"Varun, Natasha Dalal, Alia, Sidharth",k:"Married the school crush"},
+{t:["triangle"],v:"true",h:"Kiara & Sid's 'just friends' era",b:`<p>Fell for each other around <i>Shershaah</i> (2021) and spent two years denying it, vacation photos and all. Married in Jaisalmer, February 2023. Daughter born July 2025.</p><p>Karan Johar launched Sid in <i>Student of the Year</i>, produced <i>Shershaah</i>, and teased the couple on every Koffee season until they went public.</p>`,w:"Kiara, Sidharth, Karan Johar",k:"Denied → married"},
+{t:["feud"],v:"cap",h:"Karan Johar & Sidharth 'more than friends'?",b:`<p>Pure internet speculation, mostly because KJo launched Sid and calls him family. There's no evidence, neither has ever said anything like it, and guessing at a real person's sexuality isn't a receipt. KJo has said he chooses not to label his own orientation publicly.</p>`,w:"Karan Johar, Sidharth",k:"Receipts: none"},
+{t:["legend","triangle"],v:"true",h:"Kajol & Ajay Devgn",b:`<p>They met on <i>Hulchul</i> (1995), and Kajol says both of them were dating other people at the time. She used to complain to Ajay about her boyfriend. Both relationships ended, and there was never a proposal; they just knew.</p><ul><li><b>1999:</b> she married him at 24, at the very top of her career. Her father, filmmaker Shomu Mukherjee, didn't speak to her for four days because he thought she was too young. Her mother Tanuja told her to trust her instincts</li><li>She kept working but slowed down. He kept making film after film, and producing and directing</li><li>Kajol has shared that she had a miscarriage around the release of <i>Kabhi Khushi Kabhie Gham</i>, and another later, before Nysa (2003) and Yug (2010)</li></ul><p>Meanwhile her on-screen husband is basically SRK. <i>DDLJ</i> has played at Mumbai's Maratha Mandir since 1995.</p>`,w:"Kajol, Ajay, Shomu Mukherjee, Tanuja",k:"27 years and counting"},
+{t:["legend"],v:"true",h:"Ajay and Kajol's Koffee disaster",b:`<p>One episode of Koffee with Karan, three moments:</p><ul><li>Asked for the one lie every actor tells, Ajay said "I love my wife." Kajol stared. He quickly added that he meant other actors</li><li>Asked which young actor he'd cast opposite Kajol, he said "as a son?" Kajol: "Ghar jaana hai" (I need to go home)</li><li>He couldn't get their wedding date right</li></ul><p>Their love language is trolling each other in public, and given his reputation, the first joke turned into a permanent meme.</p>`,w:"Ajay, Kajol, Karan Johar",k:"Worst husband PR, one sitting"},
+{t:["triangle","feud"],v:"alleged",h:"Ajay's 90s: Raveena and Karisma",b:`<ul><li><b>Raveena Tandon:</b> she talked about a romance and love letters from him. In a 1994 Filmfare interview Ajay denied writing any letters, dared her to publish them, called the romance imaginary and called her a liar. She says it happened; he says it never did</li><li><b>Karisma Kapoor:</b> they grew close making films like <i>Jigar</i> (1992), and later accounts consistently say they dated</li><li><b>Then the women feuded:</b> Raveena has said she was pushed out of films by another actress, widely taken to mean Karisma. Decades later she says they're social but Karisma "has her own circle"</li></ul><p>Then he met Kajol.</p>`,w:"Ajay, Raveena, Karisma",k:"He said, she said, she said"},
+{t:["triangle"],v:"alleged",h:"Ajay and Kangana?",b:`<p>The most serious affair claim of Ajay's married years.</p><ul><li><b>True:</b> they made <i>Once Upon a Time in Mumbaai</i> (July 2010), then <i>Rascals</i> and <i>Tezz</i></li><li><b>Reported:</b> a film magazine claimed they got involved, that she was more invested than he was, and that Kajol threatened to leave with the kids unless he ended it. NDTV noted neither Ajay nor Kangana commented</li><li><b>True, and why it stings:</b> Yug was born in September 2010, two months after the film came out</li></ul><p>The timeline overlap is real. The affair has never been confirmed by anyone involved.</p>`,w:"Ajay, Kangana, Kajol",k:"Reported, never confirmed"},
+{t:["legend","khan","triangle"],v:"cap",h:"Kajol and SRK, more than friends?",b:`<p>Their films: <i>Baazigar</i>, <i>DDLJ</i>, <i>Kuch Kuch Hota Hai</i>, <i>K3G</i>, <i>My Name Is Khan</i>, <i>Dilwale</i>. Fans have shipped them for 30 years.</p><p>No credible evidence of an affair exists. Kajol calls him a friend for life and has dismissed stories that Ajay objected to her working with him, saying the two men aren't drinking buddies but respect each other.</p><p>Asked whether she'd have married SRK if she hadn't met Ajay, she said: "Isn't the man supposed to be proposing?"</p>`,w:"Kajol, SRK, Ajay",k:"Chemistry ≠ affair"},
+{t:["feud"],v:"true",h:"Ajay vs SRK, the screen war",b:`<p>In 2012 Ajay's company went to the Competition Commission accusing Yash Raj of hoarding screens for SRK's <i>Jab Tak Hai Jaan</i> against his <i>Son of Sardaar</i>. Kajol stayed out of it publicly.</p>`,w:"Ajay, SRK, Yash Raj",k:"Diwali 2012 clash"},
+{t:["khan","feud"],v:"true",h:"SRK vs Salman: the five-year freeze",b:`<p>Friends since the 90s and co-stars in <i>Karan Arjun</i> (1995). Then, at Katrina Kaif's birthday party in 2008, they had a loud public fight; most accounts say it started with a jibe about Salman's breakup with Aishwarya.</p><ul><li>They didn't speak for five years</li><li>2013: they hugged at a political iftar party, and the photos went everywhere</li><li>Since then, cameos in each other's films: Salman in <i>Pathaan</i>, SRK in <i>Tiger 3</i></li></ul>`,w:"SRK, Salman, Katrina, Aishwarya",k:"Frozen 2008–2013"},
+{t:["legend"],v:"true",h:"Tabu blames Ajay for being single",b:`<p>Childhood friends since her cousin lived next door to him. Tabu has joked in interviews that Ajay and her cousin would spy on her and scare off any boy who came near.</p><p>Films together: <i>Vijaypath</i>, <i>Drishyam 1 &amp; 2</i>, <i>Golmaal Again</i>, <i>De De Pyaar De</i>, <i>Bholaa</i>, <i>Auron Mein Kahan Dum Tha</i> and more.</p>`,w:"Tabu, Ajay, Kajol",k:"10+ films together"},
+{t:["feud"],v:"true",h:"Kangana vs everyone",b:`<ul><li>2016: very public legal fight with Hrithik over their alleged relationship and emails</li><li>2017: called Karan Johar "the flag bearer of nepotism" on his own show</li><li>Called Alia, Taapsee and others out on social media</li><li>2024: elected BJP MP from Mandi; slapped by a CISF constable at Chandigarh airport days later</li></ul>`,w:"Kangana, Hrithik, Karan Johar",k:"Drama queen, MP"},
+{t:["triangle","nepo"],v:"true",h:"Hrithik & Sussanne: the friendliest divorce",b:`<p>Director Rakesh Roshan's son married his childhood sweetheart Sussanne Khan, actor Sanjay Khan's daughter, in December 2000, the year <i>Kaho Naa... Pyaar Hai</i> made him a superstar overnight. Sons Hrehaan (2006) and Hridaan (2008).</p><ul><li><b>December 2013:</b> they announced their separation. Divorce final in November 2014</li><li>Tabloids blamed Arjun Rampal, whose wife was Sussanne's close friend. He denied it, and nothing ever backed it up</li><li>Reports of a ₹380–400 crore alimony were denied by the family</li><li>Months later came his very public legal war with Kangana</li><li><b>2020:</b> Sussanne moved back in temporarily during lockdown so the boys could be with both parents</li></ul><p>Now Hrithik dates singer-actor Saba Azad and Sussanne dates actor Arslan Goni, and the four of them go on vacations together.</p>`,w:"Hrithik, Sussanne, Saba Azad, Arslan Goni",k:"Exes who double date"},
+{t:["khan","legend","triangle"],v:"true",h:"Salim, Salma and Helen",b:`<p>Salim Khan married Sushila Charak, who became Salma Khan, in 1964. They had Salman, Arbaaz, Sohail and Alvira.</p><ul><li><b>1981:</b> still married to Salma, he married the dancer Helen as his second wife. He has called falling for her an "emotional accident"</li><li>Helen has said Salma "must have gone through a lot," and that she never wanted Salim to leave his family</li><li>Salman has said his mother was hurt, and that Helen was slowly brought into the family</li></ul><p>Today both women are part of the same household picture, and Helen is a beloved family figure. It's one of the rare Bollywood affair stories where everyone involved has actually talked about the pain and the repair.</p>`,w:"Salim Khan, Salma Khan, Helen, Salman",k:"Two wives, one family"},
+{t:["khan","legend"],v:"true",h:"Salman wanted to marry Juhi Chawla",b:`<p>Salman said in an old interview that he asked Juhi's father for her hand and got turned down. Juhi married industrialist Jay Mehta.</p><p>Plot twist: Juhi is SRK's business partner. They co-own the Kolkata Knight Riders.</p>`,w:"Salman, Juhi, SRK",k:"Rejected by Dad"},
+{t:["khan","triangle","engaged"],v:"true",h:"Salman's ex list",b:`<ul><li>Sangeeta Bijlani: wedding invitations were reportedly printed in the 90s</li><li>Somy Ali</li><li>Aishwarya Rai, 1999–2002</li><li>Katrina Kaif</li><li>Iulia Vantur, reported</li></ul><p>Still unmarried at 60.</p>`,w:"Salman",k:"Wedding count: 0"},
+{t:["khan","triangle","feud"],v:"true",h:"Aishwarya, Salman and SRK",b:`<p>Aishwarya and Salman fell in love on <i>Hum Dil De Chuke Sanam</i>. After the 2002 breakup she accused him of abuse in a public statement.</p><p>Salman reportedly created a scene on the set of SRK's <i>Chalte Chalte</i>, and Aishwarya was replaced by Rani Mukerji. Aishwarya has said she was dropped from several planned SRK films without explanation. SRK later said it was wrong on a personal level, even if he'd been thinking as a producer. Taking over <i>Chalte Chalte</i> is also part of why fans think Aishwarya and Rani's friendship cooled. Aishwarya married Abhishek Bachchan in 2007.</p>`,w:"Aishwarya, Salman, SRK, Rani",k:"Replaced by Rani"},
+{t:["khan","triangle","feud"],v:"true",h:"Vivek Oberoi vs Salman, over Aishwarya",b:`<p>After her breakup with Salman, Aishwarya was linked to her <i>Kyun! Ho Gaya Na</i> co-star Vivek Oberoi.</p><ul><li><b>April 2003:</b> Vivek called a press conference and said Salman had called him 41 times in one night, drunk and threatening him</li><li>Aishwarya distanced herself, the relationship ended, and Vivek's career cooled sharply. Many in the industry saw it as the price of crossing Salman</li><li>He later apologized to Salman publicly; Salman never engaged</li><li><b>2019:</b> Vivek shared a meme comparing election exit polls to Aishwarya's relationships. After a backlash and a notice from the Maharashtra women's commission, he deleted it and apologized</li></ul><p>He married Priyanka Alva, daughter of a Karnataka minister, in 2010.</p>`,w:"Vivek, Salman, Aishwarya",k:"41 calls"},
+{t:["legend","triangle"],v:"alleged",h:"Amitabh, Jaya and Rekha",b:`<p>The original Bollywood love triangle, and it started as a friendship.</p><ul><li><b>Early 70s:</b> Rekha and Jaya were friends who lived in the same building, and Rekha called her "Didibhai" (big sister)</li><li><b>1973:</b> Amitabh marries Jaya Bhaduri, then the bigger star, right after <i>Zanjeer</i> made him a hero. Kids Shweta (1974) and Abhishek (1976)</li><li><b>1976–81:</b> about ten films with Rekha, from <i>Do Anjaane</i> to <i>Muqaddar Ka Sikandar</i> and <i>Mr. Natwarlal</i>, and the affair rumors explode</li><li><b>1980:</b> Rekha arrives at Rishi Kapoor's wedding in sindoor and a mangalsutra, and every camera turns to Jaya</li><li><b>Gossip legend:</b> Jaya invited Rekha to dinner and calmly told her she would never leave Amitabh. Retold in Rekha biographies, never confirmed by either woman</li><li><b>1981:</b> <i>Silsila</i> casts all three as husband, wife and the other woman. Rekha and Amitabh never made another film together</li><li><b>2004:</b> Rekha tells Simi Garewal that of course she loves him</li></ul><p>Amitabh has never confirmed any of it.</p>`,w:"Amitabh, Jaya, Rekha",k:"Silsila was a documentary?"},
+{t:["legend","feud"],v:"true",h:"Jaya Bachchan vs everyone with a camera",b:`<p>Started as the star of <i>Guddi</i> and <i>Abhimaan</i> and stepped back after marriage. Now a five-term Samajwadi Party MP in the Rajya Sabha, where Rekha also sat as a nominated member from 2012 to 2018.</p><p>Her viral scoldings of paparazzi, fans asking for selfies, and even people who address her as "Jaya Amitabh Bachchan" in Parliament are a meme genre of their own.</p>`,w:"Jaya, Rekha, the paparazzi",k:"Do not call her Mrs. Bachchan"},
+{t:["legend","feud"],v:"rumor",h:"Aishwarya and her two sisters-in-law",b:`<p>She has two: Abhishek's sister <b>Shweta Bachchan Nanda</b>, and <b>Shrima Rai</b>, wife of her brother Aditya. Fans have accused both of hating her.</p><ul><li><b>Shweta on Koffee:</b> the "exposed" clip, watched in full, has Shweta calling Aishwarya a "self-made, strong woman" and a "fantastic mother." Her only complaint: Aishwarya takes forever to call back</li><li><b>The optics:</b> missing birthday posts, and Aishwarya and Aaradhya arriving separately at the 2024 Ambani wedding. That shows distance, not why</li><li><b>Shrima:</b> asked why she never posts Aishwarya, she said to go to Aishwarya's page for that. Told someone didn't know they were related, she said "Good. I want you to see me for me." She later said she just built her career without using Aishwarya's name, and posted "never jealous, never intimidated, never in competition"</li><li><b>The "alliance":</b> Shweta sent Shrima flowers. Shrima says they were birthday flowers, which Shweta sends routinely</li><li><b>2026:</b> Abhishek praised Aishwarya's "wonderful job" raising Aaradhya and said "I have never done anything wrong"</li></ul>`,w:"Aishwarya, Shweta, Shrima Rai, Jaya, Abhishek",k:"Distance, not proof"},
+{t:["triangle"],v:"cap",h:"Abhishek and Nimrat Kaur?",b:`<p>The viral story: Abhishek fell for his <i>Dasvi</i> (2022) co-star Nimrat Kaur, Aishwarya found out, the marriage cracked.</p><p>Where it came from: Reddit and social posts, which entertainment sites then reported as "people are saying." Mainstream coverage noted there was no evidence.</p><p>Nimrat called the gossip senseless and said she felt sorry for the upbringing of people who spread it. Abhishek has since said he's done nothing wrong and spoken warmly about Aishwarya.</p><p>"Reddit alleges it" isn't the same as "everyone knows it happened."</p>`,w:"Abhishek, Nimrat Kaur, Aishwarya",k:"Affair: unverified"},
+{t:["legend","triangle"],v:"true",h:"Sridevi and Boney Kapoor",b:`<p>Boney was married to Mona Shourie, mother of Arjun and Anshula, when he fell for Sridevi. He has said he felt guilty and that Mona knew. Sridevi stayed at the family home before they married, and his mother tried to get her to tie Boney a rakhi, making him her "brother." They married in 1996, and Janhvi was born in 1997.</p><p>The kids paid for it. Anshula has said that in first grade, other parents stopped letting their children visit the Kapoor house, and her cousins Rhea and Harsh became her safe people. After Sridevi died in 2018, all four of Boney's children grew close.</p><p>Earlier rumors of a secret marriage to Mithun Chakraborty were never confirmed. Sridevi died in Dubai in 2018.</p>`,w:"Sridevi, Boney, Mona, Mithun",k:"The 'other woman' era"},
+{t:["legend","feud"],v:"true",h:"Who gets to be Madhubala?",b:`<p>The real story: Madhubala and Dilip Kumar were in love for years. It ended in 1957 when he testified against her father in the <i>Naya Daur</i> court case. They still had to film <i>Mughal-e-Azam</i>'s love scenes together. She married Kishore Kumar in 1960 and died in 1969, at 36.</p><p>Her biopic, produced by Sanjay Leela Bhansali and directed by Jasmeet K. Reen (<i>Darlings</i>), was stuck for years, and the casting rumors turned into a contest: Kiara Advani was the long-rumored favorite, and fans argued over who was "pretty enough."</p><p>The role went to Sara Arjun, the former child actor who broke out as Ranveer's 20-year-old co-star in <i>Dhurandhar</i>, an age gap that started its own debate. It's going straight to streaming.</p>`,w:"Madhubala, Dilip Kumar, Sara Arjun, Kiara",k:"Biopic, not a beauty contest"},
+{t:["legend","feud"],v:"true",h:"Sushmita vs Aishwarya: the 1994 pageant",b:`<p>At Femina Miss India 1994, Sushmita Sen beat Aishwarya Rai for the crown. Aishwarya went to Miss World instead. Then both won: Sushmita became India's first Miss Universe, and Aishwarya was crowned Miss World that same year.</p><p>Thirty years of side-by-side comparisons followed: who's prettier, whose career is bigger, who gave the better pageant answer. Both have only ever spoken politely about each other.</p>`,w:"Sushmita, Aishwarya",k:"Both won, fans still fighting"},
+{t:["triangle"],v:"true",h:"Sushmita Sen's love life",b:`<ul><li><b>Vikram Bhatt, mid-90s:</b> the director was married to Aditi Bhatt when they got involved. He has openly admitted the affair ended his marriage</li><li><b>Randeep Hooda,</b> around 2004–06</li><li><b>Rohman Shawl, 2018–21:</b> a model 15 years younger. They split and stayed close friends</li><li><b>Lalit Modi, 2022:</b> the former IPL boss posted photos calling her his "better half." It fizzled within months</li></ul><p>She adopted daughter Renee in 2000 at 24 and Alisah in 2010, as a single mother, and survived a heart attack in 2023.</p>`,w:"Sushmita, Vikram Bhatt, Rohman Shawl, Lalit Modi",k:"Never married, never needed to"},
+{t:["triangle","feud"],v:"true",h:"Bipasha Basu's dating history",b:`<p>The <i>Jism</i> and <i>Raaz</i> star went through some of the most famous couples of the 2000s.</p><ul><li><b>Dino Morea, late 90s–2002:</b> met modeling, made <i>Raaz</i> together. Still friends</li><li><b>The banned ad:</b> in the late 90s, when she was a model of about 19 or 20, she and Dino shot an ad for Swiss underwear brand Calida in which he pulls her underwear down with his teeth. Women's groups protested and it was banned. (People often remember it as Calvin Klein; it was Calida)</li><li><b>John Abraham, 2002–2011:</b> nine years, Bollywood's hottest couple. After the split he married Priya Runchal in 2014</li><li><b>Harman Baweja, around 2014:</b> who had dated Priyanka Chopra before her</li><li><b>Karan Singh Grover:</b> her <i>Alone</i> (2015) co-star. Married April 2016, his third marriage after Shraddha Nigam and Jennifer Winget. Daughter Devi born 2022, who had heart surgery at three months</li></ul><p>See the next receipt for her feud with Kareena.</p>`,w:"Bipasha, Dino Morea, John Abraham, Karan Singh Grover, Kareena",k:"Married the third-time groom"},
+{t:["triangle"],v:"true",h:"Karan Singh Grover: three weddings in eight years",b:`<ul><li><b>Shraddha Nigam:</b> the TV actress married him in December 2008. They divorced about ten months later, in 2009</li><li><b>Jennifer Winget:</b> his co-star on the hit show <i>Dill Mill Gayye</i>. Married April 2012, split in 2014. When their divorce papers leaked to the press, she was reportedly furious, and a friend of hers told reporters that "love keeps happening to Karan"</li><li><b>Bipasha Basu:</b> fell for her on the horror film <i>Alone</i> (2015) and married her in April 2016. Still together, with daughter Devi</li></ul><p>Jennifer has stayed single and became one of TV's biggest stars with <i>Beyhadh</i>.</p>`,w:"Karan Singh Grover, Shraddha Nigam, Jennifer Winget, Bipasha",k:"Third time stuck"},
+{t:["feud"],v:"alleged",h:"Kareena vs Bipasha: 'kaali billi' and the slap",b:`<p>The set of <i>Ajnabee</i> (2001), Bipasha's debut. Kareena's costume designer reportedly helped Bipasha with her outfits without asking Kareena first, and it blew up.</p><ul><li><b>The report:</b> India Today wrote that Kareena called Bipasha "kaali billi" (black cat), mocking her dark skin, and slapped her</li><li><b>Bipasha's side:</b> she told Filmfare the whole thing was "quite childish," and that the problem was between Kareena and the designer, not her</li><li><b>Kareena's side:</b> she denied ever using those words and called Bipasha's claims a "figment of her imagination"</li><li>The costume designer later pushed back on parts of the story too</li></ul><p>Same film, second slap rumor: gossip also claimed Bobby Deol's wife Tanya slapped Kareena on the <i>Ajnabee</i> set. That one was never confirmed either.</p><p>The two are cordial now. The slap itself has never been confirmed by anyone who was there.</p>`,w:"Kareena, Bipasha, Bobby & Tanya Deol",k:"Two slap rumors, one film"},
+{t:["feud"],v:"true",h:"Mrunal Thakur vs Bipasha's muscles",b:`<p>In August 2025, an old clip from Mrunal's TV days on <i>Kumkum Bhagya</i> resurfaced. In it she called Bipasha "manly" with muscles and said she herself was much better than Bipasha.</p><ul><li>Bipasha didn't name her, but posted that strong women should build muscle and stop listening to old ideas of how women should look</li><li>Mrunal then apologized on Instagram, saying she was 19, said silly things as a teenager, and didn't understand how much words can hurt</li><li>Online, people split: some said an old clip of a teenager shouldn't count, others said the apology only came after it went viral</li></ul><p>Bipasha versus a woman who called her names, take two.</p>`,w:"Mrunal, Bipasha",k:"Apology posted"},
+{t:["legend"],v:"true",h:"Rani Mukerji's secret wedding",b:`<p>Married Yash Raj boss Aditya Chopra in Italy in 2014, with almost no one told. Daughter Adira born 2015.</p><p>In 2025 she won her first National Award for <i>Mrs. Chatterjee vs Norway</i> in the same year SRK won his first, for <i>Jawan</i>. The <i>Kuch Kuch Hota Hai</i> reunion nobody planned.</p>`,w:"Rani, Aditya Chopra, SRK",k:"Tina & Rahul, both winners"},
+{t:["legend","triangle"],v:"true",h:"How Aditya Chopra found Rani before he married her",b:`<ul><li><b>1995:</b> Aditya directs <i>DDLJ</i> with SRK and Kajol</li><li><b>Sampan restaurant:</b> after <i>Raja Ki Aayegi Baaraat</i>, Rani is dining near Aditya, by then the biggest director in the country. Actresses usually came over to say hello. Rani didn't. He remembered</li><li><b>1998:</b> his best friend Karan Johar writes Tina in <i>Kuch Kuch Hota Hai</i> for his childhood friend Twinkle Khanna (her real nickname). She says no, and so do actress after actress. Karan joked he'd wear a short skirt and play Tina himself</li><li>Aditya, and SRK too, tell Karan to see Rani. Aditya reportedly said she'd be "the next big star." Rani asked Karan how audiences would believe SRK picks her over Kajol, who happens to be her cousin. When Farah Khan yelled that Rani was the only one getting the choreography right, Karan knew she was a star</li><li><b>Later at YRF:</b> Aditya told her she was doing bad films, and cast her in <i>Mujhse Dosti Karoge!</i> when others told him her market value had dropped. He has never directed her himself</li><li>Rani says they only started dating after his divorce from Payal Khanna, and that he asked her out at her home, in front of her parents</li><li><b>2014:</b> married in Italy</li></ul>`,w:"Rani, Aditya Chopra, Karan Johar, Twinkle, Kajol",k:"Recommended his future wife"},
+{t:["legend","triangle"],v:"alleged",h:"Rani's file: Govinda, Abhishek, Aditya",b:`<p>Three different stories that the internet mashes into one "homewrecker" narrative.</p><ul><li><b>Govinda (2000–02):</b> a serious affair allegation while he was married. Never confirmed. See his card</li><li><b>Abhishek (2004–06):</b> after his engagement to Karisma ended, he and Rani made <i>Yuva</i>, <i>Bunty Aur Babli</i> and <i>Kabhi Alvida Naa Kehna</i> and were constantly reported as dating. Never confirmed. When he married Aishwarya in 2007, Rani wasn't invited, and people close to her said she was hurt</li><li><b>The Black kiss:</b> she did kiss Amitabh on screen in <i>Black</i> (2005). Claims that Abhishek or Jaya objected, or that Jaya rejected her for not being "fair and tall," have no solid source</li><li><b>Aditya:</b> rumors began around <i>Veer-Zaara</i> (2004) while he was married to Payal Khanna, a love marriage. In 2007 his mother Pamela publicly denied any engagement and said "Yash and I have no problem with Rani." Later reports claimed Aditya moved out over it; Pamela's statement contradicts that. He divorced around 2009. Rani says they started dating only after</li><li><b>False:</b> "Rani waited for his parents to die." Yash died in 2012, but Pamela lived until 2023, nine years after the wedding</li></ul>`,w:"Rani, Govinda, Abhishek, Aditya Chopra, Pamela Chopra",k:"Three stories, zero confessions"},
+{t:["legend"],v:"true",h:"Rani and YRF: backed before it was safe",b:`<p>People reportedly told Aditya Chopra in 2002 that Rani wasn't bankable enough for a YRF film. He cast her anyway in <i>Mujhse Dosti Karoge!</i>, which flopped. Then came <i>Saathiya</i>, <i>Hum Tum</i>, <i>Veer-Zaara</i> and <i>Bunty Aur Babli</i>, and she became one of the biggest stars of the 2000s.</p><p>Then a run of YRF misses (<i>Ta Ra Rum Pum</i>, <i>Laaga Chunari Mein Daag</i>, <i>Thoda Pyaar Thoda Magic</i>, <i>Dil Bole Hadippa!</i>), and the studio kept backing her anyway. Since the wedding she has led the <i>Mardaani</i> films and <i>Hichki</i>, and <i>Mardaani 3</i> arrived in 2026.</p><p>The honest version isn't "he kept casting a flop girlfriend." He bet on her early, she paid off, and YRF stuck with her through the misses too.</p>`,w:"Rani, Aditya Chopra, YRF",k:"Face of YRF's women-led films"},
+{t:["nepo"],v:"true",h:"The Kylie & Kendall of Bollywood",b:`<p>Janhvi and Khushi Kapoor, Sridevi and Boney's daughters.</p><ul><li>Janhvi: <i>Dhadak</i>, <i>Devara</i>, <i>Param Sundari</i>; with Shikhar Pahariya, whose name she wore on a necklace</li><li>Khushi: <i>The Archies</i>, <i>Loveyapa</i> with Aamir's son Junaid, and <i>Nadaaniyan</i> with Saif's son Ibrahim</li></ul>`,w:"Janhvi, Khushi",k:"Nepo kids dating nepo kids"},
+{t:["nepo","triangle"],v:"alleged",h:"Janhvi Kapoor's dating history",b:`<ul><li><b>Akshat Rajan, 2016–17:</b> a family friend, linked to her before her debut. Never confirmed</li><li><b>Ishaan Khatter, 2017–18:</b> her <i>Dhadak</i> co-star. They said close friends. He later dated Ananya</li><li><b>Kartik Aaryan, 2020–21:</b> linked while they were set to star in <i>Dostana 2</i>, which then fell apart</li><li><b>Shikhar Pahariya:</b> grandson of former Maharashtra chief minister Sushilkumar Shinde. They first dated around 2016, split, and reunited in late 2022. She often thanks him publicly for his support, wore a necklace reading "Shiku" in 2024, and Boney Kapoor is openly close with him</li></ul><p>Small world: Shikhar's brother Veer Pahariya dated Tara Sutaria in 2025, and Janhvi shares two names with Ananya's list: Ishaan and Kartik.</p>`,w:"Janhvi, Ishaan, Kartik, Shikhar Pahariya",k:"Settled on Shiku"},
+{t:["nepo","triangle"],v:"alleged",h:"Khushi Kapoor's dating history",b:`<ul><li><b>Aakash Mehta, before her debut:</b> her childhood sweetheart, from before she ever acted</li><li><b>AP Dhillon, 2023:</b> brief online buzz linking her to the singer. Mostly speculation</li><li><b>Vedang Raina, 2023–25:</b> her <i>The Archies</i> co-star. Two years of showing up together at events without ever confirming it. Reports say they broke up over New Year 2026, just after Tara Sutaria and Veer Pahariya split</li><li><b>Aakash Mehta again, 2026:</b> per Bombay Times, she's back with him and doesn't want to date another actor</li></ul><p>Neither Khushi nor Vedang has said a word about the breakup.</p>`,w:"Khushi, Vedang Raina, Aakash Mehta",k:"Back to the childhood sweetheart"},
+{t:["nepo","triangle"],v:"true",h:"Arjun Kapoor dated two Khans' family",b:`<p>Boney's son from his first marriage. He has said he once dated Salman's sister Arpita. Years later he dated Malaika Arora, ex-wife of Salman's brother Arbaaz and 12 years older.</p><p>In October 2024 he told a crowd "I'm single now."</p><p>He grew close to half-sisters Janhvi and Khushi after Sridevi died.</p>`,w:"Arjun, Malaika, Arpita, Salman",k:"Salman: not amused"},
+{t:["triangle","khan"],v:"true",h:"Malaika Arora: from Khan bahu to Arjun",b:`<p>The "Chaiyya Chaiyya" girl who danced with SRK on top of a train in <i>Dil Se</i> (1998).</p><ul><li><b>1998:</b> married Arbaaz Khan, Salman's brother. Son Arhaan born 2002. Divorced 2017</li><li><b>2018–2024:</b> dated Arjun Kapoor, 12 years younger, and went public in 2019. The age gap got them trolled nonstop</li><li><b>October 2024:</b> Arjun told a crowd "I'm single now," and she later posted cryptic quotes about it</li><li>Arbaaz dated Giorgia Andriani, then married makeup artist Sshura Khan in December 2023; their daughter was born in 2025</li><li>Did Malaika and Arjun start before the divorce? Rumored constantly, never established. What's on record: separation announced 2016, divorce 2017, Arjun public later</li><li>Malaika has said Arbaaz remains family, still a son to her parents, and that what happened between them is private</li></ul><p>So they're split. Arjun had dated Salman's sister Arpita years before he dated Salman's ex-sister-in-law.</p>`,w:"Malaika, Arbaaz, Arjun, Salman",k:"Over as of 2024"},
+{t:["nepo"],v:"true",h:"Ananya Panday's 'struggle'",b:`<p>Chunky Panday's daughter. Her 2022 interview about her "struggle" next to Siddhant Chaturvedi, who answered that his dreams ended where her struggle began, became a permanent meme.</p><p>She was questioned in 2021 over WhatsApp chats with Aryan Khan and never charged. </p><ul><li><b>Ishaan Khatter, 2020–22:</b> got close on <i>Khaali Peeli</i></li><li><b>Aditya Roy Kapur, 2022–24:</b> two years of vacation photos and events, then a split</li><li><b>The Kartik triangle, 2019:</b> she and Sara both talked publicly about crushing on Kartik Aaryan, and both got linked to him through their films that year and the next</li></ul>`,w:"Ananya, Siddhant, Aditya Roy Kapur",k:"Struggle: memed"},
+{t:["nepo","feud"],v:"rumor",h:"Ananya vs Tara, forever compared",b:`<p>They debuted in the same film, Karan Johar's <i>Student of the Year 2</i> (2019) opposite Tiger Shroff, and fans have ranked them against each other ever since.</p><ul><li><b>The nepo angle:</b> Ananya is Chunky Panday's daughter. Tara has no film family; she was a trained dancer and singer who grew up on Disney India</li><li><b>The awards:</b> Ananya took home Filmfare's Best Female Debut, which fans of Tara still bring up</li><li><b>The boyfriends:</b> Ananya dated Aditya Roy Kapur, then was linked to model Walker Blanco. Tara dated Aadar Jain, Raj Kapoor's grandson, for years; after he married someone else in 2025, a line in his wedding speech was widely read as a dig at her. She then dated Veer Pahariya for a few months, and in 2026 she's rumored to be seeing Aditya Roy Kapur. Yes, Ananya's ex</li><li><b>The careers:</b> both had flops and both have had a comeback narrative, so the comparisons never stop</li></ul><p>Neither has said a bad word about the other. The rivalry lives in the comments sections.</p>`,w:"Ananya, Tara, Aditya Roy Kapur, Aadar Jain",k:"Now sharing an ex?"},
+{t:["triangle","feud"],v:"alleged",h:"Tara, Aadar and Alekha",b:`<p>The viral version: Tara dated Aadar Jain for years, Alekha Advani was part of their circle, they split, and Aadar married Alekha.</p><ul><li><b>True:</b> Tara and Aadar dated for years; Aadar married Alekha in 2025</li><li><b>True:</b> at his wedding festivities Aadar said he'd done "time pass" for years before Alekha. The internet took it as a dig at Tara</li><li><b>Disputed:</b> "Alekha was Tara's best friend and stole him." Aadar and Alekha said in an interview that she was one of his oldest friends, their families go way back, and the backstabbing story is baseless</li></ul><p>The speech is the real scandal here, not the friendship.</p>`,w:"Tara, Aadar Jain, Alekha Advani",k:"\"Time pass\""},
+{t:["triangle"],v:"rumor",h:"Aditya Roy Kapur's quiet little list",b:`<p>He almost never talks about his love life, so nearly all of this is reported, not confirmed.</p><ul><li><b>Rhea Chakraborty:</b> an early link-up, before he was famous</li><li><b>Shraddha Kapoor:</b> <i>Aashiqui 2</i> (2013) made them the couple fans wanted. They always said "just good friends"</li><li><b>Ananya Panday, 2022–24:</b> his most public relationship. Vacations, events, then a reported split in spring 2024</li><li><b>Tara Sutaria, 2026:</b> rumored to be seeing each other after her breakup with Veer Pahariya, with the film <i>Om</i> reportedly in the works for both. Neither has confirmed it</li></ul><p>So he dated Ananya, and now possibly the actress she's been compared to since 2019.</p>`,w:"Aditya, Ananya, Tara, Shraddha",k:"Ananya → Tara?!"},
+{t:["triangle"],v:"true",h:"Rhea Chakraborty and Sushant Singh Rajput",b:`<p>A former MTV VJ, Rhea was in a serious relationship with Sushant in 2019 and 2020. He died in June 2020, at 34.</p><ul><li>His family filed a police complaint accusing her of abetment, and the case went to the CBI</li><li>Months of trial by media followed, much of it cruel and much of it untrue</li><li>September 2020: the NCB arrested her in a related drugs case. She spent about a month in Byculla jail before getting bail</li><li>March 2025: the CBI filed a closure report saying it found no evidence of abetment</li></ul><p>She has since rebuilt her career with a podcast and a clothing brand.</p>`,w:"Rhea, Sushant Singh Rajput",k:"No evidence found"},
+{t:["feud","triangle"],v:"true",h:"Tripti Dimri took Deepika's spot",b:`<p>Went from arthouse (<i>Bulbbul</i>, <i>Qala</i>) to "national crush" overnight with a few scenes in <i>Animal</i> (2023), then <i>Bad Newz</i> with Vicky Kaushal and <i>Dhadak 2</i>.</p><p>In May 2025 Deepika left <i>Animal</i> director Sandeep Reddy Vanga's <i>Spirit</i> opposite Prabhas, reportedly over working-hour limits, pay and scenes in the script. Vanga posted about "dirty PR games," and Tripti was announced as the lead the next day.</p><p>Producer Pranay Reddy Vanga later claimed Deepika wanted 10% of the profits; her side disputed his version. Tripti, meanwhile, liked a post praising Deepika's professionalism, which is not what a rival does. And no, Deepika's later exit from the <i>Kalki</i> sequel isn't another Tripti story: director Nag Ashwin says her role won't be recast.</p><p>Love life, all reported: Anushka Sharma's brother Karnesh, producer of <i>Qala</i>, then businessman Sam Merchant. She hasn't confirmed either.</p>`,w:"Tripti, Deepika, Sandeep Reddy Vanga, Prabhas",k:"Replacement in 24 hours"},
+{t:["triangle"],v:"true",h:"Disha Patani: Tiger years and a scary 2025",b:`<p>Broke out as MS Dhoni's girlfriend in <i>M.S. Dhoni: The Untold Story</i> (2016) and was a fixture with Tiger Shroff for about six years. Neither ever confirmed they were dating, and fans count roughly 2022 as the breakup. She has since been seen with Aleksandar Alex Ilic, which fans also read as dating.</p><p>In September 2025, gunmen fired shots outside her family home in Bareilly after her sister Khushboo criticized a religious leader online. No one was hurt. Gangsters claimed it, and police killed two accused men in an encounter days later.</p><p>Small world: she starred with Prabhas in <i>Kalki 2898 AD</i>, the same film as Deepika.</p>`,w:"Disha, Tiger Shroff, Khushboo Patani",k:"Never confirmed, never denied"},
+{t:["triangle"],v:"true",h:"Mouni Roy, from Naagin to Brahmastra",b:`<p>One of the rare TV stars to make it in films. She started on <i>Kyunki Saas Bhi Kabhi Bahu Thi</i>, became a household name as the shape-shifting snake in <i>Naagin</i>, then debuted opposite Akshay Kumar in <i>Gold</i> (2018).</p><ul><li>Played the villain Junoon in <i>Brahmastra</i>, opposite Alia and Ranbir right as they were becoming a couple</li><li>Long rumored to be dating TV actor Mohit Raina. Neither confirmed it</li><li>Married Dubai-based banker Suraj Nambiar in Goa in January 2022, in both Bengali and Malayali ceremonies</li><li>Trolled constantly over her changing face. She has mostly ignored it</li></ul>`,w:"Mouni, Suraj Nambiar, Mohit Raina",k:"TV to the big screen"},
+{t:["nepo","khan"],v:"true",h:"Sara Ali Khan's Koffee confession",b:`<p>Sitting next to her dad on Koffee with Karan in 2018, she said she'd marry Ranbir and date Kartik Aaryan. She went on to make <i>Love Aaj Kal</i> with Kartik in 2020, and dating reports followed.</p><p>Before that she was linked to her <i>Kedarnath</i> co-star Sushant Singh Rajput. She has also acknowledged dating Veer Pahariya, the brother of Janhvi's Shikhar, which is why Karan told them on Koffee that they'd dated two brothers. Sara and Janhvi became close friends anyway.</p>`,w:"Sara, Kartik, Ranbir, Saif",k:"Manifestation worked"},
+{t:["feud","khan","nepo"],v:"true",h:"Orry vs Sara, Ibrahim and Amrita",b:`<p>Orry and Sara were best friends in college, drifted, got close again in lockdown, then grew apart.</p><ul><li><b>January 2026:</b> Orry posted a reel listing his "3 worst names": Sara, Paalak, Amrita. Everyone read it as Sara Ali Khan, Palak Tiwari (widely reported to be dating Sara's brother Ibrahim) and their mother Amrita Singh</li><li>Sara and Ibrahim unfollowed him</li><li>He kept taking digs at Sara's career, then said his real issue was with Amrita, claiming she had "traumatised" him and that he'd want an apology from her. That's his account; nobody else has said what happened</li></ul>`,w:"Orry, Sara, Ibrahim, Palak Tiwari, Amrita Singh",k:"Unfollowed"},
+{t:["triangle","feud"],v:"alleged",h:"Kartik Aaryan, the outsider every co-star dates",b:`<p>An engineering student from Gwalior with no film family, made famous by his rant monologue in <i>Pyaar Ka Punchnama</i> (2011). He has never confirmed a single relationship, so this whole list is reported.</p><ul><li><b>Sara Ali Khan, 2019–20:</b> she said on Koffee she wanted to date him, then they made <i>Love Aaj Kal</i> and were spotted everywhere. Split before it even released. Years later on Koffee she hinted he's an ex</li><li><b>Janhvi Kapoor:</b> rumored during <i>Dostana 2</i>. In 2021 Karan Johar's Dharma dropped Kartik from the film, and the KJo feud rumors began</li><li><b>Ananya Panday:</b> rumored around <i>Pati Patni Aur Woh</i> (2019)</li><li><b>Kriti Sanon:</b> rumored after <i>Luka Chuppi</i> (2019) and again around <i>Shehzada</i> (2023). Both said friends. She's since been linked to businessman Kabir Bahia</li><li><b>Sreeleela, 2025:</b> his co-star in Anurag Basu's next. At IIFA his mother said the family wants a "good doctor" bahu. Sreeleela is a doctor</li></ul><p>He and KJo made up in time for <i>Tu Meri Main Tera Main Tera Tu Meri</i>.</p>`,w:"Kartik, Sara, Ananya, Kriti, Janhvi, Sreeleela",k:"Confirmed: zero"},
+{t:["legend","nepo"],v:"true",h:"Anil Kapoor and the other Kapoors",b:`<p>Not related to Ranbir's Raj Kapoor clan. This family is three brothers, sons of producer Surinder Kapoor:</p><ul><li><b>Boney</b>, the producer: married Mona Shourie, then Sridevi. Kids Arjun, Anshula, Janhvi, Khushi</li><li><b>Anil</b>, the star: married Sunita in 1984. Kids Sonam, Rhea, Harsh Varrdhan</li><li><b>Sanjay</b>, the youngest: married Maheep. Kids Shanaya and Jahaan</li></ul><p>Anil is the steady brother: he met Sunita around 1973, when he was broke in Chembur and she paid for his taxis. They dated for about 11 years. She told him she'd never cook, and in 2026 he says she still doesn't. She went on their honeymoon without him because he had to work.</p><p>Anil is famous for not aging. From <i>Mr. India</i> and <i>Tezaab</i> to <i>Animal</i> in 2023, he's been a leading man for 40 years.</p>`,w:"Anil, Boney, Sanjay, Sridevi",k:"Jhakaas since 1983"},
+{t:["triangle","nepo"],v:"true",h:"Maheep & Sanjay Kapoor's confession",b:`<p>Sanjay debuted in <i>Prem</i> (1995) opposite Tabu and never matched his brother Anil's career. He married Maheep Sandhu in 1997.</p><p>On Netflix's <i>Fabulous Lives of Bollywood Wives</i>, Maheep said Sanjay had been unfaithful early in their marriage and that she chose to stay for the family. She has said she walked out with baby Shanaya, then came back because she wanted Shanaya to have her father. Sanjay didn't deny it. She later joked that he's paranoid about Shanaya's boyfriends because he remembers the "kameena" things he did himself. Before Maheep, Sanjay was linked to his <i>Prem</i> co-star Tabu. Their daughter Shanaya grew up on that same show before her own debut.</p>`,w:"Maheep, Sanjay, Shanaya",k:"Confessed on Netflix"},
+{t:["nepo","triangle"],v:"true",h:"The Fabulous Lives wives",b:`<p>Netflix's <i>Fabulous Lives of Bollywood Wives</i> (2020–) follows four friends married into the industry. See the Fabulous Lives diagram for how they connect.</p><ul><li><b>Maheep Kapoor:</b> married Anil Kapoor's brother Sanjay in 1997. Kids Shanaya and Jahaan. Her nephew-in-law is Arjun Kapoor</li><li><b>Bhavana Pandey:</b> married Chunky Panday in 1998. Daughters Ananya and Rysa. Chunky's nephew Ahaan Panday became a star overnight with <i>Saiyaara</i> (2025)</li><li><b>Seema Sajdeh:</b> eloped with Salman's brother Sohail Khan in 1998. Sons Nirvaan and Yohan. Divorced in 2022 after they "grew in different directions"; she married at 22. On the show she changed the nameplate on her door from Khan to herself and her sons, and Nirvaan asked why she was removing one of the four of them. She says the Khans, Salman included, supported her through it, and still calls Sohail family. She's since introduced boyfriend Vikram Ahuja</li><li><b>Neelam Kothari Soni:</b> the 80s star Govinda broke off his engagement for, before returning to Sunita. Married Rishi Sethia, divorced, then married actor Samir Soni in 2011. Daughter Ahana, adopted in 2013</li></ul><p>The kids are a web too: Shanaya, Ananya and Suhana Khan have been a best-friend trio since childhood, and Seema's ex-sister-in-law Malaika dated Arjun.</p>`,w:"Maheep, Bhavana, Seema, Neelam",k:"One show, one big family tree"},
+{t:["nepo"],v:"true",h:"Shanaya Kapoor finally debuts",b:`<p>Sanjay and Maheep Kapoor's daughter, cousin of Janhvi, Khushi, Arjun and Sonam. Her Dharma launch <i>Bedhadak</i> stalled, and she debuted in <i>Aankhon Ki Gustaakhiyan</i> (2025) opposite Vikrant Massey.</p><p>Love life: in 2023 she was reported to be dating Karan Kothari, a friend from university in Los Angeles. Her team didn't comment.</p><p>Mother Maheep is a star of Netflix's <i>Fabulous Lives of Bollywood Wives</i>.</p>`,w:"Shanaya, Suhana, Ananya",k:"Third Angel, finally on screen"},
+{t:["nepo","triangle"],v:"rumor",h:"Navya Naveli Nanda, the one who didn't act",b:`<p>Amitabh's granddaughter, Shweta's daughter and Agastya's sister. She chose business and a podcast over films, but she's at the center of the star-kid friend group with Suhana, Ananya and Shanaya.</p><ul><li><b>Meezaan Jafri:</b> years of sightings. He denied it and said they're friends, joking that the rumors made visits awkward with Amitabh sitting right there</li><li><b>Siddhant Chaturvedi:</b> widely reported after sightings and social-media clues. Neither confirmed</li><li><b>Her brother and her friend:</b> Agastya is reported to be with Suhana since <i>The Archies</i></li></ul>`,w:"Navya, Meezaan, Siddhant, Agastya, Suhana",k:"Her friend dates her brother?"},
+{t:["nepo","feud"],v:"true",h:"Sonam Kapoor, unfiltered",b:`<p>Anil Kapoor's daughter debuted opposite Ranbir in <i>Saawariya</i> (2007). Early on she called Aishwarya, who had worked with her dad, an "aunty," and her Koffee with Karan answers kept the gossip pages busy for years.</p><p>Married businessman Anand Ahuja in 2018; son Vayu born 2022.</p>`,w:"Sonam, Anil Kapoor, Aishwarya",k:"Aunty-gate"},
+{t:["legend","triangle"],v:"true",h:"Rajesh Khanna married a 15-year-old",b:`<p>Dimple Kapadia was 15 when she married India's first superstar in 1973. He was about 30. Her debut <i>Bobby</i> came out months later and made her a star, and then she quit, because he wanted a wife at home.</p><ul><li>Twinkle born December 1974, when Dimple was 17</li><li>Rinke born 1977</li><li>Separated in 1982, never divorced. Dimple returned to films in 1984 and was at his side when he died in 2012</li></ul>`,w:"Rajesh Khanna, Dimple, Twinkle",k:"Teen bride, superstar husband"},
+{t:["legend","triangle"],v:"alleged",h:"Rishi Kapoor, Dimple and the ring",b:`<p>Rishi and Dimple were teen co-stars in <i>Bobby</i> (1973). In his memoir <i>Khullam Khulla</i>, Rishi wrote that Dimple wore a ring tied to his past, and that Rajesh Khanna tossed it into the sea.</p><p>Rishi married Neetu Singh in 1980 (the wedding Rekha attended in sindoor). Their kids: Ranbir and Riddhima. Rishi died in 2020.</p>`,w:"Rishi, Dimple, Rajesh Khanna, Neetu",k:"Per Rishi's own book"},
+{t:["engaged","triangle","legend"],v:"true",h:"The broken engagements list",b:`<ul><li><b>Akshay Kumar &amp; Raveena Tandon</b>, mid-90s: engaged after <i>Mohra</i>, called off. He married Twinkle, she married Anil Thadani</li><li><b>Abhishek Bachchan &amp; Karisma Kapoor</b>, 2002: announced at Amitabh's 60th birthday, called off months later. He married Aishwarya, she married Sunjay Kapur</li><li><b>Salman Khan &amp; Sangeeta Bijlani</b>, 1994: the wedding was reportedly set and invitations printed before it fell apart</li></ul>`,w:"Akshay, Raveena, Abhishek, Karisma, Salman, Sangeeta",k:"Rings returned: 3"},
+{t:["triangle","engaged","nepo"],v:"alleged",h:"Karisma Kapoor's marriage from hell",b:`<p>Kareena's big sister and Raj Kapoor's granddaughter, the first Kapoor woman to become a film heroine.</p><ul><li><b>2002:</b> engaged to Abhishek Bachchan, announced at Amitabh's 60th. Called off months later</li><li><b>2003:</b> married Delhi industrialist Sunjay Kapur. Kids Samaira (2005) and Kiaan (2011)</li><li><b>2014–16:</b> a brutal divorce. In court filings Karisma accused him and his mother of cruelty and said he was already living with Priya Sachdev, whom he married in 2017. He denied her claims</li><li><b>2025:</b> Sunjay died suddenly during a polo match in England. Karisma's kids then went to court against Priya over his fortune, alleging his will was forged</li></ul><p>The cheating and cruelty claims come from her side of the court case and were never proven at trial.</p>`,w:"Karisma, Sunjay Kapur, Priya Sachdev, Abhishek",k:"Still in court"},
+{t:["triangle","engaged"],v:"true",h:"Akshay Kumar's 90s: Raveena, Shilpa, Twinkle",b:`<ul><li>Raveena Tandon: they got engaged after <i>Mohra</i> (1994) and "Tip Tip Barsa Paani," then called it off. She has talked about the engagement</li><li>Shilpa Shetty: dated after <i>Main Khiladi Tu Anari</i>; she later said in an interview that he two-timed her</li><li>Twinkle Khanna: married January 2001, reportedly after she bet that if <i>Mela</i> flopped she'd marry him. It flopped</li></ul><p>Kids: Aarav and Nitara.</p>`,w:"Akshay, Raveena, Shilpa, Twinkle",k:"The Khiladi of dating"},
+{t:["legend","nepo"],v:"true",h:"Twinkle Khanna, Mrs Funnybones",b:`<p>Rajesh Khanna and Dimple's elder daughter. Quit acting after <i>Mela</i> (2000), married Akshay, and reinvented herself as a bestselling author and newspaper columnist. Went back to school for a master's at Goldsmiths in London in her late 40s.</p>`,w:"Twinkle, Akshay, Dimple",k:"Best career pivot in B-town"},
+{t:["feud","nepo","engaged"],v:"true",h:"Raveena Tandon: mother at 21, rival to Karisma",b:`<p>Adopted two girls, Pooja and Chhaya, in 1995 while still in her early 20s and at the top of her career. After the Akshay engagement ended she was also linked to Ajay Devgn, and her rivalry with Karisma Kapoor was a 90s tabloid staple.</p><p>Married Anil Thadani in 2004. Daughter Rasha debuted in <i>Azaad</i> (2025) opposite Ajay's nephew Aaman Devgan.</p>`,w:"Raveena, Akshay, Ajay, Karisma, Rasha",k:"Tip Tip to Rasha"},
+{t:["nepo"],v:"true",h:"Rasha Thadani and Gen 2.5",b:`<p>Raveena Tandon's daughter, born 2005, debuted in <i>Azaad</i> (2025) opposite Aaman Devgan, Ajay Devgn's nephew. Raveena's kid and Ajay's nephew in one launch film, 30 years after Raveena and Ajay were linked.</p><p>She belongs to the generation right after Ananya, Sara and Janhvi: Rasha, Aaman, Ahaan Panday, Ibrahim, Khushi, Agastya and Vedang. Her personal file is still thin. Mostly paparazzi clips and nepotism debates, no real scandal yet.</p>`,w:"Rasha, Raveena, Aaman Devgan, Ajay",k:"No scandal yet"},
+{t:["feud","triangle"],v:"true",h:"Shilpa Shetty's wild ride",b:`<ul><li>Dated Akshay Kumar in the 90s, then said he used her</li><li>2007: won <i>Celebrity Big Brother</i> UK after the Jade Goody racism row</li><li>2007: Richard Gere kissed her on stage in Delhi and it became a court case that dragged on for 15 years until she was cleared</li><li>Married Raj Kundra in 2009. He was arrested in 2021 in an adult-content app case and got bail. Shilpa was not charged</li></ul>`,w:"Shilpa, Akshay, Raj Kundra",k:"Never a dull decade"},
+{t:["triangle","legend"],v:"alleged",h:"Govinda and the cheating claims",b:`<p>The 90s king of comedy married Sunita Ahuja in 1987, secretly at first. Kids Tina and Yashvardhan. Who's been named over the years:</p><ul><li><b>Neelam:</b> his 80s co-star in hits like <i>Ilzaam</i>. Govinda has said he fell for her and actually broke off his engagement to Sunita over it, then went back and married Sunita anyway in 1987. He never married Neelam, and has said that if Sunita hadn't come back, he might have</li><li><b>Rani Mukerji:</b> the biggest one. They made <i>Hadh Kar Di Aapne</i> (2000) and <i>Chalo Ishq Ladaaye</i> (2002). Reports at the time claimed he spent time at her Versova flat and gave her a car, diamonds and a flat, and that Sunita left home for a while. Neither Govinda nor Rani ever confirmed it</li><li><b>"Not an actress":</b> in a December 2025 interview, Sunita said she'd spent the year hearing about him and another woman, but that "she's not an actress," and that the woman only wants his money. She didn't name her</li><li><b>Komal Rani Swarnkar:</b> his much younger co-star in <i>Roopa</i>. After they were seen together at an airport, Sunita mocked him as a "sugar daddy" for working with her. Govinda posted a video saying it's just work and asking Sunita to stop attacking him in public. Nobody has alleged an affair with Komal, and by Sunita's own "not an actress" line, she isn't the woman Sunita meant</li></ul><p><b>The case:</b> Sunita filed for divorce in December 2024, citing adultery, cruelty and desertion. They celebrated Ganesh Chaturthi together in 2025, but in August 2026 she was back at Bandra Family Court with their son, and the case is still open.</p>`,w:"Govinda, Sunita, Neelam, Rani, Komal Rani Swarnkar",k:"Mystery woman: unnamed"},
+{t:["feud","khan"],v:"true",h:"Preity Zinta vs Ness Wadia",b:`<p>The dimpled star of <i>Kal Ho Naa Ho</i> and <i>Veer-Zaara</i> co-owned the IPL's Kings XI Punjab with her ex-boyfriend, industrialist Ness Wadia.</p><ul><li><b>2003:</b> she was the only star who didn't turn hostile when testifying in the Bharat Shah underworld-financing case</li><li><b>May 2014:</b> she filed a police complaint saying Wadia abused, threatened and manhandled her in public at a Wankhede Stadium IPL match. He denied it</li><li>Salman, one of her closest friends, gave a curt answer when reporters asked him about it, which fans hated. Reports said he privately called her that night to check on her</li><li><b>2018:</b> the Bombay High Court quashed the case after a settlement</li></ul><p>She married American Gene Goodenough in 2016; twins Jai and Gia were born in 2021.</p>`,w:"Preity, Ness Wadia, Salman",k:"Case quashed 2018"},
+{t:["feud"],v:"true",h:"Jacqueline, Nora and the conman",b:`<p>Sukesh Chandrashekhar is accused of running a huge extortion and money-laundering racket from jail. Court records say he gave or offered expensive gifts to several actresses.</p><ul><li><b>Jacqueline Fernandez:</b> knew him, received pricey gifts, and was named an accused by the Enforcement Directorate, which says she got proceeds of crime. She says she was deceived by him too. In June 2026 she withdrew a Supreme Court challenge but kept her other legal options open</li><li><b>Nora Fatehi:</b> also named in the gift trail. She says she was pulled in without knowing about any crime</li><li><b>Then they turned on each other:</b> Nora filed a defamation case against Jacqueline, saying Jacqueline's statements damaged her reputation and career</li></ul><p>Whether Jacqueline knowingly took part is a contested legal question, not something this page decides.</p>`,w:"Jacqueline Fernandez, Nora Fatehi, Sukesh Chandrashekhar",k:"Gifts → courtroom"},
+{t:["khan","triangle"],v:"true",h:"Aamir Khan: two wives and a girlfriend at 60",b:`<ul><li><b>Reena Dutta:</b> his neighbor. They eloped in 1986, when he was 21, two years before <i>Qayamat Se Qayamat Tak</i> made him a star, and kept it secret. She cameos in its "Papa Kehte Hain" song and later produced <i>Lagaan</i>. Kids Junaid and Ira. Divorced 2002 after 16 years</li><li><b>Kiran Rao:</b> an assistant director on <i>Lagaan</i>. Married 2005, son Azad born 2011 via surrogacy. Divorced 2021 in a joint statement, and they still make films together, like <i>Laapataa Ladies</i></li><li><b>Gauri Spratt:</b> introduced to the press on his 60th birthday in March 2025 as his partner, after knowing her for 25 years</li></ul><p>So two marriages so far. Ira married Nupur Shikhare in 2024, and the groom jogged to his own wedding.</p>`,w:"Aamir, Reena, Kiran, Gauri Spratt",k:"Exes who still co-produce"}
+];
+const grid=document.getElementById('grid'),q=document.getElementById('q'),cnt=document.getElementById('count'),empty=document.getElementById('empty');
+let f='all';
+try{const s=localStorage.getItem('br-filter');if(s)f=s}catch(e){}
+function render(){
+  const s=q.value.trim().toLowerCase();
+  const rows=R.map((r,i)=>({...r,n:i+1})).filter(r=>(f==='all'||r.t.includes(f))&&(!s||(r.h+r.b+r.w).toLowerCase().includes(s)));
+  grid.innerHTML=rows.map(r=>`<article class="slip"><div class="top"><span>Receipt #${String(r.n).padStart(3,'0')}</span><span class="stamp ${V[r.v][1]}">${V[r.v][0]}</span></div><h3>${r.h}</h3>${r.b.startsWith('<')?r.b:'<p>'+r.b+'</p>'}<div class="tot"><span>PARTIES</span><b>${r.w}</b></div><div class="tot" style="border:0;padding-top:2px;margin-top:0"><span>TOTAL</span><b>${r.k}</b></div></article>`).join('');
+  empty.hidden=rows.length>0;
+  cnt.textContent=rows.length+' of '+R.length+' receipts';
+  document.querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed',c.dataset.f===f));
+}
+document.querySelectorAll('.chip').forEach(c=>c.addEventListener('click',()=>{f=c.dataset.f;try{localStorage.setItem('br-filter',f)}catch(e){}render()}));
+q.addEventListener('input',render);
+
+const PL=[
+["Ranbir Kapoor",1,"Bombay Scottish → H.R. College → SVA, New York","Lee Strasberg","AD on Aa Ab Laut Chalen; AD to Bhansali on Black","SLB → Saawariya (2007)",["Bombay Scottish","H.R. College","Lee Strasberg","Assistant director","Bhansali","Overseas college"]],
+["Sonam Kapoor",1,"Arya Vidya Mandir → UWC South East Asia","filmmaking exposure","AD to Bhansali on Black","SLB → Saawariya (2007)",["Assistant director","Bhansali","Overseas college"]],
+["Hrithik Roshan",1,"Bombay Scottish → Sydenham College","Kishore Namit Kapoor; dance","Assisted father Rakesh on Karan Arjun, Koyla","Filmkraft / Rakesh Roshan → Kaho Naa… Pyaar Hai (2000)",["Bombay Scottish","Kishore Namit Kapoor","Assistant director"]],
+["Aamir Khan",1,"St Anne's → Bombay Scottish → Narsee Monjee","theatre (Avantar)","AD for uncle Nasir Hussain","Nasir Hussain Films / Mansoor Khan → QSQT (1988)",["Bombay Scottish","Assistant director"]],
+["Arjun Kapoor",1,"Arya Vidya Mandir, left early","none formal","AD on Kal Ho Naa Ho; associate producer","YRF / Habib Faisal → Ishaqzaade (2012)",["Assistant director","YRF"]],
+["Varun Dhawan",1,"Bombay Scottish → H.R. College → Nottingham Trent","Barry John (reported); dance","AD to Karan Johar on My Name Is Khan","Dharma / Karan Johar → Student of the Year (2012)",["Bombay Scottish","H.R. College","Barry John","Assistant director","Dharma","Overseas college"]],
+["Ishaan Khatter",1,"Jamnabai Narsee → Billabong High","Shiamak Davar","AD on Udta Punjab","Zee / Majid Majidi → Beyond the Clouds (2017)",["Jamnabai","Shiamak Davar","Assistant director"]],
+["Ajay Devgn",1,"Silver Beach High → Mithibai","action sets (father Veeru Devgan)","worked as an AD","Kuku Kohli → Phool Aur Kaante (1991)",["Mithibai","Assistant director"]],
+["Sunny Kaushal",1,"Mumbai school → CA studies, left","theatre","AD on My Friend Pinto and Gunday","Shailendra Singh → Sunshine Music Tours (2016)",["Assistant director"]],
+["Salman Khan",1,"Scindia → St Stanislaus → St Xavier's, left","modelling; writing","reportedly an AD","J.K. Bihari → Biwi Ho To Aisi (1988); Rajshri → Maine Pyar Kiya",["Assistant director","Modelling"]],
+["Abhishek Bachchan",1,"Jamnabai + Bombay Scottish → Aiglon → Boston Univ., left","on-set","production-side work","J.P. Dutta → Refugee (2000)",["Jamnabai","Bombay Scottish","J.P. Dutta","Overseas college"]],
+["Alia Bhatt",2,"Jamnabai Narsee, no college","dance; private coaching","no AD","Dharma / Karan Johar → Student of the Year (2012)",["Jamnabai","Dharma"]],
+["Janhvi Kapoor",2,"École Mondiale","Lee Strasberg","no AD","Dharma / Shashank Khaitan → Dhadak (2018)",["Lee Strasberg","Dharma"]],
+["Sara Ali Khan",2,"Mumbai school → Columbia University","acting and dance prep","no AD","Abhishek Kapoor → Kedarnath (2018)",["Overseas college"]],
+["Ananya Panday",2,"Dhirubhai Ambani (DAIS)","acting and dance classes","straight from school","Dharma / Punit Malhotra → SOTY 2 (2019)",["DAIS","Dharma"]],
+["Suhana Khan",2,"DAIS → Ardingly → NYU Tisch","drama and film","school theatre; a short film","Netflix / Zoya Akhtar → The Archies (2023)",["DAIS","Overseas college","Zoya Akhtar"]],
+["Khushi Kapoor",2,"DAIS","New York Film Academy","no AD","Netflix / Zoya Akhtar → The Archies (2023)",["DAIS","NY Film Academy","Zoya Akhtar"]],
+["Agastya Nanda",2,"Sevenoaks School, UK","school theatre","none found","Netflix / Zoya Akhtar → The Archies (2023)",["Overseas college","Zoya Akhtar"]],
+["Kareena Kapoor",2,"Jamnabai → Welham Girls' → law school, left","Kishore Namit Kapoor","no AD","J.P. Dutta → Refugee (2000)",["Jamnabai","Kishore Namit Kapoor","J.P. Dutta"]],
+["Sonakshi Sinha",6,"Arya Vidya Mandir → SNDT, fashion design","costume work","costume designer","Arbaaz Khan Prod. / Abhinav Kashyap → Dabangg (2010)",[]],
+["Shah Rukh Khan",3,"St Columba's → Hansraj College (DU) → Jamia, left","Barry John's Theatre Action Group","theatre → TV (Fauji)","Raj Kanwar → Deewana (1992)",["Delhi University","Barry John","TV"]],
+["Rajkummar Rao",3,"ARSD College (DU)","theatre → FTII","years of auditions","Dibakar Banerjee → Love Sex Aur Dhokha (2010)",["Delhi University","FTII"]],
+["Vicky Kaushal",4,"Mumbai school → RGIT, engineering","Kishore Namit Kapoor; theatre","AD to Anurag Kashyap on Gangs of Wasseypur","Neeraj Ghaywan, a fellow Wasseypur AD → Masaan (2015)",["Engineering","Kishore Namit Kapoor","Assistant director"]],
+["Kartik Aaryan",4,"Gwalior → engineering, Navi Mumbai","acting classes","skipped college for auditions","Luv Ranjan → Pyaar Ka Punchnama (2011)",["Engineering"]],
+["Ayushmann Khurrana",3,"DAV College → Panjab University","theatre","Roadies → radio → TV host","Shoojit Sircar → Vicky Donor (2012)",["TV"]],
+["Sidharth Malhotra",6,"Shaheed Bhagat Singh College (DU)","modelling","model → AD on My Name Is Khan","Dharma / Karan Johar → Student of the Year (2012)",["Delhi University","Modelling","Assistant director","Dharma"]],
+["Ranveer Singh",3,"Mumbai school → Indiana University","college theatre","advertising → auditions","YRF / Maneesh Sharma → Band Baaja Baaraat (2010)",["Overseas college","YRF"]],
+["Shahid Kapoor",3,"Gyan Bharati → Mithibai","Shiamak Davar","background dancer → ads, music videos","Ken Ghosh → Ishq Vishk (2003)",["Mithibai","Shiamak Davar"]],
+["Avinash Tiwary",4,"engineering, left","Barry John → New York Film Academy","theatre and shorts","Sajid Ali → Laila Majnu (2018)",["Engineering","Barry John","NY Film Academy"]],
+["Sanya Malhotra",3,"Gargi College (DU)","ballet; contemporary dance","dance-show rejection → Mumbai auditions","Aamir Khan Prod. / Nitesh Tiwari → Dangal (2016)",["Delhi University"]],
+["Sushant Singh Rajput",4,"Delhi College of Engineering, left","Shiamak Davar → Barry John","background dancer → theatre → TV","Abhishek Kapoor → Kai Po Che! (2013)",["Engineering","Shiamak Davar","Barry John","TV"]],
+["Deepika Padukone",5,"Sophia High → Mount Carmel College","modelling","elite modelling","Red Chillies / Farah Khan → Om Shanti Om (2007)",["Modelling"]],
+["Anushka Sharma",5,"Army School → Mount Carmel College","modelling","Lakmé Fashion Week → YRF audition","YRF / Aditya Chopra → Rab Ne Bana Di Jodi (2008)",["Modelling","YRF"]],
+["Priyanka Chopra",5,"schools in India and the US","pageant prep","Miss India → Miss World 2000","Anil Sharma → The Hero (2003)",["Pageant"]],
+["Kriti Sanon",5,"DPS → Jaypee Institute, engineering","modelling","model → Telugu debut","Sabbir Khan → Heropanti (2014)",["Engineering","Modelling"]],
+["Taapsee Pannu",5,"Mata Jai Kaur → engineering","dance; modelling","software job → pageant → South films","David Dhawan → Chashme Baddoor (2013)",["Engineering","Modelling","Pageant"]],
+["Aditya Roy Kapur",5,"St Xavier's College, Mumbai","none notable","Channel V VJ","Vipul Shah → London Dreams (2009)",["TV"]],
+["Radhika Madan",5,"Jesus and Mary College (DU)","dance","dance teacher → TV","Vishal Bhardwaj → Pataakha (2018)",["Delhi University","TV"]],
+["Mrunal Thakur",5,"college in Mumbai","on-camera TV work","TV → Marathi cinema","Tabrez Noorani → Love Sonia (2018)",["TV"]],
+["Katrina Kaif",5,"mostly home-schooled","modelling; dance","London modelling → Indian ads","Kaizad Gustad → Boom (2003)",["Modelling"]],
+["Disha Patani",5,"Bareilly/Lucknow → college, left","modelling; dance","commercials → Telugu film","Neeraj Pandey → M.S. Dhoni (2016)",["Modelling"]],
+["Bhumi Pednekar",6,"Mumbai school → Whistling Woods, briefly","learned on the job","six years as a YRF assistant casting director","YRF / Sharat Katariya → Dum Laga Ke Haisha (2015)",["YRF"]],
+["Parineeti Chopra",6,"Ambala convent → Manchester Business School","none formal","YRF marketing and PR","YRF / Maneesh Sharma → Ladies vs Ricky Bahl (2011)",["Overseas college","YRF"]]
+];
+const RN=["","Family apprenticeship","Gen-Z star kid","College outsider","Engineer","Model / pageant / TV","Worked inside first"];
+let hubSel=null;
+function drawPipes(){
+  const counts={};PL.forEach(r=>r[6].forEach(h=>counts[h]=(counts[h]||0)+1));
+  const hubs=Object.entries(counts).filter(([h,c])=>c>=2).sort((a,b)=>b[1]-a[1]);
+  const max=hubs[0][1];
+  document.getElementById('hubs').innerHTML=hubs.map(([h,c])=>`<button class="hub" data-h="${h}" aria-pressed="${h===hubSel}" title="${h}: ${c} of ${PL.length} actors"><span class="hn">${h}</span><span class="track"><span class="bar" style="width:${(c/max*100).toFixed(1)}%"></span><span class="ct">${c}</span></span></button>`).join('');
+  document.querySelectorAll('.hub').forEach(b=>b.onclick=()=>{hubSel=hubSel===b.dataset.h?null:b.dataset.h;drawPipes()});
+  const rows=PL.filter(r=>!hubSel||r[6].includes(hubSel));
+  document.getElementById('ptb').innerHTML=rows.map(r=>`<tr><td>${r[0]}</td><td class="grp">${RN[r[1]]}</td><td>${r[2]}</td><td>${r[3]}</td><td>${r[4]}</td><td>${r[5]}</td></tr>`).join('');
+  document.getElementById('hubclear').hidden=!hubSel;
+}
+document.getElementById('hubclear').onclick=()=>{hubSel=null;drawPipes()};
+drawPipes();
+
+document.querySelectorAll('.pp').forEach(b=>b.addEventListener('click',()=>{f='all';q.value=b.dataset.q;render();document.getElementById('wallh').scrollIntoView({behavior:'smooth'})}));
+render();
+</script>
+
+</body>
+</html>
