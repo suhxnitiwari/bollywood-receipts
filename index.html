@@ -229,6 +229,7 @@ footer{margin-top:40px;font-size:13px;color:var(--muted);max-width:70ch;border-t
       <button type="button" class="cx-btn ghost swap" id="cxswap" aria-label="Swap the two names">⇄</button>
       <label for="cxb">Person two<input id="cxb" list="cxnames" placeholder="e.g. Katrina Kaif"></label>
     </div>
+    <label style="display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:12px;margin-top:10px"><input type="checkbox" id="cxfam"> Family and marriage links only</label>
     <div class="cx-btns"><button class="cx-btn" type="submit">Connect them</button><button class="cx-btn ghost" type="button" id="cxrand">Surprise me</button><button class="cx-btn ghost" type="button" id="cxcards">Show their receipt cards</button></div>
     <datalist id="cxnames"></datalist>
   </form>
@@ -744,9 +745,10 @@ const R=[
 {t:["legend"],v:"true",h:"The Complan boy and the Complan girl",b:`<p>Before the movies, a teenage Shahid Kapoor and Ayesha Takia starred together in the famous Complan ads: "I'm a Complan boy!" "I'm a Complan girl!"</p><ul><li>Shahid also danced in the background of <i>Taal</i> and <i>Dil To Pagal Hai</i> before his 2003 debut, <i>Ishq Vishk</i></li><li>Ayesha debuted in <i>Taarzan: The Wonder Car</i> (2004) and became a star with <i>Wanted</i> (2009) opposite Salman</li><li>Both ended up marrying outside the industry: Ayesha married Farhan Azmi in 2009, Shahid married Mira Rajput in 2015</li></ul>`,w:"Shahid, Ayesha Takia",k:"Milk-drink kids to movie stars"},
 {t:["feud"],v:"true",h:"Mira Rajput: \"She's not a puppy\"",b:`<p>Shahid Kapoor's wife chose to be a stay-at-home mom. Explaining why at a 2017 Women's Day event, she said she didn't want to spend just an hour a day with daughter Misha and go back to work, because "she's not a puppy."</p><p>Working mothers were furious, since it sounded like she was saying they treat their kids like pets. In the same talk she also took a swipe at what she called "feminazi" thinking. She later said she was only describing her own choice, not judging anyone else's.</p>`,w:"Mira Rajput, Shahid Kapoor",k:"Worst Women's Day soundbite"},
 {t:["legend","triangle"],v:"true",h:"Bollywood's most awkward pairings",b:`<ul><li><b>Rani and Amitabh, <i>Black</i> (2005):</b> she plays his former student who asks him to show her what a kiss is, and he does, while she was rumored to be dating his son. She was never engaged to Abhishek, and claims that the kiss ended anything have no solid source</li><li><b>Katrina in <i>Boom</i> (2003):</b> the infamous intimate scene is with Gulshan Grover, about 28 years older, not Amitabh, who was also in the film. Gulshan has said Amitabh being on set made it harder. Claims she was 17 don't match her published birth year</li><li><b>Kareena and Arjun, <i>Ki &amp; Ka</i> (2016):</b> both Kapoors, not cousins. Hers is Raj Kapoor's family; his is the Surinder Kapoor family, only distantly related</li><li><b>Amitabh and Jiah Khan, <i>Nishabd</i> (2007):</b> about a 45-year gap, on purpose. He plays a married man drawn to his daughter's 18-year-old friend</li><li><b>The pattern:</b> male stars age from 35 to 60 on screen while their heroines stay 25</li></ul>`,w:"Rani, Amitabh, Katrina, Gulshan Grover, Kareena, Arjun, Jiah Khan",k:"Heroes age, heroines don't"},
-{t:["legend","nepo"],v:"true",h:"Wait, they're related?",b:`<ul><li><b>Farhan and Zoya Akhtar</b> are first cousins of <b>Farah and Sajid Khan</b>; their mothers are sisters</li><li><b>Ranveer Singh and Sonam Kapoor</b> are second cousins</li><li><b>Kajol, Rani Mukerji and Ayan Mukerji</b> are cousins</li><li><b>Emraan Hashmi</b> is Mahesh Bhatt's nephew, so Alia's cousin, like director Mohit Suri</li><li><b>Shabana Azmi</b> is the aunt of <b>Tabu</b> and Farah Naaz</li><li><b>Aditi Rao Hydari and Kiran Rao</b> are cousins from the Wanaparthy royal family</li><li><b>Dilip Kumar</b> was actor Ayub Khan's uncle</li><li><b>Shraddha Kapoor</b> is the grand-niece of Lata Mangeshkar and Asha Bhosle</li><li>And <b>Salim Khan</b> wrote <i>Sholay</i> and <i>Deewaar</i> with <b>Javed Akhtar</b>, Farhan and Zoya's father</li></ul><p>Try any of these pairs in the Connect tool.</p>`,w:"Akhtars, Khans, Mukherjees, Bhatts, Mangeshkars",k:"Small industry, smaller family"},
+{t:["legend","nepo"],v:"true",h:"Wait, they're related?",b:`<ul><li><b>Farhan and Zoya Akhtar</b> are first cousins of <b>Farah and Sajid Khan</b>; their mothers, Honey and Menaka Irani, are sisters. That makes Farah's cousin Shabana Azmi's stepson</li><li><b>Ranveer Singh and Sonam Kapoor</b> are second cousins</li><li><b>Kajol, Rani Mukerji and Ayan Mukerji</b> are cousins</li><li><b>Emraan Hashmi</b> is Alia's second cousin: Mahesh Bhatt's mother and Emraan's grandmother were sisters. Director Mohit Suri is Mahesh's nephew</li><li><b>Karan Johar and Aditya Chopra</b> are first cousins; Karan's mother was Yash Chopra's sister. So Rani is Karan's cousin-in-law</li><li><b>Simi Garewal</b> is Aditya Chopra's first cousin through her mother, Pamela Chopra's sister</li><li><b>Babita</b> and 1960s star <b>Sadhana</b> were first cousins, so Karisma and Kareena had a star in the family before they had Kapoors</li><li><b>Vivek and Akshay Oberoi</b> are cousins, but Akshay says the families never got along and he got no help</li><li><b>Prem Chopra</b> is Sharman Joshi's father-in-law</li><li><b>Shabana Azmi</b> is the aunt of <b>Tabu</b> and Farah Naaz</li><li><b>Aditi Rao Hydari and Kiran Rao</b> are cousins from the Wanaparthy royal family</li><li><b>Dilip Kumar</b> was actor Ayub Khan's uncle</li><li><b>Shraddha Kapoor</b>: Padmini Kolhapure is her aunt, and through the Kolhapures she's extended family of Lata Mangeshkar and Asha Bhosle</li><li>And <b>Salim Khan</b> wrote <i>Sholay</i> and <i>Deewaar</i> with <b>Javed Akhtar</b>, Farhan and Zoya's father</li></ul><p>Try any of these pairs in the Connect tool.</p>`,w:"Akhtars, Khans, Mukherjees, Bhatts, Mangeshkars",k:"Small industry, smaller family"},
 {t:["triangle"],v:"cap",h:"Did Shahid cheat on Kareena?",b:`<p>No receipts. They dated from about 2004 to 2007 and broke up around <i>Jab We Met</i>. Kareena went public with Saif during <i>Tashan</i> that same year.</p><p>The famous 2004 kissing photo (they said it was morphed) is real tabloid history. A cheating story isn't. In 2025 they hugged at IIFA and the internet lost it.</p>`,w:"Shahid, Kareena, Saif",k:"Cheating: unproven"},
 {t:["triangle"],v:"true",h:"Kareena Kapoor's dating history",b:`<ul><li>Early 2000s: link-up gossip with Hrithik (rumor only)</li><li>2004–2007: Shahid Kapoor, very public</li><li>2007: Saif Ali Khan on the <i>Tashan</i> set</li><li>2012: married Saif; sons Taimur (2016) and Jeh (2021)</li></ul><p>Shahid married Mira Rajput in 2015.</p>`,w:"Kareena, Shahid, Saif",k:"Bebo's era guide"},
+{t:["feud"],v:"true",h:"Kareena vs Karan: the Kal Ho Naa Ho fee fight",b:`<ul><li><b>2001:</b> Karan gives her Poo in <i>K3G</i>. She later said she did it for practically nothing</li><li><b>2002:</b> he wants her for Naina in <i>Kal Ho Naa Ho</i>. Per Karan's autobiography, she was wary after <i>Mujhse Dosti Karoge!</i> flopped with another assistant-turned-director, and asked for SRK's fee. He said sorry; she didn't take his calls; Preity got the role</li><li><b>Her side, 2003:</b> the "she quoted a huge fee" story "isn't the entire truth"</li><li><b>Silence:</b> about nine months of walking past each other at parties. Karan later called it "very idiotic"</li><li><b>Making up:</b> when his father Yash Johar got cancer, she called in tears to say she was sorry. After he died in 2004, she came over and they talked all night</li></ul><p>She went on to make <i>Kurbaan</i>, <i>We Are Family</i>, <i>Ek Main Aur Ekk Tu</i> and <i>Good Newwz</i> with Dharma. Today the fee demand reads differently: a leading actress asking for the male lead's pay.</p><p>Not real: a second feud over <i>Gori Tere Pyaar Mein</i> or <i>Shuddhi</i>, or <i>Takht</i> collapsing because of her. A cast member says COVID, scheduling and cost killed it.</p>`,w:"Kareena, Karan Johar, Preity Zinta, SRK, Yash Johar",k:"Pay me what he gets"},
 {t:["khan","nepo"],v:"true",h:"Saif Ali Khan: 2 marriages, 4 kids",b:`<ul><li>1991: eloped with Amrita Singh, 12 years older. Kids Sara (1995) and Ibrahim (2001). Divorced 2004</li><li>Dated Italian model Rosa Catalano in between</li><li>2012: married Kareena. Kids Taimur and Jeh</li></ul><p>In January 2025 he was stabbed during a break-in at his Bandra home and recovered.</p>`,w:"Saif, Amrita, Kareena",k:"4 kids, 2 moms"},
 {t:["triangle"],v:"true",h:"Ranbir Kapoor's exes",b:`<ul><li>Deepika (around 2008–09): she got an "RK" tattoo and later joked on Koffee with Karan that he should endorse a condom brand</li><li>Reports at the time said he grew close to Katrina on <i>Ajab Prem Ki Ghazab Kahani</i> (2009) while still with Deepika. None of them ever confirmed it</li><li>Katrina (around 2010–16): those leaked Ibiza vacation photos</li><li>Alia: married April 2022, daughter Raha born that November</li></ul>`,w:"Ranbir, Deepika, Katrina, Alia",k:"3 for 3, all A-list"},
 {t:["triangle"],v:"true",h:"Alia's husband's exes' husbands",b:`<p>Deepika married Ranveer (2018). Katrina married Vicky (2021). Alia did <i>Gully Boy</i> and <i>Rocky Aur Rani</i> with Ranveer, <i>Raazi</i> with Vicky, and <i>Love &amp; War</i> with Vicky and Ranbir together.</p><p>She and Katrina are also known to be friendly. See Alia's small world above.</p>`,w:"Alia, Ranveer, Vicky",k:"Everyone's fine, apparently"},
@@ -1182,15 +1184,15 @@ const G=[
 ["Shabana Azmi","Tabu","f","aunt and niece",null,"t"],
 ["Tabu","Farah Naaz","f","sisters",null,"t"],
 ["Ranveer Singh","Sonam Kapoor","f","second cousins; their mothers are cousins",null,"t"],
-["Kajol","Ayan Mukerji","f","cousins; their fathers were cousins",null,"t"],
+["Kajol","Ayan Mukerji","f","cousins in the extended Mukherjee clan",null,"t"],
 ["Rani Mukerji","Ayan Mukerji","f","cousins",null,"t"],
-["Mahesh Bhatt","Emraan Hashmi","f","uncle and nephew",null,"t"],
-["Alia Bhatt","Emraan Hashmi","f","cousins",null,"t"],
+["Mahesh Bhatt","Emraan Hashmi","f","his first cousin's son; their mothers were sisters",null,"t"],
+["Alia Bhatt","Emraan Hashmi","f","second cousins",null,"t"],
 ["Mahesh Bhatt","Mohit Suri","f","uncle and nephew",null,"t"],
 ["Aditi Rao Hydari","Kiran Rao","f","cousins, Wanaparthy royal family",null,"t"],
 ["Aditi Rao Hydari","Siddharth","m","",2024,"t"],
 ["Dilip Kumar","Ayub Khan","f","uncle and nephew",null,"t"],
-["Lata Mangeshkar","Shraddha Kapoor","f","grand-aunt and grand-niece",null,"t"],
+["Lata Mangeshkar","Shraddha Kapoor","f","extended family through the Kolhapures",null,"t"],
 ["Lata Mangeshkar","Asha Bhosle","f","sisters",null,"t"],
 ["Farah Khan","Shah Rukh Khan","c","Main Hoon Na, Om Shanti Om",2004,"t"],
 ["Zoya Akhtar","Suhana Khan","c","directed The Archies",2023,"t"],
@@ -1215,6 +1217,35 @@ const G=[
 ["Dev Anand","Shekhar Kapur","f","uncle and nephew",null,"t"],
 ["Shekhar Kapur","Anil Kapoor","c","directed Mr. India",1987,"t"],
 ["Jacqueline Fernandez","Salman Khan","c","Kick",2014,"t"],
+["Menaka Irani","Farah Khan","f","mother and daughter",null,"t"],
+["Menaka Irani","Honey Irani","f","sisters",null,"t"],
+["Daisy Irani","Honey Irani","f","sisters",null,"t"],
+["Honey Irani","Farhan Akhtar","f","mother and son",null,"t"],
+["Honey Irani","Javed Akhtar","d","married, later divorced",1972,"t"],
+["Shabana Azmi","Farhan Akhtar","f","stepmother and stepson",null,"t"],
+["Farhan Akhtar","Shibani Dandekar","m","",2022,"t"],
+["Suresh Oberoi","Vivek Oberoi","f","father and son",null,"t"],
+["Suresh Oberoi","Akshay Oberoi","f","uncle and nephew",null,"t"],
+["Vivek Oberoi","Akshay Oberoi","f","cousins; Akshay says the families never got along",null,"t"],
+["Yash Chopra","Hiroo Johar","f","siblings",null,"t"],
+["Hiroo Johar","Karan Johar","f","mother and son",null,"t"],
+["Yash Johar","Karan Johar","f","father and son",null,"t"],
+["Karan Johar","Aditya Chopra","f","first cousins",null,"t"],
+["Aditya Chopra","Uday Chopra","f","brothers",null,"t"],
+["Pamela Chopra","Aditya Chopra","f","mother and son",null,"t"],
+["Pamela Chopra","Simi Garewal","f","aunt and niece",null,"t"],
+["Simi Garewal","Aditya Chopra","f","first cousins",null,"t"],
+["Padmini Kolhapure","Shraddha Kapoor","f","aunt and niece",null,"t"],
+["Shakti Kapoor","Shraddha Kapoor","f","father and daughter",null,"t"],
+["Babita","Sadhana","f","first cousins; their fathers were brothers",null,"t"],
+["Sharman Joshi","Prerana Chopra","m","",2000,"t"],
+["Prem Chopra","Prerana Chopra","f","father and daughter",null,"t"],
+["Simi Garewal","Rekha","c","the 2004 interview where Rekha talked about Amitabh",2004,"t"],
+["Karan Johar","Kareena Kapoor","b","Poo in K3G; the 2002 Kal Ho Naa Ho fee fight, then months of silence",2001,"t"],
+["Kareena Kapoor","Preity Zinta","c","Preity got Kal Ho Naa Ho after Kareena's fee standoff",2003,"t"],
+["Kareena Kapoor","Priyanka Chopra","v","the Koffee \"accent\" jab",2004,"t"],
+["Kareena Kapoor","John Abraham","v","called him \"expressionless\" on Koffee",null,"t"],
+["Karan Johar","Kajol","b","best friends since KKHH; a 2016 rupture, later repaired",1998,"t"],
 ];
 
 const TY={m:["Married","wed"],d:["Married, later split","wed"],e:["Engaged","ex"],x:["Dated","ex"],r:["Linked","rum"],c:["Worked together","co"],f:["Family","kid"],b:["Friends","fr"],v:["Feud","fd"]};
@@ -1225,10 +1256,10 @@ document.getElementById('cxnames').innerHTML=NAMES.map(n=>`<option value="${n}">
 const VT={t:["RECEIPT","v-true"],a:["ALLEGED","v-alleged"],r:["RUMOR","v-rumor"],c:["CAP","v-cap"]};
 function resolveName(q){q=(q||'').trim().toLowerCase();if(!q)return null;
   return NAMES.find(n=>n.toLowerCase()===q)||NAMES.find(n=>n.toLowerCase().split(' ').some(w=>w===q))||NAMES.find(n=>n.toLowerCase().startsWith(q))||NAMES.find(n=>n.toLowerCase().includes(q))||null}
-function path(a,b){const dist={[a]:0},prev={},done=new Set();
+function path(a,b,fam){const dist={[a]:0},prev={},done=new Set();
   while(true){let u=null,best=Infinity;for(const k in dist)if(!done.has(k)&&dist[k]<best){best=dist[k];u=k}
     if(u===null)return null;if(u===b)break;done.add(u);
-    for(const [v,i] of ADJ[u]){const nd=dist[u]+WT[G[i][2]];if(dist[v]===undefined||nd<dist[v]){dist[v]=nd;prev[v]=[u,i]}}}
+    for(const [v,i] of ADJ[u]){if(fam&&!"fmd".includes(G[i][2]))continue;const nd=dist[u]+WT[G[i][2]];if(dist[v]===undefined||nd<dist[v]){dist[v]=nd;prev[v]=[u,i]}}}
   const out=[];let c=b;while(c!==a){const [p,i]=prev[c];out.unshift([p,i,c]);c=p}return out}
 const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const tag=v=>`<span class="vtag ${VT[v][1]}">${VT[v][0]}</span>`;
@@ -1240,11 +1271,11 @@ function connect(){const a=resolveName(ia.value),b=resolveName(ib.value);
   if(!a||!b){out.innerHTML=`<p class="cx-err">${!a?`No one called "${esc(ia.value||'')}" yet.`:`No one called "${esc(ib.value||'')}" yet.`} Try a name from the dropdown.</p>`;return}
   ia.value=a;ib.value=b;
   if(a===b){out.innerHTML=`<p class="cx-err">Pick two different people.</p><div class="tls">${timeline(a,'b')}</div>`;return}
-  const pth=path(a,b);
+  const fam=document.getElementById('cxfam').checked;const pth=path(a,b,fam);
   let h='';
-  if(!pth)h=`<p class="cx-sum">No chain found between ${esc(a)} and ${esc(b)} on this board yet.</p>`;
+  if(!pth)h=`<p class="cx-sum">No ${fam?'family-only ':''}chain found between ${esc(a)} and ${esc(b)} on this board yet.${fam?' Try turning off family-only.':''}</p>`;
   else{const deg=pth.length;
-    h=`<p class="cx-sum">${esc(a)} and ${esc(b)} are ${deg===1?'directly connected':deg+' steps apart'}.</p><ol class="chain">`;
+    h=`<p class="cx-sum">${esc(a)} and ${esc(b)} are ${deg===1?'directly connected':deg+' steps apart'}${fam?' by family alone':''}.</p><ol class="chain">`;
     h+=`<li><span class="who end">${esc(a)}</span></li>`;
     pth.forEach(([p,i,c],k)=>{const e=G[i];h+=`<li class="link ${TY[e[2]][1]}"><span class="lt">${TY[e[2]][0]}${e[4]?' · '+e[4]:''}</span>${tag(e[5])}${e[3]?`<br>${esc(e[3])}`:''}</li><li><span class="who${k===pth.length-1?' end':''}">${esc(c)}</span></li>`});
     h+='</ol>'}
@@ -1254,6 +1285,7 @@ function connect(){const a=resolveName(ia.value),b=resolveName(ib.value);
   out.innerHTML=h;
   out.querySelectorAll('.nm').forEach(x=>x.onclick=()=>{(x.dataset.slot==='a'?ia:ib).value=x.dataset.n;connect();document.getElementById('connecth').scrollIntoView({behavior:'smooth'})})}
 document.getElementById('cxf').addEventListener('submit',e=>{e.preventDefault();connect()});
+document.getElementById('cxfam').onchange=connect;
 document.getElementById('cxswap').onclick=()=>{[ia.value,ib.value]=[ib.value,ia.value];connect()};
 document.getElementById('cxrand').onclick=()=>{const r=()=>NAMES[Math.floor(Math.random()*NAMES.length)];let a=r(),b=r();while(b===a)b=r();ia.value=a;ib.value=b;connect()};
 document.getElementById('cxcards').onclick=()=>{const a=resolveName(ia.value);if(!a)return;f='all';q.value=a.split(' ')[0];render();document.getElementById('wallh').scrollIntoView({behavior:'smooth'})};
