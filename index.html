@@ -435,14 +435,17 @@ footer .fine{font-size:9px;line-height:1.4;color:var(--muted);opacity:.75;max-wi
 <section class="wall" aria-labelledby="wallh">
   <div class="sechead"><h2 id="wallh">The Receipts</h2></div><p class="wsub2">Rishte mein toh hum tumhare gossip lagte hain. Tap a receipt for the full scoop.</p>
   <div class="controls" role="toolbar" aria-label="Filter receipts">
-  <button class="chip" data-f="all" aria-pressed="true">All</button>
+  <button class="chip" data-f="all" aria-pressed="true">Sab Filmy</button>
   <button class="chip" data-f="khan">Khan-daan</button>
-  <button class="chip" data-f="triangle">Love trikon</button>
-  <button class="chip" data-f="engaged">Rishta cancel</button>
-  <button class="chip" data-f="feud">Dushmani</button>
-  <button class="chip" data-f="nepo">Star kids</button>
-  <button class="chip" data-f="legend">Golden era</button>
-  <input id="q" type="search" placeholder="Search a name… (try “Ranbir”)" aria-label="Search receipts">
+  <button class="chip" data-f="triangle">Pati, Patni Aur Woh</button>
+  <button class="chip" data-f="engaged">Shaadi Cancel</button>
+  <button class="chip" data-f="feud">Kalesh</button>
+  <button class="chip" data-f="nepo">Filmi Khandaan</button>
+  <button class="chip" data-f="dost">Dost Dost Na Raha</button>
+  <button class="chip" data-f="chupke">Chupke Chupke</button>
+  <button class="chip" data-f="court">Tareekh Pe Tareekh</button>
+  <button class="chip" data-f="legend">Purani Picture</button>
+  <input id="q" type="search" placeholder="Naam toh suna hoga… search a star" aria-label="Search receipts">
   <span class="count" id="count"></span>
 </div>
   <div class="mag" id="grid"></div>
@@ -1055,7 +1058,7 @@ function faceTiles(names,max){const out=[],seen=new Set();for(const raw of names
   let pick=out.filter(n=>PH[n]).slice(0,max);if(!pick.length)pick=relatedPhotos(names).slice(0,max);if(!pick.length)pick=[Object.keys(PH)[0]];
   return pick.map(n=>PH[n]?`<img loading="lazy" src="${PH[n]}" alt="${n}" title="${n}, photo via Wikimedia Commons" onerror="imgFail(this)">`:`<span class="ini" aria-label="${n}">${inits(n)}</span>`).join('')}
 const partsOf=r=>r.w.split(/,|&| and /).map(x=>x.trim()).filter(Boolean);
-const KIND={khan:'Khan-daan',triangle:'Love triangle',feud:'Feud',nepo:'Nepo kids',legend:'Legends',engaged:'Broken engagement'};
+const KIND={khan:'Khan-daan',triangle:'Pati, Patni Aur Woh',feud:'Kalesh',nepo:'Filmi Khandaan',legend:'Purani Picture',engaged:'Shaadi Cancel'};
 const kindOf=r=>KIND[r.t[0]]||'Receipt';
 const stampHtml=r=>`<span class="stmp ${V[r.v][1]}">${V[r.v][0]}</span>`;
 const ALLR=R.map((r,i)=>({...r,n:i+1}));
@@ -1067,12 +1070,15 @@ document.getElementById('rx').addEventListener('click',e=>{if(e.target.id==='rx'
 function pairFor(r){const k=Object.keys(PAIR).sort((a,b)=>b.length-a.length).find(k=>r.h.startsWith(k));return k?PAIR[k]:null}
 function pics(r,max){const p=pairFor(r);if(p){const fb=partsOf(r).map(who).filter(n=>PH[n]).map(n=>PH[n]).join('|');return `<img loading="lazy" src="${p.img}" alt="${r.w.replace(/"/g,'')}" title="Photo via Wikimedia Commons" data-fb="${fb}" onerror="imgFail(this)">`}return faceTiles(partsOf(r),max)}
 function cardHtml(r,big){return `<article class="rc${big?' big':''}" tabindex="0" role="button" data-n="${r.n}" aria-label="Open receipt: ${r.h.replace(/"/g,'&quot;')}"><div class="ph">${pics(r,big?3:2)}${stampHtml(r)}</div><div class="rb"><div class="kick"><span>Spotted: ${kindOf(r)}</span><span class="no">No. ${String(r.n).padStart(3,'0')}</span></div><h3>${r.h}</h3><div class="tot"><span>TOTAL</span><b>${r.k}</b></div></div></article>`}
+const DOST=["Priyanka & Gauri","Katrina's 2008 birthday","SRK vs Salman","Orry vs Sara","Kareena vs Karan","Mahesh Bhatt's files","Amitabh, Jaya and Rekha","Alia's whole file","Kartik vs Karan","Rani's file","Kangana vs Alia","Ajay vs SRK","Vivek Oberoi vs Salman","Salman and Aishwarya"];
+function matchF(r,f){if(f==='all')return true;if(f==='dost')return DOST.some(h=>r.h.startsWith(h));if(f==='chupke')return r.v==='rumor'||r.v==='alleged';
+  if(f==='court')return /court|lawsuit|\bsued\b|charge sheet|defamation|arrest|legal notice|\bFIR\b|Enforcement Directorate|quashed/i.test(r.b);return r.t.includes(f)}
 function render(){
   const s=q.value.trim().toLowerCase();
-  const rows=ALLR.filter(r=>(f==='all'||r.t.includes(f))&&(!s||(r.h+r.b+r.w).toLowerCase().includes(s)));
+  const rows=ALLR.filter(r=>matchF(r,f)&&(!s||(r.h+r.b+r.w).toLowerCase().includes(s)));
   grid.innerHTML=rows.map((r,i)=>cardHtml(r,i%9===0)).join('');
   empty.hidden=rows.length>0;
-  cnt.textContent=rows.length+' of '+R.length+' receipts';
+  cnt.textContent=rows.length+(rows.length===1?' receipt':' receipts')+(f==='all'&&!q.value?'':', of '+R.length);
   document.querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed',c.dataset.f===f));
 }
 document.addEventListener('click',e=>{const c=e.target.closest('[data-n]');if(c&&!e.target.closest('#rx'))openRx(+c.dataset.n)});
