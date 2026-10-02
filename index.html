@@ -152,6 +152,35 @@ h2[id]{scroll-margin-top:90px}
 .tl p{margin:0;font-size:15px;max-width:68ch}
 .arc{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:12px}
 @media (max-width:520px){.tl li{grid-template-columns:1fr;gap:2px}}
+
+.connect{margin-top:28px;background:var(--paper);border:1px solid var(--rule);border-radius:8px;padding:18px clamp(14px,3vw,24px)}
+.connect h2{font-family:var(--display);font-weight:400;font-size:clamp(28px,4.5vw,40px);line-height:1.05;margin:0 0 6px}
+.cx-row{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:10px;align-items:end;margin-top:12px}
+.cx-row label{display:grid;gap:4px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);min-width:0}
+.cx-row input{font:inherit;font-size:16px;padding:9px 12px;border-radius:999px;border:1px solid var(--rule);background:var(--bg);color:var(--ink);min-width:0}
+.cx-row input:focus-visible,.cx-btn:focus-visible{outline:2px solid var(--marigold);outline-offset:2px}
+.cx-btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.cx-btn{font-family:var(--mono);font-size:12px;padding:7px 14px;border-radius:999px;border:1px solid var(--rani);background:var(--rani);color:var(--paper);cursor:pointer}
+.cx-btn.ghost{background:none;color:var(--rani)}
+@media (max-width:560px){.cx-row{grid-template-columns:1fr}.cx-row .swap{justify-self:start}}
+.cx-out{margin-top:16px;display:grid;gap:16px}
+.cx-sum{font-family:var(--display);font-size:20px;line-height:1.2;margin:0}
+.chain{list-style:none;margin:0;padding:0;display:grid;gap:0}
+.chain .who{display:inline-block;font-weight:700;padding:4px 12px;border-radius:999px;border:1.5px solid var(--ink);background:var(--bg)}
+.chain .who.end{background:var(--rani);border-color:var(--rani);color:var(--paper)}
+.chain .link{margin:0 0 0 18px;padding:6px 0 6px 16px;border-left:2px solid var(--rule);font-size:14.5px}
+.chain .link.wed{border-left-color:var(--rani)}.chain .link.co,.chain .link.fr{border-left-color:var(--marigold)}.chain .link.fd{border-left:2px dotted var(--cap)}.chain .link.rum{border-left:2px dashed var(--marigold)}.chain .link.ex{border-left:2px dashed var(--muted)}
+.chain .lt{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.vtag{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.06em;margin-left:6px}
+.tls{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.tlcol h3{font-family:var(--display);font-weight:400;font-size:21px;margin:0 0 6px}
+.tlcol ol{list-style:none;margin:0;padding:0}
+.tlcol li{display:grid;grid-template-columns:52px minmax(0,1fr);gap:8px;padding:6px 0;border-top:1px dashed var(--rule);font-size:14.5px}
+.tlcol .y{font-family:var(--mono);font-size:12px;color:var(--rani);font-variant-numeric:tabular-nums;padding-top:2px}
+.tlcol .d{color:var(--muted);font-size:13.5px}
+.nm{font:inherit;font-weight:700;color:var(--ink);background:none;border:0;padding:0;cursor:pointer;text-decoration:underline;text-decoration-color:var(--rule);text-underline-offset:3px}
+.nm:hover{color:var(--rani)}
+.cx-err{color:var(--cap);font-family:var(--mono);font-size:13px}
 footer{margin-top:40px;font-size:13px;color:var(--muted);max-width:70ch;border-top:1px solid var(--rule);padding-top:16px}
 @media (prefers-reduced-motion:no-preference){.slip{transition:transform .15s}.slip:hover{transform:rotate(-.6deg) translateY(-2px)}}
 </style>
@@ -173,7 +202,7 @@ footer{margin-top:40px;font-size:13px;color:var(--muted);max-width:70ch;border-t
 
 
 <nav class="dyn" aria-label="The four dynasties">
-  <span class="kicker">The four dynasties</span>
+  <a href="#connecth" style="border-bottom-color:var(--rani)">Connect two people</a><span class="kicker">The four dynasties</span>
   <a href="#kth">Kapoor</a><a href="#web5h">Bachchan</a><a href="#khanh">Salim Khan</a><a href="#choprah">Chopra</a><a href="#famh">+10 more</a>
 </nav>
 
@@ -188,6 +217,23 @@ footer{margin-top:40px;font-size:13px;color:var(--muted);max-width:70ch;border-t
   <input id="q" type="search" placeholder="Search a name… (try “Ranbir”)" aria-label="Search receipts">
   <span class="count" id="count"></span>
 </div>
+
+
+<section class="connect" aria-labelledby="connecth">
+  <div class="kicker">The detective tool</div>
+  <h2 id="connecth">Connect any two people</h2>
+  <p style="margin:0;max-width:62ch;color:var(--muted)">Pick two names. You get the shortest chain between them, every link dated and stamped, plus each person's history side by side.</p>
+  <form id="cxf" autocomplete="off">
+    <div class="cx-row">
+      <label for="cxa">Person one<input id="cxa" list="cxnames" placeholder="e.g. Aishwarya Rai"></label>
+      <button type="button" class="cx-btn ghost swap" id="cxswap" aria-label="Swap the two names">⇄</button>
+      <label for="cxb">Person two<input id="cxb" list="cxnames" placeholder="e.g. Katrina Kaif"></label>
+    </div>
+    <div class="cx-btns"><button class="cx-btn" type="submit">Connect them</button><button class="cx-btn ghost" type="button" id="cxrand">Surprise me</button><button class="cx-btn ghost" type="button" id="cxcards">Show their receipt cards</button></div>
+    <datalist id="cxnames"></datalist>
+  </form>
+  <div class="cx-out" id="cxout" aria-live="polite"></div>
+</section>
 
 <section class="web" aria-labelledby="webh">
   <div>
@@ -698,6 +744,7 @@ const R=[
 {t:["legend"],v:"true",h:"The Complan boy and the Complan girl",b:`<p>Before the movies, a teenage Shahid Kapoor and Ayesha Takia starred together in the famous Complan ads: "I'm a Complan boy!" "I'm a Complan girl!"</p><ul><li>Shahid also danced in the background of <i>Taal</i> and <i>Dil To Pagal Hai</i> before his 2003 debut, <i>Ishq Vishk</i></li><li>Ayesha debuted in <i>Taarzan: The Wonder Car</i> (2004) and became a star with <i>Wanted</i> (2009) opposite Salman</li><li>Both ended up marrying outside the industry: Ayesha married Farhan Azmi in 2009, Shahid married Mira Rajput in 2015</li></ul>`,w:"Shahid, Ayesha Takia",k:"Milk-drink kids to movie stars"},
 {t:["feud"],v:"true",h:"Mira Rajput: \"She's not a puppy\"",b:`<p>Shahid Kapoor's wife chose to be a stay-at-home mom. Explaining why at a 2017 Women's Day event, she said she didn't want to spend just an hour a day with daughter Misha and go back to work, because "she's not a puppy."</p><p>Working mothers were furious, since it sounded like she was saying they treat their kids like pets. In the same talk she also took a swipe at what she called "feminazi" thinking. She later said she was only describing her own choice, not judging anyone else's.</p>`,w:"Mira Rajput, Shahid Kapoor",k:"Worst Women's Day soundbite"},
 {t:["legend","triangle"],v:"true",h:"Bollywood's most awkward pairings",b:`<ul><li><b>Rani and Amitabh, <i>Black</i> (2005):</b> she plays his former student who asks him to show her what a kiss is, and he does, while she was rumored to be dating his son. She was never engaged to Abhishek, and claims that the kiss ended anything have no solid source</li><li><b>Katrina in <i>Boom</i> (2003):</b> the infamous intimate scene is with Gulshan Grover, about 28 years older, not Amitabh, who was also in the film. Gulshan has said Amitabh being on set made it harder. Claims she was 17 don't match her published birth year</li><li><b>Kareena and Arjun, <i>Ki &amp; Ka</i> (2016):</b> both Kapoors, not cousins. Hers is Raj Kapoor's family; his is the Surinder Kapoor family, only distantly related</li><li><b>Amitabh and Jiah Khan, <i>Nishabd</i> (2007):</b> about a 45-year gap, on purpose. He plays a married man drawn to his daughter's 18-year-old friend</li><li><b>The pattern:</b> male stars age from 35 to 60 on screen while their heroines stay 25</li></ul>`,w:"Rani, Amitabh, Katrina, Gulshan Grover, Kareena, Arjun, Jiah Khan",k:"Heroes age, heroines don't"},
+{t:["legend","nepo"],v:"true",h:"Wait, they're related?",b:`<ul><li><b>Farhan and Zoya Akhtar</b> are first cousins of <b>Farah and Sajid Khan</b>; their mothers are sisters</li><li><b>Ranveer Singh and Sonam Kapoor</b> are second cousins</li><li><b>Kajol, Rani Mukerji and Ayan Mukerji</b> are cousins</li><li><b>Emraan Hashmi</b> is Mahesh Bhatt's nephew, so Alia's cousin, like director Mohit Suri</li><li><b>Shabana Azmi</b> is the aunt of <b>Tabu</b> and Farah Naaz</li><li><b>Aditi Rao Hydari and Kiran Rao</b> are cousins from the Wanaparthy royal family</li><li><b>Dilip Kumar</b> was actor Ayub Khan's uncle</li><li><b>Shraddha Kapoor</b> is the grand-niece of Lata Mangeshkar and Asha Bhosle</li><li>And <b>Salim Khan</b> wrote <i>Sholay</i> and <i>Deewaar</i> with <b>Javed Akhtar</b>, Farhan and Zoya's father</li></ul><p>Try any of these pairs in the Connect tool.</p>`,w:"Akhtars, Khans, Mukherjees, Bhatts, Mangeshkars",k:"Small industry, smaller family"},
 {t:["triangle"],v:"cap",h:"Did Shahid cheat on Kareena?",b:`<p>No receipts. They dated from about 2004 to 2007 and broke up around <i>Jab We Met</i>. Kareena went public with Saif during <i>Tashan</i> that same year.</p><p>The famous 2004 kissing photo (they said it was morphed) is real tabloid history. A cheating story isn't. In 2025 they hugged at IIFA and the internet lost it.</p>`,w:"Shahid, Kareena, Saif",k:"Cheating: unproven"},
 {t:["triangle"],v:"true",h:"Kareena Kapoor's dating history",b:`<ul><li>Early 2000s: link-up gossip with Hrithik (rumor only)</li><li>2004–2007: Shahid Kapoor, very public</li><li>2007: Saif Ali Khan on the <i>Tashan</i> set</li><li>2012: married Saif; sons Taimur (2016) and Jeh (2021)</li></ul><p>Shahid married Mira Rajput in 2015.</p>`,w:"Kareena, Shahid, Saif",k:"Bebo's era guide"},
 {t:["khan","nepo"],v:"true",h:"Saif Ali Khan: 2 marriages, 4 kids",b:`<ul><li>1991: eloped with Amrita Singh, 12 years older. Kids Sara (1995) and Ibrahim (2001). Divorced 2004</li><li>Dated Italian model Rosa Catalano in between</li><li>2012: married Kareena. Kids Taimur and Jeh</li></ul><p>In January 2025 he was stabbed during a break-in at his Bandra home and recovered.</p>`,w:"Saif, Amrita, Kareena",k:"4 kids, 2 moms"},
@@ -723,9 +770,10 @@ const R=[
 {t:["triangle"],v:"alleged",h:"Ajay and Kangana?",b:`<p>The most serious affair claim of Ajay's married years.</p><ul><li><b>True:</b> they made <i>Once Upon a Time in Mumbaai</i> (July 2010), then <i>Rascals</i> and <i>Tezz</i></li><li><b>Reported:</b> a film magazine claimed they got involved, that she was more invested than he was, and that Kajol threatened to leave with the kids unless he ended it. NDTV noted neither Ajay nor Kangana commented</li><li><b>True, and why it stings:</b> Yug was born in September 2010, two months after the film came out</li></ul><p>The timeline overlap is real. The affair has never been confirmed by anyone involved.</p>`,w:"Ajay, Kangana, Kajol",k:"Reported, never confirmed"},
 {t:["legend","khan","triangle"],v:"cap",h:"Kajol and SRK, more than friends?",b:`<p>Their films: <i>Baazigar</i>, <i>DDLJ</i>, <i>Kuch Kuch Hota Hai</i>, <i>K3G</i>, <i>My Name Is Khan</i>, <i>Dilwale</i>. Fans have shipped them for 30 years.</p><p>No credible evidence of an affair exists. Kajol calls him a friend for life and has dismissed stories that Ajay objected to her working with him, saying the two men aren't drinking buddies but respect each other.</p><p>Asked whether she'd have married SRK if she hadn't met Ajay, she said: "Isn't the man supposed to be proposing?"</p>`,w:"Kajol, SRK, Ajay",k:"Chemistry ≠ affair"},
 {t:["feud"],v:"true",h:"Ajay vs SRK, the screen war",b:`<p>In 2012 Ajay's company went to the Competition Commission accusing Yash Raj of hoarding screens for SRK's <i>Jab Tak Hai Jaan</i> against his <i>Son of Sardaar</i>. Kajol stayed out of it publicly.</p>`,w:"Ajay, SRK, Yash Raj",k:"Diwali 2012 clash"},
-{t:["khan","feud"],v:"true",h:"SRK vs Salman: the five-year freeze",b:`<p>Friends since the 90s and co-stars in <i>Karan Arjun</i> (1995). Then, at Katrina Kaif's birthday party in 2008, they had a loud public fight; most accounts say it started with a jibe about Salman's breakup with Aishwarya.</p><ul><li>They didn't speak for five years</li><li>2013: they hugged at a political iftar party, and the photos went everywhere</li><li>Since then, cameos in each other's films: Salman in <i>Pathaan</i>, SRK in <i>Tiger 3</i></li></ul>`,w:"SRK, Salman, Katrina, Aishwarya",k:"Frozen 2008–2013"},
+{t:["khan","feud"],v:"true",h:"Katrina's 2008 birthday party from hell",b:`<p><b>July 16, 2008, Olive Bar &amp; Kitchen, Mumbai.</b> Katrina's birthday, thrown big by boyfriend Salman with the whole Khan family there. Also there: SRK and Gauri, Aamir, Ranbir with then-girlfriend Deepika, Kareena and Saif, Karisma, Karan Johar, Sonam, and Arjun Kapoor keeping his distance from his ex, Salman's sister Arpita.</p><ul><li><b>The fight:</b> around 1:30 a.m., Salman and SRK had a loud public falling-out. That part is certain</li><li><b>Why? Four versions, none confirmed:</b> an SRK joke about Aishwarya; teasing over their rival TV quiz shows' ratings; SRK refusing to return a cameo favor; or years of buildup going back to the <i>Chalte Chalte</i> mess</li><li><b>Punches?</b> Years later both played it down. SRK said nothing big happened</li><li><b>Aamir</b> reportedly calmed Salman down and took him to SRK's house to shake hands. It didn't stick</li><li>Salman: "Shah Rukh and I will never patch up." Katrina refused to talk about her own ruined birthday</li><li><b>2013:</b> they hugged at Baba Siddique's iftar. Then came cameos in each other's films, and eventually <i>Pathaan</i> and <i>Tiger 3</i></li></ul><p>In that one room: Katrina's future boyfriend Ranbir, there with Deepika.</p>`,w:"Katrina, Salman, SRK, Aamir, Ranbir, Deepika, Arjun, Arpita",k:"Frozen 2008–2013"},
 {t:["legend"],v:"true",h:"Tabu blames Ajay for being single",b:`<p>Childhood friends since her cousin lived next door to him. Tabu has joked in interviews that Ajay and her cousin would spy on her and scare off any boy who came near.</p><p>Films together: <i>Vijaypath</i>, <i>Drishyam 1 &amp; 2</i>, <i>Golmaal Again</i>, <i>De De Pyaar De</i>, <i>Bholaa</i>, <i>Auron Mein Kahan Dum Tha</i> and more.</p>`,w:"Tabu, Ajay, Kajol",k:"10+ films together"},
 {t:["feud"],v:"true",h:"Kangana vs everyone",b:`<ul><li>2016: very public legal fight with Hrithik over their alleged relationship and emails</li><li>2017: called Karan Johar "the flag bearer of nepotism" on his own show</li><li>Called Alia, Taapsee and others out on social media</li><li>2024: elected BJP MP from Mandi; slapped by a CISF constable at Chandigarh airport days later</li></ul>`,w:"Kangana, Hrithik, Karan Johar",k:"Drama queen, MP"},
+{t:["feud","nepo"],v:"true",h:"Kangana vs Karan: the nepotism war",b:`<ul><li><b>February 2017, Koffee with Karan:</b> on his own couch, Kangana said that in her biopic he'd play the Bollywood biggie, "the flag bearer of nepotism," intolerant of outsiders</li><li><b>March 2017, at the London School of Economics:</b> Karan said she didn't understand nepotism since he doesn't hire his relatives, and that he was "done with" her playing "the woman card and the victim card." She said she plays "the badass card"</li><li><b>July 2017, IIFA:</b> Karan, Saif and Varun did a skit: "you're here because of your papa," "because of your mummy," then "Nepotism rocks!" and a dig that "Kangana bahut bolti hai." All three apologized; Karan said they went too far and that of course he doesn't believe nepotism rocks</li><li><b>2020:</b> after Sushant Singh Rajput died, Kangana blamed a "movie mafia." Her claims about why he died were never established, and his career included YRF, Dharma and hits like <i>PK</i> and <i>Chhichhore</i></li></ul><p>The real argument: Karan meant hiring relatives; Kangana meant who gets access. They talked past each other, and "nepotism" became the word every star kid gets asked about.</p>`,w:"Kangana, Karan Johar, Saif, Varun, Sushant",k:"\"Nepotism rocks\""},
 {t:["triangle","nepo"],v:"true",h:"Hrithik & Sussanne: the friendliest divorce",b:`<p>Director Rakesh Roshan's son married his childhood sweetheart Sussanne Khan, actor Sanjay Khan's daughter, in December 2000, the year <i>Kaho Naa... Pyaar Hai</i> made him a superstar overnight. Sons Hrehaan (2006) and Hridaan (2008).</p><ul><li><b>December 2013:</b> they announced their separation. Divorce final in November 2014</li><li>Tabloids blamed Arjun Rampal, whose wife was Sussanne's close friend. He denied it, and nothing ever backed it up</li><li>Reports of a ₹380–400 crore alimony were denied by the family</li><li>Months later came his very public legal war with Kangana</li><li><b>2020:</b> Sussanne moved back in temporarily during lockdown so the boys could be with both parents</li></ul><p>Now Hrithik dates singer-actor Saba Azad and Sussanne dates actor Arslan Goni, and the four of them go on vacations together.</p>`,w:"Hrithik, Sussanne, Saba Azad, Arslan Goni",k:"Exes who double date"},
 {t:["khan","legend","triangle"],v:"true",h:"Salim, Salma and Helen",b:`<p>Salim Khan married Sushila Charak, who became Salma Khan, in 1964. They had Salman, Arbaaz, Sohail and Alvira.</p><ul><li><b>1981:</b> still married to Salma, he married the dancer Helen as his second wife. He has called falling for her an "emotional accident"</li><li>Helen has said Salma "must have gone through a lot," and that she never wanted Salim to leave his family</li><li>Salman has said his mother was hurt, and that Helen was slowly brought into the family</li></ul><p>Today both women are part of the same household picture, and Helen is a beloved family figure. It's one of the rare Bollywood affair stories where everyone involved has actually talked about the pain and the repair.</p>`,w:"Salim Khan, Salma Khan, Helen, Salman",k:"Two wives, one family"},
 {t:["khan","legend"],v:"true",h:"Salman wanted to marry Juhi Chawla",b:`<p>Salman said in an old interview that he asked Juhi's father for her hand and got turned down. Juhi married industrialist Jay Mehta.</p><p>Plot twist: Juhi is SRK's business partner. They co-own the Kolkata Knight Riders.</p>`,w:"Salman, Juhi, SRK",k:"Rejected by Dad"},
@@ -864,6 +912,352 @@ function drawPipes(){
 }
 document.getElementById('hubclear').onclick=()=>{hubSel=null;drawPipes()};
 drawPipes();
+
+// [a, b, type, detail, year, verdict]  type: m married, d married→divorced, e engaged, x dated, r rumored, c co-stars, f family, b friends, v feud
+const G=[
+["Raj Kapoor","Krishna Malhotra","m","",1946,"t"],
+["Raj Kapoor","Nargis","r","the Awaara and Shree 420 era romance",1949,"a"],
+["Raj Kapoor","Randhir Kapoor","f","father and son",null,"t"],
+["Raj Kapoor","Rishi Kapoor","f","father and son",null,"t"],
+["Raj Kapoor","Rajiv Kapoor","f","father and son",null,"t"],
+["Raj Kapoor","Ritu Nanda","f","father and daughter",null,"t"],
+["Raj Kapoor","Reema Jain","f","father and daughter",null,"t"],
+["Randhir Kapoor","Babita","m","married 1971, separated 1988, never divorced",1971,"t"],
+["Randhir Kapoor","Karisma Kapoor","f","father and daughter",null,"t"],
+["Randhir Kapoor","Kareena Kapoor","f","father and daughter",null,"t"],
+["Babita","Karisma Kapoor","f","mother and daughter",null,"t"],
+["Babita","Kareena Kapoor","f","mother and daughter",null,"t"],
+["Karisma Kapoor","Kareena Kapoor","f","sisters",null,"t"],
+["Rishi Kapoor","Neetu Singh","m","",1980,"t"],
+["Rishi Kapoor","Ranbir Kapoor","f","father and son",null,"t"],
+["Neetu Singh","Ranbir Kapoor","f","mother and son",null,"t"],
+["Rishi Kapoor","Dimple Kapadia","c","Bobby; later Saagar's famous kiss",1973,"t"],
+["Ranbir Kapoor","Alia Bhatt","m","together from Brahmastra; married April 2022; daughter Raha",2022,"t"],
+["Ranbir Kapoor","Deepika Padukone","x","the RK tattoo; she later said he cheated",2008,"t"],
+["Ranbir Kapoor","Katrina Kaif","x","about 2010–16",2010,"t"],
+["Ranbir Kapoor","Sonam Kapoor","c","debuted together in Saawariya",2007,"t"],
+["Ranbir Kapoor","Ayan Mukerji","b","best friends; Brahmastra",null,"t"],
+["Ranbir Kapoor","Kareena Kapoor","f","first cousins",null,"t"],
+["Ritu Nanda","Nikhil Nanda","f","mother and son",null,"t"],
+["Nikhil Nanda","Shweta Bachchan","m","",1997,"t"],
+["Reema Jain","Aadar Jain","f","mother and son",null,"t"],
+["Aadar Jain","Tara Sutaria","x","about 2020–23",2020,"t"],
+["Aadar Jain","Alekha Advani","m","the \"time pass\" wedding speech",2025,"t"],
+["Karisma Kapoor","Abhishek Bachchan","e","announced at Amitabh's 60th; called off 2003",2002,"t"],
+["Karisma Kapoor","Sunjay Kapur","d","married 2003, divorced 2016; he died in 2025",2003,"t"],
+["Karisma Kapoor","Ajay Devgn","x","grew close on Jigar",1992,"a"],
+["Karisma Kapoor","Raveena Tandon","v","90s rivalry",1994,"a"],
+["Karisma Kapoor","Aamir Khan","c","the Raja Hindustani kiss",1996,"t"],
+["Kareena Kapoor","Shahid Kapoor","x","about 2004–07",2004,"t"],
+["Kareena Kapoor","Saif Ali Khan","m","met on Tashan in 2007; married 2012",2012,"t"],
+["Kareena Kapoor","Bipasha Basu","v","Ajnabee set, the \"kaali billi\" story",2001,"a"],
+["Kareena Kapoor","Arjun Kapoor","c","Ki & Ka; not actually cousins",2016,"t"],
+["Kareena Kapoor","Amrita Arora","b","best friends",null,"t"],
+["Harivansh Rai Bachchan","Amitabh Bachchan","f","father and son",null,"t"],
+["Amitabh Bachchan","Jaya Bachchan","m","",1973,"t"],
+["Amitabh Bachchan","Rekha","r","Do Anjaane to Silsila",1976,"a"],
+["Jaya Bachchan","Rekha","v","friends in the early 70s, then frost",1980,"a"],
+["Amitabh Bachchan","Abhishek Bachchan","f","father and son",null,"t"],
+["Amitabh Bachchan","Shweta Bachchan","f","father and daughter",null,"t"],
+["Jaya Bachchan","Abhishek Bachchan","f","mother and son",null,"t"],
+["Shweta Bachchan","Navya Naveli Nanda","f","mother and daughter",null,"t"],
+["Shweta Bachchan","Agastya Nanda","f","mother and son",null,"t"],
+["Navya Naveli Nanda","Agastya Nanda","f","siblings",null,"t"],
+["Abhishek Bachchan","Aishwarya Rai","m","daughter Aaradhya born 2011",2007,"t"],
+["Abhishek Bachchan","Rani Mukerji","r","Yuva and Bunty Aur Babli",2004,"a"],
+["Abhishek Bachchan","Nimrat Kaur","r","Dasvi; unverified, both pushed back",2022,"c"],
+["Amitabh Bachchan","Rani Mukerji","c","the Black kiss",2005,"t"],
+["Amitabh Bachchan","Jiah Khan","c","Nishabd, a 45-year gap",2007,"t"],
+["Amitabh Bachchan","Shah Rukh Khan","c","Mohabbatein",2000,"t"],
+["Agastya Nanda","Suhana Khan","r","The Archies",2023,"a"],
+["Navya Naveli Nanda","Meezaan Jafri","r","he denied it",2019,"c"],
+["Navya Naveli Nanda","Siddhant Chaturvedi","r","widely reported",2023,"a"],
+["Aishwarya Rai","Salman Khan","x","1999–2002; she later alleged abuse, he denied it",1999,"t"],
+["Aishwarya Rai","Vivek Oberoi","x","",2003,"a"],
+["Aishwarya Rai","Sushmita Sen","v","Miss India 1994 rivalry",1994,"r"],
+["Aishwarya Rai","Rani Mukerji","v","Rani replaced her in Chalte Chalte",2002,"a"],
+["Aishwarya Rai","Shah Rukh Khan","c","dropped from Chalte Chalte; later Ae Dil Hai Mushkil",2002,"t"],
+["Aishwarya Rai","Shweta Bachchan","v","rift rumors",null,"r"],
+["Aishwarya Rai","Sonam Kapoor","v","the \"aunty\" comment",2009,"t"],
+["Shah Rukh Khan","Gauri Khan","m","met 1984",1991,"t"],
+["Shah Rukh Khan","Aryan Khan","f","father and son",null,"t"],
+["Shah Rukh Khan","Suhana Khan","f","father and daughter",null,"t"],
+["Gauri Khan","Suhana Khan","f","mother and daughter",null,"t"],
+["Shah Rukh Khan","Priyanka Chopra","r","Don, Don 2 and the jacket",2011,"a"],
+["Gauri Khan","Priyanka Chopra","v","rumored cold war",2012,"r"],
+["Shah Rukh Khan","Kajol","c","DDLJ, KKHH; friends for life",1995,"t"],
+["Shah Rukh Khan","Rani Mukerji","c","KKHH, Chalte Chalte",1998,"t"],
+["Shah Rukh Khan","Juhi Chawla","b","KKR co-owners",null,"t"],
+["Shah Rukh Khan","Salman Khan","v","Katrina's 2008 party fight; hugged in 2013",2008,"t"],
+["Shah Rukh Khan","Deepika Padukone","c","Om Shanti Om",2007,"t"],
+["Shah Rukh Khan","Anushka Sharma","c","Rab Ne Bana Di Jodi",2008,"t"],
+["Aryan Khan","Sameer Wankhede","v","2021 arrest; 2025 lawsuit over his show",2021,"t"],
+["Suhana Khan","Ananya Panday","b","childhood best friends",null,"t"],
+["Suhana Khan","Shanaya Kapoor","b","childhood best friends",null,"t"],
+["Ananya Panday","Shanaya Kapoor","b","childhood best friends",null,"t"],
+["Navya Naveli Nanda","Suhana Khan","b","childhood friend group",null,"t"],
+["Suhana Khan","Khushi Kapoor","c","The Archies",2023,"t"],
+["Khushi Kapoor","Vedang Raina","x","2023–25",2023,"a"],
+["Khushi Kapoor","Aakash Mehta","x","childhood sweetheart; reportedly back in 2026",2026,"a"],
+["Salim Khan","Salma Khan","m","",1964,"t"],
+["Salim Khan","Helen","m","second wife, while still married to Salma",1981,"t"],
+["Salim Khan","Salman Khan","f","father and son",null,"t"],
+["Salim Khan","Arbaaz Khan","f","father and son",null,"t"],
+["Salim Khan","Sohail Khan","f","father and son",null,"t"],
+["Salim Khan","Arpita Khan","f","father and adopted daughter",null,"t"],
+["Salman Khan","Arbaaz Khan","f","brothers",null,"t"],
+["Salman Khan","Sohail Khan","f","brothers",null,"t"],
+["Salman Khan","Arpita Khan","f","brother and sister",null,"t"],
+["Salman Khan","Sangeeta Bijlani","e","wedding reportedly planned",1994,"a"],
+["Salman Khan","Somy Ali","x","",1991,"t"],
+["Salman Khan","Katrina Kaif","x","about 2003–09",2003,"t"],
+["Salman Khan","Juhi Chawla","r","he asked her father for her hand and was refused",null,"t"],
+["Salman Khan","Vivek Oberoi","v","the 41-calls press conference",2003,"t"],
+["Salman Khan","Iulia Vantur","r","",2014,"a"],
+["Salman Khan","Preity Zinta","b","close friends",null,"t"],
+["Arbaaz Khan","Malaika Arora","d","married 1998, divorced 2017",1998,"t"],
+["Arbaaz Khan","Sshura Khan","m","",2023,"t"],
+["Malaika Arora","Arjun Kapoor","x","2018–24",2018,"t"],
+["Malaika Arora","Amrita Arora","f","sisters",null,"t"],
+["Arjun Kapoor","Arpita Khan","x","years before Malaika",null,"t"],
+["Sohail Khan","Seema Sajdeh","d","eloped 1998, divorced 2022",1998,"t"],
+["Seema Sajdeh","Maheep Kapoor","b","Fabulous Lives of Bollywood Wives",2020,"t"],
+["Maheep Kapoor","Bhavana Pandey","b","Fabulous Lives of Bollywood Wives",2020,"t"],
+["Bhavana Pandey","Neelam Kothari","b","Fabulous Lives of Bollywood Wives",2020,"t"],
+["Bhavana Pandey","Gauri Khan","b","close friends; daughters are best friends",null,"t"],
+["Maheep Kapoor","Gauri Khan","b","close friends",null,"t"],
+["Arpita Khan","Aayush Sharma","m","",2014,"t"],
+["Boney Kapoor","Mona Shourie","d","married 1983, divorced 1996",1983,"t"],
+["Boney Kapoor","Sridevi","m","pursued her while married; private vows June 1996",1996,"t"],
+["Boney Kapoor","Arjun Kapoor","f","father and son",null,"t"],
+["Mona Shourie","Arjun Kapoor","f","mother and son",null,"t"],
+["Boney Kapoor","Janhvi Kapoor","f","father and daughter",null,"t"],
+["Boney Kapoor","Khushi Kapoor","f","father and daughter",null,"t"],
+["Sridevi","Janhvi Kapoor","f","mother and daughter",null,"t"],
+["Janhvi Kapoor","Khushi Kapoor","f","sisters",null,"t"],
+["Arjun Kapoor","Janhvi Kapoor","f","half-siblings; close since 2018",null,"t"],
+["Boney Kapoor","Anil Kapoor","f","brothers",null,"t"],
+["Anil Kapoor","Sanjay Kapoor","f","brothers",null,"t"],
+["Anil Kapoor","Sunita Kapoor","m","dated from about 1973",1984,"t"],
+["Anil Kapoor","Sonam Kapoor","f","father and daughter",null,"t"],
+["Anil Kapoor","Sridevi","c","Mr. India",1987,"t"],
+["Sanjay Kapoor","Maheep Kapoor","m","she has said he cheated early on",1997,"t"],
+["Sanjay Kapoor","Shanaya Kapoor","f","father and daughter",null,"t"],
+["Maheep Kapoor","Shanaya Kapoor","f","mother and daughter",null,"t"],
+["Sanjay Kapoor","Tabu","x","Prem",1995,"a"],
+["Sonam Kapoor","Anand Ahuja","m","",2018,"t"],
+["Janhvi Kapoor","Shikhar Pahariya","x","first around 2016, back together 2022",2016,"t"],
+["Janhvi Kapoor","Ishaan Khatter","r","Dhadak",2018,"a"],
+["Janhvi Kapoor","Kartik Aaryan","r","Dostana 2",2020,"a"],
+["Janhvi Kapoor","Sara Ali Khan","b","close since lockdown",2020,"t"],
+["Shikhar Pahariya","Veer Pahariya","f","brothers",null,"t"],
+["Veer Pahariya","Sara Ali Khan","x","Sara has acknowledged it",null,"t"],
+["Veer Pahariya","Tara Sutaria","x","",2025,"a"],
+["Sharmila Tagore","Saif Ali Khan","f","mother and son",null,"t"],
+["Saif Ali Khan","Amrita Singh","d","eloped 1991, divorced 2004",1991,"t"],
+["Saif Ali Khan","Sara Ali Khan","f","father and daughter",null,"t"],
+["Amrita Singh","Sara Ali Khan","f","mother and daughter",null,"t"],
+["Saif Ali Khan","Ibrahim Ali Khan","f","father and son",null,"t"],
+["Sara Ali Khan","Ibrahim Ali Khan","f","siblings",null,"t"],
+["Ibrahim Ali Khan","Palak Tiwari","r","",2023,"a"],
+["Ibrahim Ali Khan","Khushi Kapoor","c","Nadaaniyan",2025,"t"],
+["Sara Ali Khan","Kartik Aaryan","x","Love Aaj Kal",2019,"a"],
+["Sara Ali Khan","Sushant Singh Rajput","r","Kedarnath",2018,"a"],
+["Sara Ali Khan","Orry","v","the \"3 worst names\" reel",2026,"t"],
+["Amrita Singh","Orry","v","he says she \"traumatised\" him",2026,"a"],
+["Kartik Aaryan","Ananya Panday","r","Pati Patni Aur Woh",2019,"r"],
+["Kartik Aaryan","Kriti Sanon","r","Luka Chuppi",2019,"r"],
+["Kartik Aaryan","Sreeleela","r","his mom's \"doctor bahu\" line",2025,"r"],
+["Kartik Aaryan","Karan Johar","v","dropped from Dostana 2; later made up",2021,"t"],
+["Ananya Panday","Ishaan Khatter","x","Khaali Peeli",2020,"t"],
+["Ananya Panday","Aditya Roy Kapur","x","2022–24",2022,"t"],
+["Ananya Panday","Tara Sutaria","c","debuted together in SOTY 2; fan rivalry",2019,"t"],
+["Chunky Panday","Bhavana Pandey","m","",1998,"t"],
+["Chunky Panday","Ananya Panday","f","father and daughter",null,"t"],
+["Ananya Panday","Ahaan Panday","f","cousins",null,"t"],
+["Aditya Roy Kapur","Tara Sutaria","r","",2026,"a"],
+["Aditya Roy Kapur","Shraddha Kapoor","r","Aashiqui 2",2013,"r"],
+["Aditya Roy Kapur","Rhea Chakraborty","r","",null,"r"],
+["Rhea Chakraborty","Sushant Singh Rajput","x","2019–20",2019,"t"],
+["Ranveer Singh","Deepika Padukone","m","met on Ram-Leela 2013",2018,"t"],
+["Ranveer Singh","Anushka Sharma","x","Band Baaja Baaraat",2010,"a"],
+["Ranveer Singh","Alia Bhatt","c","Gully Boy, Rocky Aur Rani",2019,"t"],
+["Deepika Padukone","Siddharth Mallya","x","",2010,"t"],
+["Deepika Padukone","Tripti Dimri","c","Tripti replaced her in Spirit",2025,"t"],
+["Katrina Kaif","Vicky Kaushal","m","son born 2025",2021,"t"],
+["Vicky Kaushal","Alia Bhatt","c","Raazi, Love & War",2018,"t"],
+["Vicky Kaushal","Sunny Kaushal","f","brothers",null,"t"],
+["Sunny Kaushal","Sharvari Wagh","r","",null,"r"],
+["Alia Bhatt","Sharvari Wagh","c","Alpha",2026,"t"],
+["Katrina Kaif","Alia Bhatt","b","gym partners",null,"t"],
+["Katrina Kaif","Gulshan Grover","c","Boom",2003,"t"],
+["Alia Bhatt","Sidharth Malhotra","x","after Student of the Year",2012,"a"],
+["Sidharth Malhotra","Kiara Advani","m","Shershaah",2023,"t"],
+["Alia Bhatt","Varun Dhawan","c","Student of the Year",2012,"t"],
+["Alia Bhatt","Karan Johar","b","launched her",2012,"t"],
+["Sidharth Malhotra","Karan Johar","b","his AD, then launched by him",2012,"t"],
+["Alia Bhatt","Mahesh Bhatt","f","father and daughter",null,"t"],
+["Mahesh Bhatt","Pooja Bhatt","f","father and daughter",null,"t"],
+["Mahesh Bhatt","Soni Razdan","m","",1986,"t"],
+["Alia Bhatt","Divya Khossla","v","Jigra vs Savi",2024,"t"],
+["Alia Bhatt","Shraddha Kapoor","v","fan-made rivalry",null,"r"],
+["Karan Johar","Twinkle Khanna","b","childhood friends; she turned down Tina",1998,"t"],
+["Karan Johar","Kangana Ranaut","v","\"flag bearer of nepotism\"",2017,"t"],
+["Shahid Kapoor","Mira Rajput","m","",2015,"t"],
+["Shahid Kapoor","Priyanka Chopra","x","Kaminey; the 2011 raid",2009,"a"],
+["Shahid Kapoor","Ayesha Takia","c","the Complan ads",null,"t"],
+["Shahid Kapoor","Ishaan Khatter","f","half-brothers",null,"t"],
+["Priyanka Chopra","Nick Jonas","m","",2018,"t"],
+["Priyanka Chopra","Harman Baweja","x","",2008,"a"],
+["Kangana Ranaut","Hrithik Roshan","v","the email war",2016,"t"],
+["Kangana Ranaut","Ajay Devgn","r","Once Upon a Time in Mumbaai",2010,"a"],
+["Hrithik Roshan","Sussanne Khan","d","married 2000, divorced 2014",2000,"t"],
+["Hrithik Roshan","Saba Azad","x","",2022,"t"],
+["Hrithik Roshan","Rakesh Roshan","f","son and father",null,"t"],
+["Kajol","Ajay Devgn","m","met on Hulchul 1995",1999,"t"],
+["Ajay Devgn","Raveena Tandon","x","she says yes, he says no",1994,"a"],
+["Ajay Devgn","Tabu","b","childhood friends",null,"t"],
+["Ajay Devgn","Shah Rukh Khan","v","the 2012 screen war",2012,"t"],
+["Kajol","Rani Mukerji","f","cousins",null,"t"],
+["Kajol","Tanuja","f","daughter and mother",null,"t"],
+["Akshay Kumar","Twinkle Khanna","m","",2001,"t"],
+["Akshay Kumar","Raveena Tandon","e","after Mohra",1995,"t"],
+["Akshay Kumar","Shilpa Shetty","x","",1994,"t"],
+["Rajesh Khanna","Dimple Kapadia","m","she was 15",1973,"t"],
+["Rajesh Khanna","Twinkle Khanna","f","father and daughter",null,"t"],
+["Dimple Kapadia","Twinkle Khanna","f","mother and daughter",null,"t"],
+["Shilpa Shetty","Raj Kundra","m","",2009,"t"],
+["Raveena Tandon","Rasha Thadani","f","mother and daughter",null,"t"],
+["Rasha Thadani","Aaman Devgan","c","Azaad",2025,"t"],
+["Ajay Devgn","Aaman Devgan","f","uncle and nephew",null,"t"],
+["Aamir Khan","Reena Dutta","d","eloped 1986, divorced 2002",1986,"t"],
+["Aamir Khan","Kiran Rao","d","married 2005, divorced 2021",2005,"t"],
+["Aamir Khan","Gauri Spratt","x","introduced on his 60th birthday",2025,"t"],
+["Aamir Khan","Junaid Khan","f","father and son",null,"t"],
+["Junaid Khan","Khushi Kapoor","c","Loveyapa",2025,"t"],
+["Govinda","Sunita Ahuja","m","she filed for divorce in Dec 2024",1987,"t"],
+["Govinda","Neelam Kothari","x","he broke off his engagement for her, then went back",1986,"t"],
+["Govinda","Rani Mukerji","r","Hadh Kar Di Aapne",2000,"a"],
+["Neelam Kothari","Samir Soni","m","",2011,"t"],
+["Rani Mukerji","Aditya Chopra","m","she says they dated only after his divorce",2014,"t"],
+["Yash Chopra","Aditya Chopra","f","father and son",null,"t"],
+["Aditya Chopra","Shah Rukh Khan","c","DDLJ",1995,"t"],
+["Sushmita Sen","Vikram Bhatt","x","he was married",1996,"t"],
+["Sushmita Sen","Rohman Shawl","x","2018–21",2018,"t"],
+["Sushmita Sen","Lalit Modi","r","his \"better half\" post",2022,"a"],
+["Bipasha Basu","Dino Morea","x","Raaz; the banned Calida ad",1996,"t"],
+["Bipasha Basu","John Abraham","x","2002–11",2002,"t"],
+["Bipasha Basu","Karan Singh Grover","m","Alone",2016,"t"],
+["Karan Singh Grover","Jennifer Winget","d","married 2012, split 2014",2012,"t"],
+["Bipasha Basu","Mrunal Thakur","v","the resurfaced \"manly\" clip",2025,"t"],
+["Bipasha Basu","Harman Baweja","x","",2014,"a"],
+["Preity Zinta","Ness Wadia","v","2014 complaint, quashed 2018",2014,"t"],
+["Jacqueline Fernandez","Nora Fatehi","v","defamation case over the Sukesh affair",2022,"t"],
+["Jacqueline Fernandez","Sukesh Chandrashekhar","x","gifts; money-laundering case",2021,"t"],
+["Nora Fatehi","Sukesh Chandrashekhar","v","named in the gift trail",2021,"t"],
+["Tripti Dimri","Karnesh Sharma","r","producer of Qala",2022,"a"],
+["Karnesh Sharma","Anushka Sharma","f","siblings",null,"t"],
+["Disha Patani","Tiger Shroff","x","about six years, never confirmed",2016,"a"],
+["Tiger Shroff","Ananya Panday","c","SOTY 2",2019,"t"],
+["Dharmendra","Prakash Kaur","m","",1954,"t"],
+["Dharmendra","Hema Malini","m","second wife, while still married",1980,"t"],
+["Dharmendra","Sunny Deol","f","father and son",null,"t"],
+["Dharmendra","Bobby Deol","f","father and son",null,"t"],
+["Hema Malini","Esha Deol","f","mother and daughter",null,"t"],
+["Hema Malini","Jeetendra","r","nearly married, per lore",1974,"r"],
+["Sunny Deol","Dimple Kapadia","r","",null,"a"],
+["Nargis","Sunil Dutt","m","",1958,"t"],
+["Nargis","Sanjay Dutt","f","mother and son",null,"t"],
+["Madhubala","Dilip Kumar","x","ended over the Naya Daur case",1951,"t"],
+["Madhubala","Kishore Kumar","m","",1960,"t"],
+["Dev Anand","Suraiya","x","her grandmother blocked it",1948,"t"],
+["Mouni Roy","Suraj Nambiar","m","",2022,"t"],
+["Mouni Roy","Alia Bhatt","c","Brahmastra",2022,"t"],
+["Farhan Akhtar","Zoya Akhtar","f","siblings",null,"t"],
+["Javed Akhtar","Farhan Akhtar","f","father and son",null,"t"],
+["Javed Akhtar","Shabana Azmi","m","",1984,"t"],
+["Farhan Akhtar","Farah Khan","f","first cousins; their mothers are sisters",null,"t"],
+["Farah Khan","Sajid Khan","f","siblings",null,"t"],
+["Salim Khan","Javed Akhtar","c","Salim–Javed, writers of Sholay and Deewaar",1971,"t"],
+["Shabana Azmi","Tabu","f","aunt and niece",null,"t"],
+["Tabu","Farah Naaz","f","sisters",null,"t"],
+["Ranveer Singh","Sonam Kapoor","f","second cousins; their mothers are cousins",null,"t"],
+["Kajol","Ayan Mukerji","f","cousins; their fathers were cousins",null,"t"],
+["Rani Mukerji","Ayan Mukerji","f","cousins",null,"t"],
+["Mahesh Bhatt","Emraan Hashmi","f","uncle and nephew",null,"t"],
+["Alia Bhatt","Emraan Hashmi","f","cousins",null,"t"],
+["Mahesh Bhatt","Mohit Suri","f","uncle and nephew",null,"t"],
+["Aditi Rao Hydari","Kiran Rao","f","cousins, Wanaparthy royal family",null,"t"],
+["Aditi Rao Hydari","Siddharth","m","",2024,"t"],
+["Dilip Kumar","Ayub Khan","f","uncle and nephew",null,"t"],
+["Lata Mangeshkar","Shraddha Kapoor","f","grand-aunt and grand-niece",null,"t"],
+["Lata Mangeshkar","Asha Bhosle","f","sisters",null,"t"],
+["Farah Khan","Shah Rukh Khan","c","Main Hoon Na, Om Shanti Om",2004,"t"],
+["Zoya Akhtar","Suhana Khan","c","directed The Archies",2023,"t"],
+["Zoya Akhtar","Ranveer Singh","c","Gully Boy",2019,"t"],
+["Katrina Kaif","Isabelle Kaif","f","sisters",null,"t"],
+["Karan Johar","Varun Dhawan","b","his AD; launched him",2012,"t"],
+["David Dhawan","Varun Dhawan","f","father and son",null,"t"],
+["Karan Johar","Saif Ali Khan","b","the IIFA \"nepotism rocks\" skit",2017,"t"],
+["Kangana Ranaut","Saif Ali Khan","v","IIFA skit; he texted an apology",2017,"t"],
+["Kangana Ranaut","Varun Dhawan","v","IIFA skit; he apologized",2017,"t"],
+["Kangana Ranaut","Priyanka Chopra","b","backed her when she spoke out",2023,"t"],
+["Kangana Ranaut","Sushant Singh Rajput","b","spoke for him after his death",2020,"t"],
+["Aamir Khan","Salman Khan","b","peacemaker at Katrina's 2008 party",2008,"a"],
+["Kishore Kumar","Ashok Kumar","f","brothers",null,"t"],
+["Ashok Kumar","Sasadhar Mukherjee","f","brothers-in-law; Sasadhar married his sister",null,"t"],
+["Sasadhar Mukherjee","Shomu Mukherjee","f","father and son",null,"t"],
+["Shomu Mukherjee","Tanuja","m","",1973,"t"],
+["Shomu Mukherjee","Kajol","f","father and daughter",null,"t"],
+["Dilip Kumar","Saira Banu","m","",1966,"t"],
+["Dev Anand","Zeenat Aman","c","Hare Rama Hare Krishna",1971,"t"],
+["Zeenat Aman","Raj Kapoor","c","Satyam Shivam Sundaram",1978,"t"],
+["Dev Anand","Shekhar Kapur","f","uncle and nephew",null,"t"],
+["Shekhar Kapur","Anil Kapoor","c","directed Mr. India",1987,"t"],
+["Jacqueline Fernandez","Salman Khan","c","Kick",2014,"t"],
+];
+
+const TY={m:["Married","wed"],d:["Married, later split","wed"],e:["Engaged","ex"],x:["Dated","ex"],r:["Linked","rum"],c:["Worked together","co"],f:["Family","kid"],b:["Friends","fr"],v:["Feud","fd"]};
+const WT={m:1,d:1,e:1,x:1,f:1,r:1.4,b:1.4,v:1.4,c:1.8};
+const ADJ={};G.forEach((e,i)=>{(ADJ[e[0]]??=[]).push([e[1],i]);(ADJ[e[1]]??=[]).push([e[0],i])});
+const NAMES=Object.keys(ADJ).sort();
+document.getElementById('cxnames').innerHTML=NAMES.map(n=>`<option value="${n}">`).join('');
+const VT={t:["RECEIPT","v-true"],a:["ALLEGED","v-alleged"],r:["RUMOR","v-rumor"],c:["CAP","v-cap"]};
+function resolveName(q){q=(q||'').trim().toLowerCase();if(!q)return null;
+  return NAMES.find(n=>n.toLowerCase()===q)||NAMES.find(n=>n.toLowerCase().split(' ').some(w=>w===q))||NAMES.find(n=>n.toLowerCase().startsWith(q))||NAMES.find(n=>n.toLowerCase().includes(q))||null}
+function path(a,b){const dist={[a]:0},prev={},done=new Set();
+  while(true){let u=null,best=Infinity;for(const k in dist)if(!done.has(k)&&dist[k]<best){best=dist[k];u=k}
+    if(u===null)return null;if(u===b)break;done.add(u);
+    for(const [v,i] of ADJ[u]){const nd=dist[u]+WT[G[i][2]];if(dist[v]===undefined||nd<dist[v]){dist[v]=nd;prev[v]=[u,i]}}}
+  const out=[];let c=b;while(c!==a){const [p,i]=prev[c];out.unshift([p,i,c]);c=p}return out}
+const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const tag=v=>`<span class="vtag ${VT[v][1]}">${VT[v][0]}</span>`;
+const nmb=(n,slot)=>`<button type="button" class="nm" data-n="${esc(n)}" data-slot="${slot}">${esc(n)}</button>`;
+function timeline(p,slot){const ev=ADJ[p].map(([o,i])=>[o,G[i]]).sort((x,y)=>(x[1][4]??9999)-(y[1][4]??9999)||x[0].localeCompare(y[0]));
+  return `<div class="tlcol"><h3>${esc(p)}</h3><ol>`+ev.map(([o,e])=>`<li><span class="y">${e[4]??'—'}</span><span>${TY[e[2]][0]}: ${nmb(o,slot)}${tag(e[5])}${e[3]?`<br><span class="d">${esc(e[3])}</span>`:''}</span></li>`).join('')+'</ol></div>'}
+const out=document.getElementById('cxout'),ia=document.getElementById('cxa'),ib=document.getElementById('cxb');
+function connect(){const a=resolveName(ia.value),b=resolveName(ib.value);
+  if(!a||!b){out.innerHTML=`<p class="cx-err">${!a?`No one called "${esc(ia.value||'')}" yet.`:`No one called "${esc(ib.value||'')}" yet.`} Try a name from the dropdown.</p>`;return}
+  ia.value=a;ib.value=b;
+  if(a===b){out.innerHTML=`<p class="cx-err">Pick two different people.</p><div class="tls">${timeline(a,'b')}</div>`;return}
+  const pth=path(a,b);
+  let h='';
+  if(!pth)h=`<p class="cx-sum">No chain found between ${esc(a)} and ${esc(b)} on this board yet.</p>`;
+  else{const deg=pth.length;
+    h=`<p class="cx-sum">${esc(a)} and ${esc(b)} are ${deg===1?'directly connected':deg+' steps apart'}.</p><ol class="chain">`;
+    h+=`<li><span class="who end">${esc(a)}</span></li>`;
+    pth.forEach(([p,i,c],k)=>{const e=G[i];h+=`<li class="link ${TY[e[2]][1]}"><span class="lt">${TY[e[2]][0]}${e[4]?' · '+e[4]:''}</span>${tag(e[5])}${e[3]?`<br>${esc(e[3])}`:''}</li><li><span class="who${k===pth.length-1?' end':''}">${esc(c)}</span></li>`});
+    h+='</ol>'}
+  const direct=G.filter(e=>(e[0]===a&&e[1]===b)||(e[0]===b&&e[1]===a));
+  if(direct.length>1)h+=`<p style="margin:0;font-size:14px;color:var(--muted)">They have ${direct.length} direct links on the board.</p>`;
+  h+=`<div class="tls">${timeline(a,'b')}${timeline(b,'a')}</div><p style="margin:0;font-size:13px;color:var(--muted)">Tap any name in a history to connect it instead. "—" means no single date.</p>`;
+  out.innerHTML=h;
+  out.querySelectorAll('.nm').forEach(x=>x.onclick=()=>{(x.dataset.slot==='a'?ia:ib).value=x.dataset.n;connect();document.getElementById('connecth').scrollIntoView({behavior:'smooth'})})}
+document.getElementById('cxf').addEventListener('submit',e=>{e.preventDefault();connect()});
+document.getElementById('cxswap').onclick=()=>{[ia.value,ib.value]=[ib.value,ia.value];connect()};
+document.getElementById('cxrand').onclick=()=>{const r=()=>NAMES[Math.floor(Math.random()*NAMES.length)];let a=r(),b=r();while(b===a)b=r();ia.value=a;ib.value=b;connect()};
+document.getElementById('cxcards').onclick=()=>{const a=resolveName(ia.value);if(!a)return;f='all';q.value=a.split(' ')[0];render();document.getElementById('wallh').scrollIntoView({behavior:'smooth'})};
+ia.value='Aishwarya Rai';ib.value='Katrina Kaif';connect();
 
 document.querySelectorAll('.pp').forEach(b=>b.addEventListener('click',()=>{f='all';q.value=b.dataset.q;render();document.getElementById('wallh').scrollIntoView({behavior:'smooth'})}));
 render();
