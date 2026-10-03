@@ -55,6 +55,7 @@ function hit(w,mx,my){let best=-1,bd=1e9;w.nodes.forEach((n,i)=>{const p=n.p;if(
 
 function background(w){const c=document.createElement('canvas');c.width=w.W;c.height=w.H;const x=c.getContext('2d');
   x.fillStyle=PAPER.board;x.fillRect(0,0,w.W,w.H);
+  if(w.o.fit==='board'){const v=x.createRadialGradient(w.W/2,w.H/2,Math.min(w.W,w.H)*.35,w.W/2,w.H/2,Math.max(w.W,w.H)*.75);v.addColorStop(0,'rgba(255,250,240,.35)');v.addColorStop(1,'rgba(90,62,30,.10)');x.fillStyle=v;x.fillRect(0,0,w.W,w.H);return c}
   // corkboard grain: fine flecks plus a soft pin-board dot grid
   const r=rng('bg'+w.W);for(let i=0;i<w.W*w.H/90;i++){x.globalAlpha=.04+r()*.08;x.fillStyle=r()<.5?'#5A3E1E':'#FFF8EA';x.fillRect(r()*w.W,r()*w.H,1,1)}
   x.globalAlpha=.10;x.fillStyle='#5A3E1E';for(let y=10;y<w.H;y+=14)for(let X=(y/14%2)*7+6;X<w.W;X+=14)x.fillRect(X,y,1.2,1.2);
@@ -79,13 +80,15 @@ function draw(w,now,dt){const {g,W,H,o}=w;if(!W)return;const t=now-w.t0,c=w.cam,
   const stroke=(e,width,alpha,dash,dx=0,dy=0)=>{const A=w.nodes[e.a].p,B=w.nodes[e.b].p,C=ctrl(e);g.globalAlpha=alpha;g.lineWidth=width;g.setLineDash(dash||[]);g.beginPath();g.moveTo(A.x+dx,A.y+dy);C?g.quadraticCurveTo(C.x+dx,C.y+dy,B.x+dx,B.y+dy):g.lineTo(B.x+dx,B.y+dy);g.stroke()};
   const dashOf=e=>e.ev==='r'||e.ev==='c'?[2,5]:e.ev==='a'&&(e.t==='rom'||e.t==='fr')?[8,6]:DASH[e.t];
   g.lineCap='round';
-  for(const e of w.edges){if(!evis(e)||lit(e))continue;const A=w.nodes[e.a].p,B=w.nodes[e.b].p;g.strokeStyle=F?'#5A4632':COL[e.t]||COL.link;stroke(e,.8,(F?.13:.22)*fogA((A.z+B.z)/2),F?null:dashOf(e))}
+  const BRD=o.fit==='board';
+  for(const e of w.edges){if(!evis(e)||lit(e))continue;if(BRD&&(F||hov))continue;const A=w.nodes[e.a].p,B=w.nodes[e.b].p;if(BRD){g.strokeStyle='#3A2A18';stroke(e,.5,.045*fogA((A.z+B.z)/2),null);continue}g.strokeStyle=F?'#5A4632':COL[e.t]||COL.link;stroke(e,.8,(F?.13:.22)*fogA((A.z+B.z)/2),F?null:dashOf(e))}
   for(const e of w.edges){if(!evis(e)||!lit(e))continue;const A=w.nodes[e.a].p,B=w.nodes[e.b].p,f=fogA((A.z+B.z)/2)*(e.ev==='c'?.6:1),col=COL[e.t]||COL.link;
     const wd=(F?2.4:1.8)*clamp((A.s+B.s)/2,.6,1.4)*(e.w||1)*(e.t==='cast'||e.t==='crew'?.55:1);g.strokeStyle='#3A2A18';stroke(e,wd,.14*f,dashOf(e),1.5,3);g.strokeStyle=col;stroke(e,wd,.95*f,dashOf(e))}
   g.setLineDash([]);
   if(!RM&&F&&F.chain&&F.chain.length){const pt=(e,u)=>{const A=w.nodes[e.a].p,B=w.nodes[e.b].p,C=ctrl(e);if(!C)return {x:A.x+(B.x-A.x)*u,y:A.y+(B.y-A.y)*u};const v=1-u;return {x:v*v*A.x+2*v*u*C.x+u*u*B.x,y:v*v*A.y+2*v*u*C.y+u*u*B.y}};
     const L=F.chain.length,T=(t*.00042)%(L+.8);const k=Math.floor(T),u=T-k;if(k<L&&F.chain[k]&&w.edges[F.chain[k][0]]){const [ei,fw]=F.chain[k],e=w.edges[ei],q=pt(e,fw?u:1-u);g.globalAlpha=.9;g.fillStyle=PAPER.red;g.beginPath();g.arc(q.x,q.y,4.5,0,7);g.fill();g.globalAlpha=.25;g.beginPath();g.arc(q.x,q.y,10,0,7);g.fill()}}
-  for(const n of w.nodes){if(n.big||!nvis(n))continue;const p=n.p;if(p.s<=0)continue;n.show=true;const near=F&&F.near&&F.near.has(n.id);const s=(1.4+Math.sqrt(n.deg||1)*.9)*p.s*(near?1.3:1)*(n===hov?1.8:1);
+  for(const n of w.nodes){if(n.big||!nvis(n))continue;const p=n.p;if(p.s<=0)continue;n.show=true;
+    if(BRD){const near=F&&F.near&&F.near.has(n.id),s=(F?(near?1.7:1.1):1.1+Math.sqrt(n.deg||1)*.32)*p.s*(n===hov?2.4:1);g.globalAlpha=(n===hov?.95:F?(near?.3:.12):.38)*fogA(p.z);g.fillStyle=n===hov?PAPER.red:PAPER.ink;g.beginPath();g.arc(p.x,p.y,s,0,7);g.fill();n.r=Math.max(s,5);continue}const near=F&&F.near&&F.near.has(n.id);const s=(1.4+Math.sqrt(n.deg||1)*.9)*p.s*(near?1.3:1)*(n===hov?1.8:1);
     g.globalAlpha=(F?(near?.75:.32):.6)*fogA(p.z);g.fillStyle=n===hov?PAPER.red:n.col;g.beginPath();g.arc(p.x,p.y,s,0,7);g.fill();n.r=Math.max(s,5)}
   g.globalAlpha=1;
   // thread captions: paper tags. Cast/crew lines stay quiet unless someone is selected.
