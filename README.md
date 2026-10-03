@@ -1,15 +1,25 @@
 # Bollywood Receipts
 
-Bollywood gossip, sorted by how solid the receipt actually is.
+Bollywood has a long memory. We kept the receipts.
 
-Every card is stamped:
+Bollywood gossip, sorted by how solid the receipt actually is. Every story is stamped:
 
-- **RECEIPT**: on the record (interviews, court filings, announcements)
-- **ALLEGED**: widely reported, never confirmed
-- **RUMOR**: gossip only
-- **CAP**: the facts don't back it up
+- **RECEIPT ✓**: on the record (interviews, court filings, announcements)
+- **ALLEGED ?**: credibly reported, but disputed or never confirmed
+- **RUMOR ~**: repeated around town without real confirmation
+- **CAP ✕**: the available evidence contradicts it
 
-Also includes relationship webs, dynasty family trees, a school-to-stardom pipeline study, and a century-long timeline of the Hindi film heroine.
+## Pages
+
+- `index.html`: the front page (lead story, Spotted, receipts, the connector, the Reel, the Web, Khandaan, the archive, Watch next)
+- `receipts.html`: every receipt, filed by drawer, with search (`?f=feud`, `?q=Ranbir`)
+- `the-web.html`: Yeh Rishta Kya Kehlata Hai (connect any two people) and the case files
+- `people.html`: Khandaan family trees (`?k=kapoor`) and Stars A–Z
+- `features.html`: long reads (a century of the sexy heroine, how 50 stars got in, the school pipeline, the inheritance board)
+- `watch.html`: the full Reel and what to stream next
+- `web.html`: Six Degrees of Bollywood, the whole board in 3D
+
+Shared code lives in `assets/`: `site.css` (styles), `site.js` (data, masthead, nav, ticker, search and every section's logic) and `web3d.js` (the 3D corkboard webs).
 
 Live site: https://suhxnitiwari.github.io/bollywood-receipts/
 

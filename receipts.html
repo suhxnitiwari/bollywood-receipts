@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Every Bollywood receipt, filed by drawer and stamped RECEIPT, ALLEGED, RUMOR or CAP.">
+<title>The Receipts · Bollywood Receipts</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%23F3EADB'/%3E%3Ctext x='32' y='43' font-family='Georgia,serif' font-size='30' font-weight='700' text-anchor='middle' fill='%23C8261C'%3EBR%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rozha+One&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..800;1,6..96,400..800&family=Mukta:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Caveat:wght@500;700&display=swap">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body data-page="receipts">
+<a class="skip" href="#main">Skip to the receipts</a>
+<div id="top"></div>
+<main id="main" class="wrap">
+<header class="phead"><p class="eyebrow">Receipts</p><h1>The Receipts</h1><p class="dek">Rishte mein toh hum tumhare gossip lagte hain. Every claim stamped by how solid the evidence is. Tap a receipt for the full scoop.</p><div class="stamps-key" data-stampkey></div></header><section class="wall" aria-labelledby="wallh">
+  <h2 id="wallh" class="sr">All receipts</h2>
+  <div class="controls" role="toolbar" aria-label="Filter receipts">
+  <button class="chip" data-f="all" aria-pressed="true"><b>Sab Filmy</b><small>everything</small></button>
+  <button class="chip" data-f="khan"><b>Khan-daan</b><small>the Khans</small></button>
+  <button class="chip" data-f="triangle"><b>Pati, Patni Aur Woh</b><small>affairs & triangles</small></button>
+  <button class="chip" data-f="engaged"><b>Shaadi Cancel</b><small>broken engagements & divorces</small></button>
+  <button class="chip" data-f="feud"><b>Kalesh</b><small>feuds & fallouts</small></button>
+  <button class="chip" data-f="nepo"><b>Filmi Khandaan</b><small>star kids & dynasties</small></button>
+  <button class="chip" data-f="dost"><b>Dost Dost Na Raha</b><small>friendship breakups</small></button>
+  <button class="chip" data-f="chupke"><b>Chupke Chupke</b><small>rumors & secrets</small></button>
+  <button class="chip" data-f="court"><b>Tareekh Pe Tareekh</b><small>court cases</small></button>
+  <button class="chip" data-f="legend"><b>Purani Picture</b><small>archive scandals</small></button>
+  <input id="q" type="search" placeholder="Naam toh suna hoga… search a star" aria-label="Search receipts">
+  <span class="count" id="count"></span>
+</div>
+  <div class="mag" id="grid"></div>
+  <p class="empty" id="empty" hidden>Kuch nahi mila, darling. Try another name.</p>
+</section>
+</main>
+<dialog id="rx" aria-label="Receipt"><article class="slip" id="rxin"></article></dialog>
+<footer id="foot" class="wrap"></footer>
+<script src="assets/web3d.js"></script>
+<script src="assets/site.js"></script>
+</body>
+</html>

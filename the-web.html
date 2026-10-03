@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Connect any two people in Bollywood, and open the case files: relationship maps of who dated, married and fought whom.">
+<title>The Web · Bollywood Receipts</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%23F3EADB'/%3E%3Ctext x='32' y='43' font-family='Georgia,serif' font-size='30' font-weight='700' text-anchor='middle' fill='%23C8261C'%3EBR%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rozha+One&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..800;1,6..96,400..800&family=Mukta:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Caveat:wght@500;700&display=swap">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body data-page="web">
+<a class="skip" href="#main">Skip to the receipts</a>
+<div id="top"></div>
+<main id="main" class="wrap">
+<header class="phead"><p class="eyebrow">The Web</p><h1>Nobody is more than three exes away</h1><p class="dek">Connect any two names, then open the case files: every map drawn from the receipts, every thread dated and stamped.</p><p class="also"><a href="web.html">Or float through the whole thing: Six Degrees of Bollywood →</a></p></header><section class="connect" aria-labelledby="connecth">
+  <p class="eyebrow">The detective tool</p>
+  <h2 id="connecth">Yeh rishta kya kehlata hai?</h2>
+  <p class="dek">Bollywood is smaller than you think. Pick two names and we'll find the shortest chain between them, every link dated and stamped.</p>
+  <form id="cxf" autocomplete="off">
+    <div class="cx-row">
+      <label for="cxa">Person one<input id="cxa" list="cxnames" placeholder="e.g. Aishwarya Rai"></label>
+      <button type="button" class="cx-btn ghost swap" id="cxswap" aria-label="Swap the two names">⇄</button>
+      <label for="cxb">Person two<input id="cxb" list="cxnames" placeholder="e.g. Katrina Kaif"></label>
+    </div>
+    <label style="display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:12px;margin-top:10px"><input type="checkbox" id="cxfam"> Family and marriage links only</label>
+    <div class="cx-btns"><button class="cx-btn" type="submit">Connect them</button><button class="cx-btn ghost" type="button" id="cxrand">🎲 Give me two random people</button><button class="cx-btn ghost" type="button" id="cxcards">Show me the receipts</button></div>
+    <datalist id="cxnames"></datalist>
+  </form>
+  <div class="w3d-box" id="cxweb"></div>
+  <div class="cx-out" id="cxout" aria-live="polite"></div>
+</section>
+<h2 class="filesh" id="files">The files</h2>
+<section class="web" aria-labelledby="webh">
+  <div>
+    <div class="kicker">Exhibit A</div>
+    <h2 id="webh">Alia's very small world</h2>
+    <p>Ranbir's two famous exes married Ranveer and Vicky. Alia has done movies with both husbands, and Sanjay Leela Bhansali's <i>Love &amp; War</i> puts Alia, Ranbir and Vicky in the same film.</p>
+  </div>
+  <div class="svgbox">
+    <svg viewBox="0 0 700 290" role="img" aria-label="Diagram: Ranbir and Alia married 2022; Ranbir's exes Deepika and Katrina married Ranveer (2018) and Vicky (2021); Alia co-starred with Ranveer and Vicky.">
+<line class="e wed" x1="260" y1="70" x2="440" y2="70"/>
+<line class="e wed" x1="75" y1="250" x2="245" y2="250"/>
+<line class="e wed" x1="455" y1="250" x2="625" y2="250"/>
+<line class="e ex" x1="260" y1="88" x2="245" y2="232"/>
+<line class="e ex" x1="260" y1="88" x2="455" y2="232"/>
+<path class="e co" d="M440,52 C440,-20 75,-20 75,232"/>
+<line class="e co" x1="440" y1="88" x2="625" y2="232"/>
+<text class="lbl wed" x="352" y="62" text-anchor="middle">m. 2022</text>
+<text class="lbl wed" x="160" y="242" text-anchor="middle">m. 2018</text>
+<text class="lbl wed" x="545" y="242" text-anchor="middle">m. 2021</text>
+<text class="lbl" x="258" y="170">ex</text>
+<text class="lbl" x="368" y="148" text-anchor="end">ex</text>
+<text class="lbl co" x="257" y="24" text-anchor="middle">Gully Boy, Rocky Aur Rani</text>
+<text class="lbl co" x="548" y="150">Raazi, Love &amp; War</text>
+<g class="n"><rect x="202" y="52" width="116" height="36" rx="18"/><text x="260" y="75" text-anchor="middle">Ranbir</text></g>
+<g class="n c"><rect x="390" y="52" width="100" height="36" rx="18"/><text x="440" y="75" text-anchor="middle">Alia</text></g>
+<g class="n"><rect x="15" y="232" width="120" height="36" rx="18"/><text x="75" y="255" text-anchor="middle">Ranveer</text></g>
+<g class="n"><rect x="185" y="232" width="120" height="36" rx="18"/><text x="245" y="255" text-anchor="middle">Deepika</text></g>
+<g class="n"><rect x="395" y="232" width="120" height="36" rx="18"/><text x="455" y="255" text-anchor="middle">Katrina</text></g>
+<g class="n"><rect x="575" y="232" width="100" height="36" rx="18"/><text x="625" y="255" text-anchor="middle">Vicky</text></g>
+</svg>
+  </div>
+</section>
+<section class="web" aria-labelledby="web2h">
+  <div>
+    <div class="kicker">Exhibit C</div>
+    <h2 id="web2h">Kartik's co-star web</h2>
+    <p>Every heroine Kartik makes a film with gets linked to him. Ananya's exes then lead straight to Tara, the actress she's been compared to since their shared debut.</p>
+  </div>
+  <div class="svgbox">
+    <svg viewBox="0 0 640 360" role="img" aria-label="Diagram: Kartik Aaryan rumored with Sara, Kriti, Janhvi, Sreeleela and Ananya; Ananya's exes Ishaan Khatter and Aditya Roy Kapur; Aditya now rumored with Tara Sutaria.">
+      <line class="e rum" x1="320" y1="170" x2="130" y2="55"/>
+      <line class="e rum" x1="320" y1="170" x2="510" y2="55"/>
+      <line class="e rum" x1="320" y1="170" x2="560" y2="190"/>
+      <line class="e rum" x1="320" y1="170" x2="540" y2="315"/>
+      <line class="e rum" x1="320" y1="170" x2="140" y2="215"/>
+      <line class="e ex" x1="140" y1="215" x2="80" y2="320"/>
+      <line class="e ex" x1="140" y1="215" x2="230" y2="320"/>
+      <line class="e rum" x1="230" y1="320" x2="370" y2="320"/>
+      <text class="lbl co" x="232" y="100" text-anchor="middle">Love Aaj Kal</text>
+      <text class="lbl co" x="410" y="100" text-anchor="middle">Luka Chuppi, Shehzada</text>
+      <text class="lbl co" x="445" y="170" text-anchor="middle">Dostana 2</text>
+      <text class="lbl co" x="445" y="262" text-anchor="middle">2025</text>
+      <text class="lbl co" x="268" y="226" text-anchor="middle">Pati Patni Aur Woh</text>
+      <text class="lbl" x="92" y="270" text-anchor="end">Khaali Peeli</text>
+      <text class="lbl" x="200" y="270">2022–24</text>
+      <text class="lbl co" x="300" y="306" text-anchor="middle">2026?</text>
+      <g class="n c"><rect x="260" y="152" width="120" height="36" rx="18"/><text x="320" y="175" text-anchor="middle">Kartik</text></g>
+      <g class="n"><rect x="75" y="37" width="110" height="36" rx="18"/><text x="130" y="60" text-anchor="middle">Sara</text></g>
+      <g class="n"><rect x="460" y="37" width="100" height="36" rx="18"/><text x="510" y="60" text-anchor="middle">Kriti</text></g>
+      <g class="n"><rect x="505" y="172" width="110" height="36" rx="18"/><text x="560" y="195" text-anchor="middle">Janhvi</text></g>
+      <g class="n"><rect x="480" y="297" width="120" height="36" rx="18"/><text x="540" y="320" text-anchor="middle">Sreeleela</text></g>
+      <g class="n"><rect x="80" y="197" width="120" height="36" rx="18"/><text x="140" y="220" text-anchor="middle">Ananya</text></g>
+      <g class="n"><rect x="30" y="302" width="100" height="36" rx="18"/><text x="80" y="325" text-anchor="middle">Ishaan</text></g>
+      <g class="n"><rect x="180" y="302" width="100" height="36" rx="18"/><text x="230" y="325" text-anchor="middle">Aditya</text></g>
+      <g class="n"><rect x="325" y="302" width="90" height="36" rx="18"/><text x="370" y="325" text-anchor="middle">Tara</text></g>
+    </svg>
+  </div>
+</section>
+<section class="web" aria-labelledby="web3h">
+  <div>
+    <div class="kicker">Exhibit D</div>
+    <h2 id="web3h">Six degrees of Fabulous</h2>
+    <p>Netflix's <i>Fabulous Lives of Bollywood Wives</i>, produced by Karan Johar's company, plugs into almost every dynasty. The original four are in pink; season 3 added Riddhima Kapoor Sahni, Shalini Passi and Kalyani Saha Chawla.</p>
+    <ol class="tl" style="margin-top:6px">
+      <li><span class="yr">Loop</span><div><p><b>Maheep</b> → husband Sanjay → brother Boney → son Arjun (her nephew by marriage) → ex Malaika → ex-husband Arbaaz → brother Sohail → ex-wife <b>Seema</b>, her co-star</p></div></li>
+      <li><span class="yr">Circle</span><div><p><b>Seema</b> left fiancé Vikram Ahuja to elope with Sohail in 1998, divorced in 2022, and got back with Vikram, whose sister Tanya is Bobby Deol's wife</p></div></li>
+      <li><span class="yr">Bhatts</span><div><p><b>Riddhima</b> → brother Ranbir → wife Alia → Mahesh, Pooja, Shaheen</p></div></li>
+      <li><span class="yr">Pataudis</span><div><p><b>Riddhima</b> → cousin Kareena → Saif → Sharmila, Soha, Sara, Ibrahim</p></div></li>
+      <li><span class="yr">Bachchans</span><div><p><b>Riddhima</b> → aunt Ritu Nanda → Nikhil → Shweta Bachchan → Amitabh, Jaya, Abhishek</p></div></li>
+      <li><span class="yr">Next gen</span><div><p><b>Bhavana</b> → Chunky → Ananya and Rysa, cousins of Ahaan and Alanna</p></div></li>
+    </ol>
+  </div>
+  <div class="svgbox">
+    <svg viewBox="0 0 800 410" role="img" aria-label="Fabulous Lives wives with husbands on the same row: Maheep and Sanjay Kapoor with daughter Shanaya; Bhavana and Chunky Panday with daughter Ananya, cousin of Ahaan; Seema, divorced from Sohail Khan, with sons Nirvaan; Neelam married to Samir Soni; Shanaya, Ananya and Suhana are best friends; Sanjay's nephew Arjun dated Malaika, ex-wife of Sohail's brother Arbaaz.">
+<line class="e wed" x1="65" y1="50" x2="215" y2="50"/>
+<line class="e wed" x1="370" y1="50" x2="520" y2="50"/>
+<line class="e ex" x1="630" y1="50" x2="750" y2="50"/>
+<line class="e wed" x1="580" y1="350" x2="720" y2="350"/>
+<line class="kid" x1="140" y1="50" x2="140" y2="132"/>
+<line class="kid" x1="445" y1="50" x2="445" y2="132"/>
+<line class="kid" x1="690" y1="50" x2="680" y2="132"/>
+<line class="e co" x1="140" y1="168" x2="295" y2="232"/>
+<line class="e co" x1="445" y1="168" x2="295" y2="232"/>
+<line class="kid" x1="445" y1="168" x2="580" y2="232"/>
+<path class="kid" d="M18,50 C2,50 2,350 18,350"/>
+<line class="e ex" x1="120" y1="350" x2="240" y2="350"/>
+<text class="lbl wed" x="140" y="44" text-anchor="middle">1997</text>
+<text class="lbl wed" x="445" y="44" text-anchor="middle">1998</text>
+<text class="lbl" x="690" y="92" text-anchor="middle">div. 2022</text>
+<text class="lbl wed" x="650" y="344" text-anchor="middle">2011</text>
+<text class="lbl co" x="295" y="190" text-anchor="middle">BFF squad</text>
+<text class="lbl" x="522" y="188">cousins</text>
+<text class="lbl" x="14" y="205">nephew</text>
+<text class="lbl" x="180" y="342" text-anchor="middle">dated 2018–24</text>
+<text class="lbl" x="295" y="390" text-anchor="middle">ex-wife of Sohail's brother Arbaaz</text>
+<g class="n"><rect x="15" y="32" width="100" height="36" rx="18"/><text x="65" y="55" text-anchor="middle">Sanjay</text></g>
+<g class="n c"><rect x="160" y="32" width="110" height="36" rx="18"/><text x="215" y="55" text-anchor="middle">Maheep</text></g>
+<g class="n c"><rect x="310" y="32" width="120" height="36" rx="18"/><text x="370" y="55" text-anchor="middle">Bhavana</text></g>
+<g class="n"><rect x="470" y="32" width="100" height="36" rx="18"/><text x="520" y="55" text-anchor="middle">Chunky</text></g>
+<g class="n c"><rect x="580" y="32" width="100" height="36" rx="18"/><text x="630" y="55" text-anchor="middle">Seema</text></g>
+<g class="n"><rect x="705" y="32" width="90" height="36" rx="18"/><text x="750" y="55" text-anchor="middle">Sohail</text></g>
+<g class="n"><rect x="85" y="132" width="110" height="36" rx="18"/><text x="140" y="155" text-anchor="middle">Shanaya</text></g>
+<g class="n"><rect x="390" y="132" width="110" height="36" rx="18"/><text x="445" y="155" text-anchor="middle">Ananya</text></g>
+<g class="n"><rect x="605" y="132" width="150" height="36" rx="18"/><text x="680" y="155" text-anchor="middle">Nirvaan</text></g>
+<g class="n"><rect x="240" y="232" width="110" height="36" rx="18"/><text x="295" y="255" text-anchor="middle">Suhana</text></g>
+<g class="n"><rect x="530" y="232" width="100" height="36" rx="18"/><text x="580" y="255" text-anchor="middle">Ahaan</text></g>
+<g class="n"><rect x="20" y="332" width="100" height="36" rx="18"/><text x="70" y="355" text-anchor="middle">Arjun</text></g>
+<g class="n"><rect x="240" y="332" width="110" height="36" rx="18"/><text x="295" y="355" text-anchor="middle">Malaika</text></g>
+<g class="n c"><rect x="530" y="332" width="100" height="36" rx="18"/><text x="580" y="355" text-anchor="middle">Neelam</text></g>
+<g class="n"><rect x="670" y="332" width="100" height="36" rx="18"/><text x="720" y="355" text-anchor="middle">Samir</text></g>
+</svg>
+  </div>
+</section>
+<section class="web" aria-labelledby="web4h">
+  <div>
+    <div class="kicker">Exhibit E</div>
+    <h2 id="web4h">King Khan's world</h2>
+    <p>Married to Gauri since 1991, three kids, and the only "affair" ever seriously gossiped about is Priyanka, which neither of them has confirmed. His real fights have been with Salman and, through Aryan, with the NCB officer who arrested him.</p>
+  </div>
+  <div class="svgbox">
+    <svg viewBox="0 0 700 350" role="img" aria-label="Diagram of Shah Rukh Khan married to Gauri, with kids Aryan and Suhana; rumored link with Priyanka and rumored cold war between Gauri and Priyanka; co-stars Kajol and Rani, KKR partner Juhi; feud with Salman; Aryan sued by Sameer Wankhede; Suhana rumored with Agastya Nanda.">
+<line class="e wed" x1="300" y1="80" x2="460" y2="80"/>
+<line class="kid" x1="380" y1="80" x2="250" y2="192"/>
+<line class="kid" x1="380" y1="80" x2="380" y2="192"/>
+<line class="e rum" x1="380" y1="228" x2="380" y2="302"/>
+<line class="e fd" x1="250" y1="228" x2="150" y2="302"/>
+<line class="e rum" x1="300" y1="80" x2="620" y2="170"/>
+<line class="e fd" x1="460" y1="80" x2="620" y2="170"/>
+<line class="e co" x1="300" y1="80" x2="90" y2="40"/>
+<line class="e co" x1="300" y1="80" x2="90" y2="110"/>
+<line class="e co" x1="300" y1="80" x2="90" y2="180"/>
+<line class="e fd" x1="300" y1="80" x2="110" y2="260"/>
+<text class="lbl wed" x="380" y="72" text-anchor="middle">m. 1991</text>
+<text class="lbl co" x="190" y="52" text-anchor="middle">DDLJ, KKHH</text>
+<text class="lbl co" x="160" y="112" text-anchor="middle">KKHH, Chalte Chalte</text>
+<text class="lbl co" x="150" y="168" text-anchor="middle">KKR partner</text>
+<text class="lbl fd" x="110" y="296" text-anchor="middle">2008 fight, hugged 2013</text>
+<text class="lbl fd" x="205" y="290">sued over his show</text>
+<text class="lbl co" x="388" y="272">rumored</text>
+<text class="lbl fd" x="545" y="108">"cold war"</text>
+<text class="lbl co" x="470" y="152" text-anchor="middle">Don, the jacket</text>
+<g class="n c"><rect x="245" y="62" width="110" height="36" rx="18"/><text x="300" y="85" text-anchor="middle">SRK</text></g>
+<g class="n"><rect x="410" y="62" width="100" height="36" rx="18"/><text x="460" y="85" text-anchor="middle">Gauri</text></g>
+<g class="n"><rect x="200" y="192" width="100" height="36" rx="18"/><text x="250" y="215" text-anchor="middle">Aryan</text></g>
+<g class="n"><rect x="330" y="192" width="100" height="36" rx="18"/><text x="380" y="215" text-anchor="middle">Suhana</text></g>
+<g class="n"><rect x="325" y="302" width="110" height="36" rx="18"/><text x="380" y="325" text-anchor="middle">Agastya</text></g>
+<g class="n"><rect x="90" y="302" width="120" height="36" rx="18"/><text x="150" y="325" text-anchor="middle">Wankhede</text></g>
+<g class="n"><rect x="565" y="152" width="110" height="36" rx="18"/><text x="620" y="175" text-anchor="middle">Priyanka</text></g>
+<g class="n"><rect x="40" y="22" width="100" height="36" rx="18"/><text x="90" y="45" text-anchor="middle">Kajol</text></g>
+<g class="n"><rect x="40" y="92" width="100" height="36" rx="18"/><text x="90" y="115" text-anchor="middle">Rani</text></g>
+<g class="n"><rect x="45" y="162" width="90" height="36" rx="18"/><text x="90" y="185" text-anchor="middle">Juhi</text></g>
+<g class="n"><rect x="60" y="242" width="100" height="36" rx="18"/><text x="110" y="265" text-anchor="middle">Salman</text></g>
+</svg>
+  </div>
+</section>
+<section class="web" aria-labelledby="web5h">
+  <div>
+    <div class="kicker">Exhibit F</div>
+    <h2 id="web5h">The Bachchan web</h2>
+    <p>Son of the poet Harivansh Rai Bachchan and Teji Bachchan. The Angry Young Man of <i>Zanjeer</i>, <i>Deewaar</i> and <i>Sholay</i>, and the family that married into everyone. His son got engaged to a Kapoor and married Salman's ex. His daughter married a Kapoor grandson. His grandson may be dating SRK's daughter.</p>
+  </div>
+  <div class="svgbox">
+    <svg viewBox="0 0 720 420" role="img" aria-label="Diagram of Amitabh Bachchan: married to Jaya, rumored with Rekha; Jaya and Rekha went from friends to frost; daughter Shweta married to Nikhil Nanda, Raj Kapoor's grandson, with children Navya and Agastya, who is rumored with Suhana Khan; son Abhishek, once engaged to Karisma Kapoor, married to Aishwarya, Salman Khan's ex.">
+<line class="e wed" x1="300" y1="60" x2="470" y2="60"/>
+<line class="e rum" x1="300" y1="60" x2="110" y2="60"/>
+<path class="e fd" d="M110,42 C110,0 470,0 470,42"/>
+<line class="kid" x1="392" y1="60" x2="215" y2="162"/>
+<line class="kid" x1="392" y1="60" x2="430" y2="162"/>
+<line class="e wed" x1="65" y1="180" x2="215" y2="180"/>
+<line class="kid" x1="137" y1="180" x2="90" y2="272"/>
+<line class="kid" x1="137" y1="180" x2="230" y2="272"/>
+<line class="e wed" x1="430" y1="180" x2="610" y2="180"/>
+<line class="e ex" x1="430" y1="198" x2="380" y2="272"/>
+<line class="e ex" x1="610" y1="198" x2="665" y2="272"/>
+<line class="e rum" x1="230" y1="308" x2="230" y2="372"/>
+<text class="lbl wed" x="392" y="52" text-anchor="middle">m. 1973</text>
+<text class="lbl co" x="200" y="53" text-anchor="middle">Silsila</text>
+<text class="lbl fd" x="290" y="34" text-anchor="middle">friends → frost</text>
+<text class="lbl" x="10" y="150">Raj Kapoor's grandson</text>
+<text class="lbl wed" x="520" y="172" text-anchor="middle">m. 2007</text>
+<text class="lbl" x="398" y="240" text-anchor="end">engaged 2002</text>
+<text class="lbl" x="644" y="240">ex</text>
+<text class="lbl co" x="238" y="345">rumored</text>
+<g class="n c"><rect x="240" y="42" width="120" height="36" rx="18"/><text x="300" y="65" text-anchor="middle">Amitabh</text></g>
+<g class="n"><rect x="425" y="42" width="90" height="36" rx="18"/><text x="470" y="65" text-anchor="middle">Jaya</text></g>
+<g class="n"><rect x="60" y="42" width="100" height="36" rx="18"/><text x="110" y="65" text-anchor="middle">Rekha</text></g>
+<g class="n"><rect x="20" y="162" width="90" height="36" rx="18"/><text x="65" y="185" text-anchor="middle">Nikhil</text></g>
+<g class="n"><rect x="165" y="162" width="100" height="36" rx="18"/><text x="215" y="185" text-anchor="middle">Shweta</text></g>
+<g class="n"><rect x="375" y="162" width="110" height="36" rx="18"/><text x="430" y="185" text-anchor="middle">Abhishek</text></g>
+<g class="n"><rect x="555" y="162" width="110" height="36" rx="18"/><text x="610" y="185" text-anchor="middle">Aishwarya</text></g>
+<g class="n"><rect x="40" y="272" width="100" height="36" rx="18"/><text x="90" y="295" text-anchor="middle">Navya</text></g>
+<g class="n"><rect x="175" y="272" width="110" height="36" rx="18"/><text x="230" y="295" text-anchor="middle">Agastya</text></g>
+<g class="n"><rect x="330" y="272" width="100" height="36" rx="18"/><text x="380" y="295" text-anchor="middle">Karisma</text></g>
+<g class="n"><rect x="615" y="272" width="100" height="36" rx="18"/><text x="665" y="295" text-anchor="middle">Salman</text></g>
+<g class="n"><rect x="175" y="372" width="110" height="36" rx="18"/><text x="230" y="395" text-anchor="middle">Suhana</text></g>
+</svg>
+  </div>
+</section>
+<section class="web" aria-labelledby="maheshh">
+  <div>
+    <div class="kicker">Exhibit G</div>
+    <h2 id="maheshh">The Mahesh Bhatt map</h2>
+    <p>Two wives at once, an admitted affair he turned into a film, four children across two homes, a brother he split from, and a daughter who married into the Kapoors.</p>
+    <p><b>On record:</b> the Parveen Babi affair, two marriages with no divorce, the Pooja kiss photo, the 2021 split with Mukesh. <b>Not proven:</b> the slipper claim. <b>Over-read:</b> the Rhea chats.</p>
+  </div>
+  <div class="svgbox">
+    <svg viewBox="0 0 800 400" role="img" aria-label="Mahesh Bhatt relationship map: son of Nanabhai Bhatt and Shirin Mohammad Ali; brother Mukesh, father of Vishesh, with a 2021 professional split; married Kiran (Lorraine) in 1970, never divorced, children Pooja and Rahul; married Soni Razdan in 1986, children Shaheen and Alia, who married Ranbir Kapoor and has daughter Raha; affair with Parveen Babi that became Arth; mentor to Rhea Chakraborty; unproven slipper allegation involving Kangana; nephew Mohit Suri and second cousin Emraan Hashmi.">
+<line class="kid" x1="392" y1="40" x2="360" y2="132"/>
+<line class="kid" x1="385" y1="40" x2="400" y2="40"/>
+<line class="e ex" x1="360" y1="132" x2="70" y2="58"/>
+<line class="e rep" x1="360" y1="132" x2="200" y2="58"/>
+<line class="e fd" x1="360" y1="132" x2="580" y2="58"/>
+<line class="kid" x1="360" y1="132" x2="720" y2="58"/>
+<line class="kid" x1="720" y1="58" x2="740" y2="132"/>
+<line class="e wed" x1="160" y1="150" x2="300" y2="150"/>
+<line class="e wed" x1="420" y1="150" x2="550" y2="150"/>
+<line class="kid" x1="230" y1="150" x2="150" y2="242"/>
+<line class="kid" x1="230" y1="150" x2="300" y2="242"/>
+<line class="kid" x1="485" y1="150" x2="460" y2="242"/>
+<line class="kid" x1="485" y1="150" x2="590" y2="242"/>
+<line class="e wed" x1="635" y1="260" x2="685" y2="260"/>
+<line class="weak" x1="150" y1="278" x2="110" y2="342"/>
+<line class="weak" x1="300" y1="278" x2="290" y2="342"/>
+<text class="lbl" x="70" y="76" text-anchor="middle">affair, became Arth</text>
+<text class="lbl" x="200" y="76" text-anchor="middle">mentor, 2020 chats</text>
+<text class="lbl fd" x="580" y="76" text-anchor="middle">slipper claim, unproven</text>
+<text class="lbl" x="720" y="76" text-anchor="middle">brother, split 2021</text>
+<text class="lbl" x="392" y="24" text-anchor="middle">parents</text>
+<text class="lbl wed" x="230" y="142" text-anchor="middle">m. 1970</text>
+<text class="lbl wed" x="485" y="142" text-anchor="middle">m. 1986</text>
+<text class="lbl" x="230" y="185" text-anchor="middle">never divorced</text>
+<text class="lbl wed" x="660" y="252" text-anchor="middle">2022</text>
+<text class="lbl" x="122" y="315">second cousin</text>
+<text class="lbl" x="302" y="315">first cousin</text>
+<g class="n"><rect x="10" y="22" width="120" height="36" rx="18"/><text x="70" y="45" text-anchor="middle">Parveen Babi</text></g>
+<g class="n"><rect x="150" y="22" width="100" height="36" rx="18"/><text x="200" y="45" text-anchor="middle">Rhea</text></g>
+<g class="n"><rect x="275" y="22" width="110" height="36" rx="18"/><text x="330" y="45" text-anchor="middle">Nanabhai</text></g>
+<g class="n"><rect x="410" y="22" width="90" height="36" rx="18"/><text x="455" y="45" text-anchor="middle">Shirin</text></g>
+<g class="n"><rect x="525" y="22" width="110" height="36" rx="18"/><text x="580" y="45" text-anchor="middle">Kangana</text></g>
+<g class="n"><rect x="665" y="22" width="110" height="36" rx="18"/><text x="720" y="45" text-anchor="middle">Mukesh</text></g>
+<g class="n"><rect x="60" y="132" width="100" height="36" rx="18"/><text x="110" y="155" text-anchor="middle">Kiran</text></g>
+<g class="n c"><rect x="300" y="132" width="120" height="36" rx="18"/><text x="360" y="155" text-anchor="middle">Mahesh</text></g>
+<g class="n"><rect x="550" y="132" width="100" height="36" rx="18"/><text x="600" y="155" text-anchor="middle">Soni</text></g>
+<g class="n"><rect x="690" y="132" width="100" height="36" rx="18"/><text x="740" y="155" text-anchor="middle">Vishesh</text></g>
+<g class="n"><rect x="100" y="242" width="100" height="36" rx="18"/><text x="150" y="265" text-anchor="middle">Pooja</text></g>
+<g class="n"><rect x="250" y="242" width="100" height="36" rx="18"/><text x="300" y="265" text-anchor="middle">Rahul</text></g>
+<g class="n"><rect x="410" y="242" width="100" height="36" rx="18"/><text x="460" y="265" text-anchor="middle">Shaheen</text></g>
+<g class="n"><rect x="545" y="242" width="90" height="36" rx="18"/><text x="590" y="265" text-anchor="middle">Alia</text></g>
+<g class="n"><rect x="685" y="242" width="110" height="36" rx="18"/><text x="740" y="265" text-anchor="middle">Ranbir</text></g>
+<g class="n"><rect x="55" y="342" width="110" height="36" rx="18"/><text x="110" y="365" text-anchor="middle">Emraan</text></g>
+<g class="n"><rect x="230" y="342" width="120" height="36" rx="18"/><text x="290" y="365" text-anchor="middle">Mohit Suri</text></g>
+</svg>
+  </div>
+</section>
+<section class="web" aria-labelledby="genzh">
+  <div>
+    <div class="kicker">Exhibit H</div>
+    <h2 id="genzh">The Gen-Z detective board</h2>
+    <p>Six young women (pink) who aren't six separate dating histories. Their moms are friends, they grew up in one group chat, and the same few men keep connecting them. Karan Johar once told Sara and Janhvi on Koffee, "you two dated two brothers."</p>
+    <p>The twist: there's no credible evidence of any friend stealing anyone's boyfriend. The dating pool is just tiny.</p>
+  </div>
+  <div class="svgbox">
+    <svg viewBox="0 0 760 530" role="img" aria-label="Gen-Z relationship board: Navya, Suhana, Ananya and Shanaya are childhood friends; Navya's brother Agastya is reported with Suhana; Navya linked to Meezaan (denied) and Siddhant (reported); Siddhant is friends with Ishaan, who dated Ananya and was linked to Janhvi; Ananya reported with Aditya Roy Kapur and rumored with Kartik; Sara had a crush on Kartik; Janhvi dated Shikhar Pahariya and Sara dated his brother Veer; Sara and Janhvi are now friends; Shanaya reported with Karan Kothari.">
+<line class="kid" x1="300" y1="70" x2="480" y2="70"/>
+<line class="weak" x1="300" y1="70" x2="100" y2="40"/>
+<line class="rep" x1="300" y1="70" x2="120" y2="130"/>
+<line class="fr" x1="300" y1="70" x2="480" y2="190"/>
+<line class="fr" x1="300" y1="70" x2="300" y2="260"/>
+<line class="rep" x1="480" y1="70" x2="480" y2="190"/>
+<line class="fr" x1="480" y1="190" x2="660" y2="190"/>
+<line class="fr" x1="300" y1="260" x2="480" y2="190"/>
+<line class="fr" x1="300" y1="260" x2="660" y2="190"/>
+<line class="rep" x1="660" y1="190" x2="680" y2="300"/>
+<line class="fr" x1="120" y1="130" x2="120" y2="300"/>
+<line class="e wed" x1="120" y1="300" x2="300" y2="260"/>
+<line class="rep" x1="120" y1="300" x2="120" y2="450"/>
+<line class="rep" x1="300" y1="260" x2="300" y2="360"/>
+<line class="weak" x1="300" y1="260" x2="480" y2="330"/>
+<line class="rep" x1="480" y1="330" x2="660" y2="450"/>
+<line class="e wed" x1="120" y1="450" x2="300" y2="450"/>
+<line class="kid" x1="300" y1="450" x2="480" y2="450"/>
+<line class="e wed" x1="480" y1="450" x2="660" y2="450"/>
+<path class="fr" d="M120,468 C120,518 660,518 660,468"/>
+<text class="lbl" x="390" y="62" text-anchor="middle">siblings</text>
+<text class="lbl" x="200" y="34" text-anchor="middle">denied</text>
+<text class="lbl" x="488" y="135">Archies</text>
+<text class="lbl" x="128" y="220">friends</text>
+<text class="lbl wed" x="200" y="270" text-anchor="middle">Koffee</text>
+<text class="lbl" x="128" y="380">Dhadak</text>
+<text class="lbl" x="390" y="442" text-anchor="middle">brothers</text>
+<text class="lbl" x="686" y="250">reported</text>
+<text class="lbl" x="582" y="398">crush → dated?</text>
+<text class="lbl co" x="390" y="510" text-anchor="middle">friends now</text>
+<g class="n c"><rect x="250" y="52" width="100" height="36" rx="18"/><text x="300" y="75" text-anchor="middle">Navya</text></g>
+<g class="n c"><rect x="430" y="172" width="100" height="36" rx="18"/><text x="480" y="195" text-anchor="middle">Suhana</text></g>
+<g class="n c"><rect x="250" y="242" width="100" height="36" rx="18"/><text x="300" y="265" text-anchor="middle">Ananya</text></g>
+<g class="n c"><rect x="610" y="172" width="100" height="36" rx="18"/><text x="660" y="195" text-anchor="middle">Shanaya</text></g>
+<g class="n c"><rect x="70" y="432" width="100" height="36" rx="18"/><text x="120" y="455" text-anchor="middle">Janhvi</text></g>
+<g class="n c"><rect x="615" y="432" width="90" height="36" rx="18"/><text x="660" y="455" text-anchor="middle">Sara</text></g>
+<g class="n"><rect x="425" y="52" width="110" height="36" rx="18"/><text x="480" y="75" text-anchor="middle">Agastya</text></g>
+<g class="n"><rect x="45" y="22" width="110" height="36" rx="18"/><text x="100" y="45" text-anchor="middle">Meezaan</text></g>
+<g class="n"><rect x="60" y="112" width="120" height="36" rx="18"/><text x="120" y="135" text-anchor="middle">Siddhant</text></g>
+<g class="n"><rect x="70" y="282" width="100" height="36" rx="18"/><text x="120" y="305" text-anchor="middle">Ishaan</text></g>
+<g class="n"><rect x="250" y="342" width="100" height="36" rx="18"/><text x="300" y="365" text-anchor="middle">Aditya</text></g>
+<g class="n"><rect x="430" y="312" width="100" height="36" rx="18"/><text x="480" y="335" text-anchor="middle">Kartik</text></g>
+<g class="n"><rect x="250" y="432" width="100" height="36" rx="18"/><text x="300" y="455" text-anchor="middle">Shikhar</text></g>
+<g class="n"><rect x="435" y="432" width="90" height="36" rx="18"/><text x="480" y="455" text-anchor="middle">Veer</text></g>
+<g class="n"><rect x="615" y="282" width="130" height="36" rx="18"/><text x="680" y="305" text-anchor="middle">Karan Kothari</text></g>
+</svg>
+  </div>
+</section>
+</main>
+<dialog id="rx" aria-label="Receipt"><article class="slip" id="rxin"></article></dialog>
+<footer id="foot" class="wrap"></footer>
+<script src="assets/web3d.js"></script>
+<script src="assets/site.js"></script>
+</body>
+</html>
