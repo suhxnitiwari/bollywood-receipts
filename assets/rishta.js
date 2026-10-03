@@ -2,16 +2,20 @@
    Pick any two people on the board. The shortest chain between them is pinned through 3D space, read out as one
    sentence ("Deepika is Alia's spouse's ex"), and every hop carries its receipt. Everyone they touch floats around them. */
 (function(){
-const G=window.__G||[],SRC=window.__GSRC||{},MV=new Map((window.MOVIES||[]).map(m=>[m[0],m]));
+const G=window.__G||[],SRC=window.__GSRC||{},GF=window.__GFILMS||{},MV=new Map((window.MOVIES||[]).map(m=>[m[0],m]));
 const ph=n=>(typeof PH!=='undefined'&&PH[n])||null;
 const esc=t=>String(t??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const enc=encodeURIComponent,$=s=>document.querySelector(s);
 const ADJ={};G.forEach((e,i)=>{(ADJ[e[0]]??=[]).push([e[1],i]);(ADJ[e[1]]??=[]).push([e[0],i])});
 const NAMES=Object.keys(ADJ).sort((a,b)=>a.localeCompare(b));
 const DEG=Object.fromEntries(NAMES.map(n=>[n,ADJ[n].length]));
-const WT={m:1,d:1,e:1,x:1,f:1,r:1.4,b:1.4,v:1.4,c:1.8,k:1.6,g:2.2,s:2};
-const COL={m:'#6B1E5A',d:'#8C5A7E',e:'#4A3B6E',x:'#4A3B6E',r:'#A8740F',c:'#7E7262',f:'#15110E',b:'#2E7D6B',v:'#C8261C',k:'#D94A6E',g:'#1F5F8B',s:'#B05A00'};
-const KIND={m:'married',d:'married, then split',e:'engaged',x:'dated',r:'rumored',c:'worked together',f:'family',b:'friends',v:'feud',k:'on-screen kiss',g:'glam team',s:'replaced in a film'};
+// strongest ties: family, marriage and real co-starring cost the least; cameos, songs and rumors cost more
+const WT={m:1,d:1,f:1,e:1.1,x:1.1,b:1.2,v:1.4,k:1.6,g:2.2,s:2,o:1.3,q:1.7,r:1.6};
+function cost(i,o){if(o.fast)return 1;const e=G[i],t=e[2];
+  if(t==='c'){if((GF[i]||[]).length>1)return .8;if(!SRC[i])return 1.2;const d=e[3]||'';return /\(writer/.test(d)?1.2:/\(producer/.test(d)?1.1:1}
+  return WT[t]||2}
+const COL={o:'#9C8F7C',q:'#B0186B',m:'#6B1E5A',d:'#8C5A7E',e:'#4A3B6E',x:'#4A3B6E',r:'#A8740F',c:'#7E7262',f:'#15110E',b:'#2E7D6B',v:'#C8261C',k:'#D94A6E',g:'#1F5F8B',s:'#B05A00'};
+const KIND={o:'cameo in the same film',q:'song appearance in the same film',m:'married',d:'married, then split',e:'engaged',x:'dated',r:'rumored',c:'worked together',f:'family',b:'friends',v:'feud',k:'on-screen kiss',g:'glam team',s:'replaced in a film'};
 const STAMP={t:['RECEIPT ✓','v-true'],a:['ALLEGED ?','v-alleged'],r:['RUMOR ~','v-rumor'],c:['CAP ✕','v-cap']};
 const first=n=>({'Shah Rukh Khan':'SRK'})[n]||n.split(' ')[0];
 
@@ -19,7 +23,7 @@ const first=n=>({'Shah Rukh Khan':'SRK'})[n]||n.split(' ')[0];
 function role(i){const e=G[i],t=e[2],d=(e[3]||'').toLowerCase();
   if(t==='f'){if(/sibling|brother|sister/.test(d))return 'sibling';if(/cousin/.test(d))return 'cousin';if(/uncle|aunt|niece|nephew/.test(d))return 'relative';return 'family'}
   if(t==='c')return SRC[i]?(/\((director|producer)/.test(e[3]||'')?'collaborator':'co-star'):'collaborator';
-  return {m:'spouse',d:'ex-spouse',e:'ex-fiancé(e)',x:'ex',r:'rumored flame',b:'friend',v:'rival',k:'on-screen kiss',g:'glam team',s:'casting replacement'}[t]||'link'}
+  return {o:'cameo co-star',q:'song co-star',m:'spouse',d:'ex-spouse',e:'ex-fiancé(e)',x:'ex',r:'rumored flame',b:'friend',v:'rival',k:'on-screen kiss',g:'glam team',s:'casting replacement'}[t]||'link'}
 function sentence(a,b,p){if(!p.length)return '';const rs=p.map(([,i])=>role(i));
   if(rs.length===1)return `${esc(first(b))} is ${esc(first(a))}'s ${rs[0]}.`;
   if(rs.length<=6)return `${esc(first(b))} is ${esc(first(a))}'s ${rs.map(esc).join("'s ")}.`;
@@ -32,7 +36,8 @@ function route(a,b,o={},ban=new Set(),banE=new Set()){const dist={[a]:0},prev={}
     if(u===null)return null;if(u===b)break;done.add(u);
     for(const [v,i] of ADJ[u]){if(ban.has(v)&&v!==b)continue;if(banE.has(i))continue;const e=G[i];
       if(o.fam&&!'fmd'.includes(e[2]))continue;if(o.clean&&(e[5]!=='t'||e[2]==='r'))continue;if(o.nofilm&&SRC[i])continue;
-      const nd=dist[u]+(WT[e[2]]||2);if(dist[v]===undefined||nd<dist[v]){dist[v]=nd;prev[v]=[u,i]}}}
+      if(!o.rum&&(e[2]==='r'||e[5]==='r'||e[5]==='c'))continue;
+      const nd=dist[u]+cost(i,o);if(dist[v]===undefined||nd<dist[v]){dist[v]=nd;prev[v]=[u,i]}}}
   const out=[];let c=b;while(c!==a){const [p,i]=prev[c];out.unshift([p,i,c]);c=p}return out}
 function routes(a,b,o){const best=route(a,b,o);if(!best)return [];const all=[best],sig=r=>r.map(x=>x[2]).join('>');const seen=new Set([sig(best)]);
   best.slice(0,-1).forEach(([,,mid])=>{const r=route(a,b,o,new Set([mid]));if(r&&!seen.has(sig(r))){seen.add(sig(r));all.push(r)}});
@@ -111,8 +116,8 @@ function menu(n){const m=$('#rmenu');m.hidden=false;m.innerHTML=`<p><b>${esc(n.i
 
 /* ---------- the readout ---------- */
 let cur=null;
-function hopHtml(a,p){return `<ol class="rhops"><li class="rwho">${face(a)}<b>${esc(a)}</b></li>${p.map(([u,i,v],k)=>{const e=G[i],st=STAMP[e[5]]||STAMP.t,f=SRC[i]&&MV.get(SRC[i].slice(5));
-  return `<li class="rhop" data-k="${k}" style="--c:${COL[e[2]]}"><span class="rk">${esc(KIND[e[2]])}${e[4]?' · '+e[4]:''}</span> <span class="stmp ${st[1]}">${st[0]}</span>${e[3]?`<p>${esc(e[3])}</p>`:''}${f?`<p class="rf">🎬 ${esc(f[1])} (${f[2]})</p>`:''}<p class="rrole">${esc(first(v))} is ${esc(first(u))}'s ${esc(role(i))}</p></li><li class="rwho">${face(v)}<b>${esc(v)}</b></li>`}).join('')}</ol>`}
+function hopHtml(a,p){return `<ol class="rhops"><li class="rwho">${face(a)}<b>${esc(a)}</b></li>${p.map(([u,i,v],k)=>{const e=G[i],st=STAMP[e[5]]||STAMP.t,fs=(GF[i]||(SRC[i]?[SRC[i]]:[])).map(x=>MV.get(x.slice(5))).filter(Boolean);
+  return `<li class="rhop" data-k="${k}" style="--c:${COL[e[2]]}"><span class="rk">${esc(KIND[e[2]])}${e[4]?' · '+e[4]:''}</span> <span class="stmp ${st[1]}">${st[0]}</span>${e[3]?`<p>${esc(e[3])}</p>`:''}${fs.length?`<p class="rf">🎬 ${fs.map(f=>esc(f[1])+' ('+f[2]+')').join(' · ')}${fs.length>1?' · repeat collaborators':''}</p>`:''}<p class="rrole">${esc(first(v))} is ${esc(first(u))}'s ${esc(role(i))}</p></li><li class="rwho">${face(v)}<b>${esc(v)}</b></li>`}).join('')}</ol>`}
 const face=n=>ph(n)?`<img src="${esc(ph(n))}" alt="" loading="lazy">`:`<span class="ini">${esc(n.slice(0,2))}</span>`;
 function show(a,b,rs,k=0){cur={a,b,rs,k};const p=rs[k],out=$('#rout');
   if(!p){out.innerHTML=`<p class="rsent">No chain between ${esc(a)} and ${esc(b)} with these filters.</p><p class="rsub">Turn a filter off, or tell us what we're missing: these two aren't linked on the board yet.</p>`;build(a,a,[]);return}
@@ -122,6 +127,7 @@ function show(a,b,rs,k=0){cur={a,b,rs,k};const p=rs[k],out=$('#rout');
   {const rs=new Set(dir.map(role));const drop=new Set();if(['spouse','ex-spouse','ex','ex-fiancé(e)'].some(r=>rs.has(r)))drop.add('rumored flame');if(rs.has('co-star'))drop.add('collaborator');for(let j=dir.length-1;j>=0;j--)if(drop.has(role(dir[j])))dir.splice(j,1)}
   const sent=p.length===1&&dir.length>1?`${esc(first(b))} is ${esc(first(a))}'s ${dir.map(i=>esc(role(i))).reduce((s,r,j,arr)=>s+(j===0?'':j===arr.length-1?' and ':', ')+r,'')}.`:sentence(a,b,p);
   out.innerHTML=`<p class="rq">Yeh rishta kya kehlata hai?</p><p class="rsent">${sent}</p>
+   <p class="rsub">${opts().fast?'Fewest steps (every kind of link counts the same)':'Strongest ties (family, marriage and real co-starring first; cameos, songs and rumors cost more)'}${opts().rum?'':' · rumors off'}</p>
    <p class="rsub"><span class="rdeg">${deg}</span> ${esc(CLOSE[Math.min(deg,7)])}${weak?` · <span class="stmp v-alleged">${weak} hop${weak>1?'s':''} not fully on record</span>`:' · every hop is a receipt'}</p>
    ${rs.length>1?`<div class="rroutes" role="tablist" aria-label="Routes">${rs.map((r,i)=>`<button type="button" role="tab" aria-selected="${i===k}" data-r="${i}">${i&&rs[0].length===1&&r.length>1?'The long way round':'Route '+(i+1)} · ${r.length} step${r.length>1?'s':''}</button>`).join('')}</div>`:''}
    <div class="rtour"><button type="button" id="rplay">▶ Play the rishta</button><button type="button" id="rfit">Show the whole chain</button><button type="button" id="rshare">🔗 Copy link</button></div>
@@ -139,18 +145,43 @@ async function tour(a,p){if(touring){touring=false;return}touring=true;const btn
 
 /* ---------- wiring ---------- */
 const PA=picker($('#rpa'),'ra',()=>run()),PB=picker($('#rpb'),'rb',()=>run());
-function opts(){return {clean:$('#rclean').checked,fam:$('#rfam').checked,nofilm:$('#rnofilm').checked}}
+function opts(){return {clean:$('#rclean').checked,fam:$('#rfam').checked,nofilm:$('#rnofilm').checked,rum:$('#rrum').checked,fast:$('#rfast').checked}}
 function run(){const a=PA.get(),b=PB.get();if(!a||!b)return;touring=false;$('#rcap').hidden=true;
-  const o=opts(),q=new URLSearchParams({a,b});if(o.clean)q.set('clean',1);if(o.fam)q.set('fam',1);if(o.nofilm)q.set('nofilm',1);history.replaceState(null,'','?'+q);
+  const o=opts(),q=new URLSearchParams({a,b});['clean','fam','nofilm','rum','fast'].forEach(k=>{if(o[k])q.set(k,1)});history.replaceState(null,'','?'+q);
   if(a===b){$('#rout').innerHTML=`<p class="rsent">Same person twice. Pick someone else for person two.</p>`;return}
   show(a,b,routes(a,b,o))}
-['#rclean','#rfam','#rnofilm'].forEach(s=>$(s).onchange=run);
+['#rclean','#rfam','#rnofilm','#rrum','#rfast','#rstrong'].forEach(s=>$(s).onchange=run);
 $('#rswap').onclick=()=>{const a=PA.get(),b=PB.get();if(a&&b){PA.set(b);PB.set(a);run()}};
 $('#rrand').onclick=()=>{const pool=NAMES.filter(n=>DEG[n]>=4),r=()=>pool[Math.floor(Math.random()*pool.length)];let a=r(),b=r();while(b===a)b=r();PA.set(a);PB.set(b);run()};
 document.querySelectorAll('.rpairs button').forEach(x=>x.onclick=()=>{PA.set(x.dataset.a);PB.set(x.dataset.b);run();$('#rw3d').scrollIntoView({behavior:'smooth',block:'center'})});
 $('#rform').addEventListener('submit',e=>{e.preventDefault();run()});
-const q=new URLSearchParams(location.search);['clean','fam','nofilm'].forEach(k=>{if(q.get(k))$('#r'+k).checked=true});
+const q=new URLSearchParams(location.search);['clean','fam','nofilm','rum','fast'].forEach(k=>{if(q.get(k))$('#r'+k).checked=true});
 PA.set(NAMES.includes(q.get('a'))?q.get('a'):'Aishwarya Rai');PB.set(NAMES.includes(q.get('b'))?q.get('b'):'Katrina Kaif');
 $('#rstat').textContent=`${NAMES.length} people · ${G.length.toLocaleString()} rishtas on the board`;
 run();
+
+/* ---------- the movies holding Bollywood together: computed, never crowned ----------
+   score = people × family clusters joined × (1 + generational span / 20) × industries ÷ cameo dilution */
+(function bombs(){const host=$('#bombs');if(!host)return;const MOV=window.MOVIES||[];
+  const parent={},find=x=>{while(parent[x]&&parent[x]!==x)x=parent[x]=parent[parent[x]]||parent[x];return x};
+  NAMES.forEach(n=>parent[n]=n);G.forEach(e=>{if('fmd'.includes(e[2])){const a=find(e[0]),b=find(e[1]);if(a!==b)parent[a]=b}});
+  const debut={},langs={};MOV.forEach(([,,y,x])=>{if(x.upcoming)return;const ps=[...(x.cast||[]),...(x.special||[])];ps.forEach(p=>{debut[p]=Math.min(debut[p]??9999,y);(langs[p]??=new Set()).add(x.lang||'hi')})});
+  const rows=MOV.filter(m=>!m[3].upcoming).map(([id,title,year,x])=>{const extra=[...(x.special||[]),...(x.voice||[]),...(x.child||[]),...(x.song?x.song[1]:[])];
+    const ppl=[...new Set([...(x.cast||[]),...extra])].filter(p=>ADJ[p]);if(ppl.length<4)return null;
+    const fams=new Set(ppl.map(find)).size,ds=ppl.map(p=>debut[p]).filter(v=>v<9999),span=ds.length?Math.max(...ds)-Math.min(...ds):0;
+    const ind=new Set(ppl.flatMap(p=>[...(langs[p]||[])])).size,cam=new Set(extra).size,dil=1+cam/ppl.length;
+    return {id,title,year,n:ppl.length,fams,span,ind,cam,dil,score:ppl.length*fams*(1+span/20)*ind/dil}}).filter(Boolean).sort((a,b)=>b.score-a.score).slice(0,15);
+  host.innerHTML=`<p class="rq">The movies holding Bollywood together</p><h2>Which films bridge the most of the board?</h2>
+   <p class="rsub">Computed from the board, not picked by us: people on the board × separate families they bring together × how many generations they span × how many industries ÷ how much of it is cameos and songs.</p>
+   <ol class="bombs">${rows.map((r,k)=>`<li><b class="bn">${k+1}</b><div><h3>${esc(r.title)} <span>${r.year}</span></h3><p>${r.n} people · ${r.fams} families joined · ${r.span}-year generational span · ${r.ind} industr${r.ind>1?'ies':'y'}${r.cam?` · ${r.cam} cameos/songs`:''}</p><p class="bx" data-id="${r.id}"></p></div><span class="bs">${Math.round(r.score)}</span></li>`).join('')}</ol>
+   <button type="button" class="rgo" id="bombtest">Run the removal test</button><p class="rsub">Deletes each film's links (the ones that exist only because of that film) and measures, across a fixed sample of 150 people, how many pairs drift farther apart.</p>`;
+  $('#bombtest').onclick=()=>{const btn=$('#bombtest');btn.disabled=true;btn.textContent='Testing…';setTimeout(()=>{
+    const ok=i=>{const e=G[i];return !(e[2]==='r'||e[5]==='r'||e[5]==='c')};
+    const sample=NAMES.filter((n,k)=>k%Math.max(1,Math.floor(NAMES.length/150))===0).slice(0,150);
+    const bfs=(src,skip)=>{const d={[src]:0},q=[src];for(let h=0;h<q.length;h++){const u=q[h];for(const [v,i] of ADJ[u]){if(d[v]!==undefined||!ok(i)||skip.has(i))continue;d[v]=d[u]+1;q.push(v)}}return d};
+    const base=sample.map(s=>bfs(s,new Set()));
+    rows.forEach(r=>{const only=new Set();Object.entries(GF).forEach(([i,fs])=>{if(fs.length===1&&fs[0]==='film:'+r.id)only.add(+i)});
+      let farther=0,lost=0,add=0;sample.forEach((s,k)=>{const d=bfs(s,only),b0=base[k];for(const t in b0){if(d[t]===undefined){lost++;continue}if(d[t]>b0[t]){farther++;add+=d[t]-b0[t]}}});
+      const el=host.querySelector(`.bx[data-id="${r.id}"]`);el.innerHTML=`Without it: <b>${farther.toLocaleString()}</b> sampled pairs drift farther apart${lost?`, <b>${lost}</b> lose their connection entirely`:''}. ${only.size} links exist only because of this film.`});
+    btn.textContent='Removal test done';},30)}})();
 })();

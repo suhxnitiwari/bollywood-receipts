@@ -23,7 +23,7 @@
       <ul id="rla" role="listbox" hidden></ul></div><button type="button" class="rswap" id="rswap" aria-label="Swap the two people">⇄</button><div class="rpick" id="rpb"><span class="rp-face" aria-hidden="true"><span>?</span></span><label for="rib">Person two</label>
       <input id="rib" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="rlb" autocomplete="off" spellcheck="false" placeholder="Type a name">
       <ul id="rlb" role="listbox" hidden></ul></div></div>
- <div class="ropts"><label><input type="checkbox" id="rclean"> Receipts only</label><label><input type="checkbox" id="rfam"> Family &amp; marriage only</label><label><input type="checkbox" id="rnofilm"> Ignore the movies</label>
+ <div class="ropts"><span class="rmode" role="radiogroup" aria-label="Route"><label><input type="radio" name="rmode" id="rstrong" checked> Strongest ties</label><label><input type="radio" name="rmode" id="rfast"> Fewest steps</label></span><label><input type="checkbox" id="rclean"> Receipts only</label><label><input type="checkbox" id="rfam"> Family &amp; marriage only</label><label><input type="checkbox" id="rnofilm"> Ignore the movies</label><label><input type="checkbox" id="rrum"> Include rumors</label>
   <button type="submit" class="rgo">Find the rishta</button><button type="button" class="rgo ghost" id="rrand">🎲 Surprise me</button></div>
  <div class="rpairs" aria-label="Try a famous pair"><span>Try:</span><button type="button" data-a="Aishwarya Rai" data-b="Katrina Kaif">Aishwarya × Katrina</button><button type="button" data-a="Shah Rukh Khan" data-b="Salman Khan">SRK × Salman</button><button type="button" data-a="Aneet Padda" data-b="Alia Bhatt">Aneet × Alia</button><button type="button" data-a="Taapsee Pannu" data-b="Shah Rukh Khan">Taapsee × SRK</button><button type="button" data-a="Shraddha Kapoor" data-b="Rhea Chakraborty">Shraddha × Rhea</button><button type="button" data-a="Sridevi" data-b="Jaya Prada">Sridevi × Jaya Prada</button><button type="button" data-a="Rekha" data-b="Ranveer Singh">Rekha × Ranveer</button><button type="button" data-a="Madhubala" data-b="Alia Bhatt">Madhubala × Alia</button><button type="button" data-a="Tiger Shroff" data-b="Disha Patani">Tiger × Disha</button><button type="button" data-a="Ahaan Panday" data-b="Aneet Padda">Ahaan × Aneet</button><button type="button" data-a="Kangana Ranaut" data-b="Taapsee Pannu">Kangana × Taapsee</button><button type="button" data-a="Prabhas" data-b="Ranbir Kapoor">Prabhas × Ranbir</button></div>
 </form>
@@ -34,6 +34,7 @@
  <p class="rhint">Drag to spin · scroll or pinch to zoom · tap any face</p>
 </div>
 <section class="rout wrap" id="rout" aria-live="polite"></section>
+<section class="rbombs wrap" id="bombs"></section>
 </main>
 <dialog id="rx" aria-label="Receipt"><article class="slip" id="rxin"></article></dialog>
 <footer id="foot" class="wrap"></footer>

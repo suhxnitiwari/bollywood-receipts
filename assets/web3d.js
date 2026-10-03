@@ -154,7 +154,7 @@ window.initExhibitWebs=function(){document.querySelectorAll('.svgbox svg').forEa
   box.insertAdjacentHTML('beforeend',legendHtml(d.edges.map(e=>e.t))+`<span class="w3d-hint">Drag to spin · tap a face</span><span class="w3d-xo">XOXO</span>`)})};
 
 /* ---------- the connector board: every name on the site as a star, the shortest chain lit up ---------- */
-const TYK={s:'succ',m:'wed',d:'wed',e:'ex',x:'ex',r:'rum',c:'co',f:'kid',b:'fr',v:'fd',k:'kiss',g:'glam'};
+const TYK={o:'co',q:'co',s:'succ',m:'wed',d:'wed',e:'ex',x:'ex',r:'rum',c:'co',f:'kid',b:'fr',v:'fd',k:'kiss',g:'glam'};
 let BW=null;
 function boardLayout(){const names=window.__NAMES,ADJ=window.__ADJ,N=names.length,idx=new Map(names.map((n,i)=>[n,i])),r=rng('board');
   const pos=names.map(()=>[r()*2-1,r()*2-1,r()*2-1]),E=[];G.forEach((e,i)=>{const a=idx.get(e[0]),b=idx.get(e[1]);if(a!=null&&b!=null&&a!==b)E.push([a,b,i])});

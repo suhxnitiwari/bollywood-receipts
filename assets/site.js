@@ -864,9 +864,11 @@ const G=[
 ];
 
 // ---------- one graph: everything below feeds the same edge list the connector searches ----------
-const GSRC={};
-(function(){const have=new Set(G.map(e=>[e[0],e[1]].sort().join('|')+'|'+e[2]));
-  const add=(a,b,t,d,y,v,src)=>{if(!a||!b||a===b||/^(film|char|evt|exit):/.test(a)||/^(film|char|evt|exit):/.test(b))return;const k=[a,b].sort().join('|')+'|'+t;if(have.has(k))return;have.add(k);G.push([a,b,t,d,y,v]);if(src)GSRC[G.length-1]=src};
+const GSRC={},GFILMS={};
+(function(){const have=new Map(G.map((e,i)=>[[e[0],e[1]].sort().join('|')+'|'+e[2],i]));
+  // every edge remembers every film behind it, so repeat collaborators can count for more
+  const add=(a,b,t,d,y,v,src)=>{if(!a||!b||a===b||/^(film|char|evt|exit):/.test(a)||/^(film|char|evt|exit):/.test(b))return;const k=[a,b].sort().join('|')+'|'+t;
+    if(have.has(k)){const i=have.get(k);if(src&&GSRC[i]&&!GFILMS[i].includes(src))GFILMS[i].push(src);return}have.set(k,G.length);G.push([a,b,t,d,y,v]);if(src){GSRC[G.length-1]=src;GFILMS[G.length-1]=[src]}};
   // feuds of every kind count as feuds; launches count as work; denials (CAP), reconciliations, media-made rivalries and announced-only launches never become graph edges
   const TM={wed:'m',ptr:'m',div:'d',ex:'x',rom:'r',kiss:'k',work:'c',fr:'b',fam:'f',fd:'v',succ:'s',beef:'v',onesided:'v',fallout:'v',alter:'v',excl:'v',debut:'c',brk:'c',dirdeb:'c',back:'c',door:'c'},yr=t=>{const m=String(t||'').match(/\b(19|20)\d{2}\b/);return m?+m[0]:null};
   const thread=([a,b,t,lab,ev])=>{if(TM[t]&&ev!=='c')add(a,b,TM[t],String(lab||'').replace(/^♥ /,''),yr(lab),ev||'t')};
@@ -874,13 +876,21 @@ const GSRC={};
   Object.values(window.ACTORPAGES||{}).forEach(p=>(p.extra||[]).forEach(thread));
   (window.GLAM||[]).forEach(([c,s,role,ctx,str,ev])=>{if(str>=3)add(c,s,'g',role+' · '+ctx,yr(ctx),ev)});
   // a film links everyone in its principal cast, and its director to each of them; marked so "delete the movies" can drop them
-  (window.MOVIES||[]).forEach(([id,title,year,x])=>{if(x.upcoming)return;const cast=x.cast||[];
-    for(let i=0;i<cast.length;i++)for(let j=i+1;j<cast.length;j++)add(cast[i],cast[j],'c',title,year,'t','film:'+id);
-    (x.crew||[]).forEach(([p,r])=>{if(/director|producer/.test(r)&&!/assistant/.test(r))cast.forEach(c=>add(p,c,'c',title+' ('+r+')',year,'t','film:'+id))})});
+  // cameos, voices, child roles and song appearances link to the film's leads only (type o or q), never to each other:
+  // thirty stars walking through one song are not thirty co-stars. Anthologies link people within their own segment.
+  (window.MOVIES||[]).forEach(([id,title,year,x])=>{if(x.upcoming)return;const cast=x.cast||[],src='film:'+id,leads=cast.slice(0,2);
+    const groups=x.segments||[cast];groups.forEach(gp=>{const g=gp.filter(p=>cast.includes(p));for(let i=0;i<g.length;i++)for(let j=i+1;j<g.length;j++)add(g[i],g[j],'c',title,year,'t',src)});
+    (x.segments||[]).forEach(gp=>gp.filter(p=>!cast.includes(p)).forEach(p=>gp.filter(q=>cast.includes(q)).forEach(q=>add(p,q,'o',title+' (special appearance)',year,'t',src))));
+    const segOf=p=>(x.segments||[]).some(gp=>gp.includes(p));
+    (x.special||[]).filter(p=>!segOf(p)).forEach(p=>leads.forEach(l=>add(p,l,'o',title+' (special appearance)',year,'t',src)));
+    (x.voice||[]).forEach(p=>leads.forEach(l=>add(p,l,'o',title+' (voice)',year,'t',src)));
+    (x.child||[]).forEach(p=>leads.forEach(l=>add(p,l,'o',title+' (child appearance)',year,'t',src)));
+    if(x.song)x.song[1].forEach(p=>leads.forEach(l=>add(p,l,'q',title+' · song "'+x.song[0]+'"',year,'t',src)));
+    (x.crew||[]).forEach(([p,r])=>{if(/director|producer|writer/.test(r)&&!/assistant/.test(r))cast.forEach(c=>add(p,c,'c',title+' ('+r+')',year,'t',src))})});
 })();
-window.__G=G;window.__GSRC=GSRC;
-const TY={s:["Replaced in a film","rum"],k:["Kissed on screen","kiss"],g:["Glam team","glam"],m:["Married","wed"],d:["Married, later split","wed"],e:["Engaged","ex"],x:["Dated","ex"],r:["Linked","rum"],c:["Worked together","co"],f:["Family","kid"],b:["Friends","fr"],v:["Feud","fd"]};
-const WT={m:1,d:1,e:1,x:1,f:1,r:1.4,b:1.4,v:1.4,c:1.8,k:1.6,g:2.2,s:2};
+window.__G=G;window.__GSRC=GSRC;window.__GFILMS=GFILMS;
+const TY={o:["Cameo in the same film","co"],q:["Song appearance in the same film","co"],s:["Replaced in a film","rum"],k:["Kissed on screen","kiss"],g:["Glam team","glam"],m:["Married","wed"],d:["Married, later split","wed"],e:["Engaged","ex"],x:["Dated","ex"],r:["Linked","rum"],c:["Worked together","co"],f:["Family","kid"],b:["Friends","fr"],v:["Feud","fd"]};
+const WT={m:1,d:1,e:1,x:1,f:1,r:1.4,b:1.4,v:1.4,c:1.8,k:1.6,g:2.2,s:2,o:2.3,q:3.1};
 const ADJ={};G.forEach((e,i)=>{(ADJ[e[0]]??=[]).push([e[1],i]);(ADJ[e[1]]??=[]).push([e[0],i])});
 const NAMES=Object.keys(ADJ).sort();window.__NAMES=NAMES;window.__ADJ=ADJ;if(typeof render==='function'){try{window.__rerenderTop&&window.__rerenderTop();render()}catch(e){}}
 const HASCX=!!document.getElementById('cxf');if(HASCX)document.getElementById('cxnames').innerHTML=NAMES.map(n=>`<option value="${n}">`).join('');
