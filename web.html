@@ -6,17 +6,17 @@
 <title>The Web | Bollywood Receipts</title>
 <meta name="description" content="A 3D floating web of how everyone in Bollywood is connected: marriages, exes, feuds, co-stars and family.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Mukta:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&family=Mukta:wght@400;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap">
 <style>
-:root{--ink:#0D0B0C;--paper:#FFF2F4;--muted:#C9B3BA;--rani:#FF1675;--sun:#FF6B1A;--gold:#FFB21A;--sunset:linear-gradient(100deg,#FF1675,#FF4D4D 45%,#FF6B1A 75%,#FFB21A);color-scheme:dark}
+:root{--ink:#0D0B0C;--paper:#FFF2F4;--muted:#C9B3BA;--rani:#FF2E88;--sun:#FF8FC0;--gold:#E7C47E;--sunset:linear-gradient(135deg,#FF2E88,#C2186B);color-scheme:dark}
 html,body{margin:0;height:100%;background:#0D0B0C;color:var(--paper);font-family:"Mukta",system-ui,sans-serif;overflow:hidden}
 #g{position:fixed;inset:0}
 .hud{position:fixed;left:16px;top:calc(14px + env(safe-area-inset-top,0px));max-width:min(440px,calc(100vw - 32px));z-index:5;pointer-events:none}
 .hud>*{pointer-events:auto}
 .home{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-decoration:none}
 .home:hover{color:#fff}
-h1{font-family:"Abril Fatface",Georgia,serif;font-weight:400;font-size:clamp(30px,5vw,52px);line-height:.95;margin:8px 0 6px}
-h1 em{font-style:normal;background:var(--sunset);-webkit-background-clip:text;background-clip:text;color:transparent}
+h1{font-family:"Bodoni Moda",Didot,Georgia,serif;text-transform:lowercase;font-weight:400;font-size:clamp(30px,5vw,52px);line-height:.95;margin:8px 0 6px}
+h1 em{font-style:italic;color:var(--rani)}
 .stat{font-size:14px;line-height:1.4;color:#E9D6DC;margin:0 0 10px;background:rgba(13,11,12,.75);border-radius:10px;padding:6px 8px}
 .stat b{color:#fff}
 .box{background:rgba(13,11,12,.88);backdrop-filter:blur(8px);border:1px solid #3A262D;border-radius:14px;padding:10px 12px}
@@ -33,7 +33,7 @@ button.ghost{background:none;color:#fff;border:1px solid #3A262D;font-weight:400
 #card{position:fixed;right:16px;top:calc(14px + env(safe-area-inset-top,0px));width:min(320px,calc(100vw - 32px));max-height:calc(100vh - 100px);overflow:auto;z-index:6}
 #card[hidden]{display:none}
 #card .ph{width:84px;height:84px;border-radius:50%;object-fit:cover;object-position:50% 15%;border:3px solid #0D0B0C;box-shadow:0 0 0 2px var(--rani)}
-#card h2{font-family:"Abril Fatface",Georgia,serif;font-weight:400;font-size:26px;margin:8px 0 2px}
+#card h2{font-family:"Bodoni Moda",Didot,Georgia,serif;font-style:italic;font-weight:400;font-size:26px;margin:8px 0 2px}
 #card ul{list-style:none;margin:8px 0 0;padding:0}
 #card li{font-size:13.5px;padding:6px 0;border-top:1px dashed #3A262D;cursor:pointer}
 #card li b{color:#fff}#card li span{color:var(--muted);font-size:12px}
@@ -75,7 +75,7 @@ const NAMES=DATA.nodes.map(n=>n.id).sort();document.getElementById('nm').innerHT
 const resolve=q=>{q=(q||'').trim().toLowerCase();if(!q)return null;return NAMES.find(n=>n.toLowerCase()===q)||NAMES.find(n=>n.toLowerCase().split(' ').includes(q))||NAMES.find(n=>n.toLowerCase().startsWith(q))||NAMES.find(n=>n.toLowerCase().includes(q))};
 function bfs(a,b){const prev={[a]:null},q=[a];while(q.length){const u=q.shift();if(u===b)break;for(const [v,l] of ADJ[u]||[])if(!(v in prev)){prev[v]=[u,l];q.push(v)}}if(!(b in prev))return null;const out=[];let c=b;while(prev[c]){out.unshift([prev[c][0],prev[c][1],c]);c=prev[c][0]}return out}
 let hiN=new Set(),hiL=new Set(),focus=null;
-const SIL=(()=>{const c=document.createElement('canvas');c.width=c.height=128;const x=c.getContext('2d');const g=x.createLinearGradient(0,0,128,128);g.addColorStop(0,'#FF1675');g.addColorStop(.6,'#FF6B1A');g.addColorStop(1,'#FFB21A');x.fillStyle=g;x.fillRect(0,0,128,128);x.fillStyle='rgba(13,11,12,.82)';x.beginPath();x.arc(64,48,22,0,7);x.fill();x.beginPath();x.ellipse(64,128,42,38,0,Math.PI,0);x.fill();return c})();
+const SIL=(()=>{const c=document.createElement('canvas');c.width=c.height=128;const x=c.getContext('2d');const g=x.createLinearGradient(0,0,128,128);g.addColorStop(0,'#FF2E88');g.addColorStop(.6,'#C2186B');g.addColorStop(1,'#7A0F45');x.fillStyle=g;x.fillRect(0,0,128,128);x.fillStyle='rgba(13,11,12,.82)';x.beginPath();x.arc(64,48,22,0,7);x.fill();x.beginPath();x.ellipse(64,128,42,38,0,Math.PI,0);x.fill();return c})();
 function circleTex(img){const c=document.createElement('canvas');c.width=c.height=128;const x=c.getContext('2d');x.save();x.beginPath();x.arc(64,64,58,0,7);x.closePath();x.clip();
   if(img){const r=Math.max(128/img.width,128/img.height),w=img.width*r,h=img.height*r;x.drawImage(img,(128-w)/2,Math.min(0,(128-h)*0.15),w,h)}else x.drawImage(SIL,0,0);
   x.restore();x.lineWidth=7;x.strokeStyle='#FF1675';x.beginPath();x.arc(64,64,60,0,7);x.stroke();const t=new THREE.CanvasTexture(c);return t}
@@ -86,7 +86,7 @@ let Graph;
 try{Graph=ForceGraph3D()(document.getElementById('g')).backgroundColor('#0D0B0C').graphData(DATA).nodeId('id')
   .nodeThreeObject(nodeObj).nodeLabel(n=>`${n.id}, ${n.deg} rishtas`)
   .linkColor(l=>hiL.size?(hiL.has(l)?T[l.t][1]:'#2A1C21'):T[l.t][1]).linkOpacity(.28).linkWidth(l=>hiL.has(l)?1.8:0).cooldownTicks(220).warmupTicks(60)
-  .linkDirectionalParticles(l=>hiL.has(l)?3:0).linkDirectionalParticleWidth(1.6).linkDirectionalParticleColor(()=>'#FFB21A')
+  .linkDirectionalParticles(l=>hiL.has(l)?3:0).linkDirectionalParticleWidth(1.6).linkDirectionalParticleColor(()=>'#E7C47E')
   .onNodeClick(n=>select(n.id)).onBackgroundClick(()=>{document.getElementById('card').hidden=true});
   Graph.d3Force('charge').strength(-60);Graph.d3Force('link').distance(l=>l.t==='f'||l.t==='m'||l.t==='d'?28:50);
   let fitted=false;Graph.onEngineStop(()=>{if(!fitted){fitted=true;Graph.zoomToFit(1200,30)}});setTimeout(()=>{if(!fitted)Graph.zoomToFit(1200,30)},6000);
