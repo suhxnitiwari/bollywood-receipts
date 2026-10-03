@@ -13,7 +13,8 @@ Bollywood gossip, sorted by how solid the receipt actually is. Every story is st
 
 - `index.html`: the front page (lead story, Spotted, receipts, the connector, the Reel, the Web, Khandaan, the archive, Watch next)
 - `receipts.html`: every receipt, filed by drawer, with search (`?f=feud`, `?q=Ranbir`)
-- `the-web.html`: Yeh Rishta Kya Kehlata Hai (connect any two people) and the case files
+- `rishta.html`: the flagship. Yeh Rishta Kya Kehlata Hai? in 3D: pick any two people, see the chain pinned through space, read what the rishta is called, play the camera tour, switch routes and filters, share the link
+- `the-web.html`: the quick connector, the bridges leaderboard and the case files
 - `people.html`: Khandaan family trees (`?k=kapoor`) and Stars A–Z
 - `features.html`: long reads (a century of the sexy heroine, how 50 stars got in, the school pipeline, the inheritance board)
 - `watch.html`: the full Reel and what to stream next

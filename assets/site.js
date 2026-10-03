@@ -422,7 +422,7 @@ const G=[
 ["Navya Naveli Nanda","Meezaan Jafri","r","he denied it",2019,"c"],
 ["Navya Naveli Nanda","Siddhant Chaturvedi","r","widely reported",2023,"a"],
 ["Aishwarya Rai","Salman Khan","x","1999–2002; she later alleged abuse, he denied it",1999,"t"],
-["Aishwarya Rai","Vivek Oberoi","x","",2003,"a"],
+["Aishwarya Rai","Vivek Oberoi","r","reported relationship, c. 2003; needs a source pass",2003,"a"],
 ["Aishwarya Rai","Sushmita Sen","v","Miss India 1994 rivalry",1994,"r"],
 ["Aishwarya Rai","Rani Mukerji","v","Rani replaced her in Chalte Chalte",2002,"a"],
 ["Aishwarya Rai","Shah Rukh Khan","c","dropped from Chalte Chalte; later Ae Dil Hai Mushkil",2002,"t"],
@@ -914,6 +914,7 @@ function connect(){const a=resolveName(ia.value),b=resolveName(ib.value);
   const direct=G.filter(e=>(e[0]===a&&e[1]===b)||(e[0]===b&&e[1]===a));
   if(direct.length>1)h+=`<p style="margin:0;font-size:14px;color:var(--muted)">They have ${direct.length} direct links on the board.</p>`;
   h+=`<div class="tls">${timeline(a,'b')}${timeline(b,'a')}</div><p style="margin:0;font-size:13px;color:var(--muted)">Tap any name in a history to connect it instead. "—" means no single date.</p>`;
+  h=`<p class="cx3d"><a class="cx-btn" href="rishta.html?a=${encodeURIComponent(a)}&b=${encodeURIComponent(b)}">See this rishta in 3D →</a></p>`+h;
   out.innerHTML=h;window.cxWebShow&&window.cxWebShow(a,b,pth);
   out.querySelectorAll('.nm').forEach(x=>x.onclick=()=>{(x.dataset.slot==='a'?ia:ib).value=x.dataset.n;connect();document.getElementById('connecth').scrollIntoView({behavior:'smooth'})})}
 if(HASCX){
@@ -937,6 +938,7 @@ const PAGE=document.body.dataset.page||'front';
 const enc=encodeURIComponent;
 const NAV=[
   {k:'latest',t:'Latest',href:'index.html',sub:[['Spotted','index.html#spotted'],['Trending','index.html#trending'],['The Reel','index.html#reel']]},
+  {k:'rishta',t:'Yeh Rishta',href:'rishta.html',sub:[['Connect any two people','rishta.html'],['SRK × Salman','rishta.html?a=Shah%20Rukh%20Khan&b=Salman%20Khan'],['Alia × Deepika','rishta.html?a=Alia%20Bhatt&b=Deepika%20Padukone'],['Rhea × Shraddha','rishta.html?a=Rhea%20Chakraborty&b=Shraddha%20Kapoor']]},
   {k:'receipts',t:'Receipts',href:'receipts.html',sub:[['All receipts','receipts.html?f=all'],['Affairs & triangles','receipts.html?f=triangle'],['Feuds & fallouts','receipts.html?f=feud'],['Friendship breakups','receipts.html?f=dost'],['Engagements & divorces','receipts.html?f=engaged'],['Court cases','receipts.html?f=court'],['Archive scandals','receipts.html?f=legend'],['Rumors','receipts.html?f=chupke']]},
   {k:'people',t:'People',href:'people.html',sub:[['Khandaan: the families','people.html#trees'],['Stars A–Z','people.html#az']]},
   {k:'web',t:'The Web',href:'the-web.html',sub:[['Connect two people','the-web.html#connecth'],['The files','the-web.html#files'],['Six Degrees of Bollywood','web.html']]},

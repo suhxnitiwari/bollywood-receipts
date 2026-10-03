@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Pick any two people in Bollywood and see exactly how they are related, in 3D, every link stamped with its receipt.">
+<title>Yeh Rishta Kya Kehlata Hai? · Bollywood Receipts</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%23F3EADB'/%3E%3Ctext x='32' y='43' font-family='Georgia,serif' font-size='30' font-weight='700' text-anchor='middle' fill='%23C8261C'%3EBR%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rozha+One&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..800;1,6..96,400..800&family=Mukta:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Caveat:wght@500;700&display=swap">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body data-page="rishta">
+<a class="skip" href="#main">Skip to the rishta</a>
+<div id="top"></div>
+<main id="main" class="rishta">
+<header class="rhead wrap"><p class="eyebrow">The detective tool · in 3D</p><h1>Yeh rishta kya kehlata hai?</h1>
+ <p class="dek">Pick any two people. We find the shortest chain between them, pin it through 3D space and tell you what the rishta is called. Every link is dated and stamped.</p><p class="rstat" id="rstat"></p></header>
+<form id="rform" class="rform wrap" autocomplete="off">
+ <div class="rpicks"><div class="rpick" id="rpa"><span class="rp-face" aria-hidden="true"><span>?</span></span><label for="ria">Person one</label>
+      <input id="ria" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="rla" autocomplete="off" spellcheck="false" placeholder="Type a name">
+      <ul id="rla" role="listbox" hidden></ul></div><button type="button" class="rswap" id="rswap" aria-label="Swap the two people">⇄</button><div class="rpick" id="rpb"><span class="rp-face" aria-hidden="true"><span>?</span></span><label for="rib">Person two</label>
+      <input id="rib" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="rlb" autocomplete="off" spellcheck="false" placeholder="Type a name">
+      <ul id="rlb" role="listbox" hidden></ul></div></div>
+ <div class="ropts"><label><input type="checkbox" id="rclean"> Receipts only</label><label><input type="checkbox" id="rfam"> Family &amp; marriage only</label><label><input type="checkbox" id="rnofilm"> Ignore the movies</label>
+  <button type="submit" class="rgo">Find the rishta</button><button type="button" class="rgo ghost" id="rrand">🎲 Surprise me</button></div>
+ <div class="rpairs" aria-label="Try a famous pair"><span>Try:</span><button type="button" data-a="Aishwarya Rai" data-b="Katrina Kaif">Aishwarya × Katrina</button><button type="button" data-a="Shah Rukh Khan" data-b="Salman Khan">SRK × Salman</button><button type="button" data-a="Aneet Padda" data-b="Alia Bhatt">Aneet × Alia</button><button type="button" data-a="Taapsee Pannu" data-b="Shah Rukh Khan">Taapsee × SRK</button><button type="button" data-a="Shraddha Kapoor" data-b="Rhea Chakraborty">Shraddha × Rhea</button><button type="button" data-a="Sridevi" data-b="Jaya Prada">Sridevi × Jaya Prada</button><button type="button" data-a="Rekha" data-b="Ranveer Singh">Rekha × Ranveer</button><button type="button" data-a="Madhubala" data-b="Alia Bhatt">Madhubala × Alia</button><button type="button" data-a="Tiger Shroff" data-b="Disha Patani">Tiger × Disha</button><button type="button" data-a="Ahaan Panday" data-b="Aneet Padda">Ahaan × Aneet</button><button type="button" data-a="Kangana Ranaut" data-b="Taapsee Pannu">Kangana × Taapsee</button><button type="button" data-a="Prabhas" data-b="Ranbir Kapoor">Prabhas × Ranbir</button></div>
+</form>
+<div class="rstage wrap">
+ <div class="rw3d" id="rw3d" aria-label="3D web of the chain. Drag to spin, scroll or pinch to zoom, tap a face for options."></div>
+ <div class="rcap" id="rcap" hidden aria-live="polite"></div>
+ <div class="rmenu" id="rmenu" hidden></div>
+ <p class="rhint">Drag to spin · scroll or pinch to zoom · tap any face</p>
+</div>
+<section class="rout wrap" id="rout" aria-live="polite"></section>
+</main>
+<dialog id="rx" aria-label="Receipt"><article class="slip" id="rxin"></article></dialog>
+<footer id="foot" class="wrap"></footer>
+<script src="assets/files.js"></script>
+<script src="assets/movies.js"></script>
+<script src="assets/web3d.js"></script>
+<script src="assets/site.js"></script>
+<script src="https://unpkg.com/three@0.149.0/build/three.min.js"></script>
+<script src="https://unpkg.com/three-spritetext@1.8.2/dist/three-spritetext.min.js"></script>
+<script src="https://unpkg.com/3d-force-graph@1.71.2/dist/3d-force-graph.min.js"></script>
+<script src="assets/rishta.js"></script>
+</body>
+</html>
