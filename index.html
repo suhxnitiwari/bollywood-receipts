@@ -42,6 +42,7 @@
       <label for="cxb">Person two<input id="cxb" list="cxnames" placeholder="e.g. Katrina Kaif"></label>
     </div>
     <label style="display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:12px;margin-top:10px"><input type="checkbox" id="cxfam"> Family and marriage links only</label>
+    <label class="cxopt"><input type="checkbox" id="cxclean"> Receipts only (no rumors)</label>
     <div class="cx-btns"><button class="cx-btn" type="submit">Connect them</button><button class="cx-btn ghost" type="button" id="cxrand">🎲 Give me two random people</button><button class="cx-btn ghost" type="button" id="cxcards">Show me the receipts</button></div>
     <datalist id="cxnames"></datalist>
   </form>
@@ -74,7 +75,10 @@
 </main>
 <dialog id="rx" aria-label="Receipt"><article class="slip" id="rxin"></article></dialog>
 <footer id="foot" class="wrap"></footer>
+<script src="assets/files.js"></script>
+<script src="assets/movies.js"></script>
 <script src="assets/web3d.js"></script>
 <script src="assets/site.js"></script>
+<script src="assets/casefiles.js"></script>
 </body>
 </html>

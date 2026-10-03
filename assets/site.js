@@ -534,8 +534,6 @@ const G=[
 ["Chunky Panday","Ananya Panday","f","father and daughter",null,"t"],
 ["Ananya Panday","Ahaan Panday","f","cousins",null,"t"],
 ["Aditya Roy Kapur","Tara Sutaria","r","",2026,"a"],
-["Aditya Roy Kapur","Shraddha Kapoor","r","Aashiqui 2",2013,"r"],
-["Aditya Roy Kapur","Rhea Chakraborty","r","",null,"r"],
 ["Rhea Chakraborty","Sushant Singh Rajput","x","2019–20",2019,"t"],
 ["Ranveer Singh","Deepika Padukone","m","met on Ram-Leela 2013",2018,"t"],
 ["Ranveer Singh","Anushka Sharma","x","Band Baaja Baaraat; \"volatile,\" she said, and \"platonic\"",2010,"a"],
@@ -865,31 +863,47 @@ const G=[
 ["Sonakshi Sinha","Amitabh Bachchan","c","KBC 2019, the Ramayana question",2019,"t"],
 ];
 
-const TY={m:["Married","wed"],d:["Married, later split","wed"],e:["Engaged","ex"],x:["Dated","ex"],r:["Linked","rum"],c:["Worked together","co"],f:["Family","kid"],b:["Friends","fr"],v:["Feud","fd"]};
-const WT={m:1,d:1,e:1,x:1,f:1,r:1.4,b:1.4,v:1.4,c:1.8};
+// ---------- one graph: everything below feeds the same edge list the connector searches ----------
+const GSRC={};
+(function(){const have=new Set(G.map(e=>[e[0],e[1]].sort().join('|')+'|'+e[2]));
+  const add=(a,b,t,d,y,v,src)=>{if(!a||!b||a===b||/^(film|char|evt|exit):/.test(a)||/^(film|char|evt|exit):/.test(b))return;const k=[a,b].sort().join('|')+'|'+t;if(have.has(k))return;have.add(k);G.push([a,b,t,d,y,v]);if(src)GSRC[G.length-1]=src};
+  // feuds of every kind count as feuds; launches count as work; denials (CAP), reconciliations, media-made rivalries and announced-only launches never become graph edges
+  const TM={wed:'m',ptr:'m',div:'d',ex:'x',rom:'r',kiss:'k',work:'c',fr:'b',fam:'f',fd:'v',succ:'s',beef:'v',onesided:'v',fallout:'v',alter:'v',excl:'v',debut:'c',brk:'c',dirdeb:'c',back:'c',door:'c'},yr=t=>{const m=String(t||'').match(/\b(19|20)\d{2}\b/);return m?+m[0]:null};
+  const thread=([a,b,t,lab,ev])=>{if(TM[t]&&ev!=='c')add(a,b,TM[t],String(lab||'').replace(/^♥ /,''),yr(lab),ev||'t')};
+  (window.CASEFILES||[]).forEach(f=>(f.threads||[]).forEach(thread));
+  Object.values(window.ACTORPAGES||{}).forEach(p=>(p.extra||[]).forEach(thread));
+  (window.GLAM||[]).forEach(([c,s,role,ctx,str,ev])=>{if(str>=3)add(c,s,'g',role+' · '+ctx,yr(ctx),ev)});
+  // a film links everyone in its principal cast, and its director to each of them; marked so "delete the movies" can drop them
+  (window.MOVIES||[]).forEach(([id,title,year,x])=>{if(x.upcoming)return;const cast=x.cast||[];
+    for(let i=0;i<cast.length;i++)for(let j=i+1;j<cast.length;j++)add(cast[i],cast[j],'c',title,year,'t','film:'+id);
+    (x.crew||[]).forEach(([p,r])=>{if(/director|producer/.test(r)&&!/assistant/.test(r))cast.forEach(c=>add(p,c,'c',title+' ('+r+')',year,'t','film:'+id))})});
+})();
+window.__G=G;window.__GSRC=GSRC;
+const TY={s:["Replaced in a film","rum"],k:["Kissed on screen","kiss"],g:["Glam team","glam"],m:["Married","wed"],d:["Married, later split","wed"],e:["Engaged","ex"],x:["Dated","ex"],r:["Linked","rum"],c:["Worked together","co"],f:["Family","kid"],b:["Friends","fr"],v:["Feud","fd"]};
+const WT={m:1,d:1,e:1,x:1,f:1,r:1.4,b:1.4,v:1.4,c:1.8,k:1.6,g:2.2,s:2};
 const ADJ={};G.forEach((e,i)=>{(ADJ[e[0]]??=[]).push([e[1],i]);(ADJ[e[1]]??=[]).push([e[0],i])});
 const NAMES=Object.keys(ADJ).sort();window.__NAMES=NAMES;window.__ADJ=ADJ;if(typeof render==='function'){try{window.__rerenderTop&&window.__rerenderTop();render()}catch(e){}}
 const HASCX=!!document.getElementById('cxf');if(HASCX)document.getElementById('cxnames').innerHTML=NAMES.map(n=>`<option value="${n}">`).join('');
 const VT={t:["RECEIPT","v-true"],a:["ALLEGED","v-alleged"],r:["RUMOR","v-rumor"],c:["CAP","v-cap"]};
 function resolveName(q){q=(q||'').trim().toLowerCase();if(!q)return null;
   return NAMES.find(n=>n.toLowerCase()===q)||NAMES.find(n=>n.toLowerCase().split(' ').some(w=>w===q))||NAMES.find(n=>n.toLowerCase().startsWith(q))||NAMES.find(n=>n.toLowerCase().includes(q))||null}
-function path(a,b,fam){const dist={[a]:0},prev={},done=new Set();
+function path(a,b,fam,clean){const dist={[a]:0},prev={},done=new Set();
   while(true){let u=null,best=Infinity;for(const k in dist)if(!done.has(k)&&dist[k]<best){best=dist[k];u=k}
     if(u===null)return null;if(u===b)break;done.add(u);
-    for(const [v,i] of ADJ[u]){if(fam&&!"fmd".includes(G[i][2]))continue;const nd=dist[u]+WT[G[i][2]];if(dist[v]===undefined||nd<dist[v]){dist[v]=nd;prev[v]=[u,i]}}}
+    for(const [v,i] of ADJ[u]){if(fam&&!"fmd".includes(G[i][2]))continue;if(clean&&(G[i][5]!=='t'||G[i][2]==='r'))continue;const nd=dist[u]+WT[G[i][2]];if(dist[v]===undefined||nd<dist[v]){dist[v]=nd;prev[v]=[u,i]}}}
   const out=[];let c=b;while(c!==a){const [p,i]=prev[c];out.unshift([p,i,c]);c=p}return out}
 const av=n=>PH[n]?`<img src="${PH[n]}" alt="" onerror="this.remove()">`:'';
 const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const tag=v=>`<span class="vtag ${VT[v][1]}">${VT[v][0]}</span>`;
 const nmb=(n,slot)=>`<button type="button" class="nm" data-n="${esc(n)}" data-slot="${slot}">${esc(n)}</button>`;
-function timeline(p,slot){const ev=ADJ[p].map(([o,i])=>[o,G[i]]).sort((x,y)=>(x[1][4]??9999)-(y[1][4]??9999)||x[0].localeCompare(y[0]));
-  return `<div class="tlcol"><h3>${esc(p)}</h3><ol>`+ev.map(([o,e])=>`<li><span class="y">${e[4]??'—'}</span><span>${TY[e[2]][0]}: ${nmb(o,slot)}${tag(e[5])}${e[3]?`<br><span class="d">${esc(e[3])}</span>`:''}</span></li>`).join('')+'</ol></div>'}
+function timeline(p,slot){const fl=new Set(ADJ[p].filter(([o,i])=>GSRC[i]).map(([o,i])=>GSRC[i]));const ev=ADJ[p].filter(([o,i])=>!GSRC[i]).map(([o,i])=>[o,G[i]]).sort((x,y)=>(x[1][4]??9999)-(y[1][4]??9999)||x[0].localeCompare(y[0]));
+  return `<div class="tlcol"><h3>${esc(p)}</h3>${fl.size?`<p class="tlf">${fl.size} film${fl.size>1?'s':''} on file · <a href="people.html?p=${encodeURIComponent(p)}#actor">see every co-star →</a></p>`:''}<ol>`+ev.map(([o,e])=>`<li><span class="y">${e[4]??'—'}</span><span>${TY[e[2]][0]}: ${nmb(o,slot)}${tag(e[5])}${e[3]?`<br><span class="d">${esc(e[3])}</span>`:''}</span></li>`).join('')+'</ol></div>'}
 const out=document.getElementById('cxout'),ia=document.getElementById('cxa'),ib=document.getElementById('cxb');
 function connect(){const a=resolveName(ia.value),b=resolveName(ib.value);
   if(!a||!b){out.innerHTML=`<p class="cx-err">${!a?`No one called "${esc(ia.value||'')}" yet.`:`No one called "${esc(ib.value||'')}" yet.`} Try a name from the dropdown.</p>`;return}
   ia.value=a;ib.value=b;
   if(a===b){out.innerHTML=`<p class="cx-err">Pick two different people.</p><div class="tls">${timeline(a,'b')}</div>`;return}
-  const fam=document.getElementById('cxfam').checked;const pth=path(a,b,fam);
+  const fam=document.getElementById('cxfam').checked,clean=!!document.getElementById('cxclean')?.checked;const pth=path(a,b,fam,clean);
   let h='';
   if(!pth)h=`<p class="cx-sum">No ${fam?'family-only ':''}chain found between ${esc(a)} and ${esc(b)} on this board yet.${fam?' Try turning off family-only.':''}</p>`;
   else{const deg=pth.length;
@@ -904,7 +918,7 @@ function connect(){const a=resolveName(ia.value),b=resolveName(ib.value);
   out.querySelectorAll('.nm').forEach(x=>x.onclick=()=>{(x.dataset.slot==='a'?ia:ib).value=x.dataset.n;connect();document.getElementById('connecth').scrollIntoView({behavior:'smooth'})})}
 if(HASCX){
 document.getElementById('cxf').addEventListener('submit',e=>{e.preventDefault();connect()});
-document.getElementById('cxfam').onchange=connect;
+document.getElementById('cxfam').onchange=connect;const cc=document.getElementById('cxclean');if(cc)cc.onchange=connect;
 document.getElementById('cxswap').onclick=()=>{[ia.value,ib.value]=[ib.value,ia.value];connect()};
 document.getElementById('cxrand').onclick=()=>{const r=()=>NAMES[Math.floor(Math.random()*NAMES.length)];let a=r(),b=r();while(b===a)b=r();ia.value=a;ib.value=b;connect()};
 document.getElementById('cxcards').onclick=()=>{const a=resolveName(ia.value);if(a)showReceipts(a)};
@@ -915,7 +929,10 @@ window.initExhibitWebs&&window.initExhibitWebs();
 document.querySelectorAll('.pp').forEach(b=>b.addEventListener('click',()=>showReceipts(b.dataset.q)));
 
 /* ---------- the publication: masthead, nav, ticker, search, front page ---------- */
-const FILES=[{"id": "webh", "file": "001", "t": "Alia's very small world", "d": "Ranbir's two famous exes married Ranveer and Vicky. Alia has done movies with both husbands, and Sanjay Leela Bhansali's Love & War puts Alia, Ranbir and Vicky in the same film.", "p": ["Ranbir", "Alia", "Ranveer", "Deepika", "Katrina", "Vicky"], "n": 6, "e": 7, "ctx": "Diagram: Ranbir and Alia married 2022; Ranbir's exes Deepika and Katrina married Ranveer (2018) and Vicky (2021); Alia co-starred with Ranveer and Vicky."}, {"id": "web2h", "file": "002", "t": "Kartik's co-star web", "d": "Every heroine Kartik makes a film with gets linked to him. Ananya's exes then lead straight to Tara, the actress she's been compared to since their shared debut.", "p": ["Kartik", "Sara", "Kriti", "Janhvi", "Sreeleela", "Ananya", "Ishaan", "Aditya", "Tara"], "n": 9, "e": 8, "ctx": "Diagram: Kartik Aaryan rumored with Sara, Kriti, Janhvi, Sreeleela and Ananya; Ananya's exes Ishaan Khatter and Aditya Roy Kapur; Aditya now rumored with Tara Sutaria."}, {"id": "web3h", "file": "003", "t": "Six degrees of Fabulous", "d": "Netflix's Fabulous Lives of Bollywood Wives, produced by Karan Johar's company, plugs into almost every dynasty. The original four are in pink; season 3 added Riddhima Kapoor Sahni, Shalini Passi and Kalyani Saha Chawla.", "p": ["Sanjay", "Maheep", "Bhavana", "Chunky", "Seema", "Sohail", "Shanaya", "Ananya", "Nirvaan", "Suhana", "Ahaan", "Arjun", "Malaika", "Neelam", "Samir"], "n": 15, "e": 12, "ctx": "Fabulous Lives wives with husbands on the same row: Maheep and Sanjay Kapoor with daughter Shanaya; Bhavana and Chunky Panday with daughter Ananya, cousin of Ahaan; Seema, divorced from Sohail Khan, with sons Nirvaan; Neelam married to Samir Soni; Shanaya, Ananya and Suhana are best friends; Sanjay's nephew Arjun dated Malaika, ex-wife of Sohail's brother Arbaaz."}, {"id": "web4h", "file": "004", "t": "King Khan's world", "d": "Married to Gauri since 1991, three kids, and the only \"affair\" ever seriously gossiped about is Priyanka, which neither of them has confirmed. His real fights have been with Salman and, through Aryan, with the NCB officer who arrested him.", "p": ["SRK", "Gauri", "Aryan", "Suhana", "Agastya", "Wankhede", "Priyanka", "Kajol", "Rani", "Juhi", "Salman"], "n": 11, "e": 11, "ctx": "Diagram of Shah Rukh Khan married to Gauri, with kids Aryan and Suhana; rumored link with Priyanka and rumored cold war between Gauri and Priyanka; co-stars Kajol and Rani, KKR partner Juhi; feud with Salman; Aryan sued by Sameer Wankhede; Suhana rumored with Agastya Nanda."}, {"id": "web5h", "file": "005", "t": "The Bachchan web", "d": "Son of the poet Harivansh Rai Bachchan and Teji Bachchan. The Angry Young Man of Zanjeer, Deewaar and Sholay, and the family that married into everyone. His son got engaged to a Kapoor and married Salman's ex. His daughter married a Kapoor grandson. His grandson may be dating SRK's daughter.", "p": ["Amitabh", "Jaya", "Rekha", "Nikhil", "Shweta", "Abhishek", "Aishwarya", "Navya", "Agastya", "Karisma", "Salman", "Suhana"], "n": 12, "e": 12, "ctx": "Diagram of Amitabh Bachchan: married to Jaya, rumored with Rekha; Jaya and Rekha went from friends to frost; daughter Shweta married to Nikhil Nanda, Raj Kapoor's grandson, with children Navya and Agastya, who is rumored with Suhana Khan; son Abhishek, once engaged to Karisma Kapoor, married to Aishwarya, Salman Khan's ex."}, {"id": "maheshh", "file": "006", "t": "The Mahesh Bhatt map", "d": "Two wives at once, an admitted affair he turned into a film, four children across two homes, a brother he split from, and a daughter who married into the Kapoors.", "p": ["Parveen Babi", "Rhea", "Nanabhai", "Shirin", "Kangana", "Mukesh", "Kiran", "Mahesh", "Soni", "Vishesh", "Pooja", "Rahul", "Shaheen", "Alia", "Ranbir", "Emraan", "Mohit Suri"], "n": 17, "e": 16, "ctx": "Mahesh Bhatt relationship map: son of Nanabhai Bhatt and Shirin Mohammad Ali; brother Mukesh, father of Vishesh, with a 2021 professional split; married Kiran (Lorraine) in 1970, never divorced, children Pooja and Rahul; married Soni Razdan in 1986, children Shaheen and Alia, who married Ranbir Kapoor and has daughter Raha; affair with Parveen Babi that became Arth; mentor to Rhea Chakraborty; unproven slipper allegation involving Kangana; nephew Mohit Suri and second cousin Emraan Hashmi."}, {"id": "genzh", "file": "007", "t": "The Gen-Z detective board", "d": "Six young women (pink) who aren't six separate dating histories. Their moms are friends, they grew up in one group chat, and the same few men keep connecting them. Karan Johar once told Sara and Janhvi on Koffee, \"you two dated two brothers.\"", "p": ["Navya", "Suhana", "Ananya", "Shanaya", "Janhvi", "Sara", "Agastya", "Meezaan", "Siddhant", "Ishaan", "Aditya", "Kartik", "Shikhar", "Veer", "Karan Kothari"], "n": 15, "e": 20, "ctx": "Gen-Z relationship board: Navya, Suhana, Ananya and Shanaya are childhood friends; Navya's brother Agastya is reported with Suhana; Navya linked to Meezaan (denied) and Siddhant (reported); Siddhant is friends with Ishaan, who dated Ananya and was linked to Janhvi; Ananya reported with Aditya Roy Kapur and rumored with Kartik; Sara had a crush on Kartik; Janhvi dated Shikhar Pahariya and Sara dated his brother Veer; Sara and Janhvi are now friends; Shanaya reported with Karan Kothari."}];
+const FILES=(()=>{const legacy=[{"id": "web3h", "file": "003", "t": "Six degrees of Fabulous", "d": "Netflix's Fabulous Lives of Bollywood Wives, produced by Karan Johar's company, plugs into almost every dynasty. The original four are in pink; season 3 added Riddhima Kapoor Sahni, Shalini Passi and Kalyani Saha Chawla.", "p": ["Sanjay", "Maheep", "Bhavana", "Chunky", "Seema", "Sohail", "Shanaya", "Ananya", "Nirvaan", "Suhana", "Ahaan", "Arjun", "Malaika", "Neelam", "Samir"], "n": 15, "e": 12, "ctx": "Fabulous Lives wives with husbands on the same row: Maheep and Sanjay Kapoor with daughter Shanaya; Bhavana and Chunky Panday with daughter Ananya, cousin of Ahaan; Seema, divorced from Sohail Khan, with sons Nirvaan; Neelam married to Samir Soni; Shanaya, Ananya and Suhana are best friends; Sanjay's nephew Arjun dated Malaika, ex-wife of Sohail's brother Arbaaz."}, {"id": "maheshh", "file": "006", "t": "The Mahesh Bhatt map", "d": "Two wives at once, an admitted affair he turned into a film, four children across two homes, a brother he split from, and a daughter who married into the Kapoors.", "p": ["Parveen Babi", "Rhea", "Nanabhai", "Shirin", "Kangana", "Mukesh", "Kiran", "Mahesh", "Soni", "Vishesh", "Pooja", "Rahul", "Shaheen", "Alia", "Ranbir", "Emraan", "Mohit Suri"], "n": 17, "e": 16, "ctx": "Mahesh Bhatt relationship map: son of Nanabhai Bhatt and Shirin Mohammad Ali; brother Mukesh, father of Vishesh, with a 2021 professional split; married Kiran (Lorraine) in 1970, never divorced, children Pooja and Rahul; married Soni Razdan in 1986, children Shaheen and Alia, who married Ranbir Kapoor and has daughter Raha; affair with Parveen Babi that became Arth; mentor to Rhea Chakraborty; unproven slipper allegation involving Kangana; nephew Mohit Suri and second cousin Emraan Hashmi."}];const order=['webh','rani','web2h','web3h','web4h','web5h','maheshh','genzh','hrithik','znmd','yjhd','animal','ddlj','soty','housefull','cops','spy','deepika','karan','starmaker','nepoverse','beef','saba','soha','glam'];
+  return order.map((id,i)=>{const f=(window.CASEFILES||[]).find(x=>x.id===id),L=legacy.find(x=>x.id===id);const file=String(i+1).padStart(3,'0');
+    if(L)return {...L,file};if(!f)return null;const ppl=[...new Set((f.threads||[]).flatMap(t=>[t[0],t[1]]).concat((f.films||[]).flatMap(x=>x[3].cast||[])))];
+    return {id,file,t:f.title,d:f.dek,p:(f.lead||[]).concat(ppl.filter(n=>!(f.lead||[]).includes(n))).map(n=>n.split(' ')[0]).slice(0,8),ctx:ppl.join(', '),n:ppl.length,e:(f.threads||[]).length}}).filter(Boolean)})();
 const PAGE=document.body.dataset.page||'front';
 const enc=encodeURIComponent;
 const NAV=[
@@ -974,7 +991,7 @@ function runSearch(qs){const X=searchIndex(),s=qs.trim().toLowerCase(),out=docum
   const Fl=X.files.filter(x=>hit(x.t)||hit(x.d)||x.p.some(hit)).slice(0,4);
   const Rl=X.reel.filter(c=>hit(c.h)||hit(c.spot)).slice(0,4);
   const grp=(t,a)=>a.length?`<div class="srg"><h4>${t}</h4>${a.join('')}</div>`:'';
-  out.innerHTML=grp('People',P.map(n=>`<a class="sri" href="receipts.html?q=${enc(n)}">${PH[n]?`<img src="${PH[n]}" alt="">`:`<span class="ini">${inits(n)}</span>`}<span>${n}<small>${RECV.has(n)?'their receipts →':'on the board'}</small></span></a>`))+
+  out.innerHTML=grp('People',P.map(n=>`<a class="sri" href="people.html?p=${enc(n)}#actor">${PH[n]?`<img src="${PH[n]}" alt="">`:`<span class="ini">${inits(n)}</span>`}<span>${n}<small>${RECV.has(n)?'their web and receipts →':'their web →'}</small></span></a>`))+
     grp('Receipts',Rr.map(r=>`<a class="sri" href="#" data-n="${r.n}"><span class="stmp ${V[r.v][1]}">${V[r.v][0]}</span><span>${r.h}<small>${r.w}</small></span></a>`))+
     grp('Families',Fm.map(f=>`<a class="sri" href="people.html?k=${f.k}#trees"><span>${f.t}<small>${f.d}</small></span></a>`))+
     grp('Files & webs',Fl.map(x=>`<a class="sri" href="the-web.html#${x.id}"><span class="fno">File ${x.file}</span><span>${x.t}<small>${x.p.slice(0,5).join(' · ')}</small></span></a>`))+
@@ -994,13 +1011,13 @@ window.renderFront=function(){if(PAGE!=='front')return;USED=new Set();
   const hero=byH("Katrina's 2008 birthday");
   if(hero)document.getElementById('hero').innerHTML=`<a class="hero" href="#" data-n="${hero.n}"><div class="hph"><div class="ph">${faceTiles(['SRK','Salman'],2)}<span class="stmp ${V[hero.v][1]} big">${V[hero.v][0]}</span></div></div>
     <div class="htx"><p class="eyebrow">The receipt</p><h2>The party that ended SRK and Salman for five years.</h2><p class="dek">Katrina Kaif's 2008 birthday party. One argument. Two Khans. Five years of silence.</p><span class="cta">Open the file →</span></div></a>`;
-  const TR=[['The Ranbir–Deepika–Katrina–Alia web','webh'],['How everyone on Fabulous Lives is related','web3h'],['The Mahesh Bhatt family file','maheshh'],["Bollywood's smallest dating pool",'genzh']];
+  const TR=[['Kiss Kiss Ko Pyaar Karu?','webh'],['So Rani, which Raja kissed better?','rani'],['Delete the movie: the YRF Spy Universe','spy'],["Bollywood's smallest dating pool",'genzh']];
   document.getElementById('trending').innerHTML=`<h3 class="rail">Trending</h3><ol>${TR.map(([t,id],i)=>`<li><a href="the-web.html#${id}"><span class="num">${String(i+1).padStart(2,'0')}</span><span>${t}</span></a></li>`).join('')}</ol>`;
   const SP=[["Kangana vs Karan",'Today'],["Sonakshi's Salman loop",'This week'],["Boney's version",'This week'],['Govinda and the cheating','From the archive']].map(([h,l])=>[byH(h),l]).filter(x=>x[0]);
   document.getElementById('spots').innerHTML=SP.map(([r,l],i)=>`<a class="sp${i?'':' big'}" href="#" data-n="${r.n}"><div class="ph">${pics(r,i?1:3)}${stampHtml(r)}</div><p class="when">${l}</p><h3>${r.h}</h3>${i?'':`<p class="dek">${r.k}</p>`}</a>`).join('');
   const TRR=['Saif and Amrita','Hrithik & Sussanne','Mahesh & Pooja Bhatt','Priyanka & Gauri','Did Shahid cheat','Divya Khossla vs Alia'].map(byH).filter(Boolean);
   document.getElementById('trr').innerHTML=TRR.map(r=>cardHtml(r,false)).join('');
-  document.getElementById('webfiles').innerHTML=FILES.filter(x=>['webh','web3h','maheshh','genzh'].includes(x.id)).map((x,i)=>`<a class="board${i===0||i===3?' wide':''}" href="the-web.html#${x.id}"><div class="pins">${polaroids(x.p,4,x.ctx)}</div><p class="hnote">${x.d.split(/(?<=[.!?])\s/)[0]}</p><div class="btx"><span class="fno">File ${x.file}</span><h3>${x.t}</h3><p>${x.n} subjects · ${x.e} threads</p><span class="cta">Open the file →</span></div></a>`).join('');
+  document.getElementById('webfiles').innerHTML=FILES.filter(x=>['webh','spy','web5h','genzh'].includes(x.id)).map((x,i)=>`<a class="board${i===0||i===3?' wide':''}" href="the-web.html#${x.id}"><div class="pins">${polaroids(x.p,4,x.ctx)}</div><p class="hnote">${x.d.split(/(?<=[.!?])\s/)[0]}</p><div class="btx"><span class="fno">File ${x.file}</span><h3>${x.t}</h3><p>${x.n} subjects · ${x.e} threads</p><span class="cta">Open the file →</span></div></a>`).join('');
   document.getElementById('dyn').innerHTML=['kapoor','bachchan','pataudi'].map(k=>FAMS.find(f=>f.k===k)).filter(Boolean).map(f=>`<a class="dcard" href="people.html?k=${f.k}#trees"><h3>${f.t}</h3><p class="dd2">${f.d}</p><p class="gens">${famLine(f)}</p><span class="cta">Enter the family →</span></a>`).join('');
   const fi=document.getElementById('fimg');if(fi)fi.innerHTML=['Helen','Zeenat Aman','Madhubala'].filter(n=>PH[n]).map(n=>`<img loading="lazy" src="${PH[n]}" alt="${n}">`).join('');
   TOPUSED=USED;USED=null}
@@ -1008,11 +1025,11 @@ renderChrome();document.querySelectorAll('[data-stampkey]').forEach(el=>el.inner
 
 /* ---------- people: stars A to Z ---------- */
 (function(){const az=document.getElementById('azlist');if(!az)return;const X=searchIndex().ppl.filter(n=>PH[n]||RECV.has(n)).sort();const by={};X.forEach(n=>(by[n[0].toUpperCase()]??=[]).push(n));
-  az.innerHTML=Object.keys(by).sort().map(L=>`<div class="azg"><h3 id="az-${L}">${L}</h3><div class="azr">${by[L].map(n=>`<a class="azp" href="receipts.html?q=${enc(n)}">${PH[n]?`<img loading="lazy" src="${PH[n]}" alt="">`:`<span class="ini">${inits(n)}</span>`}<span>${n}</span></a>`).join('')}</div></div>`).join('');
+  az.innerHTML=Object.keys(by).sort().map(L=>`<div class="azg"><h3 id="az-${L}">${L}</h3><div class="azr">${by[L].map(n=>`<a class="azp" href="people.html?p=${enc(n)}#actor">${PH[n]?`<img loading="lazy" src="${PH[n]}" alt="">`:`<span class="ini">${inits(n)}</span>`}<span>${n}</span></a>`).join('')}</div></div>`).join('');
   document.getElementById('azjump').innerHTML=Object.keys(by).sort().map(L=>`<a href="#az-${L}">${L}</a>`).join('')})();
 
 /* ---------- the web: every exhibit becomes a case file ---------- */
-document.querySelectorAll('section.web').forEach(sec=>{const id=(sec.getAttribute('aria-labelledby')||'');const x=FILES.find(f=>f.id===id);if(!x)return;sec.id='file-'+x.file;
+document.querySelectorAll('section.web:not(.cf)').forEach(sec=>{const id=(sec.getAttribute('aria-labelledby')||'');const x=FILES.find(f=>f.id===id);if(!x||!['web3h','maheshh'].includes(id))return;sec.id='file-'+x.file;
   const k=sec.querySelector('.kicker');if(k)k.outerHTML=`<div class="casehead"><span>Case file ${x.file}</span><span>Updated Oct 2026</span></div>`;
   const h=sec.querySelector('h2');if(h)h.insertAdjacentHTML('afterend',`<dl class="case"><div><dt>Subjects</dt><dd>${x.n}</dd></div><div><dt>Threads</dt><dd>${x.e}</dd></div><div><dt>People</dt><dd class="ppl">${x.p.slice(0,6).join(' · ')}</dd></div></dl>`)});
 

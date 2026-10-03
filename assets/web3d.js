@@ -4,9 +4,11 @@
 (function(){
 const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const PAPER={board:'#E9DDC7',ink:'#15110E',red:'#C8261C',tag:'#FBF6EC'};
-const COL={wed:'#C8261C',ex:'#4A3B6E',co:'#9A6A0C',fr:'#9A6A0C',kid:'#15110E',fd:'#7A1610',rep:'#C8261C',weak:'#7E7262',rum:'#9A6A0C',link:'#5E544A'};
-const DASH={ex:[7,7],fd:[2,6],rep:[9,6],weak:[2,6],rum:[8,6]};
-const NAME={wed:'married',ex:'exes',co:'worked together',fr:'friends',kid:'family',fd:'feud',rep:'reported',weak:'denied',rum:'rumored',link:'linked'};
+const COL={wed:'#6B1E5A',ptr:'#6B1E5A',div:'#8C5A7E',ex:'#4A3B6E',rom:'#A8740F',kiss:'#D94A6E',fic:'#D98AA6',work:'#7E7262',fam:'#15110E',fd:'#C8261C',cast:'#9C8F7C',crew:'#5E544A',evt:'#5E544A',glam:'#1F5F8B',shadow:'#C8261C',succ:'#B05A00',plays:'#C8261C',xover:'#C8261C',exit:'#C8261C',
+  beef:'#C8261C',onesided:'#C8261C',fallout:'#8E1B14',alter:'#C8261C',excl:'#8E1B14',media:'#C98A0B',mend:'#5F7F55',alleg:'#C8261C',closed:'#8A847A',legal:'#5E544A',debut:'#B0186B',brk:'#C8571C',dirdeb:'#2F4FA8',annc:'#9A6A0C',back:'#2E7D6B',myth:'#8A847A',door:'#B0186B',
+  co:'#9A6A0C',fr:'#2E7D6B',kid:'#15110E',rep:'#C8261C',weak:'#7E7262',rum:'#A8740F',link:'#5E544A'};
+const DASH={glam:[6,3],shadow:[1,4],succ:[10,3,2,3],ex:[7,7],div:[12,5],fd:[10,4,2,4],rep:[9,6],weak:[2,6],rum:[8,6],work:[1,5],fic:[2,4],crew:[5,4],evt:[3,4],xover:[6,4],exit:[2,3],onesided:[14,4],fallout:[8,5],excl:[10,3,2,3],media:[2,5],alleg:[6,3],closed:[2,4],legal:[4,4],brk:[9,4],annc:[3,5],back:[1,4],myth:[2,6]};
+const NAME={glam:'glam team',shadow:'left the film',succ:'replaced in a film',wed:'married',ptr:'partners',div:'married, later split',ex:'exes',rom:'reported romance',kiss:'💋 on-screen kiss',fic:'fictional',work:'worked together',fam:'family',fd:'feud',cast:'in the film',crew:'made the film',co:'worked together',fr:'friends',kid:'family',rep:'reported',weak:'denied',rum:'rumored',link:'linked',beef:'direct beef',onesided:'one-sided attack',fallout:'professional fallout',alter:'⚡ reported altercation',excl:'alleged exclusion',media:'media-made rivalry',mend:'reconciled',alleg:'allegation (2020)',closed:'investigated · no evidence found',legal:'legal process',debut:'⭐ acting debut',brk:'🚀 film break',dirdeb:'🎬 directing debut',annc:'🍼 announced launch',back:'🤝 career backing',myth:'✕ not their launch',door:'opened the door'};
 const hash=s=>{let h=2166136261;for(const c of String(s))h=Math.imul(h^c.charCodeAt(0),16777619);return h>>>0};
 const rng=seed=>{let a=hash(seed);return()=>{a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}};
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
@@ -63,54 +65,64 @@ function draw(w,now,dt){const {g,W,H,o}=w;if(!W)return;const t=now-w.t0,c=w.cam,
   for(const k in G)c[k]+=(G[k]-c[k])*Math.min(1,dt*.006);
   const idle=!RM&&now-(w.touched||0)>2500;
   const sway=o.fit!=='board'||w.focus;if(!sway&&idle)w.base.yaw+=dt*.00009;
-  w.yaw=w.base.yaw+(idle&&sway?(W<560&&w.focus?.12:.3)*Math.sin(t*.00021):0);w.pitch=w.base.pitch+(idle?.08*Math.sin(t*.00016):0);
+  w.yaw=w.base.yaw+(idle&&sway?(W<560&&w.focus?.12:(o.sway??.3))*Math.sin(t*.00021):0);w.pitch=w.base.pitch+(idle?.08*Math.sin(t*.00016):0);
   const cy=Math.cos(w.yaw),sy=Math.sin(w.yaw),cp=Math.cos(w.pitch),sp=Math.sin(w.pitch),D=3.4,S=w.S*c.z;
   const P=(x,y,z)=>{x-=c.x;y-=c.y;z-=c.zz;const x1=x*cy-z*sy,z1=x*sy+z*cy,y1=y*cp-z1*sp,z2=y*sp+z1*cp,s=D/(D+z2);return {x:W/2+x1*s*S,y:H/2+y1*s*S,s,z:z2}};
   g.setTransform(w.dpr,0,0,w.dpr,0,0);if(!w.bg)w.bg=background(w);g.drawImage(w.bg,0,0,W,H);
   const fogA=z=>clamp(1.05-z*.42,.22,1);
-  w.nodes.forEach(n=>{if(n.tx!=null){const k=RM?1:Math.min(1,dt*.005);n.x+=(n.tx-n.x)*k;n.y+=(n.ty-n.y)*k;n.z+=(n.tz-n.z)*k}n.p=P(n.x,n.y+(RM?0:Math.sin(t*.0009+n.ph)*.012),n.z)});
+  // a mode can hide part of the board entirely (w.show) or just light part of it (w.focus)
+  const SH=w.show,nvis=n=>!SH||SH.nodes.has(n.id),evis=e=>!SH||SH.edges.has(e.i);
+  w.nodes.forEach(n=>{n.show=false;if(n.tx!=null){const k=RM?1:Math.min(1,dt*.005);n.x+=(n.tx-n.x)*k;n.y+=(n.ty-n.y)*k;n.z+=(n.tz-n.z)*k}n.p=P(n.x,n.y+(RM?0:Math.sin(t*.0009+n.ph)*.012),n.z)});
   const F=w.focus,hov=w.hover>=0?w.nodes[w.hover]:null;
   const lit=e=>F?F.edges.has(e.i):hov?(e.a===w.hover||e.b===w.hover):true;
-  // string: the whole board in faint pencil, then the lit threads as taut red string with a soft shadow
   const ctrl=e=>{if(!e.c)return null;return P(e.c[0],e.c[1],e.c[2])};
   const stroke=(e,width,alpha,dash,dx=0,dy=0)=>{const A=w.nodes[e.a].p,B=w.nodes[e.b].p,C=ctrl(e);g.globalAlpha=alpha;g.lineWidth=width;g.setLineDash(dash||[]);g.beginPath();g.moveTo(A.x+dx,A.y+dy);C?g.quadraticCurveTo(C.x+dx,C.y+dy,B.x+dx,B.y+dy):g.lineTo(B.x+dx,B.y+dy);g.stroke()};
+  const dashOf=e=>e.ev==='r'||e.ev==='c'?[2,5]:e.ev==='a'&&(e.t==='rom'||e.t==='fr')?[8,6]:DASH[e.t];
   g.lineCap='round';
-  for(const e of w.edges){if(lit(e))continue;const A=w.nodes[e.a].p,B=w.nodes[e.b].p;g.strokeStyle=F?'#5A4632':COL[e.t]||COL.link;stroke(e,.8,(F?.13:.22)*fogA((A.z+B.z)/2),F?null:DASH[e.t])}
-  for(const e of w.edges){if(!lit(e))continue;const A=w.nodes[e.a].p,B=w.nodes[e.b].p,f=fogA((A.z+B.z)/2),col=COL[e.t]||COL.link;
-    const wd=(F?2.4:1.8)*clamp((A.s+B.s)/2,.6,1.4);g.strokeStyle='#3A2A18';stroke(e,wd,.16*f,DASH[e.t],1.5,3);g.strokeStyle=col;stroke(e,wd,.95*f,DASH[e.t])}
+  for(const e of w.edges){if(!evis(e)||lit(e))continue;const A=w.nodes[e.a].p,B=w.nodes[e.b].p;g.strokeStyle=F?'#5A4632':COL[e.t]||COL.link;stroke(e,.8,(F?.13:.22)*fogA((A.z+B.z)/2),F?null:dashOf(e))}
+  for(const e of w.edges){if(!evis(e)||!lit(e))continue;const A=w.nodes[e.a].p,B=w.nodes[e.b].p,f=fogA((A.z+B.z)/2)*(e.ev==='c'?.6:1),col=COL[e.t]||COL.link;
+    const wd=(F?2.4:1.8)*clamp((A.s+B.s)/2,.6,1.4)*(e.w||1)*(e.t==='cast'||e.t==='crew'?.55:1);g.strokeStyle='#3A2A18';stroke(e,wd,.14*f,dashOf(e),1.5,3);g.strokeStyle=col;stroke(e,wd,.95*f,dashOf(e))}
   g.setLineDash([]);
-  // a red marker runs along the chain, in order, for the connector
-  if(!RM&&F&&F.chain.length){const pt=(e,u)=>{const A=w.nodes[e.a].p,B=w.nodes[e.b].p,C=ctrl(e);if(!C)return {x:A.x+(B.x-A.x)*u,y:A.y+(B.y-A.y)*u};const v=1-u;return {x:v*v*A.x+2*v*u*C.x+u*u*B.x,y:v*v*A.y+2*v*u*C.y+u*u*B.y}};
-    const L=F.chain.length,T=(t*.00042)%(L+.8);const k=Math.floor(T),u=T-k;if(k<L){const [ei,fw]=F.chain[k],e=w.edges[ei],q=pt(e,fw?u:1-u);g.globalAlpha=.9;g.fillStyle=PAPER.red;g.beginPath();g.arc(q.x,q.y,4.5,0,7);g.fill();g.globalAlpha=.25;g.beginPath();g.arc(q.x,q.y,10,0,7);g.fill()}}
-  // everyone else on the board: map pins
-  for(const n of w.nodes){if(n.big)continue;const p=n.p;if(p.s<=0)continue;n.show=true;const near=F&&F.near.has(n.id);const s=(1.4+Math.sqrt(n.deg||1)*.9)*p.s*(near?1.3:1)*(n===hov?1.8:1);
+  if(!RM&&F&&F.chain&&F.chain.length){const pt=(e,u)=>{const A=w.nodes[e.a].p,B=w.nodes[e.b].p,C=ctrl(e);if(!C)return {x:A.x+(B.x-A.x)*u,y:A.y+(B.y-A.y)*u};const v=1-u;return {x:v*v*A.x+2*v*u*C.x+u*u*B.x,y:v*v*A.y+2*v*u*C.y+u*u*B.y}};
+    const L=F.chain.length,T=(t*.00042)%(L+.8);const k=Math.floor(T),u=T-k;if(k<L&&F.chain[k]&&w.edges[F.chain[k][0]]){const [ei,fw]=F.chain[k],e=w.edges[ei],q=pt(e,fw?u:1-u);g.globalAlpha=.9;g.fillStyle=PAPER.red;g.beginPath();g.arc(q.x,q.y,4.5,0,7);g.fill();g.globalAlpha=.25;g.beginPath();g.arc(q.x,q.y,10,0,7);g.fill()}}
+  for(const n of w.nodes){if(n.big||!nvis(n))continue;const p=n.p;if(p.s<=0)continue;n.show=true;const near=F&&F.near&&F.near.has(n.id);const s=(1.4+Math.sqrt(n.deg||1)*.9)*p.s*(near?1.3:1)*(n===hov?1.8:1);
     g.globalAlpha=(F?(near?.75:.32):.6)*fogA(p.z);g.fillStyle=n===hov?PAPER.red:n.col;g.beginPath();g.arc(p.x,p.y,s,0,7);g.fill();n.r=Math.max(s,5)}
   g.globalAlpha=1;
-  // thread captions: little paper tags
+  // thread captions: paper tags. Cast/crew lines stay quiet unless someone is selected.
   const capFont=Math.round(clamp(W/80,9.5,12));
   g.font=`600 ${capFont}px "IBM Plex Mono",ui-monospace,monospace`;g.textAlign='center';g.textBaseline='middle';
-  for(const e of w.edges){if(!e.lab||!lit(e))continue;if(!F&&!hov&&!o.alwaysCaptions)continue;const A=w.nodes[e.a].p,B=w.nodes[e.b].p,C=ctrl(e);
+  for(const e of w.edges){if(!e.lab||!evis(e)||!lit(e))continue;const quiet=e.t==='cast'||e.t==='crew'||e.t==='evt'||e.t==='plays';
+    if(!(F&&F.caps!==false)&&!hov&&!(o.alwaysCaptions&&!quiet)&&!e.cap)continue;if(quiet&&!hov&&!(F&&F.small))continue;
+    const A=w.nodes[e.a].p,B=w.nodes[e.b].p,C=ctrl(e);
     const m=C?{x:.25*A.x+.5*C.x+.25*B.x,y:.25*A.y+.5*C.y+.25*B.y}:{x:(A.x+B.x)/2,y:(A.y+B.y)/2};const f=fogA((A.z+B.z)/2);
     const tw=g.measureText(e.lab).width+12;g.globalAlpha=.95*f;g.fillStyle=PAPER.tag;g.fillRect(m.x-tw/2,m.y-capFont*.8,tw,capFont*1.6);g.strokeStyle=PAPER.ink;g.lineWidth=.8;g.strokeRect(m.x-tw/2,m.y-capFont*.8,tw,capFont*1.6);
-    g.globalAlpha=f;g.fillStyle=COL[e.t]===COL.kid?PAPER.ink:COL[e.t]||PAPER.ink;g.fillText(e.lab,m.x,m.y)}
-  // polaroids, back to front, each pinned at a slight angle
-  const big=w.nodes.filter(n=>n.big&&n.p.s>0).sort((a,b)=>b.p.z-a.p.z);
+    g.globalAlpha=f;g.fillStyle=COL[e.t]===COL.fam?PAPER.ink:COL[e.t]||PAPER.ink;g.fillText(e.lab,m.x,m.y)}
+  // the pinned things, back to front: polaroids for people, tickets for films, tags for characters, events and exits
+  const big=w.nodes.filter(n=>n.big&&n.p.s>0&&nvis(n)).sort((a,b)=>b.p.z-a.p.z);
   const R0=clamp(W/34,15,o.fit==='board'?30:27);
-  for(const n of big){const p=n.p,f=fogA(p.z),dim=hov&&hov!==n&&!w.edges.some(e=>lit(e)&&(w.nodes[e.a]===n||w.nodes[e.b]===n));
-    const r=R0*p.s*(n.lead?1.18:1)*(n===hov?1.1:1);n.r=r*1.2;n.show=true;const a=(dim?.4:1)*f,fr=Math.max(3,r*.14),rot=(n.ph-3.14)*.025;
-    g.save();g.translate(p.x,p.y);g.rotate(rot);g.globalAlpha=a;
-    g.shadowColor='rgba(40,25,10,.45)';g.shadowBlur=8;g.shadowOffsetY=4;g.fillStyle='#FFFDF7';g.fillRect(-r-fr,-r-fr,2*r+2*fr,2*r+fr*4);g.shadowColor='transparent';
-    const im=photo(n.photo);g.save();g.beginPath();g.rect(-r,-r,2*r,2*r);g.clip();
-    if(im){const k=Math.max(2*r/im.naturalWidth,2*r/im.naturalHeight),iw=im.naturalWidth*k,ih=im.naturalHeight*k;g.filter='sepia(.18) contrast(1.05)';g.drawImage(im,-iw/2,-r-(ih-2*r)*.12,iw,ih);g.filter='none'}
-    else{g.fillStyle='#2A231D';g.fillRect(-r,-r,2*r,2*r);g.fillStyle='#F3EADB';g.textAlign='center';g.textBaseline='middle';g.font=`700 ${Math.round(r*.75)}px "Bodoni Moda",Georgia,serif`;g.fillText(inits(n.label),0,1)}
-    g.restore();
-    if(n.lead){g.lineWidth=2.5;g.strokeStyle=PAPER.red;g.strokeRect(-r-fr,-r-fr,2*r+2*fr,2*r+fr*4)}
-    g.fillStyle=n.lead?PAPER.red:'#3A2A18';g.beginPath();g.arc(0,-r-fr*.3,Math.max(2.5,r*.12),0,7);g.fill();
-    g.restore();
-    const fs=Math.round(clamp(r*.58,11,17));g.font=`${n.lead?'800':'700'} ${fs}px "Bodoni Moda",Georgia,serif`;g.textAlign='center';g.textBaseline='top';g.globalAlpha=a;
-    const ly=p.y+r+fr*3+4,lw=g.measureText(n.label).width;g.fillStyle='rgba(243,234,219,.85)';g.fillRect(p.x-lw/2-4,ly-1,lw+8,fs+4);
-    g.fillStyle=n.lead?PAPER.red:PAPER.ink;g.fillText(n.label,p.x,ly);g.textBaseline='middle'}
-  // hover tag for a pin
+  for(const n of big){const p=n.p,f=fogA(p.z),touch=w.edges.some(e=>lit(e)&&evis(e)&&(w.nodes[e.a]===n||w.nodes[e.b]===n));
+    const dim=(hov&&hov!==n&&!touch)||(F&&F.nodes&&!F.nodes.has(n.id)&&!touch);
+    const kind=n.kind||'person',r=R0*p.s*(n.lead?1.18:1)*(n===hov?1.1:1)*(n.size||1);n.show=true;const a=(dim?.3:1)*f;g.globalAlpha=a;
+    if(kind==='person'){const fr=Math.max(3,r*.14),rot=(n.ph-3.14)*.025;n.r=r*1.2;
+      g.save();g.translate(p.x,p.y);g.rotate(rot);
+      g.shadowColor='rgba(40,25,10,.45)';g.shadowBlur=8;g.shadowOffsetY=4;g.fillStyle='#FFFDF7';g.fillRect(-r-fr,-r-fr,2*r+2*fr,2*r+fr*4);g.shadowColor='transparent';
+      const im=photo(n.photo);g.save();g.beginPath();g.rect(-r,-r,2*r,2*r);g.clip();
+      if(im){const k=Math.max(2*r/im.naturalWidth,2*r/im.naturalHeight),iw=im.naturalWidth*k,ih=im.naturalHeight*k;g.filter='sepia(.18) contrast(1.05)';g.drawImage(im,-iw/2,-r-(ih-2*r)*.12,iw,ih);g.filter='none'}
+      else{g.fillStyle='#2A231D';g.fillRect(-r,-r,2*r,2*r);g.fillStyle='#F3EADB';g.textAlign='center';g.textBaseline='middle';g.font=`700 ${Math.round(r*.75)}px "Bodoni Moda",Georgia,serif`;g.fillText(inits(n.label),0,1)}
+      g.restore();if(n.lead){g.lineWidth=2.5;g.strokeStyle=PAPER.red;g.strokeRect(-r-fr,-r-fr,2*r+2*fr,2*r+fr*4)}
+      g.fillStyle=n.lead?PAPER.red:'#3A2A18';g.beginPath();g.arc(0,-r-fr*.3,Math.max(2.5,r*.12),0,7);g.fill();g.restore();
+      const fs=Math.round(clamp(r*.58,11,17));g.font=`${n.lead?'800':'700'} ${fs}px "Bodoni Moda",Georgia,serif`;g.textAlign='center';g.textBaseline='top';
+      const ly=p.y+r+fr*3+4,lw=g.measureText(n.label).width;g.fillStyle='rgba(243,234,219,.85)';g.fillRect(p.x-lw/2-4,ly-1,lw+8,fs+4);g.fillStyle=n.lead?PAPER.red:PAPER.ink;g.fillText(n.label,p.x,ly)}
+    else{const fs=Math.round(clamp(r*(kind==='film'?.62:.5),10,kind==='film'?17:14));
+      g.font=kind==='film'?`800 ${fs}px "Bodoni Moda",Georgia,serif`:kind==='char'?`italic 700 ${fs}px "Bodoni Moda",Georgia,serif`:`600 ${Math.max(9,fs-2)}px "IBM Plex Mono",monospace`;
+      const txt=kind==='char'?`“${n.label}”`:kind==='exit'?`→ ${n.label}`:n.label,tw=g.measureText(txt).width,bw=tw+fs*1.4,bh=kind==='film'?fs*2.6:fs*1.9;n.r=Math.max(bw,bh)/2;
+      g.save();g.translate(p.x,p.y);g.rotate((n.ph-3.14)*.012);g.shadowColor='rgba(40,25,10,.35)';g.shadowBlur=6;g.shadowOffsetY=3;
+      g.fillStyle=kind==='film'?'#15110E':kind==='exit'?PAPER.red:kind==='char'?'#FFFDF7':'#F7EEDB';g.fillRect(-bw/2,-bh/2,bw,bh);g.shadowColor='transparent';
+      if(kind==='film'){g.fillStyle='#E9DDC7';for(let x=-bw/2+5;x<bw/2-3;x+=8){g.fillRect(x,-bh/2+2,3,2.4);g.fillRect(x,bh/2-4.4,3,2.4)}}
+      else{g.strokeStyle=kind==='char'?PAPER.red:PAPER.ink;g.lineWidth=kind==='char'?1.6:1;g.setLineDash(kind==='evt'?[4,3]:[]);g.strokeRect(-bw/2+.5,-bh/2+.5,bw-1,bh-1);g.setLineDash([])}
+      g.fillStyle=kind==='film'||kind==='exit'?'#FBF6EC':kind==='char'?PAPER.red:PAPER.ink;g.textAlign='center';g.textBaseline='middle';g.fillText(txt,0,kind==='film'&&n.year?-fs*.28:1);
+      if(kind==='film'&&n.year){g.font=`600 ${Math.max(8,fs*.55)}px "IBM Plex Mono",monospace`;g.fillStyle='#C9B79A';g.fillText(String(n.year),0,fs*.62)}
+      g.restore()}}
   if(hov&&!hov.big){const p=hov.p;g.font=`700 14px "Bodoni Moda",Georgia,serif`;const txt=hov.label,tw=g.measureText(txt).width;
     g.globalAlpha=1;g.fillStyle=PAPER.tag;g.fillRect(p.x-tw/2-9,p.y-34,tw+18,24);g.strokeStyle=PAPER.ink;g.lineWidth=1;g.strokeRect(p.x-tw/2-9,p.y-34,tw+18,24);
     g.fillStyle=PAPER.ink;g.textAlign='center';g.fillText(txt,p.x,p.y-22)}
@@ -142,7 +154,7 @@ window.initExhibitWebs=function(){document.querySelectorAll('.svgbox svg').forEa
   box.insertAdjacentHTML('beforeend',legendHtml(d.edges.map(e=>e.t))+`<span class="w3d-hint">Drag to spin · tap a face</span><span class="w3d-xo">XOXO</span>`)})};
 
 /* ---------- the connector board: every name on the site as a star, the shortest chain lit up ---------- */
-const TYK={m:'wed',d:'wed',e:'ex',x:'ex',r:'rum',c:'co',f:'kid',b:'fr',v:'fd'};
+const TYK={s:'succ',m:'wed',d:'wed',e:'ex',x:'ex',r:'rum',c:'co',f:'kid',b:'fr',v:'fd',k:'kiss',g:'glam'};
 let BW=null;
 function boardLayout(){const names=window.__NAMES,ADJ=window.__ADJ,N=names.length,idx=new Map(names.map((n,i)=>[n,i])),r=rng('board');
   const pos=names.map(()=>[r()*2-1,r()*2-1,r()*2-1]),E=[];G.forEach((e,i)=>{const a=idx.get(e[0]),b=idx.get(e[1]);if(a!=null&&b!=null&&a!==b)E.push([a,b,i])});
@@ -157,6 +169,7 @@ function boardLayout(){const names=window.__NAMES,ADJ=window.__ADJ,N=names.lengt
   const cols=['#3A2A18','#5E544A','#7A1610','#4A3B6E','#6B5A3E'];
   return {nodes:names.map((n,i)=>({id:n,label:n,photo:PH[n],x:pos[i][0],y:pos[i][1],z:pos[i][2],hx:pos[i][0],hy:pos[i][1],hz:pos[i][2],tx:pos[i][0],ty:pos[i][1],tz:pos[i][2],deg:ADJ[n].length,col:cols[hash(n)%cols.length],ph:r()*6.28,big:false})),
     edges:E.map(([a,b,gi],i)=>({a,b,gi,i,t:TYK[G[gi][2]]||'link',ph:r(),c:null,lab:''})),idx}}
+window.W3D={Web,COL,DASH,NAME,rng,hash,kick:()=>kick(),legendHtml};
 window.cxWebShow=function(a,b,pth){const box=document.getElementById('cxweb');if(!box||!window.__NAMES)return;
   if(!BW){const L=boardLayout();BW=Web(box,{seed:'board',fit:'board',label:'The whole board as a 3D web',yaw:-.4,pitch:.22,dust:0,
       onPick:id=>{const ib=document.getElementById('cxb'),ia=document.getElementById('cxa');if(id===ia.value)return;ib.value=id;document.getElementById('cxf').requestSubmit()}});
