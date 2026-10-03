@@ -8,7 +8,7 @@
 <title>Bollywood Receipts</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&family=Josefin+Sans:wght@300;400;600&family=Rozha+One&family=Mukta:wght@400;500;700&family=IBM+Plex+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&family=Poppins:wght@200;300&family=Comfortaa:wght@500;700&family=Cinzel:wght@400;600&family=Rozha+One&family=Mukta:wght@400;500;700&family=IBM+Plex+Mono:wght@400;600&display=swap">
 <style>
 /* Layout: filmi-magazine masthead, then a wall of torn receipt slips, each stamped with a verdict */
 :root{
@@ -402,67 +402,117 @@ footer .fine{font-size:9px;line-height:1.4;color:var(--muted);opacity:.75;max-wi
 .fn .nt{font-family:var(--mono);font-size:9.5px;color:#C9B3BA;max-width:220px;line-height:1.3}
 .khint{text-align:center;font-family:var(--mono);font-size:10.5px;color:#9C8790;margin:8px 16px 0;position:relative}
 
-/* Gossip Girl edition: black, hot pink, white slips. Dark only, like the blog.
-   :root:not(#gg) outranks the earlier light/dark token blocks. */
+/* Gossip Girl, 2007 site edition, in Instagram colours.
+   :root:not(#gg) outranks the earlier light/dark token blocks: the site is dark only, like the blog. */
 :root:not(#gg){
-  --bg:#050405; --paper:#121013; --ink:#F7F1F4; --muted:#A8979F; --rule:#2B2328;
-  --rani:#FF2E88; --sun:#FF8FC0; --marigold:#E7C47E; --gold:#E7C47E;
-  --true:#5FD39A; --alleged:#F2A65A; --rumor:#C3A6FF; --cap:#FF7A70;
-  --sunset:linear-gradient(135deg,#FF2E88 0%,#C2186B 100%);
-  --mast:"Bodoni Moda","Didot","Bodoni 72",Georgia,serif;
+  --ig1:#FEDA75; --ig2:#FA7E1E; --ig3:#D62976; --ig4:#962FBF; --ig5:#4F5BD5;
+  --insta:linear-gradient(45deg,#FEDA75 0%,#FA7E1E 25%,#D62976 50%,#962FBF 75%,#4F5BD5 100%);
+  --bg:#0C0911; --paper:#17121D; --ink:#F6EFF4; --muted:#A99BB5; --rule:#2E2438;
+  --rani:#F2508E; --sun:#FA7E1E; --marigold:#FEDA75; --gold:#FEDA75;
+  --true:#5FD39A; --alleged:#FDB167; --rumor:#C3A6FF; --cap:#FF7A70;
+  --sunset:var(--insta);
+  --mast:"Poppins",system-ui,sans-serif;
   --display:"Bodoni Moda","Didot","Bodoni 72",Georgia,serif;
-  --mono:"Josefin Sans",system-ui,sans-serif;
+  --mono:"Cinzel","Trajan Pro",Georgia,serif;
+  --nav:"Comfortaa",system-ui,sans-serif;
   color-scheme:dark}
 body{background:var(--bg)}
-::selection{background:var(--rani);color:#fff}
+::selection{background:var(--ig3);color:#fff}
 /* receipts stay white paper slips with typewriter totals */
-.rc,#rx .slip{--bg:#FBF6F8;--paper:#FFFFFF;--ink:#120E10;--muted:#6E5A62;--rule:#EAD3DC;--rani:#E0136F;
+.rc,#rx .slip{--bg:#FBF6F8;--paper:#FFFFFF;--ink:#120E10;--muted:#6E5A62;--rule:#EAD3DC;--rani:#C81E6A;
   --true:#0E8A4F;--alleged:#B85000;--rumor:#6E37C4;--cap:#C81E28;--mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;color:var(--ink)}
-.rc{box-shadow:0 0 0 1px #000,0 18px 40px -22px rgba(255,46,136,.55)}
-.rc:hover{transform:translateY(-3px);transition:transform .2s}
-.rc h3,.lead h3,#rx h3{font-style:italic}
-#rx::backdrop{background:rgba(0,0,0,.82)}
-/* ticker: black with pink hairlines, xoxo between items */
-.ticker{background:#000;color:#F7F1F4;border-block:1px solid var(--rani);font-size:11px;letter-spacing:.18em;text-transform:uppercase}
-.ticker b{color:var(--rani)}
+.rc{box-shadow:0 0 0 1px #000,0 18px 40px -22px rgba(214,41,118,.6)}
+@media (prefers-reduced-motion:no-preference){.rc{transition:transform .2s}.rc:hover{transform:translateY(-3px)}}
+.rc h3,#rx h3{font-style:italic}
+#rx::backdrop{background:rgba(6,4,10,.85)}
+
+/* ticker */
+.ticker{background:#000;color:#F6EFF4;border-bottom:1px solid var(--rule);font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+.ticker b{color:var(--ig1)}
 .ticker i{font-size:0;margin:0 18px}
-.ticker i::after{content:"xoxo";font-family:var(--display);font-style:italic;font-size:15px;letter-spacing:0;text-transform:none;color:var(--rani)}
-/* masthead */
-.mast{background:radial-gradient(ellipse 70% 90% at 50% 100%,rgba(255,46,136,.22),transparent 70%),#000;padding:30px 16px 0;position:relative;overflow:hidden}
-.mast .mast-top{font-size:10.5px;letter-spacing:.3em;color:var(--muted)}
-.mast .logo{font-family:var(--mast);font-weight:400;font-size:clamp(48px,10.5vw,132px);letter-spacing:-.025em;line-height:.95;margin:18px 0 0;color:#fff;position:relative;display:inline-block}
-.mast .logo em{font-style:italic;background:none;-webkit-background-clip:border-box;background-clip:border-box;color:var(--rani)}
-.xo-mark{position:absolute;right:-.2em;top:-.35em;font-family:var(--display);font-style:italic;font-size:.2em;letter-spacing:.05em;color:var(--gold);transform:rotate(-8deg)}
-.motto{font-family:var(--mono);font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:#fff;margin:14px auto 0;max-width:60ch}
-.mast .tagline{color:#D9CBD1;margin-top:16px}
-.mast .whoami{font-family:var(--display);font-style:italic;font-weight:400;background:none;color:var(--rani);-webkit-background-clip:border-box;background-clip:border-box}
-.skyline{display:block;width:calc(100% + 32px);height:96px;margin:18px -16px 0}
-.skyline .far rect{fill:#22161C}
-.skyline .near path{fill:#3A1A2A}
-.skyline .cables path{stroke:#FF2E88;stroke-width:1;opacity:.55;fill:none}
-.mast .mainnav{margin:0 -16px;padding:12px 16px;border-top:1px solid var(--rani);border-bottom:1px solid var(--rule);background:#000}
-.mainnav a{font-size:11px;letter-spacing:.24em;color:#fff}
-.mainnav a:hover,.mainnav a:focus-visible{color:var(--rani);border-bottom-color:var(--rani)}
-/* section heads: hairline, italic lowercase serif */
-.sechead::before,.sechead::after{height:1px;background:var(--rani);opacity:.7}
+.ticker i::after{content:"xoxo";font-family:var(--display);font-style:italic;font-size:15px;letter-spacing:0;text-transform:none;background:var(--insta);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* masthead: night skyline, speech bubble, thin yellow logo with its drop line */
+.mast.gg{position:relative;margin:0 -16px;padding:18px 16px 40px;border:0;text-align:left;overflow:hidden;isolation:isolate;
+  background:
+    linear-gradient(180deg,rgba(12,9,17,.15) 0%,rgba(12,9,17,.35) 40%,rgba(12,9,17,.92) 78%,#0C0911 100%),
+    linear-gradient(45deg,rgba(254,218,117,.28),rgba(250,126,30,.18) 25%,rgba(214,41,118,.32) 55%,rgba(150,47,191,.35) 78%,rgba(79,91,213,.4)),
+    url("https://thumb.wikimedia.org/wikipedia/commons/thumb/1/14/Mumbai_Skyline_at_Night.jpg/1920px-Mumbai_Skyline_at_Night.jpg") center 30%/cover no-repeat,#120B1C}
+.gg-top{display:flex;justify-content:space-between;gap:12px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#E6DAE6;max-width:1240px;margin:0 auto}
+.gg-date{color:var(--ig1)}
+.gg-bubble{position:absolute;left:max(16px,calc(50% - 560px));top:46px;width:250px;padding:26px 22px 22px;border-radius:50%;
+  background:rgba(214,205,222,.22);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.18);
+  font-family:var(--mono);font-size:11.5px;line-height:1.45;letter-spacing:.08em;text-transform:uppercase;color:#fff;text-align:center}
+.gg-bubble::after{content:"";position:absolute;right:26%;bottom:-5px;border:14px solid transparent;border-top-color:rgba(214,205,222,.22);border-bottom:0;transform:skewX(-35deg)}
+.gg-bubble p{margin:0}
+.gg-bubble .sig{margin-top:8px;font-family:var(--display);font-style:italic;text-transform:none;letter-spacing:.02em;font-size:15px;color:var(--ig1)}
+.mast.gg .logo{position:relative;font-family:var(--mast);font-weight:200;font-size:clamp(46px,9vw,118px);letter-spacing:-.035em;line-height:1;color:var(--ig1);
+  text-align:center;margin:72px auto 0;padding-bottom:56px;text-transform:lowercase;text-shadow:0 0 28px rgba(254,218,117,.35);max-width:none}
+.mast.gg .logo::after{content:"";position:absolute;left:50%;bottom:0;width:1px;height:56px;background:linear-gradient(var(--ig1),var(--ig3))}
+.gg-grid{display:grid;grid-template-columns:minmax(0,230px) minmax(0,520px) minmax(0,230px);justify-content:center;gap:28px;align-items:start;max-width:1240px;margin:0 auto}
+/* sidebar nav, 2007 style */
+.gg-nav{display:grid;gap:16px;padding-top:6px}
+.gg-nav a{display:block;text-decoration:none;color:#E6DAE6}
+.gg-nav b{display:block;font-family:var(--nav);font-weight:700;font-size:26px;line-height:1;letter-spacing:.02em;text-transform:lowercase}
+.gg-nav a:nth-child(5n+1) b{color:var(--ig1)}.gg-nav a:nth-child(5n+2) b{color:var(--ig2)}.gg-nav a:nth-child(5n+3) b{color:var(--rani)}.gg-nav a:nth-child(5n+4) b{color:#C08BFF}.gg-nav a:nth-child(5n+5) b{color:#8E98FF}
+.gg-nav span{display:block;font-family:var(--display);font-size:13px;line-height:1.3;margin-top:3px;color:#CDBFD0}
+.gg-nav a:hover b,.gg-nav a:focus-visible b{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:4px}
+.gg-nav a:focus-visible{outline:2px solid var(--ig1);outline-offset:4px}
+/* the post */
+.gg-post{background:rgba(12,9,17,.82);border:1px solid rgba(254,218,117,.35);padding:12px 14px 18px;box-shadow:0 30px 60px -30px rgba(0,0,0,.8);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+.gg-ph{display:flex;justify-content:space-between;gap:10px;font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#fff;border-bottom:1px solid var(--rule);padding-bottom:8px}
+.gg-ph span:last-child{color:var(--ig1)}
+.gg-q{font-family:var(--display);font-style:italic;text-align:center;color:#E6DAE6;margin:10px 0}
+.gg-post .lead{cursor:pointer}
+.gg-post .lead .ph{aspect-ratio:16/10}
+.gg-post .lead .kick{justify-content:center;color:var(--ig1)}
+.gg-post .lead h3{font-family:var(--display);font-style:italic;font-weight:400;font-size:clamp(24px,2.6vw,32px);line-height:1.08;text-align:center;margin:6px 0 0;color:#fff}
+.gg-post .lead p.dk{text-align:center;color:var(--muted);margin:6px auto 0}
+.gg-cap{font-family:var(--mono);font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;text-align:center;color:#fff;margin:16px 0 0;line-height:1.5}
+.mast.gg .tagline{font-size:14.5px;color:#D9CBD6;text-align:center;max-width:none;margin:10px 0 0}
+.mast.gg .tagline b{font-weight:700}
+.t-true{color:var(--true)}.t-alleged{color:var(--alleged)}.t-rumor{color:var(--rumor)}.t-cap{color:var(--cap)}
+.gg-sig{font-family:var(--display);font-style:italic;font-size:20px;text-align:right;margin:10px 0 0;background:var(--insta);-webkit-background-clip:text;background-clip:text;color:transparent}
+/* sightings: small portraits */
+.gg-side h3{font-family:var(--nav);font-weight:700;font-size:22px;margin:0 0 10px;color:var(--rani);text-transform:lowercase}
+.gg-side ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.gg-side li{cursor:pointer;display:block}
+.gg-side .num{display:none}
+.gg-side .th{display:flex;aspect-ratio:3/4;overflow:hidden;background:var(--insta);border:1px solid rgba(255,255,255,.18);box-shadow:0 10px 24px -14px #000}
+.gg-side .th img{width:100%;height:100%;object-fit:cover;object-position:50% 18%;filter:grayscale(.35) sepia(.25)}
+.gg-side li:hover .th img,.gg-side li:focus-visible .th img{filter:none}
+.gg-side .th .ini{flex:1;display:grid;place-items:center;color:#fff;font-family:var(--display)}
+.gg-side .tt{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;line-height:1.3;color:#fff;margin-top:6px}
+.gg-side .by{font-family:var(--mono);font-size:9.5px;color:var(--ig1)}
+.gg-side li:focus-visible{outline:2px solid var(--ig1);outline-offset:3px}
+@media (min-width:1101px){.mast.gg .logo{margin-top:150px}.gg-bubble{top:34px}}
+@media (max-width:1100px){
+  .gg-grid{grid-template-columns:minmax(0,560px);}
+  .gg-nav{order:2;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px 18px}
+  .gg-side{order:3}.gg-side ol{grid-template-columns:repeat(3,1fr)}
+  .gg-bubble{position:relative;left:auto;top:auto;margin:22px auto 0}
+  .mast.gg .logo{margin-top:22px}
+}
+@media (max-width:520px){.gg-nav b{font-size:22px}.gg-side ol{grid-template-columns:repeat(2,1fr)}.gg-bubble{width:220px;font-size:10.5px}}
+
+/* section heads: gradient hairline, italic lowercase serif */
+.sechead::before,.sechead::after{height:1px;background:var(--insta)}
 .sechead h2,.web h2,.kt h2,.connect h2{font-family:var(--display);font-style:italic;font-weight:400;text-transform:lowercase;letter-spacing:0}
 .sechead h2{font-size:clamp(30px,4.6vw,46px)}
-.wsub2,.reel p.sub,.watch .wsub{font-family:var(--mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted)}
-.kick{font-size:10.5px;letter-spacing:.22em}
-/* dark bands that assumed --ink was black */
-.reel,.watch{background:#0B080A;color:var(--ink);border-block:1px solid var(--rule)}
+.wsub2,.reel p.sub,.watch .wsub{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.kick{font-size:11px;letter-spacing:.1em}
+/* bands that assumed --ink was black */
+.reel,.watch{background:#08060C;color:var(--ink);border-block:1px solid var(--rule)}
 .reel .sechead h2,.watch .sechead h2,.vid h4{color:var(--ink)}
-.kpanel{background:#0B080A;border:1px solid var(--rule)}
-.latest{border:1px solid var(--rule);border-top:2px solid var(--rani)}
-.latest h3{font-style:italic}
-.chip,.ktab{text-transform:uppercase;letter-spacing:.14em;font-size:11px}
-.chip[aria-pressed="true"],.ktab[aria-pressed="true"]{background:var(--rani);border-color:var(--rani);color:#fff}
-.cx-btn{background:var(--rani);border-color:var(--rani);color:#fff;text-transform:uppercase;letter-spacing:.14em;font-size:11px}
-.cx-btn.ghost{background:none;color:var(--rani)}
-.controls{background:var(--bg);border-bottom:1px solid var(--rani)}
-.connect{border-color:var(--rule)}
+.kpanel{background:#08060C;border:1px solid var(--rule)}
+.chip,.ktab{font-family:var(--mono);text-transform:uppercase;letter-spacing:.1em;font-size:11px}
+.chip[aria-pressed="true"],.ktab[aria-pressed="true"],.cx-btn{background:var(--insta);border-color:transparent;color:#fff;font-weight:600}
+.cx-btn{text-transform:uppercase;letter-spacing:.1em;font-family:var(--mono);font-size:11px}
+.cx-btn.ghost{background:none;border-color:var(--rani);color:var(--rani)}
+.controls{background:var(--bg);border-bottom:1px solid var(--rule)}
+.subs{margin-top:0}
 footer{text-align:center;max-width:none}
-footer .xo{font-family:var(--display);font-style:italic;font-size:clamp(24px,3.4vw,34px);color:var(--rani)}
+footer .xo{font-family:var(--display);font-style:italic;font-size:clamp(24px,3.4vw,34px);background:var(--insta);-webkit-background-clip:text;background-clip:text;color:transparent;display:inline-block}
 footer .fine{margin-inline:auto}
 </style>
 
@@ -470,30 +520,31 @@ footer .fine{margin-inline:auto}
 <body>
 <div class="wrap">
 <div class="ticker" aria-label="Latest gossip"><div class="tk"><b>KHABAR GARAM:</b> Kitne aadmi the? In Bollywood, about 300, and they're all related<i>✦</i><b>SPOTTED:</b> Seema Sajdeh, back with the fiancé she left to elope with Sohail in 1998<i>✦</i><b>SPOTTED:</b> Karan told Sara and Janhvi on Koffee: you two dated two brothers<i>✦</i><b>SPOTTED:</b> Aditya Roy Kapur and Tara Sutaria, reportedly. Yes, Ananya's ex<i>✦</i><b>SPOTTED:</b> Mona Shourie bought the rings Boney and Sridevi wore. Boney said so himself<i>✦</i><b>SPOTTED:</b> Rekha at Rishi Kapoor's 1980 wedding, in sindoor<i>✦</i><b>SPOTTED:</b> Alia, married to Ranbir, has made films with both his exes' husbands<i>✦</i><b>SPOTTED:</b> Dharma: "a dignified silence." Kartik: "I am not part of any camp"<i>✦</i><b>SPOTTED:</b> Sonakshi met Zaheer June 23, 2017 and married him June 23, 2024<i>✦</i><b>SPOTTED:</b> Kangana and Javed Akhtar, five years in court, settled in 2025<i>✦</i><b>SPOTTED:</b> Shah Rukh and Salman, five years of silence after one birthday party<i>✦</i></div></div>
-<header class="mast">
-  <div class="mast-top"><span>Written in Austin, about Bombay</span><span>October 2026</span></div>
-  <h1 class="logo">bollywood <em>receipts</em><span class="xo-mark" aria-hidden="true">xoxo</span></h1>
-  <p class="motto">Your one and only source into the scandalous lives of Bombay's elite</p>
-  <p class="tagline"><b>Hey, Bollywood. Bandra Girl here.</b> Who's dating whom, who's not speaking to whom, and who swore it was "just a friend." Every secret comes stamped <b style="color:var(--true)">RECEIPT</b>, <b style="color:var(--alleged)">ALLEGED</b>, <b style="color:var(--rumor)">RUMOR</b> or <b style="color:var(--cap)">CAP</b>, because I don't do fake news, darling. Kitne secrets the? Saare.</p>
-  <p class="whoami">And who am I? That's one receipt I'll never show.</p>
-  <svg class="skyline" viewBox="0 0 1200 120" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
-    <g class="far"><rect x="0" y="70" width="40" height="50"/><rect x="44" y="52" width="30" height="68"/><rect x="80" y="64" width="46" height="56"/><rect x="250" y="40" width="26" height="80"/><rect x="282" y="58" width="40" height="62"/><rect x="560" y="46" width="34" height="74"/><rect x="600" y="30" width="22" height="90"/><rect x="628" y="60" width="44" height="60"/><rect x="900" y="50" width="30" height="70"/><rect x="936" y="36" width="24" height="84"/><rect x="1110" y="56" width="40" height="64"/><rect x="1156" y="44" width="44" height="76"/></g>
-    <g class="near">
-      <path d="M130 120V74h18V60h10v14h18v46z"/>
-      <path d="M180 120V82h70v38zM196 82V70h38v12z"/>
-      <path d="M330 120V66h22V18l8-10 8 10v48h22v54z"/>
-      <path d="M400 120V72q0-18 20-22 20 4 20 22v48zM444 120V80h70v40zM470 80q0-16 9-16t9 16z"/>
-      <path d="M520 120V84h36v36z"/>
-      <path d="M690 120V60l14-8 14 8v60zM724 120V42h28v78zM758 120V70h30v50z"/>
-      <path d="M800 120V92h300v28z"/>
-      <path d="M836 92V12h6v80zM1046 92V22h6v70z"/>
-      <path d="M970 120V64h30V48h16v72z"/>
-    </g>
-    <g class="cables"><path d="M839 14L800 92M839 14L812 92M839 14L824 92M839 14L862 92M839 14L878 92M839 14L894 92M1049 24L1004 92M1049 24L1018 92M1049 24L1032 92M1049 24L1070 92M1049 24L1084 92M1049 24L1098 92"/></g>
-  </svg>
-  <nav class="mainnav" aria-label="Sections">
-    <a href="#spotted">Spotted</a><a href="#reelh">The Reel</a><a href="#wallh">Receipts</a><a href="#connecth">Connect two people</a><a href="#trees">Khandaan</a><a href="web.html">The Web</a><a href="#webh">Investigations</a><a href="#watchh">What to watch</a>
-  </nav>
+<header class="mast gg">
+  <div class="gg-top"><span>Written in Austin, about Bombay</span><span class="gg-date">02.10.26</span></div>
+  <div class="gg-bubble"><p>And who am I?<br>That's one receipt<br>I'll never show.<br>You know you love me.</p><p class="sig">xoxo &middot; Bandra Girl</p></div>
+  <h1 class="logo">bollywood receipts</h1>
+  <div class="gg-grid">
+    <nav class="gg-nav" aria-label="Sections">
+      <a href="#wallh"><b>welcome</b><span>to Bollywood Receipts, the site about Bombay's elite, for Bombay's elite. Every secret stamped.</span></a>
+      <a href="#spotted"><b>gossip</b><span>the latest "411" on all the in people</span></a>
+      <a href="#reelh"><b>reels</b><span>see what the filmi crowd said on camera</span></a>
+      <a href="#connecth"><b>parties</b><span>your invitation was probably lost in the mail. Connect two people to see what you missed</span></a>
+      <a href="#trees"><b>khandaan</b><span>who's whose, five generations deep</span></a>
+      <a href="web.html"><b>the web</b><span>everyone, everywhere, all at once</span></a>
+      <a href="#webh"><b>archive</b><span>the investigations, maps and evidence boards</span></a>
+      <a href="#watchh"><b>watch</b><span>what to stream next</span></a>
+    </nav>
+    <div class="gg-post">
+      <div class="gg-ph"><span>Spotted: Salman &amp; Aishwarya</span><span>02.10.26</span></div>
+      <p class="gg-q">&laquo;Kitne secrets the? Saare.&raquo;</p>
+      <div id="lead"></div>
+      <p class="gg-cap">Bandra Girl here, your one and only source into the scandalous lives of Bombay's elite.</p>
+      <p class="tagline">Who's dating whom, who's not speaking to whom, and who swore it was "just a friend." Every secret comes stamped <b class="t-true">RECEIPT</b>, <b class="t-alleged">ALLEGED</b>, <b class="t-rumor">RUMOR</b> or <b class="t-cap">CAP</b>, because I don't do fake news, darling.</p>
+      <p class="gg-sig">xoxo, BG</p>
+    </div>
+    <aside class="gg-side" aria-label="Sightings"><h3>sightings</h3><ol id="latest"></ol></aside>
+  </div>
 </header>
 
 
@@ -504,7 +555,7 @@ footer .fine{margin-inline:auto}
 
 <section aria-labelledby="spotted">
   <div class="sechead"><h2 id="spotted">Spotted</h2></div><p class="wsub2">Khabar garam hai. Here's what Bombay is whispering.</p>
-  <div class="top"><div><div id="lead"></div><div class="subs" id="subs"></div></div><aside class="latest"><h3>Sightings</h3><ol id="latest"></ol></aside></div>
+  <div class="subs" id="subs"></div>
 </section>
 <section class="reel" aria-labelledby="reelh">
   <div class="sechead"><h2 id="reelh">The Reel</h2></div>
@@ -997,7 +1048,7 @@ footer .fine{margin-inline:auto}
   <div class="prow"><article class="poster" tabindex="0"><div class="pimg"><img loading="lazy" class="key" src="https://upload.wikimedia.org/wikipedia/commons/2/22/Maheep_Kapoor%2C_Seema_Khan_grace_the_Lions_Gold_Awards_2022.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled" alt="Maheep Kapoor" title="Maheep Kapoor, photo via Wikimedia Commons" onerror="imgFail(this)"><span class="plat">Netflix</span><div class="pbot"><div class="faces"><img loading="lazy" class="face" src="https://upload.wikimedia.org/wikipedia/commons/8/88/Photos-Ananya-Panday-Chunky-Pandey-and-Bhavana-Pandey-snapped-in-Bandra-6.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled" alt="Bhavana Pandey" title="Bhavana Pandey, photo via Wikimedia Commons" onerror="imgFail(this)"><img loading="lazy" class="face" src="https://thumb.wikimedia.org/wikipedia/commons/thumb/1/14/Neelam_Kothari_fizaa_store_launch.jpg/330px-Neelam_Kothari_fizaa_store_launch.jpg" alt="Neelam Kothari" title="Neelam Kothari, photo via Wikimedia Commons" onerror="imgFail(this)"></div><h3>Fabulous Lives of Bollywood Wives</h3><span class="yr">2020–<b>Start here</b></span></div><div class="pwhy"><p>Seema's nameplate, Maheep on Sanjay's cheating, SRK and Gauri cameos.</p></div></div></article><article class="poster" tabindex="0"><div class="pimg"><img loading="lazy" class="key" src="https://upload.wikimedia.org/wikipedia/commons/a/a0/Ranbir_Kapoor_snapped_at_Kalina_airport.jpg" alt="Ranbir Kapoor" title="Ranbir Kapoor, photo via Wikimedia Commons" onerror="imgFail(this)"><span class="plat">Netflix</span><div class="pbot"><div class="faces"><img loading="lazy" class="face" src="https://upload.wikimedia.org/wikipedia/commons/2/29/Kareena_Kapoor_Khan_in_2023_%281%29_%28cropped%29.jpg" alt="Kareena Kapoor" title="Kareena Kapoor, photo via Wikimedia Commons" onerror="imgFail(this)"><img loading="lazy" class="face" src="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c0/Karisma_Kapoor_snapped_at_Rotary_Club_of_Bombay_West_%286%29_%28cropped%29.jpg/330px-Karisma_Kapoor_snapped_at_Rotary_Club_of_Bombay_West_%286%29_%28cropped%29.jpg" alt="Karisma Kapoor" title="Karisma Kapoor, photo via Wikimedia Commons" onerror="imgFail(this)"><img loading="lazy" class="face" src="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c9/Neetu_Singh.jpg/330px-Neetu_Singh.jpg" alt="Neetu Singh" title="Neetu Singh, photo via Wikimedia Commons" onerror="imgFail(this)"></div><h3>Dining with the Kapoors</h3><span class="yr">Raj Kapoor's family<b>Start here</b></span></div><div class="pwhy"><p>The whole Kapoor khandaan at one table, telling stories.</p></div></div></article><article class="poster" tabindex="0"><div class="pimg"><img loading="lazy" class="key" src="https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6b/Karan_Johar_at_2025_Cannes_Homebound_Photocall_2_%28cropped%29.jpg/330px-Karan_Johar_at_2025_Cannes_Homebound_Photocall_2_%28cropped%29.jpg" alt="Karan Johar" title="Karan Johar, photo via Wikimedia Commons" onerror="imgFail(this)"><span class="plat">JioHotstar</span><div class="pbot"><div class="faces"><img loading="lazy" class="face" src="https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f4/Kangana_Ranaut_at_Ira_Khan%27s_wedding_reception_%28cropped%29.jpg/330px-Kangana_Ranaut_at_Ira_Khan%27s_wedding_reception_%28cropped%29.jpg" alt="Kangana Ranaut" title="Kangana Ranaut, photo via Wikimedia Commons" onerror="imgFail(this)"><img loading="lazy" class="face" src="https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e8/Alia_Bhatt_attends_at_the_2026_Cannes_Film_Festival_%28cropped%29_%28cropped%29.jpg/330px-Alia_Bhatt_attends_at_the_2026_Cannes_Film_Festival_%28cropped%29_%28cropped%29.jpg" alt="Alia Bhatt" title="Alia Bhatt, photo via Wikimedia Commons" onerror="imgFail(this)"><img loading="lazy" class="face" src="https://upload.wikimedia.org/wikipedia/commons/1/1c/Kajol_snapped_promoting_Maa_%28cropped%29_%28cropped%29.jpg" alt="Kajol" title="Kajol, photo via Wikimedia Commons" onerror="imgFail(this)"></div><h3>Koffee with Karan</h3><span class="yr">2004–<b>Where feuds start</b></span></div><div class="pwhy"><p>"Flag bearer of nepotism," "Prithviraj Chauhan," two Pahariya brothers.</p></div></div></article><article class="poster" tabindex="0"><div class="pimg"><img loading="lazy" class="key" src="https://upload.wikimedia.org/wikipedia/commons/b/bb/Aryan_Khan_at_the_launch_of_Netflix_Slate_2025_%28cropped%29.jpg" alt="Aryan Khan" title="Aryan Khan, photo via Wikimedia Commons" onerror="imgFail(this)"><span class="plat">Netflix</span><div class="pbot"><div class="faces"><img loading="lazy" class="face" src="https://thumb.wikimedia.org/wikipedia/commons/thumb/0/01/Lord_Bobby_2024.jpg/330px-Lord_Bobby_2024.jpg" alt="Bobby Deol" title="Bobby Deol, photo via Wikimedia Commons" onerror="imgFail(this)"><img loading="lazy" class="face" src="https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6e/Shah_Rukh_Khan_graces_the_launch_of_the_new_Santro.jpg/330px-Shah_Rukh_Khan_graces_the_launch_of_the_new_Santro.jpg" alt="Shah Rukh Khan" title="Shah Rukh Khan, photo via Wikimedia Commons" onerror="imgFail(this)"></div><h3>The Ba***ds of Bollywood</h3><span class="yr">2025<b>Aryan Khan directs</b></span></div><div class="pwhy"><p>Aryan's satire of the industry that arrested, then adored, him.</p></div></div></article><article class="poster" tabindex="0"><div class="pimg"><img loading="lazy" class="key" src="https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6e/Shah_Rukh_Khan_graces_the_launch_of_the_new_Santro.jpg/330px-Shah_Rukh_Khan_graces_the_launch_of_the_new_Santro.jpg" alt="Shah Rukh Khan" title="Shah Rukh Khan, photo via Wikimedia Commons" onerror="imgFail(this)"><span class="plat">Netflix</span><div class="pbot"><div class="faces"><img loading="lazy" class="face" src="https://upload.wikimedia.org/wikipedia/commons/1/1c/Kajol_snapped_promoting_Maa_%28cropped%29_%28cropped%29.jpg" alt="Kajol" title="Kajol, photo via Wikimedia Commons" onerror="imgFail(this)"><img loading="lazy" class="face" src="https://thumb.wikimedia.org/wikipedia/commons/thumb/7/76/Rani_Mukerji_snapped_at_Hema_Malini%E2%80%99s_75th_birthday_celebration_%28cropped%29%282%29.jpg/330px-Rani_Mukerji_snapped_at_Hema_Malini%E2%80%99s_75th_birthday_celebration_%28cropped%29%282%29.jpg" alt="Rani Mukerji" title="Rani Mukerji, photo via Wikimedia Commons" onerror="imgFail(this)"><img loading="lazy" class="face" src="https://upload.wikimedia.org/wikipedia/commons/3/32/Ranveer_Singh_in_2023_%281%29_%28cropped%29.jpg" alt="Ranveer Singh" title="Ranveer Singh, photo via Wikimedia Commons" onerror="imgFail(this)"></div><h3>The Romantics</h3><span class="yr">2023<b>The Yash Raj story</b></span></div><div class="pwhy"><p>Aditya Chopra on camera, and how YRF made its stars.</p></div></div></article><article class="poster" tabindex="0"><div class="pimg"><img loading="lazy" class="key" src="https://upload.wikimedia.org/wikipedia/commons/4/40/SalimKhan.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled" alt="Salim Khan" title="Salim Khan, photo via Wikimedia Commons" onerror="imgFail(this)"><span class="plat">Prime Video</span><div class="pbot"><div class="faces"><img loading="lazy" class="face" src="https://thumb.wikimedia.org/wikipedia/commons/thumb/7/70/Javed_Akhtar_at_Jaipur_Literature_Festival_2026.jpg/330px-Javed_Akhtar_at_Jaipur_Literature_Festival_2026.jpg" alt="Javed Akhtar" title="Javed Akhtar, photo via Wikimedia Commons" onerror="imgFail(this)"><img loading="lazy" class="face" src="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c6/Indian_actor_Amitabh_Bachchan.jpg/330px-Indian_actor_Amitabh_Bachchan.jpg" alt="Amitabh Bachchan" title="Amitabh Bachchan, photo via Wikimedia Commons" onerror="imgFail(this)"><img loading="lazy" class="face" src="https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/Salman_Khan_in_2023_%28cropped%29.jpg/330px-Salman_Khan_in_2023_%28cropped%29.jpg" alt="Salman Khan" title="Salman Khan, photo via Wikimedia Commons" onerror="imgFail(this)"></div><h3>Angry Young Men</h3><span class="yr">2024<b>Salim–Javed</b></span></div><div class="pwhy"><p>The writers behind Sholay and Deewaar, and their families.</p></div></div></article><article class="poster" tabindex="0"><div class="pimg"><img loading="lazy" class="key" src="https://upload.wikimedia.org/wikipedia/commons/d/d1/SimiGarewal.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled" alt="Simi Garewal" title="Simi Garewal, photo via Wikimedia Commons" onerror="imgFail(this)"><span class="plat">YouTube</span><div class="pbot"><div class="faces"><img loading="lazy" class="face" src="https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a2/Rekha_2023.jpg/330px-Rekha_2023.jpg" alt="Rekha" title="Rekha, photo via Wikimedia Commons" onerror="imgFail(this)"><img loading="lazy" class="face" src="https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3a/Aishwarya_Rai_Cannes_2017.jpg/330px-Aishwarya_Rai_Cannes_2017.jpg" alt="Aishwarya Rai" title="Aishwarya Rai, photo via Wikimedia Commons" onerror="imgFail(this)"><img loading="lazy" class="face" src="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c6/Indian_actor_Amitabh_Bachchan.jpg/330px-Indian_actor_Amitabh_Bachchan.jpg" alt="Amitabh Bachchan" title="Amitabh Bachchan, photo via Wikimedia Commons" onerror="imgFail(this)"></div><h3>Rendezvous with Simi Garewal</h3><span class="yr">1997–2009<b>The original tell-all</b></span></div><div class="pwhy"><p>Rekha on Amitabh. Aishwarya on losing SRK's films.</p></div></div></article></div>
 </section>
 
-<footer><p class="xo">You know you love me. XOXO, Bandra Girl</p><p class="fine">Sources: interviews, court records and tabloid archives, current to October 2026. ALLEGED and RUMOR mean gossip, not fact. Photos: Wikimedia Commons (CC licensed). Clips: credited YouTube channels.</p></footer>
+<footer><p class="xo">You know you love me. XOXO, Bandra Girl</p><p class="fine">Sources: interviews, court records and tabloid archives, current to October 2026. ALLEGED and RUMOR mean gossip, not fact. Photos: Wikimedia Commons (CC licensed). Clips: credited YouTube channels. Masthead photo: "Mumbai Skyline at Night" by Cididity Hat, CC BY-SA 3.0, via Wikimedia Commons.</p></footer>
 </div>
 
 <script>
