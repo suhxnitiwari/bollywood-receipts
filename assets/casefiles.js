@@ -234,7 +234,7 @@ CFW.push((f,box,w,spec)=>{if(!f.loops)return;const E=spec.edges,N=spec.nodes,adj
 
 /* ---------- public ---------- */
 window.renderCaseFiles=function(host){if(!host)return;let k=0;const legacy={web3h:1,maheshh:1};
-  const order=['webh','rani','web2h','web3h','web4h','web5h','maheshh','genzh','hrithik','znmd','yjhd','animal','ddlj','soty','housefull','cops','spy','deepika','karan','starmaker','nepoverse','beef','saba','soha','glam'];
+  const order=['webh','rani','web2h','web3h','web4h','web5h','maheshh','genzh','hrithik','znmd','yjhd','animal','ddlj','soty','housefull','cops','spy','deepika','karan','starmaker','nepoverse','beef','saba','soha','deol','glam'];
   order.forEach(id=>{k++;const num=String(k).padStart(3,'0');
     if(legacy[id]){const s=document.querySelector(`section.web[aria-labelledby="${id}"]`);if(s){host.appendChild(s);s.id='file-'+num;s.dataset.num=num}return}
     const f=CF.find(x=>x.id===id);if(f)render(host,f,num)});
