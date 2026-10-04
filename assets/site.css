@@ -888,3 +888,33 @@ section.web.cf{display:block;margin-top:46px;padding-top:0;border-top:0}
 .cx-list b{font-family:var(--display);font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .cx-list i{font:500 10px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;font-style:normal;opacity:.7}
 .cx-list .none{display:block;cursor:default;color:var(--muted);font-size:14px}
+
+/* connect result: the two life histories fold away; the board and the chain are the story */
+.cx-more{border-top:2px solid var(--ink);padding-top:12px}
+.cx-more>summary{cursor:pointer;list-style:none;display:inline-flex;align-items:center;gap:10px;font:600 11.5px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;padding:10px 16px;border:1.5px solid var(--ink);background:var(--paper);color:var(--ink)}
+.cx-more>summary::-webkit-details-marker{display:none}
+.cx-more>summary::after{content:"+";font-size:15px}
+.cx-more[open]>summary::after{content:"\2212"}
+.cx-more>summary span{opacity:.6}
+.cx-more>summary:hover{background:var(--red);border-color:var(--red);color:#fff}
+.cx-more>summary:focus-visible{outline:2px solid var(--red);outline-offset:3px}
+.cx-more[open] .tls{margin-top:16px}
+
+/* biggest bridges: a podium and a row of faces instead of ten bar rows */
+.bridgelist.v2{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:18px}
+.bridgelist.v2 li{counter-increment:none}
+.bridgelist.v2 .bp a{position:relative;display:flex;flex-direction:column;gap:6px;padding:0;border:0;text-decoration:none;color:var(--ink)}
+.bridgelist.v2 .bp a::before,.bridgelist.v2 .brest a::before{content:none}
+.bridgelist.v2 .bp img,.bridgelist.v2 .bp .ini{width:100%;height:auto;aspect-ratio:4/5;border:4px solid var(--ink);box-shadow:5px 5px 0 var(--ink)}
+.bridgelist.v2 .bp .ini{font-size:40px}
+.bridgelist.v2 .rk{position:absolute;left:-6px;top:-10px;z-index:1;font:italic 800 clamp(30px,5vw,52px)/1 var(--display);color:var(--red);text-shadow:2px 2px 0 var(--bg)}
+.bridgelist.v2 .bp b{font:700 clamp(16px,2vw,21px)/1.1 var(--display);margin-top:4px}
+.bridgelist.v2 .bp em{font:italic 800 clamp(28px,4.5vw,46px)/1 var(--display);color:var(--red)}
+.bridgelist.v2 .brest{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:6px}
+.bridgelist.v2 .bl{font:600 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-right:4px}
+.bridgelist.v2 .brest a{display:inline-flex;align-items:center;gap:7px;padding:3px 10px 3px 3px;border:1.5px solid var(--ink);background:var(--paper);text-decoration:none;color:var(--ink);grid-template-columns:none}
+.bridgelist.v2 .brest img,.bridgelist.v2 .brest .ini{width:28px;height:28px;border:0;border-radius:50%;font-size:10px}
+.bridgelist.v2 .brest b{font:700 14px/1 var(--display)}
+.bridgelist.v2 .brest i{font:500 11px/1 var(--mono);font-style:normal;color:var(--red)}
+.bridgelist.v2 a:hover b{color:var(--red)}
+@media (max-width:560px){.bridgelist.v2{gap:10px}.bridgelist.v2 .bp b{font-size:14px}}

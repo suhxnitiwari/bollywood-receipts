@@ -291,9 +291,11 @@ function betweenness(){const ADJ=window.__ADJ||{},V=Object.keys(ADJ),idx=new Map
     while(qh<qt){const v=Q[qh++];S[top++]=v;for(const w of adj[v]){if(d[w]<0){d[w]=d[v]+1;Q[qt++]=w}if(d[w]===d[v]+1){sigma[w]+=sigma[v];P[w].push(v)}}}
     delta.fill(0);while(top>0){const w=S[--top];for(const v of P[w])delta[v]+=sigma[v]/sigma[w]*(1+delta[w]);if(w!==s0)CB[w]+=delta[w]}}
   const norm=(N-1)*(N-2);return V.map((v,i)=>[v,CB[i]/norm]).sort((a,b)=>b[1]-a[1])}
-window.renderBridges=function(el){const t0=performance.now(),B=betweenness(),top=B.slice(0,15),max=top[0][1];
-  el.innerHTML=top.map(([n,b],i)=>`<li><a href="people.html?p=${enc(n)}#actor">${ph(n)?`<img src="${ph(n)}" alt="" loading="lazy">`:`<span class="ini">${esc(n.split(' ').map(w=>w[0]).join('').slice(0,2))}</span>`}<span class="bn">${esc(n)}</span><span class="bar"><i style="width:${(b/max*100).toFixed(1)}%"></i></span><span class="bs">${(b*100).toFixed(1)}%</span></a></li>`).join('');
-  el.insertAdjacentHTML('afterend',`<p class="cfnote">Share of all shortest paths between two other people that pass through each name. ${Object.keys(window.__ADJ||{}).length} people on the board.</p>`)};
+window.renderBridges=function(el){const B=betweenness(),top=B.slice(0,10),pic=n=>ph(n)?`<img src="${ph(n)}" alt="" loading="lazy">`:`<span class="ini">${esc(n.split(' ').map(w=>w[0]).join('').slice(0,2))}</span>`,pct=b=>(b*100).toFixed(1)+'%';
+  el.classList.add('v2');
+  el.innerHTML=top.slice(0,3).map(([n,b],i)=>`<li class="bp"><a href="people.html?p=${enc(n)}#actor"><span class="rk">${i+1}</span>${pic(n)}<b>${esc(n)}</b><em>${pct(b)}</em></a></li>`).join('')
+    +`<li class="brest"><span class="bl">Then</span>${top.slice(3).map(([n,b])=>`<a href="people.html?p=${enc(n)}#actor">${pic(n)}<b>${esc(n)}</b><i>${pct(b)}</i></a>`).join('')}</li>`;
+  el.insertAdjacentHTML('afterend',`<p class="cfnote">Computed live from ${Object.keys(window.__ADJ||{}).length} people.</p>`)};
 
 /* ---------- start ---------- */
 const host=document.getElementById('casefiles');if(host)window.renderCaseFiles(host);

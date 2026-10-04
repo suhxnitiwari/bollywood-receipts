@@ -959,7 +959,7 @@ function connect(){const a=resolveName(ia.value),b=resolveName(ib.value);
     h+='</ol>'}
   const direct=G.filter(e=>(e[0]===a&&e[1]===b)||(e[0]===b&&e[1]===a));
   if(direct.length>1)h+=`<p style="margin:0;font-size:14px;color:var(--muted)">They have ${direct.length} direct links on the board.</p>`;
-  h+=`<div class="tls">${timeline(a,'b')}${timeline(b,'a')}</div><p style="margin:0;font-size:13px;color:var(--muted)">Tap any name in a history to connect it instead. "—" means no single date.</p>`;
+  h+=`<details class="cx-more"><summary>Their full histories <span>${ADJ[a].length+ADJ[b].length} links</span></summary><div class="tls">${timeline(a,'b')}${timeline(b,'a')}</div><p style="margin:0;font-size:13px;color:var(--muted)">Tap any name in a history to connect it instead. "—" means no single date.</p></details>`;
   h=`<p class="cx3d"><a class="cx-btn" href="rishta.html?a=${encodeURIComponent(a)}&b=${encodeURIComponent(b)}">See this rishta in 3D →</a></p>`+h;
   out.innerHTML=h;window.cxWebShow&&window.cxWebShow(a,b,pth);
   out.querySelectorAll('.nm').forEach(x=>x.onclick=()=>{(x.dataset.slot==='a'?ia:ib).value=x.dataset.n;connect();document.getElementById('connecth').scrollIntoView({behavior:'smooth'})})}

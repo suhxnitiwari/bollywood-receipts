@@ -48,7 +48,7 @@ window.CASEFILES=[
   ['💔 "The kiss ended Rani and Abhishek"','Gossip on gossip: an unconfirmed relationship plus a real movie kiss plus a reported objection does not make a breakup cause.','c']],
  modes:[['💋 The kisses',{types:['kiss']}],['The families',{types:['wed','fam']}]]},
 
-{id:'web2h',title:'The Kartik loop',kick:'Not one man, a whole tangle',
+{id:'web2h',title:'Serially linked',kick:'The Kartik loop',
  dek:"Kartik isn't the story. Follow the women he's been linked to and every branch runs into another family: Sara into the Pataudis, Ananya into the Pandays and Fabulous Lives, Janhvi into the Kapoors and, five steps later, Salman.",
  note:'Kartik has pushed back on the idea that every co-star is someone he dated. Romance lines here are graded, not assumed.',lead:['Kartik Aaryan'],
  threads:[
