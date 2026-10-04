@@ -1,0 +1,18 @@
+{
+  "name": "bollywood-receipts-tools",
+  "private": true,
+  "type": "module",
+  "description": "Offline build for the Guest List: layout and portraits. The site itself stays static.",
+  "scripts": {
+    "world": "node build-world.mjs",
+    "faces": "node build-faces.mjs"
+  },
+  "devDependencies": {
+    "graphology": "^0.26.0",
+    "graphology-communities-louvain": "^2.0.2",
+    "graphology-layout-forceatlas2": "^0.10.1",
+    "graphology-layout-noverlap": "^0.4.2",
+    "jsdom": "^29.1.1",
+    "sharp": "^0.35.5"
+  }
+}

@@ -31,23 +31,20 @@
   <div class="stamps-key" data-stampkey></div>
 </section>
 <section class="band" aria-labelledby="connecth" id="connect">
-<div class="connect">
-  <p class="eyebrow">The detective tool</p>
-  <h2 id="connecth">Yeh rishta kya kehlata hai?</h2>
-  <p class="dek">Bollywood is smaller than you think. Pick two names and we'll find the shortest chain between them, every link dated and stamped.</p>
-  <form id="cxf" autocomplete="off">
+<div class="invite">
+  <div class="inv-faces" id="invfaces" aria-hidden="true"></div>
+  <p class="inv-kick">You're invited</p>
+  <h2 id="connecth">The Guest List</h2>
+  <p class="inv-dek">All of Bollywood in one room. Name any two guests and we'll pull the thread between them.</p>
+  <form id="cxf" class="inv-form" autocomplete="off" data-go="guest">
     <div class="cx-row">
-      <label for="cxa">Person one<input id="cxa" list="cxnames" placeholder="e.g. Aishwarya Rai"></label>
-      <button type="button" class="cx-btn ghost swap" id="cxswap" aria-label="Swap the two names">⇄</button>
-      <label for="cxb">Person two<input id="cxb" list="cxnames" placeholder="e.g. Katrina Kaif"></label>
+      <label for="cxa">Guest one<input id="cxa" placeholder="Aishwarya Rai"></label>
+      <button type="button" class="inv-swap" id="cxswap" aria-label="Swap the two names">⇄</button>
+      <label for="cxb">Guest two<input id="cxb" placeholder="Katrina Kaif"></label>
     </div>
-    <label style="display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:12px;margin-top:10px"><input type="checkbox" id="cxfam"> Family and marriage links only</label>
-    <label class="cxopt"><input type="checkbox" id="cxclean"> Receipts only (no rumors)</label>
-    <div class="cx-btns"><button class="cx-btn" type="submit">Connect them</button><button class="cx-btn ghost" type="button" id="cxrand">🎲 Give me two random people</button><button class="cx-btn ghost" type="button" id="cxcards">Show me the receipts</button></div>
-    <datalist id="cxnames"></datalist>
+    <div class="inv-btns"><button class="inv-go" type="submit">Pull the thread</button><button class="inv-ghost" type="button" id="cxrand">Surprise me</button></div>
   </form>
-  <div class="w3d-box" id="cxweb"></div>
-  <div class="cx-out" id="cxout" aria-live="polite"></div>
+  <p class="inv-stat">Seven degrees, max. Usually three.</p>
 </div>
 </section>
 <section class="band" aria-labelledby="reel">

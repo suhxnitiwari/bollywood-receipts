@@ -1,0 +1,201 @@
+/* ---------- The Guest List: the whole room on one canvas, the paper's furniture floating over it ----------
+   Lacquered oxblood, ivory type, gold for marriage and family, crimson for romance, sindoor for the selected. */
+:root{
+  --gl-bg:#120707; --gl-bg2:#1E0A0B; --gl-ivory:#F4EBDD; --gl-dim:rgba(244,235,221,.62); --gl-faint:rgba(244,235,221,.38);
+  --gl-gold:#D9B25F; --gl-crimson:#D23A4E; --gl-sindoor:#E8402A; --gl-pink:#E0457B; --gl-green:#8DB38B;
+  --gl-glass:rgba(24,10,11,.74); --gl-line:rgba(217,178,95,.22); --gl-line2:rgba(244,235,221,.12);
+  --gl-serif:"Bodoni Moda",Georgia,serif; --gl-mono:"IBM Plex Mono",ui-monospace,monospace; --gl-sans:Mukta,system-ui,sans-serif;
+}
+html:has(body.gl){background:var(--gl-bg);overflow:hidden;height:100%}
+body.gl{margin:0;padding:0;height:100%;overflow:hidden;background:var(--gl-bg);color:var(--gl-ivory);font-family:var(--gl-sans);font-size:15px;line-height:1.45;
+  -webkit-font-smoothing:antialiased;overscroll-behavior:none}
+.gl .sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+#room{position:fixed;inset:0;width:100vw;height:100vh;height:100dvh;display:block;cursor:grab;touch-action:none;-webkit-user-select:none;user-select:none}
+#room.grabbing{cursor:grabbing}
+#room.pointing{cursor:pointer}
+
+/* everything floating fades up once the room has arrived */
+.gl-brand,.gl-panel:not([hidden]),.gl-show,.gl-zoom{animation:glIn .9s cubic-bezier(.2,.7,.2,1) both}
+.gl-ask{animation-delay:.15s}.gl-key{animation-delay:.25s}.gl-show{animation-delay:.35s}.gl-zoom{animation-delay:.45s}
+@keyframes glIn{from{opacity:0;transform:translateY(8px)}}
+
+/* ---------- top left: the masthead ---------- */
+.gl-left{position:fixed;left:28px;top:22px;width:340px;z-index:4;display:flex;flex-direction:column;gap:20px;pointer-events:none}
+.gl-left>*{pointer-events:auto}
+.gl-left .gl-panel{position:relative}
+.gl-brand{pointer-events:none}
+.gl-brand>*{pointer-events:auto}
+.gl-back{display:inline-block;font:500 10.5px/1 var(--gl-mono);letter-spacing:.16em;text-transform:uppercase;color:var(--gl-dim);text-decoration:none;padding:4px 0}
+.gl-back:hover,.gl-back:focus-visible{color:var(--gl-gold)}
+.gl-brand h1{margin:10px 0 2px;font:italic 500 clamp(34px,3.6vw,52px)/.95 var(--gl-serif);letter-spacing:-.01em;color:var(--gl-ivory);text-shadow:0 2px 30px rgba(0,0,0,.8)}
+.gl-tag{margin:6px 0 0;font:400 16px/1.3 var(--gl-serif);color:var(--gl-dim);text-shadow:0 1px 12px #000}
+.gl-meta{margin:10px 0 0;font:500 10px/1.4 var(--gl-mono);letter-spacing:.16em;text-transform:uppercase;color:var(--gl-faint)}
+
+/* ---------- glass panels ---------- */
+.gl-panel{position:fixed;z-index:4;background:var(--gl-glass);border:1px solid var(--gl-line);border-radius:14px;
+  -webkit-backdrop-filter:blur(14px) saturate(1.2);backdrop-filter:blur(14px) saturate(1.2);box-shadow:0 30px 60px -30px rgba(0,0,0,.9)}
+.gl-panel h2{margin:0;font:600 10.5px/1.2 var(--gl-mono);letter-spacing:.18em;text-transform:uppercase;color:var(--gl-gold)}
+
+/* the connector */
+.gl-ask{padding:16px 16px 14px}
+.gl-pair{display:flex;align-items:center;gap:6px;margin:12px 0 10px}
+.gl-pick{position:relative;flex:1;min-width:0}
+.gl-pick input{width:100%;box-sizing:border-box;background:rgba(244,235,221,.06);border:1px solid var(--gl-line2);border-radius:8px;color:var(--gl-ivory);
+  font:500 15px/1.2 var(--gl-sans);padding:9px 10px;outline:none;transition:border-color .2s,background .2s}
+.gl-pick input::placeholder{color:var(--gl-faint)}
+.gl-pick input:focus{border-color:var(--gl-gold);background:rgba(244,235,221,.1)}
+.gl-x{flex:none;width:26px;height:26px;border:0;background:none;color:var(--gl-gold);font:400 20px/1 var(--gl-serif);cursor:pointer;border-radius:50%}
+.gl-x:hover,.gl-x:focus-visible{background:rgba(217,178,95,.14)}
+.gl-list{position:absolute;left:0;right:-60px;top:calc(100% + 4px);margin:0;padding:4px;list-style:none;z-index:9;max-height:260px;overflow:auto;
+  background:#1C0C0D;border:1px solid var(--gl-line);border-radius:10px;box-shadow:0 20px 40px -10px #000}
+.gl-list li{display:flex;align-items:center;gap:9px;padding:5px 7px;border-radius:7px;cursor:pointer;font-size:14.5px}
+.gl-list li[aria-selected="true"],.gl-list li:hover{background:rgba(217,178,95,.16)}
+.gl-list img,.gl-list .mono{width:26px;height:26px;border-radius:50%;object-fit:cover;flex:none;background:#2A1416;display:grid;place-items:center;font:600 10px/1 var(--gl-serif);color:var(--gl-gold)}
+.gl-list small{margin-left:auto;font:500 9.5px/1 var(--gl-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--gl-faint)}
+.gl-go{display:block;width:100%;border:0;border-radius:8px;padding:11px 12px;cursor:pointer;background:var(--gl-sindoor);color:#FFF6EE;
+  font:600 11.5px/1 var(--gl-mono);letter-spacing:.18em;text-transform:uppercase;box-shadow:0 10px 30px -12px rgba(232,64,42,.9);transition:transform .15s,filter .15s}
+.gl-go:hover,.gl-go:focus-visible{filter:brightness(1.1);transform:translateY(-1px)}
+.gl-ghost{display:block;margin:10px auto 0;border:0;background:none;color:var(--gl-dim);font:500 10.5px/1 var(--gl-mono);letter-spacing:.16em;text-transform:uppercase;cursor:pointer;padding:4px 6px}
+.gl-ghost:hover,.gl-ghost:focus-visible{color:var(--gl-gold)}
+.gl-err{margin:10px 0 0;font:400 13.5px/1.35 var(--gl-sans);color:#FFB4A6}
+
+/* the key */
+.gl-key{right:24px;top:22px;width:236px;padding:12px 14px 14px}
+.gl-fold{display:flex;justify-content:space-between;align-items:center;width:100%;border:0;background:none;padding:2px 0;cursor:pointer;color:var(--gl-dim);font:400 16px/1 var(--gl-mono)}
+.gl-legend{list-style:none;margin:10px 0 4px;padding:0;display:grid;gap:3px}
+.gl-legend li{display:flex;align-items:center;gap:10px;font:400 13.5px/1.5 var(--gl-sans);color:var(--gl-dim)}
+.gl-legend svg{flex:none}
+.gl-sub{margin:12px 0 6px;font:500 9.5px/1 var(--gl-mono);letter-spacing:.16em;text-transform:uppercase;color:var(--gl-faint)}
+.gl-seg{display:flex;border:1px solid var(--gl-line2);border-radius:999px;padding:2px}
+.gl-seg button{flex:1;border:0;background:none;color:var(--gl-dim);border-radius:999px;padding:5px 4px;cursor:pointer;font:500 10px/1 var(--gl-mono);letter-spacing:.08em;text-transform:uppercase}
+.gl-seg button[aria-pressed="true"]{background:rgba(217,178,95,.18);color:var(--gl-ivory)}
+.gl-eras[hidden]{display:none}
+.gl-eras{display:flex;gap:2px;margin-top:8px}
+.gl-eras span{flex:1;font:500 8.5px/1 var(--gl-mono);color:var(--gl-faint);text-align:center;padding-top:9px;position:relative}
+.gl-eras span::before{content:"";position:absolute;left:0;right:0;top:0;height:5px;border-radius:2px;background:var(--c)}
+
+/* ---------- bottom: show me ---------- */
+.gl-show{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:3;display:flex;align-items:center;gap:10px;
+  padding:6px 8px 6px 16px;background:var(--gl-glass);border:1px solid var(--gl-line);border-radius:999px;-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+@keyframes glInC{from{opacity:0;transform:translate(-50%,8px)}}
+.gl-show{animation-name:glInC}
+.gl-show-k{font:500 9.5px/1 var(--gl-mono);letter-spacing:.16em;text-transform:uppercase;color:var(--gl-faint);white-space:nowrap}
+.gl-pills{display:flex;gap:2px}
+.gl-pills button,.gl-verified{border:1px solid transparent;background:none;color:var(--gl-dim);border-radius:999px;padding:7px 12px;cursor:pointer;
+  font:500 10.5px/1 var(--gl-mono);letter-spacing:.12em;text-transform:uppercase;white-space:nowrap;transition:background .2s,color .2s}
+.gl-pills button:hover,.gl-verified:hover{color:var(--gl-ivory)}
+.gl-pills button[aria-pressed="true"]{background:var(--gl-ivory);color:#1A0A0B}
+.gl-verified{border-color:var(--gl-line2)}
+.gl-verified[aria-pressed="true"]{border-color:var(--gl-gold);color:var(--gl-gold)}
+.gl-verified[aria-pressed="true"]::before{content:"✓ "}
+
+.gl-zoom{position:fixed;right:24px;bottom:22px;z-index:3;display:flex;flex-direction:column;gap:2px;background:var(--gl-glass);border:1px solid var(--gl-line);border-radius:12px;padding:3px}
+.gl-zoom button{width:34px;height:32px;border:0;background:none;color:var(--gl-dim);font:400 18px/1 var(--gl-sans);cursor:pointer;border-radius:9px}
+.gl-zoom button:hover,.gl-zoom button:focus-visible{background:rgba(244,235,221,.08);color:var(--gl-ivory)}
+
+/* ---------- the story captions drawn over the room during a reveal ---------- */
+.gl-cap{position:fixed;left:50%;top:13vh;transform:translateX(-50%);z-index:5;text-align:center;pointer-events:none;width:min(720px,90vw)}
+.gl-cap .who{display:block;font:500 11px/1 var(--gl-mono);letter-spacing:.32em;text-transform:uppercase;color:var(--gl-gold);opacity:0;animation:capIn .5s ease forwards}
+.gl-cap .line{display:block;margin-top:10px;font:italic 400 clamp(24px,3vw,40px)/1.1 var(--gl-serif);color:var(--gl-ivory);text-shadow:0 2px 30px #000;opacity:0;animation:capIn .6s .12s ease forwards}
+.gl-cap .deg{display:block;font:italic 500 clamp(48px,7vw,96px)/.9 var(--gl-serif);color:var(--gl-ivory);text-shadow:0 4px 50px rgba(0,0,0,.9);opacity:0;animation:capIn .7s ease forwards}
+.gl-cap.out{opacity:0;transition:opacity .35s}
+@keyframes capIn{from{opacity:0;transform:translateY(10px);filter:blur(4px)}to{opacity:1;transform:none;filter:none}}
+.gl-skip{position:fixed;left:50%;transform:translateX(-50%);bottom:80px;z-index:6;border:1px solid var(--gl-line2);background:var(--gl-glass);color:var(--gl-dim);border-radius:999px;padding:7px 14px;
+  font:500 10px/1 var(--gl-mono);letter-spacing:.16em;text-transform:uppercase;cursor:pointer}
+.gl-skip:hover{color:var(--gl-ivory)}
+
+/* ---------- hover card ---------- */
+.gl-tip{position:fixed;z-index:7;pointer-events:none;max-width:250px;padding:10px 12px;background:rgba(18,8,9,.92);border:1px solid var(--gl-line);border-radius:10px;
+  box-shadow:0 14px 30px -10px #000;transform:translate(14px,14px)}
+.gl-tip b{display:block;font:600 15px/1.15 var(--gl-serif);letter-spacing:.02em;text-transform:uppercase}
+.gl-tip .h{display:block;margin-top:3px;font:500 9.5px/1.3 var(--gl-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--gl-gold)}
+.gl-tip p{margin:6px 0 0;font-size:13px;color:var(--gl-dim)}
+.gl-tip .go{display:block;margin-top:7px;font:500 9.5px/1 var(--gl-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--gl-sindoor)}
+
+/* ---------- the little black book: a person's dossier ---------- */
+.gl-dossier{right:24px;top:22px;width:300px;max-height:calc(100vh - 120px);overflow:auto;padding:0 0 14px;z-index:5;animation:dosIn .45s cubic-bezier(.2,.7,.2,1)}
+@keyframes dosIn{from{opacity:0;transform:translateX(16px)}}
+.gl-dossier .dx{position:absolute;right:8px;top:8px;width:30px;height:30px;border:0;border-radius:50%;background:rgba(0,0,0,.45);color:var(--gl-ivory);cursor:pointer;font-size:14px;z-index:2}
+.gl-dossier .face{height:150px;background:#2A1416 center 22%/cover no-repeat;border-radius:14px 14px 0 0;position:relative}
+.gl-dossier .face::after{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(to bottom,transparent 40%,rgba(24,10,11,.98))}
+.gl-dossier .face.mono{display:grid;place-items:center;font:italic 500 56px/1 var(--gl-serif);color:var(--gl-gold)}
+.gl-dossier .hd{padding:0 16px;margin-top:-34px;position:relative}
+.gl-dossier .kick{font:500 9.5px/1.3 var(--gl-mono);letter-spacing:.16em;text-transform:uppercase;color:var(--gl-gold)}
+.gl-dossier h3{margin:4px 0 0;font:italic 500 28px/1.02 var(--gl-serif)}
+.gl-dossier .stats{display:flex;gap:14px;margin:12px 16px 4px;padding:9px 0;border-top:1px solid var(--gl-line2);border-bottom:1px solid var(--gl-line2)}
+.gl-dossier .stats div{font:500 9px/1.3 var(--gl-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--gl-faint)}
+.gl-dossier .stats b{display:block;font:500 22px/1 var(--gl-serif);color:var(--gl-ivory);letter-spacing:0}
+.gl-dossier .grp{padding:8px 16px 0}
+.gl-dossier .grp h4{margin:6px 0 5px;font:500 9.5px/1 var(--gl-mono);letter-spacing:.16em;text-transform:uppercase;display:flex;align-items:center;gap:8px}
+.gl-dossier .grp h4 i{display:inline-block;width:14px;height:2px;border-radius:2px}
+.gl-dossier .ppl{display:flex;flex-wrap:wrap;gap:4px}
+.gl-dossier .ppl button{border:1px solid var(--gl-line2);background:rgba(244,235,221,.04);color:var(--gl-ivory);border-radius:999px;padding:3px 9px 3px 3px;cursor:pointer;
+  font:400 12.5px/1.2 var(--gl-sans);display:inline-flex;align-items:center;gap:6px}
+.gl-dossier .ppl button:hover,.gl-dossier .ppl button:focus-visible{border-color:var(--gl-gold)}
+.gl-dossier .ppl img,.gl-dossier .ppl .mono{width:20px;height:20px;border-radius:50%;object-fit:cover;background:#2A1416;font:600 8px/20px var(--gl-serif);text-align:center;color:var(--gl-gold)}
+.gl-dossier .more{font:500 10px/1 var(--gl-mono);color:var(--gl-faint);align-self:center;padding-left:4px}
+.gl-dossier .acts{display:flex;gap:8px;padding:14px 16px 0}
+.gl-dossier .acts button,.gl-dossier .acts a{flex:1;text-align:center;border:1px solid var(--gl-line);background:none;color:var(--gl-ivory);border-radius:8px;padding:9px 6px;cursor:pointer;text-decoration:none;
+  font:500 10px/1.1 var(--gl-mono);letter-spacing:.12em;text-transform:uppercase}
+.gl-dossier .acts button:hover,.gl-dossier .acts a:hover{border-color:var(--gl-gold);color:var(--gl-gold)}
+
+/* ---------- spotted: the result card ---------- */
+.gl-spotted{left:28px;bottom:78px;width:380px;max-height:calc(100vh - 120px);overflow:auto;padding:16px 18px 14px;animation:glIn .6s cubic-bezier(.2,.7,.2,1)}
+.gl-spotted .k{display:flex;justify-content:space-between;font:600 10.5px/1 var(--gl-mono);letter-spacing:.2em;text-transform:uppercase;color:var(--gl-sindoor)}
+.gl-spotted .k span{color:var(--gl-faint);font-weight:500}
+.gl-spotted h3{margin:8px 0 6px;font:italic 400 24px/1.12 var(--gl-serif);text-wrap:balance}
+.gl-spotted ol{list-style:none;margin:8px 0 0;padding:0;font-size:14px;color:var(--gl-dim)}
+.gl-spotted li{padding:4px 0;border-top:1px solid var(--gl-line2);display:flex;gap:8px;align-items:baseline}
+.gl-spotted li i{flex:none;width:12px;height:2px;border-radius:2px;transform:translateY(-3px)}
+.gl-spotted li b{color:var(--gl-ivory);font-weight:500}
+.gl-spotted li button{all:unset;cursor:pointer;color:var(--gl-ivory);font-weight:500;border-bottom:1px dotted var(--gl-faint)}
+.gl-spotted li button:hover{color:var(--gl-gold)}
+.gl-spotted .chain{margin:10px 0 0;font:500 9.5px/1.5 var(--gl-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--gl-faint)}
+.gl-spotted .acts{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.gl-spotted .acts button{border:1px solid var(--gl-line);background:none;color:var(--gl-ivory);border-radius:999px;padding:7px 12px;cursor:pointer;font:500 10px/1 var(--gl-mono);letter-spacing:.12em;text-transform:uppercase}
+.gl-spotted .acts button:first-child{background:var(--gl-ivory);color:#1A0A0B;border-color:var(--gl-ivory)}
+.gl-spotted .acts button:hover{border-color:var(--gl-gold)}
+.vt{display:inline-block;font:600 8.5px/1 var(--gl-mono);letter-spacing:.12em;padding:3px 5px;border-radius:3px;border:1px solid currentColor;vertical-align:1px;margin-left:4px;white-space:nowrap}
+.vt.t{color:#9BD3A0}.vt.a{color:#F0C060}.vt.r{color:#F09090}
+
+/* ---------- the receipt drawer ---------- */
+.gl-drawer{position:fixed;left:50%;bottom:0;transform:translateX(-50%);z-index:8;width:min(620px,100vw);max-height:72vh;overflow:auto;box-sizing:border-box;
+  background:#F7EFE2;color:#1A100E;border-radius:16px 16px 0 0;padding:20px 24px 26px;box-shadow:0 -30px 80px -20px #000;animation:drawUp .4s cubic-bezier(.2,.7,.2,1)}
+@keyframes drawUp{from{transform:translate(-50%,100%)}}
+.gl-drawer .dx{position:absolute;right:14px;top:14px;border:0;background:none;font:500 10.5px/1 var(--gl-mono);letter-spacing:.14em;text-transform:uppercase;cursor:pointer;color:#6A5A4E}
+.gl-drawer .k{font:600 10.5px/1 var(--gl-mono);letter-spacing:.2em;text-transform:uppercase;color:#B3241A}
+.gl-drawer h3{margin:8px 0 14px;font:italic 500 28px/1.05 var(--gl-serif)}
+.gl-drawer .rcp{border-top:1px dashed #C9B79A;padding:12px 0}
+.gl-drawer .rcp:first-of-type{border-top:0}
+.gl-drawer dl{display:grid;grid-template-columns:110px 1fr;gap:6px 14px;margin:0;font-size:14.5px}
+.gl-drawer dt{font:500 9.5px/1.9 var(--gl-mono);letter-spacing:.14em;text-transform:uppercase;color:#7A6A5C}
+.gl-drawer dd{margin:0}
+.gl-drawer .pair{font:600 11px/1.3 var(--gl-mono);letter-spacing:.12em;text-transform:uppercase;margin-bottom:8px}
+.gl-drawer .stamp{display:inline-block;font:700 10px/1 var(--gl-mono);letter-spacing:.14em;padding:4px 7px;border:1.5px solid currentColor;border-radius:3px;transform:rotate(-2deg)}
+.gl-drawer .stamp.t{color:#2E7D4F}.gl-drawer .stamp.a{color:#A8740F}.gl-drawer .stamp.r{color:#B3241A}
+.gl-drawer .files{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.gl-drawer .files button,.gl-drawer .files a{border:1px solid #CDB99A;background:#FFFBF3;border-radius:6px;padding:6px 9px;cursor:pointer;font:400 13px/1.25 var(--gl-sans);color:#1A100E;text-align:left;text-decoration:none}
+.gl-drawer .files button:hover,.gl-drawer .files a:hover{border-color:#B3241A}
+.gl-drawer .note{margin:14px 0 0;font:400 12.5px/1.4 var(--gl-sans);color:#7A6A5C}
+
+/* ---------- phones: the room stays full screen, the furniture tucks in ---------- */
+@media (max-width:760px){
+  .gl-left{left:16px;right:16px;top:14px;bottom:12px;width:auto;justify-content:space-between}
+  .gl-brand h1{font-size:30px;margin-top:6px}
+  .gl-tag{font-size:14px}.gl-meta{display:none}
+  .gl-ask{padding:12px;margin-bottom:52px}
+  .gl-ask h2{display:none}.gl-pair{margin-top:0}
+  .gl-key{display:none}
+  .gl-show{left:12px;right:12px;bottom:12px;transform:none;overflow-x:auto;padding:4px 6px;animation-name:glIn;scrollbar-width:none}
+  .gl-show::-webkit-scrollbar{display:none}
+  .gl-show-k{display:none}
+  .gl-zoom{display:none}
+  .gl-dossier{left:12px;right:12px;top:auto;bottom:12px;width:auto;max-height:62vh}
+  .gl-spotted{left:12px;right:12px;bottom:12px;width:auto;max-height:56vh;overflow:auto}
+  .gl-cap{top:16vh}
+  .gl-skip{bottom:auto;top:14px;left:auto;right:12px;transform:none}
+  .gl-list{right:0}
+}
+@media (prefers-reduced-motion:reduce){
+  .gl-brand,.gl-panel,.gl-show,.gl-zoom,.gl-cap *,.gl-drawer,.gl-dossier{animation:none!important}
+}

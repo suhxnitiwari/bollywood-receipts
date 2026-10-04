@@ -932,7 +932,8 @@ const NAMES=Object.keys(ADJ).sort();window.__NAMES=NAMES;window.__ADJ=ADJ;if(typ
 const HASCX=!!document.getElementById('cxf');
 const VT={t:["RECEIPT","v-true"],a:["ALLEGED","v-alleged"],r:["RUMOR","v-rumor"],c:["FAUX","v-cap"]};
 function resolveName(q){q=(q||'').trim().toLowerCase();if(!q)return null;
-  return NAMES.find(n=>n.toLowerCase()===q)||NAMES.find(n=>n.toLowerCase().split(' ').some(w=>w===q))||NAMES.find(n=>n.toLowerCase().startsWith(q))||NAMES.find(n=>n.toLowerCase().includes(q))||null}
+  const best=f=>NAMES.filter(f).sort((x,y)=>ADJ[y].length-ADJ[x].length)[0];
+  return NAMES.find(n=>n.toLowerCase()===q)||best(n=>n.toLowerCase().split(' ').some(w=>w===q))||best(n=>n.toLowerCase().startsWith(q))||best(n=>n.toLowerCase().includes(q))||null}
 function path(a,b,fam,clean){const dist={[a]:0},prev={},done=new Set();
   while(true){let u=null,best=Infinity;for(const k in dist)if(!done.has(k)&&dist[k]<best){best=dist[k];u=k}
     if(u===null)return null;if(u===b)break;done.add(u);
@@ -960,7 +961,7 @@ function connect(){const a=resolveName(ia.value),b=resolveName(ib.value);
   const direct=G.filter(e=>(e[0]===a&&e[1]===b)||(e[0]===b&&e[1]===a));
   if(direct.length>1)h+=`<p style="margin:0;font-size:14px;color:var(--muted)">They have ${direct.length} direct links on the board.</p>`;
   h+=`<details class="cx-more"><summary>Their full histories <span>${ADJ[a].length+ADJ[b].length} links</span></summary><div class="tls">${timeline(a,'b')}${timeline(b,'a')}</div><p style="margin:0;font-size:13px;color:var(--muted)">Tap any name in a history to connect it instead. "—" means no single date.</p></details>`;
-  h=`<p class="cx3d"><a class="cx-btn" href="rishta.html?a=${encodeURIComponent(a)}&b=${encodeURIComponent(b)}">See this rishta in 3D →</a></p>`+h;
+  h=`<p class="cx3d"><a class="cx-btn" href="guest-list.html?a=${encodeURIComponent(a)}&b=${encodeURIComponent(b)}">Pull this thread on the Guest List →</a></p>`+h;
   out.innerHTML=h;window.cxWebShow&&window.cxWebShow(a,b,pth);
   out.querySelectorAll('.nm').forEach(x=>x.onclick=()=>{(x.dataset.slot==='a'?ia:ib).value=x.dataset.n;connect();document.getElementById('connecth').scrollIntoView({behavior:'smooth'})})}
 /* name picker for the connect form: faces, link counts, keyboard, no native datalist */
@@ -981,13 +982,21 @@ function cxPick(inp,onPick){if(!inp)return;inp.removeAttribute('list');const lab
     else if(e.key==='Escape')close()});
   ul.addEventListener('mousedown',e=>{const li=e.target.closest('li[data-n]');if(!li)return;e.preventDefault();pick(li.dataset.n)})}
 if(HASCX){
-cxPick(ia,()=>{if(ib.value.trim())connect();else ib.focus()});cxPick(ib,()=>{if(ia.value.trim())connect();else ia.focus()});
-document.getElementById('cxf').addEventListener('submit',e=>{e.preventDefault();connect()});
-document.getElementById('cxfam').onchange=connect;const cc=document.getElementById('cxclean');if(cc)cc.onchange=connect;
-document.getElementById('cxswap').onclick=()=>{[ia.value,ib.value]=[ib.value,ia.value];connect()};
-document.getElementById('cxrand').onclick=()=>{const r=()=>NAMES[Math.floor(Math.random()*NAMES.length)];let a=r(),b=r();while(b===a)b=r();ia.value=a;ib.value=b;connect()};
-document.getElementById('cxcards').onclick=()=>{const a=resolveName(ia.value);if(a)showReceipts(a)};
-ia.value='Aishwarya Rai';ib.value='Katrina Kaif';connect();
+/* on the front page and The Web the form is an invitation: it opens the Guest List */
+const GOGL=document.getElementById('cxf').dataset.go==='guest';
+const go=()=>{const a=resolveName(ia.value),b=resolveName(ib.value);if(!a||!b){const bad=a?ib:ia;bad.focus();bad.classList.add('inv-bad');setTimeout(()=>bad.classList.remove('inv-bad'),900);return}
+  location.href=`guest-list.html?a=${encodeURIComponent(a)}&b=${encodeURIComponent(b)}`};
+const run=GOGL?go:connect;
+cxPick(ia,()=>{if(GOGL){if(!ib.value.trim())ib.focus()}else if(ib.value.trim())connect();else ib.focus()});
+cxPick(ib,()=>{if(GOGL){if(!ia.value.trim())ia.focus()}else if(ia.value.trim())connect();else ia.focus()});
+document.getElementById('cxf').addEventListener('submit',e=>{e.preventDefault();run()});
+const cf=document.getElementById('cxfam');if(cf)cf.onchange=connect;const cc=document.getElementById('cxclean');if(cc)cc.onchange=connect;
+document.getElementById('cxswap').onclick=()=>{[ia.value,ib.value]=[ib.value,ia.value];if(!GOGL)connect()};
+const POOL=NAMES.filter(n=>PH[n]&&ADJ[n].length>=8);
+document.getElementById('cxrand').onclick=()=>{const p=POOL.length>10?POOL:NAMES,r=()=>p[Math.floor(Math.random()*p.length)];let a=r(),b=r();while(b===a)b=r();ia.value=a;ib.value=b;run()};
+const ck=document.getElementById('cxcards');if(ck)ck.onclick=()=>{const a=resolveName(ia.value);if(a)showReceipts(a)};
+const fc=document.getElementById('invfaces');if(fc)fc.innerHTML=NAMES.filter(n=>PH[n]).sort((x,y)=>ADJ[y].length-ADJ[x].length).slice(0,9).map(n=>`<img src="${PH[n]}" alt="" title="${esc(n)}" loading="lazy" onerror="this.remove()">`).join('');
+if(!GOGL){ia.value='Aishwarya Rai';ib.value='Katrina Kaif';connect()}
 }
 window.initExhibitWebs&&window.initExhibitWebs();
 
@@ -1002,13 +1011,13 @@ const PAGE=document.body.dataset.page||'front';
 const enc=encodeURIComponent;
 const NAV=[
   {k:'latest',t:'Latest',href:'index.html',sub:[['Spotted','index.html#spotted'],['Trending','index.html#trending'],['The Reel','index.html#reel']]},
-  {k:'rishta',t:'Yeh Rishta',href:'rishta.html',sub:[['Connect any two people','rishta.html'],['SRK × Salman','rishta.html?a=Shah%20Rukh%20Khan&b=Salman%20Khan'],['Alia × Deepika','rishta.html?a=Alia%20Bhatt&b=Deepika%20Padukone'],['Rhea × Shraddha','rishta.html?a=Rhea%20Chakraborty&b=Shraddha%20Kapoor']]},
+  {k:'rishta',t:'The Guest List',href:'guest-list.html',sub:[['Pull any thread','guest-list.html'],['SRK × Salman','guest-list.html?a=Shah%20Rukh%20Khan&b=Salman%20Khan'],['Alia × Deepika','guest-list.html?a=Alia%20Bhatt&b=Deepika%20Padukone'],['Rhea × Shraddha','guest-list.html?a=Rhea%20Chakraborty&b=Shraddha%20Kapoor']]},
   {k:'receipts',t:'Receipts',href:'receipts.html',sub:[['All receipts','receipts.html?f=all'],['Affairs & triangles','receipts.html?f=triangle'],['Feuds & fallouts','receipts.html?f=feud'],['Friendship breakups','receipts.html?f=dost'],['Engagements & divorces','receipts.html?f=engaged'],['Court cases','receipts.html?f=court'],['Archive scandals','receipts.html?f=legend'],['Rumors','receipts.html?f=chupke']]},
   {k:'people',t:'People',href:'people.html',sub:[['Khandaan: the families','people.html#trees'],['Stars A–Z','people.html#az']]},
   {k:'web',t:'The Web',href:'the-web.html',sub:[['Connect two people','the-web.html#connecth'],['In this issue','the-web.html#files'],['Six Degrees of Bollywood','web.html']]},
   {k:'features',t:'Features',href:'features.html',sub:[['A century of the sexy heroine','features.html#sensh'],['How Bollywood actually gets in','features.html#careerh'],['The school pipeline','features.html#schh'],["Alia's inheritance board",'features.html#inhh']]},
   {k:'watch',t:'Watch',href:'watch.html',sub:[['The Reel','watch.html#reelh'],['What to watch','watch.html#watchh']]}];
-const navHtml=(cls)=>`<ul class="${cls}">`+NAV.map(n=>`<li class="nv${n.k===PAGE||(PAGE==='front'&&n.k==='latest')?' on':''}"><a href="${n.href}">${n.t}</a><div class="dd"><ul>${n.sub.map(([t,h])=>`<li><a href="${h}">${t}</a></li>`).join('')}</ul></div></li>`).join('')+`</ul>`;
+const navHtml=(cls)=>`<ul class="${cls}">`+NAV.map(n=>`<li class="nv${n.k===PAGE||(PAGE==='front'&&n.k==='latest')?' on':''}${n.k==='rishta'?' star':''}"><a href="${n.href}">${n.t}</a><div class="dd"><ul>${n.sub.map(([t,h])=>`<li><a href="${h}">${t}</a></li>`).join('')}</ul></div></li>`).join('')+`</ul>`;
 const MONTH=new Date().toLocaleDateString('en-US',{month:'long',year:'numeric'}).toUpperCase();
 // every ticker line opens the receipt it is about: score receipts by the names they share
 function tickTarget(txt){const words=new Set((txt.match(/[A-Z][a-z]+/g)||[]).map(w=>who(w)));let best=null,bs=0;
