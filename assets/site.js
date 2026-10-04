@@ -861,6 +861,42 @@ const G=[
 ["Huma Qureshi","Saqib Saleem","f","siblings; Saqib stood in as brother at Sonakshi's wedding",null,"t"],
 ["Sonakshi Sinha","Mukesh Khanna","v","five years of jabs over her KBC answer",2024,"t"],
 ["Sonakshi Sinha","Amitabh Bachchan","c","KBC 2019, the Ramayana question",2019,"t"],
+["Dilip Kumar","Amitabh Bachchan","c","Shakti",1982,"t"],
+["Amitabh Bachchan","Zeenat Aman","c","Don",1978,"t"],
+["Amitabh Bachchan","Helen","c","Don",1978,"t"],
+["Rajesh Khanna","Mumtaz","c","Do Raaste",1969,"t"],
+["Amitabh Bachchan","Nutan","c","Saudagar",1973,"t"],
+["Rajesh Khanna","Sadhana","c","Dil Daulat Duniya",1972,"t"],
+["Joy Mukherjee","Sadhana","c","Love in Simla",1960,"t"],
+["Dharmendra","Saira Banu","c","Resham Ki Dori",1974,"t"],
+["Ashok Kumar","Dilip Kumar","c","Deedar",1951,"t"],
+["Neil Nitin Mukesh","Priyanka Chopra","c","7 Khoon Maaf",2011,"t"],
+["Neil Nitin Mukesh","Katrina Kaif","c","New York",2009,"t"],
+["Amaal Mallik","Salman Khan","c","composed for Jai Ho,later a Bigg Boss 19 contestant",2014,"t"],
+["Aadar Jain","Ranbir Kapoor","f","cousins",null,"t"],
+["Krishna Malhotra","Rishi Kapoor","f","mother and son",null,"t"],
+["Meezaan Jafri","Sanjay Leela Bhansali","c","Malaal (he produced)",2019,"t"],
+["Salma Khan","Salman Khan","f","mother and son",null,"t"],
+["Aayush Sharma","Salman Khan","c","Antim",2021,"t"],
+["Sreeleela","Mahesh Babu","c","Guntur Kaaram",2024,"t"],
+["Siddharth","Aamir Khan","c","Rang De Basanti",2006,"t"],
+["Ayub Khan","Madhuri Dixit","c","Mrityudand",1997,"t"],
+["Rohit Sharma","Virat Kohli","c","India teammates",null,"t"],
+["Pranutan Bahl","Salman Khan","c","Notebook (he produced)",2019,"t"],
+["Nandita Das","Shabana Azmi","c","Fire",1996,"t"],
+["Nandita Das","Aamir Khan","c","1947: Earth",1998,"t"],
+["Nandita Das","Nawazuddin Siddiqui","c","Manto (she directed)",2018,"t"],
+["Nandita Das","Kapil Sharma","c","Zwigato (she directed)",2023,"t"],
+["Sharmila Tagore","Rajesh Khanna","c","Aradhana",1969,"t"],
+["Sharmila Tagore","Amitabh Bachchan","c","Chupke Chupke",1975,"t"],
+["Dev Anand","Hema Malini","c","Johny Mera Naam",1970,"t"],
+["Raj Kapoor","Suraiya","c","Dastan",1950,"t"],
+["Anu Malik","Shah Rukh Khan","c","Main Hoon Na (he composed)",2004,"t"],
+["Aly Goni","Salman Khan","c","Bigg Boss 14",2020,"t"],
+["Ira Roshan","Rakesh Roshan","f","mother and son",null,"t"],
+["Purab Kohli","Farhan Akhtar","c","Rock On!!",2008,"t"],
+["Vikram Bhatt","Bipasha Basu","c","Raaz (he directed)",2002,"t"],
+["Sunil Dutt","Amitabh Bachchan","c","Reshma Aur Shera",1971,"t"],
 ];
 
 // ---------- one graph: everything below feeds the same edge list the connector searches ----------
@@ -893,14 +929,14 @@ const TY={o:["Cameo in the same film","co"],q:["Song appearance in the same film
 const WT={m:1,d:1,e:1,x:1,f:1,r:1.4,b:1.4,v:1.4,c:1.8,k:1.6,g:2.2,s:2,o:2.3,q:3.1};
 const ADJ={};G.forEach((e,i)=>{(ADJ[e[0]]??=[]).push([e[1],i]);(ADJ[e[1]]??=[]).push([e[0],i])});
 const NAMES=Object.keys(ADJ).sort();window.__NAMES=NAMES;window.__ADJ=ADJ;if(typeof render==='function'){try{window.__rerenderTop&&window.__rerenderTop();render()}catch(e){}}
-const HASCX=!!document.getElementById('cxf');if(HASCX)document.getElementById('cxnames').innerHTML=NAMES.map(n=>`<option value="${n}">`).join('');
+const HASCX=!!document.getElementById('cxf');
 const VT={t:["RECEIPT","v-true"],a:["ALLEGED","v-alleged"],r:["RUMOR","v-rumor"],c:["CAP","v-cap"]};
 function resolveName(q){q=(q||'').trim().toLowerCase();if(!q)return null;
   return NAMES.find(n=>n.toLowerCase()===q)||NAMES.find(n=>n.toLowerCase().split(' ').some(w=>w===q))||NAMES.find(n=>n.toLowerCase().startsWith(q))||NAMES.find(n=>n.toLowerCase().includes(q))||null}
 function path(a,b,fam,clean){const dist={[a]:0},prev={},done=new Set();
   while(true){let u=null,best=Infinity;for(const k in dist)if(!done.has(k)&&dist[k]<best){best=dist[k];u=k}
     if(u===null)return null;if(u===b)break;done.add(u);
-    for(const [v,i] of ADJ[u]){if(fam&&!"fmd".includes(G[i][2]))continue;if(clean&&(G[i][5]!=='t'||G[i][2]==='r'))continue;const nd=dist[u]+WT[G[i][2]];if(dist[v]===undefined||nd<dist[v]){dist[v]=nd;prev[v]=[u,i]}}}
+    for(const [v,i] of ADJ[u]){if(fam&&!"fmd".includes(G[i][2]))continue;if(clean&&(G[i][5]!=='t'||G[i][2]==='r'))continue;const nd=dist[u]+100+WT[G[i][2]];if(dist[v]===undefined||nd<dist[v]){dist[v]=nd;prev[v]=[u,i]}}}
   const out=[];let c=b;while(c!==a){const [p,i]=prev[c];out.unshift([p,i,c]);c=p}return out}
 const av=n=>PH[n]?`<img src="${PH[n]}" alt="" onerror="this.remove()">`:'';
 const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -927,7 +963,25 @@ function connect(){const a=resolveName(ia.value),b=resolveName(ib.value);
   h=`<p class="cx3d"><a class="cx-btn" href="rishta.html?a=${encodeURIComponent(a)}&b=${encodeURIComponent(b)}">See this rishta in 3D →</a></p>`+h;
   out.innerHTML=h;window.cxWebShow&&window.cxWebShow(a,b,pth);
   out.querySelectorAll('.nm').forEach(x=>x.onclick=()=>{(x.dataset.slot==='a'?ia:ib).value=x.dataset.n;connect();document.getElementById('connecth').scrollIntoView({behavior:'smooth'})})}
+/* name picker for the connect form: faces, link counts, keyboard, no native datalist */
+function cxPick(inp,onPick){if(!inp)return;inp.removeAttribute('list');const lab=inp.closest('label');if(!lab)return;lab.classList.add('cxp');
+  const ul=document.createElement('ul');ul.className='cx-list';ul.id=inp.id+'-list';ul.setAttribute('role','listbox');ul.hidden=true;lab.appendChild(ul);
+  inp.setAttribute('role','combobox');inp.setAttribute('aria-autocomplete','list');inp.setAttribute('aria-expanded','false');inp.setAttribute('aria-controls',ul.id);inp.setAttribute('autocomplete','off');
+  let opts=[],act=-1;const deg=n=>ADJ[n].length,ini=n=>n.split(' ').map(w=>w[0]).slice(0,2).join('');
+  const close=()=>{ul.hidden=true;inp.setAttribute('aria-expanded','false');inp.removeAttribute('aria-activedescendant');act=-1};
+  const draw=()=>{const q=inp.value.trim().toLowerCase();
+    opts=(q?NAMES.filter(n=>n.toLowerCase().includes(q)).sort((x,y)=>(y.toLowerCase().startsWith(q)-x.toLowerCase().startsWith(q))||deg(y)-deg(x)):NAMES.slice().sort((x,y)=>deg(y)-deg(x))).slice(0,8);
+    ul.innerHTML=opts.length?opts.map((n,i)=>`<li role="option" id="${ul.id}-${i}" aria-selected="${i===act}" data-n="${esc(n)}">${PH[n]?`<img src="${PH[n]}" alt="" loading="lazy" onerror="this.remove()">`:`<span class="ini">${esc(ini(n))}</span>`}<b>${esc(n)}</b><i>${deg(n)} links</i></li>`).join(''):'<li class="none">No one by that name on the board yet</li>';
+    ul.hidden=false;inp.setAttribute('aria-expanded','true');if(act>=0){inp.setAttribute('aria-activedescendant',`${ul.id}-${act}`);ul.children[act]?.scrollIntoView({block:'nearest'})}else inp.removeAttribute('aria-activedescendant')};
+  const pick=n=>{inp.value=n;close();onPick()};
+  inp.addEventListener('input',()=>{act=-1;draw()});inp.addEventListener('focus',draw);inp.addEventListener('blur',()=>setTimeout(close,150));
+  inp.addEventListener('keydown',e=>{if(e.key==='ArrowDown'){if(ul.hidden)draw();act=Math.min(opts.length-1,act+1);draw();e.preventDefault()}
+    else if(e.key==='ArrowUp'&&!ul.hidden){act=Math.max(0,act-1);draw();e.preventDefault()}
+    else if(e.key==='Enter'){if(!ul.hidden&&act>=0){e.preventDefault();pick(opts[act])}else close()}
+    else if(e.key==='Escape')close()});
+  ul.addEventListener('mousedown',e=>{const li=e.target.closest('li[data-n]');if(!li)return;e.preventDefault();pick(li.dataset.n)})}
 if(HASCX){
+cxPick(ia,()=>{if(ib.value.trim())connect();else ib.focus()});cxPick(ib,()=>{if(ia.value.trim())connect();else ia.focus()});
 document.getElementById('cxf').addEventListener('submit',e=>{e.preventDefault();connect()});
 document.getElementById('cxfam').onchange=connect;const cc=document.getElementById('cxclean');if(cc)cc.onchange=connect;
 document.getElementById('cxswap').onclick=()=>{[ia.value,ib.value]=[ib.value,ia.value];connect()};

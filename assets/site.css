@@ -878,3 +878,13 @@ section.web.cf{display:block;margin-top:46px;padding-top:0;border-top:0}
 .bombs li{display:grid;grid-template-columns:40px 1fr auto;gap:12px;align-items:start;padding:12px 0;border-bottom:1px solid var(--line,#cfc6b4)}
 .bombs .bn{font:700 22px/1 var(--display);color:var(--red)}.bombs h3{margin:0;font-family:var(--display);font-size:20px}.bombs h3 span{font:500 12px var(--mono);color:var(--muted)}
 .bombs p{margin:4px 0 0;font:500 12px/1.5 var(--mono);color:var(--muted)}.bombs .bx{color:var(--ink)}.bombs .bs{font:700 13px var(--mono);border:2px solid var(--ink);padding:4px 8px}
+
+/* connect form: custom name dropdown (replaces the browser's datalist popup) */
+.cxp{position:relative}
+.cx-list{position:absolute;z-index:40;left:0;right:0;top:100%;margin:6px 0 0;padding:4px;list-style:none;background:var(--paper);border:2px solid var(--ink);box-shadow:4px 4px 0 var(--ink);max-height:360px;overflow:auto;text-transform:none;letter-spacing:normal;font-family:var(--body);color:var(--ink)}
+.cx-list li{display:grid;grid-template-columns:36px minmax(0,1fr) auto;gap:10px;align-items:center;padding:6px 8px;cursor:pointer;font-size:15px}
+.cx-list li[aria-selected="true"],.cx-list li:hover{background:var(--ink);color:var(--paper)}
+.cx-list img,.cx-list .ini{width:36px;height:36px;border-radius:50%;object-fit:cover;object-position:50% 20%;background:#E6D8BF;display:grid;place-items:center;font:700 13px/1 var(--display);color:#15110E}
+.cx-list b{font-family:var(--display);font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cx-list i{font:500 10px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;font-style:normal;opacity:.7}
+.cx-list .none{display:block;cursor:default;color:var(--muted);font-size:14px}
