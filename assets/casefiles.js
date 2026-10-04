@@ -11,7 +11,7 @@ MV.forEach(([,,,x])=>{x._role={};const more=[...(x.voice||[]).map(p=>[p,'voice']
 const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const enc=encodeURIComponent;
 const SHORT={'Shah Rukh Khan':'SRK','NTR Jr.':'NTR','Kunal Kapoor (actor)':'Kunal Kapoor','Tripti Dimri':'Triptii','Roshan Lal Nagrath':'Roshan','J. Om Prakash':'J. Om Prakash','Mansoor Ali Khan Pataudi':'Tiger Pataudi','Harivansh Rai Bachchan':'Harivansh Rai','Sandeep Reddy Vanga':'Vanga','Sanjay Leela Bhansali':'Bhansali','Navya Naveli Nanda':'Navya'};
-const STAMP={t:['RECEIPT ✓','v-true'],a:['ALLEGED ?','v-alleged'],r:['RUMOR ~','v-rumor'],c:['CAP ✕','v-cap']};
+const STAMP={t:['RECEIPT ✓','v-true'],a:['ALLEGED ?','v-alleged'],r:['RUMOR ~','v-rumor'],c:['FAUX ✕','v-cap']};
 const ph=n=>(typeof PH!=='undefined'&&PH[n])||null;
 const isP=id=>!/^(film|char|evt|exit):/.test(id);
 function labels(ids){const out={},first={};ids.filter(isP).forEach(n=>{const f=n.split(' ')[0];(first[f]??=[]).push(n)});
@@ -293,12 +293,21 @@ function betweenness(){const ADJ=window.__ADJ||{},V=Object.keys(ADJ),idx=new Map
   const norm=(N-1)*(N-2);return V.map((v,i)=>[v,CB[i]/norm]).sort((a,b)=>b[1]-a[1])}
 window.renderBridges=function(el){const B=betweenness(),top=B.slice(0,10),pic=n=>ph(n)?`<img src="${ph(n)}" alt="" loading="lazy">`:`<span class="ini">${esc(n.split(' ').map(w=>w[0]).join('').slice(0,2))}</span>`,pct=b=>(b*100).toFixed(1)+'%';
   el.classList.add('v2');
-  el.innerHTML=top.slice(0,3).map(([n,b],i)=>`<li class="bp"><a href="people.html?p=${enc(n)}#actor"><span class="rk">${i+1}</span>${pic(n)}<b>${esc(n)}</b><em>${pct(b)}</em></a></li>`).join('')
+  el.innerHTML=top.slice(0,3).map(([n,b],i)=>`<li class="bp"><a href="people.html?p=${enc(n)}#actor"><span class="rk">${i+1}</span>${pic(n)}<b>${esc(n)}</b><em title="of all shortest paths between two other people run through them">${pct(b)}</em></a></li>`).join('')
     +`<li class="brest"><span class="bl">Then</span>${top.slice(3).map(([n,b])=>`<a href="people.html?p=${enc(n)}#actor">${pic(n)}<b>${esc(n)}</b><i>${pct(b)}</i></a>`).join('')}</li>`;
-  el.insertAdjacentHTML('afterend',`<p class="cfnote">Computed live from ${Object.keys(window.__ADJ||{}).length} people.</p>`)};
+};
 
 /* ---------- start ---------- */
 const host=document.getElementById('casefiles');if(host)window.renderCaseFiles(host);
+/* the stories: one at a time, picked from a dropdown, instead of a 50,000px scroll */
+const ctoc=document.getElementById('filetoc');
+if(host&&ctoc){const secs=[...host.children].filter(e=>e.tagName==='SECTION'),pick=document.createElement('div');pick.className='cfpick';
+  pick.innerHTML=`<select id="cfsel" aria-label="Choose a story"><option value="">Choose a story</option>${secs.map((x,i)=>`<option value="${x.id}">${String(i+1).padStart(2,'0')}  ${esc((x.querySelector('h2,h3')?.textContent||x.id).trim())}</option>`).join('')}</select>`;
+  ctoc.replaceWith(pick);const sel=pick.querySelector('select');
+  const show=id=>{secs.forEach(x=>x.hidden=x.id!==id);sel.value=id||'';if(id)setTimeout(()=>window.dispatchEvent(new Event('resize')),30)};
+  sel.onchange=()=>{show(sel.value);const t=sel.value&&document.getElementById(sel.value);if(t)t.scrollIntoView({behavior:'smooth',block:'start'})};
+  const fromHash=()=>{const t=location.hash&&document.getElementById(decodeURIComponent(location.hash.slice(1)));const x=t&&secs.find(y=>y===t||y.contains(t));if(x){show(x.id);setTimeout(()=>t.scrollIntoView(),80);return true}return false};
+  if(!fromHash())show('');window.addEventListener('hashchange',fromHash)}
 const ap=document.getElementById('actor'),pp=new URLSearchParams(location.search).get('p');if(ap&&pp){window.renderActorPage(ap,pp)}
 const bl=document.getElementById('bridgelist');if(bl)setTimeout(()=>window.renderBridges(bl),400);
 if(location.hash&&(host||ap)){const t=document.getElementById(location.hash.slice(1));if(t)setTimeout(()=>t.scrollIntoView(),60)}

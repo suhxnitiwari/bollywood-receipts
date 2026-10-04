@@ -16,7 +16,7 @@ function cost(i,o){if(o.fast)return 1;const e=G[i],t=e[2];
   return WT[t]||2}
 const COL={o:'#9C8F7C',q:'#B0186B',m:'#6B1E5A',d:'#8C5A7E',e:'#4A3B6E',x:'#4A3B6E',r:'#A8740F',c:'#7E7262',f:'#15110E',b:'#2E7D6B',v:'#C8261C',k:'#D94A6E',g:'#1F5F8B',s:'#B05A00'};
 const KIND={o:'cameo in the same film',q:'song appearance in the same film',m:'married',d:'married, then split',e:'engaged',x:'dated',r:'rumored',c:'worked together',f:'family',b:'friends',v:'feud',k:'on-screen kiss',g:'glam team',s:'replaced in a film'};
-const STAMP={t:['RECEIPT ✓','v-true'],a:['ALLEGED ?','v-alleged'],r:['RUMOR ~','v-rumor'],c:['CAP ✕','v-cap']};
+const STAMP={t:['RECEIPT ✓','v-true'],a:['ALLEGED ?','v-alleged'],r:['RUMOR ~','v-rumor'],c:['FAUX ✕','v-cap']};
 const first=n=>({'Shah Rukh Khan':'SRK'})[n]||n.split(' ')[0];
 
 /* ---------- what is this rishta called? one role per hop, read from the first person outward ---------- */
