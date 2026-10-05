@@ -253,6 +253,7 @@ window.MOVIES=[
 ['acharya','Acharya',2022,{lang:'te',cast:['Chiranjeevi','Ram Charan','Pooja Hegde']}],
 ['deva25','Deva',2025,{cast:['Shahid Kapoor','Pooja Hegde'],crew:[['Rosshan Andrrews','director']]}],
 ['retro','Retro',2025,{lang:'ta',cast:['Suriya','Pooja Hegde']}],
+['boom','Boom',2003,{cast:['Amitabh Bachchan','Jackie Shroff','Gulshan Grover','Katrina Kaif','Padma Lakshmi','Madhu Sapre','Jaaved Jaaferi','Zeenat Aman'],crew:[['Kaizad Gustad','director'],['Ayesha Shroff','producer']]}],
 ['kirikparty','Kirik Party',2016,{lang:'kn',cast:['Rakshit Shetty','Rashmika Mandanna'],crew:[['Rishab Shetty','director'],['Rakshit Shetty','producer']]}],
 ['geethagovindam','Geetha Govindam',2018,{lang:'te',cast:['Vijay Deverakonda','Rashmika Mandanna']}],
 ['dearcomrade','Dear Comrade',2019,{lang:'te',cast:['Vijay Deverakonda','Rashmika Mandanna']}],

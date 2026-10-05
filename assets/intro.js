@@ -72,9 +72,10 @@ function layout(){
   const grab=s=>{pts.length=0;for(let y=s/2;y<H;y+=s)for(let xx=s/2;xx<W;xx+=s)if(data[(Math.round(y)*W+Math.round(xx))*4+3]>140)pts.push([xx,y])};
   grab(step);while(pts.length>2400){step++;grab(step)}
   tiles=pts.map(([tx,ty],i)=>{const b=city[Math.floor(Math.random()*city.length)],w=b.wins.length?b.wins[Math.floor(Math.random()*b.wins.length)]:[b.x+b.w/2,base-b.h/2];
-    return {tx,ty,sx:w[0],sy:w[1],mx:rnd(W*.1,W*.9),my:rnd(H*.08,H*.62),i:i%stars.length,d:rnd(0,1),tw:rnd(0,6.28)}});
+    /* the title writes itself left to right: each guest's turn comes with its letter */
+    return {tx,ty,sx:w[0],sy:w[1],i:i%stars.length,d:clamp(tx/W*.8+rnd(0,.2)),tw:rnd(0,6.28)}});
   /* every one of the faces gets at least one seat */
-  tiles.sort(()=>Math.random()-.5);tiles.forEach((t,k)=>{t.i=k%stars.length;t.hero=k<stars.length;t.z=t.hero?rnd(.55,1):rnd(.12,.3)});
+  tiles.sort(()=>Math.random()-.5);tiles.forEach((t,k)=>{t.i=k%stars.length});
   title.step=step;title.base=base;
   /* the neon and the gold bed under the faces are painted once, not every frame */
   const paint=f=>{const c=document.createElement('canvas');c.width=W*DPR;c.height=H*DPR;const x=c.getContext('2d');x.setTransform(DPR,0,0,DPR,0,0);
@@ -114,16 +115,16 @@ function frame(now){
 
   const under=seg(t,4.6,6.2);if(under>0){g.globalAlpha=under*.5;g.drawImage(title.under,0,0,W,H);g.globalAlpha=1}
 
-  /* every guest leaves a window, swirls up big enough to know, then takes a seat in the title */
-  const s=title.step,big=Math.max(26,Math.min(54,W*.035));
+  /* every guest leaves a lit window and flies straight to a seat in the title, small and in order, no pile-up */
+  const s=title.step;
   for(const p of tiles){const sp=sprites[p.i];
-    const lift=ease(seg(t,2.2+p.d*.9,3.5+p.d*.9)),land=ease(seg(t,3.9+p.d*1.4,5.0+p.d*1.4));
-    if(lift<=0){const tw=clamp(seg(t,.6+p.d*1.4,1.2+p.d*1.4));if(tw>0){g.fillStyle=`rgba(255,214,160,${tw*(.6+.4*Math.sin(t*3+p.tw))})`;g.beginPath();g.arc(p.sx,p.sy,1.4,0,7);g.fill()}continue}
-    const ax=p.sx+(p.mx-p.sx)*lift,ay=p.sy+(p.my-p.sy)*lift-Math.sin(lift*Math.PI)*H*.06;
-    const x=ax+(p.tx-ax)*land,y=ay+(p.ty-ay)*land;
-    const r=(2+(big*p.z-2)*lift)*(1-land)+(s*.56)*land;
-    if(sp){g.globalAlpha=Math.min(1,lift*1.6);g.drawImage(sp,x-r,y-r,r*2,r*2)}else{g.fillStyle=GOLD;g.beginPath();g.arc(x,y,r,0,7);g.fill()}
-    if(p.hero&&land<1&&lift>.3){g.globalAlpha=.35*(1-land);g.strokeStyle=GOLD;g.lineWidth=1;g.beginPath();g.arc(x,y,r+.5,0,7);g.stroke()}}
+    const m=ease(seg(t,2.4+p.d*1.8,3.6+p.d*1.8));
+    if(m<=0){const tw=clamp(seg(t,.6+p.d*1.4,1.2+p.d*1.4));if(tw>0){g.fillStyle=`rgba(255,214,160,${tw*(.6+.4*Math.sin(t*3+p.tw))})`;g.beginPath();g.arc(p.sx,p.sy,1.4,0,7);g.fill()}continue}
+    const x=p.sx+(p.tx-p.sx)*m,y=p.sy+(p.ty-p.sy)*m-Math.sin(m*Math.PI)*H*.1;
+    const r=1.4+(s*.56-1.4)*m;
+    if(m<1){g.globalAlpha=.5*(1-m);g.fillStyle=GOLD;g.beginPath();g.arc(x,y+r*1.2,r*.5,0,7);g.fill()}
+    g.globalAlpha=Math.min(1,m*2.5);
+    if(sp)g.drawImage(sp,x-r,y-r,r*2,r*2);else{g.fillStyle=GOLD;g.beginPath();g.arc(x,y,r,0,7);g.fill()}}
   g.globalAlpha=1;
 
   /* the gilt: the letters light up like neon, flicker once, then hold */
@@ -151,8 +152,8 @@ function frame(now){
   if(!isNaN(freeze)&&++frozen>30)return;
   raf=requestAnimationFrame(frame)}
 
-let onResize=()=>{layout()};
+let onResize=()=>{if(innerWidth&&innerHeight)layout()};
 /* the skyline needs no portraits, so it starts as soon as the title font is in; faces drop into place as they arrive */
 Promise.race([document.fonts.load(`700 100px Quicksand`).catch(()=>{}),new Promise(r=>setTimeout(r,900))]).then(()=>{
-  if(done)return;layout();addEventListener('resize',onResize);raf=requestAnimationFrame(frame)});
+  if(done)return;if(!innerWidth||!innerHeight)return finish();layout();addEventListener('resize',onResize);raf=requestAnimationFrame(frame)});
 })();

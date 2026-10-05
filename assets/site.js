@@ -1127,6 +1127,8 @@ const G=[
 ["Naga Chaitanya","Sobhita Dhulipala","m","married December 2024",2024,"t"],
 ["Nagarjuna","Naga Chaitanya","f","father and son",null,"t"],
 ["Nagarjuna","Akhil Akkineni","f","father and son",null,"t"],
+["Gulshan Grover","Shah Rukh Khan","v","early 90s: Gulshan called his Baazigar villain a \"shortcut to grab popularity\"; SRK confronted him at Filmistan, words only",1993,"t"],
+["Gulshan Grover","Somy Ali","x","reported relationship before Salman; old reports had her seeing both",null,"a"],
 ["Rakshit Shetty","Rishab Shetty","b","Kirik Party: Rakshit starred and co-produced, Rishab directed",2016,"t"],
 ["Rashmika Mandanna","Kriti Sanon","b","Cocktail 2; Kriti shielded her when a Pune mall crowd broke the barricades",2026,"t"],
 ["Rakul Preet Singh","Jackky Bhagnani","m","married 2024",2024,"t"],

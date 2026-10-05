@@ -210,7 +210,7 @@ body.gl{margin:0;padding:0;height:100%;overflow:hidden;background:var(--gl-bg);c
 }
 
 /* ---------- the front door: an invitation over the live room ---------- */
-.gl-invite{position:fixed;inset:0;z-index:20;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;padding:24px 16px;overflow:auto;
+.gl-invite{position:fixed;inset:0;z-index:20;display:flex;flex-direction:column;align-items:center;justify-content:safe center;gap:22px;padding:24px 16px 40px;overflow:auto;
   background:radial-gradient(ellipse 70% 60% at 50% 46%,rgba(22,7,11,.35),rgba(14,4,8,.82));transition:opacity .7s ease,visibility .7s}
 body:not(.inviting) .gl-invite{opacity:0;visibility:hidden;pointer-events:none}
 body.inviting .gl-left,body.inviting .gl-key,body.inviting .gl-show,body.inviting .gl-zoom{opacity:0;visibility:hidden}
@@ -246,6 +246,15 @@ body.inviting .gl-left,body.inviting .gl-key,body.inviting .gl-show,body.invitin
 .gl-inv-stat{margin:24px 0 0;font:italic 400 19px/1.3 var(--gl-serif);color:var(--gl-pink)}
 .gl-inv-walk{margin-top:12px;border:0;background:none;cursor:pointer;color:var(--gl-faint);font:500 10.5px/1 var(--gl-mono);letter-spacing:.16em;text-transform:uppercase;padding:6px}
 .gl-inv-walk:hover,.gl-inv-walk:focus-visible{color:var(--gl-ivory)}
+.gl-explore{width:min(760px,100%);box-sizing:border-box}
+.gl-explore-k{margin:0 0 10px;text-align:center;font:600 10.5px/1.3 var(--gl-mono);letter-spacing:.3em;text-transform:uppercase;color:var(--gl-gold)}
+.gl-tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.gl-tiles a{display:block;padding:14px 16px 15px;text-decoration:none;background:rgba(28,7,12,.82);border:1px solid rgba(239,160,104,.22);border-radius:4px;
+  -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);transition:border-color .2s,background .2s,transform .2s}
+.gl-tiles b{display:block;font:italic 500 22px/1.1 var(--gl-serif);color:var(--gl-ivory)}
+.gl-tiles span{display:block;margin-top:5px;font-size:13px;line-height:1.4;color:var(--gl-dim)}
+.gl-tiles a:hover,.gl-tiles a:focus-visible{border-color:var(--gl-gold);background:rgba(60,16,24,.9);transform:translateY(-2px)}
+@media (max-width:640px){.gl-tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.gl-tiles b{font-size:19px}}
 .gl-inv-more{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 22px}
 .gl-inv-more a{font:500 10px/1 var(--gl-mono);letter-spacing:.18em;text-transform:uppercase;color:var(--gl-faint);text-decoration:none;padding:4px 0}
 .gl-inv-more a:hover,.gl-inv-more a:focus-visible{color:var(--gl-gold)}
