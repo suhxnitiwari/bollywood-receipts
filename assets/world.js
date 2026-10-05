@@ -80,7 +80,11 @@ function glow(col){let s=GLOW.get(col);if(s)return s;s=document.createElement('c
   gr.addColorStop(0,col);gr.addColorStop(.25,col+'AA');gr.addColorStop(.6,col+'22');gr.addColorStop(1,col+'00');x.fillStyle=gr;x.fillRect(0,0,64,64);GLOW.set(col,s);return s}
 const GRAIN=(()=>{const c=document.createElement('canvas');c.width=c.height=180;const x=c.getContext('2d'),d=x.createImageData(180,180);
   for(let i=0;i<d.data.length;i+=4){const v=Math.random()*255;d.data[i]=d.data[i+1]=d.data[i+2]=v;d.data[i+3]=Math.random()<.5?18:0}x.putImageData(d,0,0);return c})();
-const DUST=[...Array(RM?0:70)].map(()=>({x:Math.random(),y:Math.random(),s:.4+Math.random()*1.3,v:.004+Math.random()*.012,ph:Math.random()*6.28}));
+// CRT scanlines for the projection-room console
+const SCAN=(()=>{const c=document.createElement('canvas');c.width=4;c.height=4;const x=c.getContext('2d');x.fillStyle='rgba(0,0,0,.22)';x.fillRect(0,0,4,1);return c})();let SPAT=null;
+// a four-point filmi sparkle
+function sparkle(x,y,R,col){g.fillStyle=col;g.beginPath();g.moveTo(x,y-R);g.quadraticCurveTo(x,y,x+R,y);g.quadraticCurveTo(x,y,x,y+R);g.quadraticCurveTo(x,y,x-R,y);g.quadraticCurveTo(x,y,x,y-R);g.fill()}
+const diamond=(x,y,R)=>{g.beginPath();g.moveTo(x,y-R);g.lineTo(x+R,y);g.lineTo(x,y+R);g.lineTo(x-R,y);g.closePath()};
 
 /* ---------- camera ---------- */
 let W=0,H=0,dpr=1,dprCap=1.5,fitZ=1;
@@ -161,14 +165,20 @@ function draw(now,dt){
   if(!W){size();if(!W)return}
   g.setTransform(dpr,0,0,dpr,0,0);if(!BG)BG=background();g.globalAlpha=1;g.drawImage(BG,0,0,W,H);
   const t=now/1000,zr=cam.z/fitZ,focus=S.mode!=='room';
-  // a slow spotlight wandering the room
-  if(!RM){const lx=W*(.5+.32*Math.sin(t*.07)),ly=H*(.45+.22*Math.sin(t*.053+1)),gr=g.createRadialGradient(lx,ly,0,lx,ly,Math.max(W,H)*.45);
-    gr.addColorStop(0,'rgba(255,150,110,.06)');gr.addColorStop(1,'rgba(255,150,110,0)');g.fillStyle=gr;g.fillRect(0,0,W,H)}
+  // the studio-logo sunburst: deco rays turning slowly behind the whole room
+  {const o=toScreen({wx:0,wy:0}),R=Math.hypot(W,H)*1.2,n=40,rot=RM?0:t*.012;g.globalAlpha=.016;g.fillStyle='#F2A070';g.beginPath();
+    for(let i=0;i<n;i++){const a0=rot+i*2*Math.PI/n,a1=a0+Math.PI/n*.4;g.moveTo(o.x,o.y);g.lineTo(o.x+Math.cos(a0)*R,o.y+Math.sin(a0)*R);g.lineTo(o.x+Math.cos(a1)*R,o.y+Math.sin(a1)*R);g.closePath()}g.fill();
+  // console range rings with tick marks, anchored to the room
+    g.strokeStyle='#EFA068';g.lineWidth=.8;for(const [k,rr] of [[0,520],[1,1000],[2,1480]]){const rad=rr*cam.z;if(rad<40)continue;g.globalAlpha=.09;g.beginPath();g.arc(o.x,o.y,rad,0,7);g.stroke();
+      g.globalAlpha=.16;g.beginPath();const step=rad>600?1:rad>250?2:5;for(let d=0;d<360;d+=step){const a=d*Math.PI/180-rot*2*(k%2?-1:1),L=d%30===0?9:d%10===0?5:2.5;
+        g.moveTo(o.x+Math.cos(a)*rad,o.y+Math.sin(a)*rad);g.lineTo(o.x+Math.cos(a)*(rad-L),o.y+Math.sin(a)*(rad-L))}g.stroke()}}
   // khandaan tables: a warm pool of light under each house, and its name above it
   const tableA=focus?.25:clamp(1.25-zr*.18,.25,1);
   WD.khandaans.forEach(h=>{const s=toScreen({wx:h.x,wy:h.y}),r=Math.max(40,(h.r+70)*cam.z),col=houseCol(h.k);
     if(s.x<-r||s.x>W+r||s.y<-r||s.y>H+r)return;
-    const gr=g.createRadialGradient(s.x,s.y,0,s.x,s.y,r);gr.addColorStop(0,col+'1A');gr.addColorStop(1,col+'00');g.globalAlpha=tableA;g.fillStyle=gr;g.fillRect(s.x-r,s.y-r,2*r,2*r)});
+    const rr=Math.max(26,(h.r+46)*cam.z);g.globalAlpha=tableA*.35;g.strokeStyle=col;g.lineWidth=1;g.setLineDash([2,5]);g.beginPath();g.arc(s.x,s.y,rr,0,7);g.stroke();g.setLineDash([]);
+    g.globalAlpha=tableA*.18;g.beginPath();g.arc(s.x,s.y,rr+5,0,7);g.stroke();
+    g.globalAlpha=tableA*.6;g.fillStyle=col;for(let i=0;i<4;i++){const a=i*Math.PI/2+Math.PI/4;diamond(s.x+Math.cos(a)*(rr+2.5),s.y+Math.sin(a)*(rr+2.5),3);g.fill()}});
   // where everyone sits this frame
   const drift=RM?0:1.4;
   for(const p of P){const s=toScreen(p);p.s.x=s.x+Math.sin(t*.6+p.ph)*drift;p.s.y=s.y+Math.cos(t*.5+p.ph*1.3)*drift;
@@ -189,23 +199,32 @@ function draw(now,dt){
     R.es.forEach((e,i)=>{const pr=R.prog[i];if(pr<=0)return;
       // the thread itself, with a soft underglow so it reads against the dark
       g.save();if(!RM){g.shadowColor=ST[e.t].c;g.shadowBlur=12}drawEdge(e,1,2,pr,R.ids[i]);g.restore();
-      if(pr<1){const [x,y]=edgeTip(e,pr,R.ids[i]);g.globalAlpha=1;g.drawImage(glow('#F2703A'),x-18,y-18,36,36);g.fillStyle='#FFEDE4';g.beginPath();g.arc(x,y,2.6,0,7);g.fill()}})}
+      if(pr<1){const [x,y]=edgeTip(e,pr,R.ids[i]);g.globalAlpha=.35;g.drawImage(glow('#F2703A'),x-12,y-12,24,24);g.globalAlpha=1;sparkle(x,y,9,'#FFE2CC');sparkle(x,y,4,'#FFFFFF')}})}
   if(S.hover&&!(S.mode==='path'&&S.seq)){const h=S.hover;for(const e of h.E)if(shown(e)&&!(S.mode==='person'&&(h===S.sel)))drawEdge(e,personal(e)?.6:.14,personal(e)?1:.6)}
   // ---------- faces ----------
   const order=P.filter(p=>p.a>.012).sort((a,b)=>a.m-b.m||b.t-a.t);
   for(const p of order){const {x,y,r}=p.s;if(x<-r-20||x>W+r+20||y<-r-20||y>H+r+20)continue;const col=colOf(p);
-    if(r<4.6){const br=Math.max(1.3,r*.62);g.globalAlpha=p.a;g.fillStyle='#12050A';g.beginPath();g.arc(x,y,br+.9,0,7);g.fill();g.fillStyle=col;g.globalAlpha=p.a*.82;g.beginPath();g.arc(x,y,br,0,7);g.fill();
-      if(br>2.2){g.globalAlpha=p.a*.5;g.fillStyle='#FFEEE6';g.beginPath();g.arc(x-br*.3,y-br*.3,br*.28,0,7);g.fill()}continue}
+    if(r<4.6){const br=Math.max(1.6,r*.8);g.globalAlpha=p.a;g.fillStyle='#12050A';diamond(x,y,br+1.2);g.fill();g.fillStyle=col;g.globalAlpha=p.a*.85;diamond(x,y,br);g.fill();continue}
     const img=face(p);g.globalAlpha=p.a;
-    if(p.m>1.3||p===S.hover){const gs=r*4;g.globalAlpha=p.a*.5;g.drawImage(glow(p.m>1.6?'#F2803F':col),x-gs/2,y-gs/2,gs,gs);g.globalAlpha=p.a}
     if(img)g.drawImage(img,x-r,y-r,2*r,2*r);else if(r>=9)g.drawImage(mono(p,col),x-r,y-r,2*r,2*r);else{g.fillStyle=col;g.beginPath();g.arc(x,y,r*.55,0,7);g.fill()}
-    g.strokeStyle=p.m>1.6?'#F2703A':col;g.lineWidth=p.m>1.6?2.2:r>14?1.4:1;g.beginPath();g.arc(x,y,r+.5,0,7);g.stroke()}
+    g.strokeStyle=p.m>1.6?'#F2703A':col;g.lineWidth=p.m>1.6?2.2:r>14?1.4:1;g.beginPath();g.arc(x,y,r+.5,0,7);g.stroke();
+    if(r>13){g.globalAlpha=p.a*.55;g.strokeStyle='#EFA068';g.lineWidth=.8;g.beginPath();g.arc(x,y,r+4,0,7);g.stroke();g.globalAlpha=p.a}
+    if(p.m>1.6||p===S.hover){const n=Math.max(14,Math.round(r*.95)),br=r+(r>13?9:6),star=p.m>1.6;
+      // marquee bulbs chasing round the frame
+      for(let i=0;i<n;i++){const a=i/n*2*Math.PI-Math.PI/2,on=RM?1:.35+.65*(.5+.5*Math.sin(t*5-i*1.3)),bx=x+Math.cos(a)*br,by=y+Math.sin(a)*br;
+        g.globalAlpha=p.a*(star?on:on*.6);g.fillStyle=star?'#FFD9A8':'#F3DCD2';g.beginPath();g.arc(bx,by,star?1.9:1.4,0,7);g.fill()}
+      // and a slow console reticle around the ones on the thread
+      if(star){const rr=br+8,rot=RM?0:t*.6;g.globalAlpha=p.a*.7;g.strokeStyle='#F2703A';g.lineWidth=1.2;
+        for(let k=0;k<4;k++){const a0=rot+k*Math.PI/2;g.beginPath();g.arc(x,y,rr,a0,a0+.55);g.stroke()}
+        g.globalAlpha=p.a*.5;g.beginPath();for(let k=0;k<4;k++){const a=k*Math.PI/2;g.moveTo(x+Math.cos(a)*(rr+3),y+Math.sin(a)*(rr+3));g.lineTo(x+Math.cos(a)*(rr+9),y+Math.sin(a)*(rr+9))}g.stroke()}
+      g.globalAlpha=p.a}}
   // paparazzi: a white bloom and a ring when someone is found
   for(let i=FLASH.length-1;i>=0;i--){const f=FLASH[i],u=(now-f.t)/650;if(u>1){FLASH.splice(i,1);continue}const {x,y,r}=f.p.s;
     g.globalAlpha=(1-u)*.85;const gs=r*(3+u*5);g.drawImage(glow('#FFFFFF'),x-gs/2,y-gs/2,gs,gs);g.globalAlpha=(1-u)*.7;g.strokeStyle='#FFEEE6';g.lineWidth=1.5;g.beginPath();g.arc(x,y,r+4+u*30,0,7);g.stroke()}
   drawLabels(now,zr);
   // dust in the projector beam, then grain over everything
-  if(!RM){g.fillStyle='#FFD6BE';for(const d of DUST){d.y-=d.v*dt/1000;if(d.y<-.02)d.y=1.02;const x=(d.x+Math.sin(t*.2+d.ph)*.01)*W,y=d.y*H;g.globalAlpha=.12+.1*Math.sin(t+d.ph);g.fillRect(x,y,d.s,d.s)}
+  g.globalAlpha=.35;g.fillStyle=SPAT||(SPAT=g.createPattern(SCAN,'repeat'));g.fillRect(0,0,W,H);
+  if(!RM){if(Math.sin(t*1.7)>.97){const sx=W*(.15+.7*((Math.sin(t*13.1)+1)/2));g.globalAlpha=.08;g.fillStyle='#FFE2CC';g.fillRect(sx,0,1,H)}
     g.globalAlpha=.55;const ox=-(Math.floor(t*14)%7)*23%180,oy=-(Math.floor(t*14)%5)*37%180;g.fillStyle=GPAT||(GPAT=g.createPattern(GRAIN,'repeat'));g.save();g.translate(ox,oy);g.fillRect(-ox,-oy,W,H);g.restore()}
   g.globalAlpha=1}
 
@@ -245,7 +264,7 @@ function drawLabels(now,zr){const boxes=[],R=S.path,focus=S.mode!=='room';
   const clear=(x0,y0,x1,y1)=>{for(const b of boxes)if(x0<b[2]&&x1>b[0]&&y0<b[3]&&y1>b[1])return false;return true};
   if(S.mode==='path')R.es.forEach((e,i)=>{if(R.prog[i]<1)return;const q=quad(e),a=clamp((now-(R.doneAt[i]||0))/300,0,1);
     const top=TAG[e.t],sub=when(e);g.font='600 10px "IBM Plex Mono",monospace';setSpacing('2px');const w1=g.measureText(top).width;g.font='italic 400 12.5px "Bodoni Moda",Georgia,serif';setSpacing('0px');
-    const w2=sub?g.measureText(sub).width:0,w=Math.max(w1,w2)+18,h=sub?36:20;
+    const w2=sub?g.measureText(sub).width:0,w=Math.max(w1,w2)+26,h=sub?40:24;
     // slide along the thread first; if it's too short, step off to the side on a leader line
     let mx,my,lead=null;const ok=(px,py)=>px-w/2>=6&&px+w/2<=W-6&&py-h/2>=6&&py+h/2<=H-6&&clear(px-w/2,py-h/2,px+w/2,py+h/2);
     for(const t of [.5,.38,.62,.28,.72,.2,.8]){const [px,py]=qpt(q,t);if(ok(px,py)){mx=px;my=py;break}}
@@ -254,7 +273,8 @@ function drawLabels(now,zr){const boxes=[],R=S.path,focus=S.mode!=='room';
       if(mx===undefined){mx=cx;my=cy}}
     boxes.push([mx-w/2,my-h/2,mx+w/2,my+h/2]);
     if(lead){g.globalAlpha=.6*a;g.strokeStyle=ST[e.t].c;g.lineWidth=1;g.beginPath();g.moveTo(lead[0],lead[1]);g.lineTo(mx,my);g.stroke()}
-    g.globalAlpha=.92*a;g.fillStyle='#1C070D';g.strokeStyle=ST[e.t].c;g.lineWidth=1;g.beginPath();g.roundRect?g.roundRect(mx-w/2,my-h/2,w,h,4):g.rect(mx-w/2,my-h/2,w,h);g.fill();g.stroke();
+    g.globalAlpha=.94*a;g.fillStyle='#1C070D';g.strokeStyle=ST[e.t].c;g.lineWidth=1;g.fillRect(mx-w/2,my-h/2,w,h);g.strokeRect(mx-w/2+.5,my-h/2+.5,w-1,h-1);
+    g.globalAlpha=.45*a;g.strokeRect(mx-w/2+3.5,my-h/2+3.5,w-7,h-7);g.globalAlpha=a;g.fillStyle=ST[e.t].c;for(const [cx,cy] of [[mx-w/2,my],[mx+w/2,my]]){diamond(cx,cy,3.2);g.fill()}
     g.globalAlpha=a;g.textBaseline='middle';g.font='600 10px "IBM Plex Mono",monospace';setSpacing('2px');g.fillStyle=ST[e.t].c;g.fillText(top,mx,my-(sub?8:0));setSpacing('0px');
     if(sub){g.font='italic 400 12.5px "Bodoni Moda",Georgia,serif';g.fillStyle='#F8E6DC';g.fillText(sub,mx,my+8)}g.textBaseline='top'});
   setSpacing('0px')}
