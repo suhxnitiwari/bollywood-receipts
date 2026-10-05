@@ -181,7 +181,7 @@ function pairFor(r){const k=Object.keys(PAIR).sort((a,b)=>b.length-a.length).fin
 function pics(r,max){const p=pairFor(r);if(p&&fresh(p.img)){claim(p.img);const fb=partsOf(r).map(who).filter(n=>PH[n]&&fresh(PH[n])).map(n=>PH[n]).join('|');return `<img loading="lazy" src="${p.img}" alt="${r.w.replace(/"/g,'')}" title="Photo via Wikimedia Commons" data-fb="${fb}" onerror="imgFail(this)">`}return faceTiles(partsOf(r),max)}
 function cardHtml(r,big){return `<article class="rc${big?' big':''}" tabindex="0" role="button" data-n="${r.n}" aria-label="Open receipt: ${r.h.replace(/"/g,'&quot;')}"><div class="ph">${pics(r,big?3:2)}${stampHtml(r)}</div><div class="rb"><div class="kick"><span>Spotted: ${kindOf(r)}</span><span class="no">No. ${String(r.n).padStart(3,'0')}</span></div><h3>${r.h}</h3><div class="tot"><span>TOTAL</span><b>${r.k}</b></div></div></article>`}
 const DOST=["Priyanka & Gauri","Katrina's 2008 birthday","SRK vs Salman","Orry vs Sara","Kareena vs Karan","Mahesh Bhatt's files","Amitabh, Jaya and Rekha","Alia's whole file","Kartik vs Karan","Rani's file","Kangana vs Alia","Ajay vs SRK","Vivek Oberoi vs Salman","Salman and Aishwarya"];
-function matchF(r,f){if(f==='all')return true;if(f==='dost')return DOST.some(h=>r.h.startsWith(h));if(f==='chupke')return r.v==='rumor'||r.v==='alleged';
+function matchF(r,f){if(f==='all')return true;if(f==='dost')return DOST.some(h=>r.h.startsWith(h));if(f==='chupke')return r.v==='rumor'||r.v==='alleged';if(f==='faux')return r.v==='cap';
   if(f==='court')return /court|lawsuit|\bsued\b|charge sheet|defamation|arrest|legal notice|\bFIR\b|Enforcement Directorate|quashed/i.test(r.b);return r.t.includes(f)}
 function render(){if(!grid)return;
   const s=q.value.trim().toLowerCase();
@@ -199,10 +199,16 @@ function showReceipts(name){if(grid){f='all';q.value=name;render();document.getE
 window.__rerenderTop=function(){window.renderFront&&window.renderFront()};
 // reel: embed on hosts that allow it, otherwise open YouTube
 const CAN_EMBED=!/claude\.ai|claudeusercontent|anthropic/.test(location.hostname);
-function reelHtml(list){return list.map(c=>`<div class="vid"><button type="button" class="vbox" data-v="${c.v}" aria-label="Play: ${c.h.replace(/"/g,'&quot;')}"><img loading="lazy" src="https://i.ytimg.com/vi/${c.v}/hqdefault.jpg" alt="" onerror="this.remove()"><span class="play"><span></span></span></button><div class="spot">On tape: ${c.spot}</div><h4>${c.h}</h4><div class="cr">Via ${c.via} <span class="sep"></span><a href="https://www.youtube.com/watch?v=${c.v}" target="_blank" rel="noopener">watch on YouTube</a></div></div>`).join('')}
+function reelHtml(list){return list.map((c,i)=>`<div class="vid"><button type="button" class="vbox" data-v="${c.v}" aria-label="Play: ${c.h.replace(/"/g,'&quot;')}"><img loading="lazy" src="https://i.ytimg.com/vi/${c.v}/hqdefault.jpg" alt="" onerror="this.remove()"><span class="vfx" aria-hidden="true"></span><span class="vno" aria-hidden="true">${String(i+1).padStart(2,'0')}</span><span class="vtx"><span class="spot">${c.spot}</span><span class="vh">${c.h}</span><span class="cr">Via ${c.via}</span></span><span class="play" aria-hidden="true">▶</span></button></div>`).join('')}
+// hover a tile for a beat and it starts previewing, muted, like a streaming row
+const HOVERPV=CAN_EMBED&&matchMedia('(hover:hover) and (pointer:fine)').matches&&!matchMedia('(prefers-reduced-motion:reduce)').matches;
+if(HOVERPV){let pt=null;
+  document.addEventListener('pointerover',e=>{const b=e.target.closest('.vbox');if(!b||b.classList.contains('live')||b.querySelector('.pv'))return;clearTimeout(pt);
+    pt=setTimeout(()=>{if(!b.matches(':hover'))return;b.insertAdjacentHTML('afterbegin',`<iframe class="pv" src="https://www.youtube-nocookie.com/embed/${b.dataset.v}?autoplay=1&mute=1&controls=0&modestbranding=1&rel=0&playsinline=1&start=20" title="Preview" allow="autoplay; encrypted-media" tabindex="-1"></iframe>`)},650)});
+  document.addEventListener('pointerout',e=>{const b=e.target.closest('.vbox');if(!b||b.contains(e.relatedTarget))return;clearTimeout(pt);const f=b.querySelector('.pv');if(f)f.remove()})}
 document.querySelectorAll('[data-reel]').forEach(el=>{const n=+el.dataset.reel||REEL.length;el.innerHTML=reelHtml(REEL.slice(0,n))});
-document.addEventListener('click',e=>{const b=e.target.closest('.vbox');if(!b||b.querySelector('iframe'))return;const v=b.dataset.v;
-  if(CAN_EMBED){b.innerHTML=`<iframe src="https://www.youtube-nocookie.com/embed/${v}?autoplay=1&rel=0" title="Video" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>`;b.style.cursor='default'}
+document.addEventListener('click',e=>{const b=e.target.closest('.vbox');if(!b||b.classList.contains('live'))return;const v=b.dataset.v;
+  if(CAN_EMBED){b.classList.add('live');b.innerHTML=`<iframe src="https://www.youtube-nocookie.com/embed/${v}?autoplay=1&rel=0" title="Video" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>`;b.style.cursor='default'}
   else window.open('https://www.youtube.com/watch?v='+v,'_blank','noopener')});
 
 
@@ -1076,6 +1082,18 @@ document.addEventListener('click',e=>{if(e.target.closest('[data-search]')){e.pr
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeSearch();const dr=document.querySelector('.drawer');if(dr&&!dr.hidden)dr.hidden=true}
   if(e.key==='/'&&!/input|textarea|select/i.test(document.activeElement.tagName)){e.preventDefault();openSearch()}});
 
+/* ---------- the Web boards: red string runs photo to photo, on a loop, like the Guest List ---------- */
+window.threadBoards=function(){document.querySelectorAll('.board').forEach(b=>{const draw=()=>{b.querySelector('svg.thr')?.remove();
+    const ims=[...b.querySelectorAll('.pins img')].filter(i=>i.offsetWidth);if(ims.length<2)return;const B=b.getBoundingClientRect();
+    const pts=ims.map(i=>{const r=i.getBoundingClientRect();return [r.left-B.left+r.width/2,r.top-B.top+r.height*.42]});
+    let d=`M${pts[0][0]} ${pts[0][1]}`;for(let k=1;k<pts.length;k++){const [x0,y0]=pts[k-1],[x1,y1]=pts[k],sag=24+Math.abs(x1-x0)*.12;d+=` Q${(x0+x1)/2} ${Math.max(y0,y1)+sag} ${x1} ${y1}`}
+    const T=1.1*(pts.length-1)+2.4;
+    b.insertAdjacentHTML('beforeend',`<svg class="thr" width="${B.width}" height="${B.height}" aria-hidden="true" style="--T:${T}s"><path class="str" d="${d}" pathLength="1"/><circle r="3.4" class="spk"><animateMotion dur="${T}s" repeatCount="indefinite" keyPoints="0;1;1" keyTimes="0;${((T-2.4)/T).toFixed(3)};1" calcMode="linear" path="${d}"/></circle></svg>`);
+    ims.forEach((im,k)=>im.style.setProperty('--d',`${(k*1.1).toFixed(2)}s`)),b.style.setProperty('--T',T+'s')};
+  const ims=[...b.querySelectorAll('.pins img')];let left=ims.filter(i=>!i.complete).length;if(!left)draw();else ims.forEach(i=>{if(!i.complete)i.addEventListener('load',()=>{if(--left<=0)draw()},{once:true})});
+  b._thr=draw})};
+let __thrT;addEventListener('resize',()=>{clearTimeout(__thrT);__thrT=setTimeout(()=>document.querySelectorAll('.board').forEach(b=>b._thr&&b._thr()),200)});
+
 /* ---------- front page ---------- */
 function polaroids(names,max,ctx){const out=[];for(const n0 of names){const n=whoIn(n0,ctx);if(PH[n]&&!out.includes(n))out.push(n);if(out.length>=max)break}
   return out.map((n,i)=>`<img loading="lazy" src="${PH[n]}" alt="" title="${n}" style="--r:${[-4,3,-2,5][i%4]}deg" onerror="this.remove()">`).join('')}
@@ -1089,8 +1107,9 @@ window.renderFront=function(){if(PAGE!=='front')return;USED=new Set();
   document.getElementById('trending').innerHTML=`<h3 class="rail">Trending</h3><ol>${TR.map(([t,id],i)=>`<li><a href="the-web.html#${id}"><span class="num">${String(i+1).padStart(2,'0')}</span><span>${t}</span></a></li>`).join('')}</ol>`;
   const SP=[["Kangana vs Karan",'Today'],["Sonakshi's Salman loop",'This week'],["Boney's version",'This week'],['Govinda and the cheating','From the archive']].map(([h,l])=>[byH(h),l]).filter(x=>x[0]);
   document.getElementById('spots').innerHTML=SP.map(([r,l],i)=>`<a class="sp${i?'':' big'}" href="#" data-n="${r.n}"><div class="ph">${pics(r,i?1:3)}${stampHtml(r)}</div><p class="when">${l}</p><h3>${r.h}</h3>${i?'':`<p class="dek">${r.k}</p>`}</a>`).join('');
-  const TRR=['Saif and Amrita','Hrithik & Sussanne','Mahesh & Pooja Bhatt','Priyanka & Gauri','Did Shahid cheat','Divya Khossla vs Alia'].map(byH).filter(Boolean);
+  const TRR=['Saif and Amrita','Hrithik & Sussanne','Mahesh & Pooja Bhatt','Priyanka & Gauri'].map(byH).filter(Boolean);
   document.getElementById('trr').innerHTML=TRR.map(r=>cardHtml(r,false)).join('');
+  requestAnimationFrame(()=>window.threadBoards&&threadBoards());
   document.getElementById('webfiles').innerHTML=FILES.filter(x=>['webh','spy','web5h','genzh'].includes(x.id)).map((x,i)=>`<a class="board${i===0||i===3?' wide':''}" href="the-web.html#${x.id}"><div class="pins">${polaroids(x.p,4,x.ctx)}</div><p class="hnote">${x.d.split(/(?<=[.!?])\s/)[0]}</p><div class="btx"><span class="fno">File ${x.file}</span><h3>${x.t}</h3><p>${x.n} subjects · ${x.e} threads</p><span class="cta">Open the file →</span></div></a>`).join('');
   document.getElementById('dyn').innerHTML=['kapoor','bachchan','pataudi'].map(k=>FAMS.find(f=>f.k===k)).filter(Boolean).map(f=>`<a class="dcard" href="people.html?k=${f.k}#trees"><h3>${f.t}</h3><p class="dd2">${f.d}</p><p class="gens">${famLine(f)}</p><span class="cta">Enter the family →</span></a>`).join('');
   const fi=document.getElementById('fimg');if(fi)fi.innerHTML=['Helen','Zeenat Aman','Madhubala'].filter(n=>PH[n]).map(n=>`<img loading="lazy" src="${PH[n]}" alt="${n}">`).join('');

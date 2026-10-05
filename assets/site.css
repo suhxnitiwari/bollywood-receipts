@@ -992,3 +992,46 @@ input,select,textarea{color-scheme:dark}
 .w3d{background:#F2DDD2;border-color:#0E0407}
 .w3d-blast{color:#1C070D;text-shadow:0 0 12px #F2DDD2,0 0 4px #F2DDD2}
 .rw3d{border-color:var(--rule2);box-shadow:6px 6px 0 #0E0407;background:radial-gradient(ellipse at 50% 40%,#FBEAE2 0%,#F2DDD2 60%,#E2BFB2 100%)}
+
+/* ---------- drawers: two even rows of five ---------- */
+@media (min-width:900px){.drawers{grid-template-columns:repeat(5,minmax(0,1fr))}}
+
+/* ---------- the receipts: one row, never more ---------- */
+#trr{display:grid;grid-auto-flow:column;grid-template-columns:none;grid-auto-columns:minmax(230px,1fr);overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px}
+#trr>*{scroll-snap-align:start}
+
+/* ---------- The Reel: a streaming row printed on a strip of film ---------- */
+.rrow{grid-template-rows:none!important;grid-auto-columns:minmax(300px,1fr)!important;gap:14px!important;row-gap:0!important;position:relative;
+  padding:26px 14px!important;background:#0B0306;border-block:1px solid var(--rule);
+  background-image:radial-gradient(circle,#16070B 0 0),repeating-linear-gradient(90deg,rgba(242,221,210,.18) 0 12px,transparent 12px 26px),repeating-linear-gradient(90deg,rgba(242,221,210,.18) 0 12px,transparent 12px 26px);
+  background-size:0 0,100% 8px,100% 8px;background-position:0 0,0 9px,0 calc(100% - 9px);background-repeat:no-repeat;background-color:#0B0306}
+.vid{position:relative}
+.vbox{border:0!important;border-radius:4px;aspect-ratio:16/9;background:#1C070D!important;transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s;transform-origin:50% 60%}
+.vbox img{filter:saturate(.8) contrast(1.06) sepia(.12);transform:scale(1.35);transition:transform 6s ease}
+.vbox:hover img,.vbox:focus-visible img{transform:scale(1.45)}
+.vbox .vfx{position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,rgba(11,3,6,.15) 0%,rgba(11,3,6,0) 35%,rgba(22,7,11,.55) 62%,rgba(16,4,8,.96) 100%),linear-gradient(100deg,rgba(207,48,68,.18),rgba(226,90,60,.08))}
+.vbox .pv{position:absolute;inset:0;width:100%;height:100%;z-index:0;border:0;pointer-events:none;transform:scale(1.35)}
+.vbox:has(.pv) img{opacity:0;transition:opacity .4s}
+.vbox .vno{position:absolute;left:12px;top:8px;z-index:2;font:italic 500 34px/1 var(--display);color:rgba(248,230,220,.9);text-shadow:0 2px 14px rgba(0,0,0,.7)}
+.vbox .vtx{position:absolute;left:0;right:0;bottom:0;z-index:2;display:grid;gap:3px;padding:12px 14px;text-align:left}
+.vbox .spot{font:600 9.5px/1.2 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--marigold);margin:0}
+.vbox .vh{font:700 17px/1.18 var(--display);color:#FBEDE4;text-wrap:balance}
+.vbox .cr{font:500 9.5px/1 var(--mono);letter-spacing:.1em;color:rgba(248,230,220,.55);text-transform:uppercase}
+.vbox .play{position:absolute;inset:auto 14px auto auto;top:12px;z-index:2;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;
+  border:1px solid rgba(248,230,220,.6);color:#FBEDE4;font-size:12px;background:rgba(16,4,8,.45);backdrop-filter:blur(4px);opacity:0;transform:scale(.85);transition:.25s}
+.vbox .play span{display:none}
+.vbox:hover,.vbox:focus-visible{transform:scale(1.06);box-shadow:0 22px 40px -18px #000,0 0 0 1px rgba(239,160,104,.45);z-index:3}
+.vbox:hover .play,.vbox:focus-visible .play{opacity:1;transform:none}
+.vbox.live{transform:none!important}.vbox.live iframe{position:relative;z-index:4}
+@media (prefers-reduced-motion:reduce){.vbox,.vbox img{transition:none}}
+
+/* ---------- The Web boards: the thread draws itself photo to photo, then rests and redraws ---------- */
+.board::after{display:none}
+.board .pins{z-index:2}
+svg.thr{position:absolute;left:0;top:0;z-index:1;pointer-events:none;overflow:visible}
+svg.thr .str{fill:none;stroke:#E0484A;stroke-width:1.8;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;filter:drop-shadow(0 0 4px rgba(226,90,60,.6));animation:thrDraw var(--T) linear infinite}
+svg.thr .spk{fill:#FFE2CC;filter:drop-shadow(0 0 6px #F2703A)}
+@keyframes thrDraw{0%{stroke-dashoffset:1;opacity:1}62%{stroke-dashoffset:0;opacity:1}88%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:0;opacity:0}}
+.board .pins img{animation:pinLit var(--T,6s) linear infinite;animation-delay:var(--d,0s)}
+@keyframes pinLit{0%,100%{box-shadow:0 6px 12px -6px rgba(0,0,0,.6);transform:rotate(var(--r,0deg))}4%{box-shadow:0 0 0 2px #E25A3C,0 0 26px 2px rgba(226,90,60,.55);transform:rotate(var(--r,0deg)) scale(1.06)}14%{box-shadow:0 0 0 2px rgba(226,90,60,.5),0 6px 12px -6px rgba(0,0,0,.6);transform:rotate(var(--r,0deg))}}
+@media (prefers-reduced-motion:reduce){svg.thr .str{animation:none;stroke-dashoffset:0}svg.thr .spk{display:none}.board .pins img{animation:none}}
