@@ -638,6 +638,8 @@ const G=[
 ["Karisma Kapoor","Malaika Arora","b","the girl gang: two pairs of sisters, one circle; Malaika calls it \"sister sister bonding\"",null,"t"],
 ["Karisma Kapoor","Amrita Arora","b","the girl gang",null,"t"],
 ["Kareena Kapoor","Malaika Arora","b","the girl gang",null,"t"],
+["Rasha Thadani","Tamannaah Bhatia","b","Rasha calls Tamannaah and Vijay Varma her \"godparents\" and \"the closest to me\"",null,"t"],
+["Rasha Thadani","Vijay Varma","b","one of her two \"godparents\", with Tamannaah",null,"t"],
 ["Priyanka Chopra","Nick Jonas","m","",2018,"t"],
 ["Priyanka Chopra","Harman Baweja","x","",2008,"a"],
 ["Kangana Ranaut","Hrithik Roshan","v","the email war",2016,"t"],
