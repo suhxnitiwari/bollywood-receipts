@@ -1100,10 +1100,27 @@ function polaroids(names,max,ctx){const out=[];for(const n0 of names){const n=wh
 function famLine(f){const gens=[];const walk=(n,d)=>{(gens[d]??=[]);const b=n.p.length>2?n.p[0]:n.p[0];if(!gens[d].includes(b))gens[d].push(b);n.k.forEach(k=>walk(k,d+1))};f.r.forEach(r=>walk(r,0));
   return gens.map(g=>`<span>${g.slice(0,3).map(n=>n.split(' ')[0]).join(' / ')}</span>`).join('<i aria-hidden="true">↓</i>')}
 window.renderFront=function(){if(PAGE!=='front')return;USED=new Set();
-  const hero=byH("Katrina's 2008 birthday");
-  if(hero)document.getElementById('hero').innerHTML=`<a class="hero" href="#" data-n="${hero.n}"><div class="hph"><div class="ph">${faceTiles(['SRK','Salman'],2)}<span class="stmp ${V[hero.v][1]} big">${V[hero.v][0]}</span></div></div>
-    <div class="htx"><p class="eyebrow">The receipt</p><h2>The party that ended SRK and Salman for five years.</h2><p class="dek">Katrina Kaif's 2008 birthday party. One argument. Two Khans. Five years of silence.</p><span class="cta">Open the file →</span></div></a>`;
-  const TR=[['Kiss Kiss Ko Pyaar Karu?','webh'],['So Rani, which Raja kissed better?','rani'],['Delete the movie: the YRF Spy Universe','spy'],["Bollywood's smallest dating pool",'genzh']];
+  // breaking: the lead story rotates through the biggest files on the books
+  const BK=[["Katrina's 2008 birthday",'The party that ended SRK and Salman for five years.',"Katrina Kaif's 2008 birthday party. One argument. Two Khans. Five years of silence.",['SRK','Salman']],
+    ['Aryan Khan: jail',0,'Arrested in the 2021 cruise raid, cleared in 2022. Now his Netflix show roasts the industry, and the officer who arrested him is suing.'],
+    ['Salman and Aishwarya',0,'They fell for each other on Hum Dil De Chuke Sanam. She went on record about why it ended. He denied it.',['Aishwarya','Salman']],
+    ['Jacqueline, Nora',0,'A conman in jail, expensive gifts, two actresses named in the money trail. Both say they were the ones deceived.'],
+    ['Kangana vs Karan: the nepotism',0,'On his own couch in 2017, she called him the flag bearer of nepotism. Bollywood has been arguing about it ever since.'],
+    ['Kareena vs Karan',0,"She asked for SRK's fee for Kal Ho Naa Ho. He said sorry, Preity got the role, and they didn't speak for nine months."]]
+    .map(([h,head,dek,faces])=>{const r=byH(h);return r&&{r,head:head||r.h,dek:dek||r.k,faces}}).filter(Boolean);
+  document.getElementById('hero').innerHTML=`<div class="bk" role="region" aria-roledescription="carousel" aria-label="Breaking news">
+    <div class="bk-top"><span class="bk-live">Breaking</span><span class="bk-n" aria-live="polite">01 / ${String(BK.length).padStart(2,'0')}</span></div>
+    <div class="bk-track">${BK.map(({r,head,dek,faces},i)=>`<a class="hero bk-s${i?'':' on'}" href="#" data-n="${r.n}" role="group" aria-roledescription="slide" aria-label="${i+1} of ${BK.length}"${i?' aria-hidden="true" tabindex="-1"':''}><div class="hph"><div class="ph">${faces?faceTiles(faces,2):pics(r,2)}<span class="stmp ${V[r.v][1]} big">${V[r.v][0]}</span></div></div>
+      <div class="htx"><p class="eyebrow">The receipt</p><h2${head.length>42?' class="long"':''}>${head}</h2><p class="dek">${dek}</p><span class="cta">Open the file →</span></div></a>`).join('')}</div>
+    <div class="bk-nav"><button type="button" class="bk-prev" aria-label="Previous story">←</button><div class="bk-dots">${BK.map((_,i)=>`<button type="button" aria-label="Story ${i+1}"${i?'':' aria-current="true"'}></button>`).join('')}</div><button type="button" class="bk-next" aria-label="Next story">→</button></div></div>`;
+  {const bk=document.querySelector('.bk'),sl=[...bk.querySelectorAll('.bk-s')],dots=[...bk.querySelectorAll('.bk-dots button')],num=bk.querySelector('.bk-n');let at=0,timer=null;
+    const go=i=>{at=(i+sl.length)%sl.length;sl.forEach((a,k)=>{const on=k===at;a.classList.toggle('on',on);a.toggleAttribute('aria-hidden',!on);on?a.removeAttribute('tabindex'):a.setAttribute('tabindex','-1')});
+      dots.forEach((d,k)=>k===at?d.setAttribute('aria-current','true'):d.removeAttribute('aria-current'));num.textContent=`${String(at+1).padStart(2,'0')} / ${String(sl.length).padStart(2,'0')}`};
+    const stop=()=>{clearInterval(timer);timer=null},play=()=>{stop();if(!matchMedia('(prefers-reduced-motion: reduce)').matches)timer=setInterval(()=>go(at+1),6500)};
+    bk.querySelector('.bk-prev').onclick=()=>{go(at-1);play()};bk.querySelector('.bk-next').onclick=()=>{go(at+1);play()};dots.forEach((d,k)=>d.onclick=()=>{go(k);play()});
+    bk.addEventListener('mouseenter',stop);bk.addEventListener('mouseleave',play);bk.addEventListener('focusin',stop);bk.addEventListener('focusout',e=>{if(!bk.contains(e.relatedTarget))play()});
+    document.addEventListener('visibilitychange',()=>document.hidden?stop():play());play()}
+  const TR=[['Kiss Kiss Ko Pyaar Karu?','webh'],['So Rani, which Raja kissed better?','rani'],['Delete the movie: the YRF Spy Universe','spy'],["Bollywood's smallest dating pool",'genzh'],['Bollywood Beef','beef'],['The Nepoverse','nepoverse'],['Why is Deepika everywhere?','deepika'],['The two houses of Dharmendra','deol'],['Housefull: who stayed, who left, who came back','housefull'],['Everybody knows Karan. The question is: how?','karan']];
   document.getElementById('trending').innerHTML=`<h3 class="rail">Trending</h3><ol>${TR.map(([t,id],i)=>`<li><a href="the-web.html#${id}"><span class="num">${String(i+1).padStart(2,'0')}</span><span>${t}</span></a></li>`).join('')}</ol>`;
   const SP=[["Kangana vs Karan",'Today'],["Sonakshi's Salman loop",'This week'],["Boney's version",'This week'],['Govinda and the cheating','From the archive']].map(([h,l])=>[byH(h),l]).filter(x=>x[0]);
   document.getElementById('spots').innerHTML=SP.map(([r,l],i)=>`<a class="sp${i?'':' big'}" href="#" data-n="${r.n}"><div class="ph">${pics(r,i?1:3)}${stampHtml(r)}</div><p class="when">${l}</p><h3>${r.h}</h3>${i?'':`<p class="dek">${r.k}</p>`}</a>`).join('');
