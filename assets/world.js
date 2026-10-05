@@ -411,24 +411,24 @@ function connect(aN,bN,{instant=false}={}){stopSeq();closeDrawer();hideTip();
     e.pb=(side>0?-1:1)*(close?.4:es.length>1?.18:.1)});
   S.path={ids,es,prog:es.map(()=>0),doneAt:[],reached:new Set([a])};setMode('path');setUrl({a:aN,b:bN});
   if(instant||RM){finishPath();return}
-  const L=es.length,D=clamp(2100/L,380,760),PAUSE=L>3?110:240;
+  const L=es.length,D=S.demo?2000:clamp(2100/L,380,760),PAUSE=S.demo?1500:L>3?110:240;
   const seq=S.seq={cancelled:false,follow:null,skip(){seq.cancelled=true;S.seq=null;finishPath()},
     tick(now){const f=seq.follow;if(!f)return;const u=clamp((now-f.t0)/f.ms,0,1),k=ease(u);S.path.prog[f.i]=k;
-      const from=ids[f.i],to=ids[f.i+1],tx=from.wx+(to.wx-from.wx)*k,ty=from.wy+(to.wy-from.wy)*k;goal.x=tx;goal.y=ty;
+      const from=ids[f.i],to=ids[f.i+1],tx=from.wx+(to.wx-from.wx)*k,ty=from.wy+(to.wy-from.wy)*k;if(S.demo){goal.x=(from.wx+tx)/2;goal.y=(from.wy+ty)/2}else{goal.x=tx;goal.y=ty}
       if(u>=1){seq.follow=null;S.path.doneAt[f.i]=now;f.done()}}};
   skipBtn.hidden=false;
   (async()=>{
     caption(`<span class="who">${esc(a.n)}</span><span class="line">Let’s follow the receipts.</span>`);
     const span=Math.max(...es.map(e=>Math.hypot(e.a.wx-e.b.wx,e.a.wy-e.b.wy)));
     const zStep=document.body.classList.contains('gl-demo')?clamp(Math.min(W*.7,H*.6)/Math.max(90,span*1.1),fitZ*3.5,fitZ*10):clamp(Math.min(W>760?W-760:W,H*.6)/Math.max(160,span*1.25),fitZ*1.2,fitZ*5.5);
-    flyTo(a.wx,a.wy,zStep*1.15,4.5);flash(a);await wait(RM?0:820);if(seq.cancelled)return;
-    for(let i=0;i<L;i++){const to=ids[i+1];goal.z=zStep;rate=6;
+    if(S.demo){cam.x=goal.x=a.wx;cam.y=goal.y=a.wy;cam.z=goal.z=zStep*1.3;vel=null}else flyTo(a.wx,a.wy,zStep*1.15,4.5);flash(a);await wait(RM?0:S.demo?2200:820);if(seq.cancelled)return;
+    for(let i=0;i<L;i++){const to=ids[i+1];if(S.demo){const fr=ids[i],hl=Math.hypot(to.wx-fr.wx,to.wy-fr.wy);goal.z=clamp(Math.min(W*.55,H*.42)/Math.max(60,hl),fitZ*1.2,zStep*1.3);rate=3.4}else{goal.z=zStep;rate=6}
       await new Promise(done=>{seq.follow={i,t0:performance.now(),ms:D,done}});if(seq.cancelled)return;
       S.path.reached.add(to);targets();flash(to);
       caption(`<span class="who">${esc(to.n)}</span><span class="line">${esc(ST[es[i].t].k)}${when(es[i])?' · '+esc(when(es[i])):''}</span>`);
       await wait(PAUSE+260);if(seq.cancelled)return}
     if(S.demo)fitPeople(ids.slice(-3),1);else fitPeople(ids,.85);rate=3.2;
-    caption(`<span class="deg">${L===1?'Directly linked.':cap1(NUM[L]||L)+' degrees.'}</span><span class="line">Small town, this Bollywood.</span>`);
+    if(S.demo)rate=1.4;caption(`<span class="deg">${L===1?'Directly linked.':cap1(NUM[L]||L)+' degrees.'}</span><span class="line">Small town, this Bollywood.</span>`);
     await wait(900);if(seq.cancelled)return;
     S.seq=null;skipBtn.hidden=true;spotted();if(W<=760)fitPeople(R.ids,.85);await wait(1700);if(!S.seq&&S.mode==='path')capOut()})()}
 const cap1=s=>String(s)[0].toUpperCase()+String(s).slice(1);
@@ -544,8 +544,8 @@ else if(qp){const p=BY.get(resolve(qp));if(p)walkIn();if(p)setTimeout(()=>select
 window.__guest={S,P,E,BY,connect,select,cam,goal};
 /* demo mode, for the front page's live window: no panels; the room pulls long, unlikely threads made only of rishtas, no co-star shortcuts */
 if(qs.has('demo')){document.body.classList.add('gl-demo');S.demo=true;walkIn();
-  const PAIRS=[['Prem Chopra','Sonakshi Sinha'],['Mumtaz','Janhvi Kapoor'],['Rekha','Varun Dhawan']].map(([a,b])=>[resolve(a),resolve(b)]).filter(([a,b])=>a&&b);
-  let k=0;const next=()=>{const [a,b]=PAIRS[k++%PAIRS.length];let n=3;try{n=(path(a,b,'pers')||[]).length||3}catch(e){}
-    connect(a,b);try{parent.postMessage({gl:'pair',a,b,n},'*')}catch(e){}setTimeout(next,(RM?4000:5200)+n*1900)};
-  setTimeout(next,RM?0:900)}
+  // one thread, played slowly from a single face outwards, then replayed
+  const A=resolve('Prem Chopra'),B=resolve('Sonakshi Sinha');let n=7;try{n=(path(A,B,'pers')||[]).length||7}catch(e){}
+  const next=()=>{connect(A,B);try{parent.postMessage({gl:'pair',a:A,b:B,n},'*')}catch(e){}};
+  if(A&&B)setTimeout(()=>{next();setInterval(next,RM?8000:2200+n*3800+8000)},300)}
 })();
