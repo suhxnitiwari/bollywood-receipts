@@ -1043,7 +1043,7 @@ const G=[
 ["Deepika Padukone","Priyanka Chopra","b","Deepika called her the first friend she made in the industry (2015)",2015,"t"],
 ["Deepika Padukone","Katrina Kaif","v","a chill from about 2010; Deepika said in 2018 she would not invite her; Katrina came to the reception, Dec 2018",2010,"a"],
 ["Ranbir Kapoor","Sonam Kapoor","v","2010 Koffee digs at him by Sonam and Deepika; Rishi Kapoor objected publicly; they co-starred again in Sanju (2018)",2010,"t"],
-["Sonam Kapoor","Kangana Ranaut","v","2018 #MeToo-era exchange; Sonam said she was quoted out of context; photographed together in 2019",2018,"t"],
+["Sonam Kapoor","Kangana Ranaut","v","2018 #MeToo-era exchange (Sonam said she was quoted out of context); Kangana later hit back at an old Koffee jibe about her English",2018,"t"],
 ["Abhay Deol","Sonam Kapoor","v","Aisha fallout, 2010; worked together again in Raanjhanaa (2013)",2010,"t"],
 ["Abhay Deol","Anil Kapoor","v","after Anil's Koffee jab, Abhay called him \"a waste of my time\" (2011)",2011,"t"],
 ["Punit Malhotra","Sonam Kapoor","r","reported after I Hate Luv Storys; she never confirmed it",2010,"a"],
