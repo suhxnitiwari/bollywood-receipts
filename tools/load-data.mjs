@@ -14,9 +14,12 @@ export function loadData() {
   w.matchMedia = () => ({ matches: false, addEventListener() {}, addListener() {} });
   w.HTMLCanvasElement.prototype.getContext = () => null;
   const ctx = dom.getInternalVMContext(), run = src => new vm.Script(src).runInContext(ctx);   // real scripts, so top-level consts are shared like in a browser
-  for (const f of ['casefiles.js', 'files.js', 'movies.js', 'site.js']) {
+  for (const f of ['casefiles.js', 'files.js', 'movies.js', 'wd.js', 'site.js']) {
     try { run(readFileSync(ROOT + 'assets/' + f, 'utf8')); }
     catch (e) { if (f !== 'site.js' || !w.__G) throw e; }   // late DOM code in site.js may trip; the graph is built by then
   }
+  // Wikidata's Commons photos fill in anyone the hand-picked portraits don't cover
+  run(readFileSync(ROOT + 'assets/wd-meta.js', 'utf8'));
+  run(`Object.entries(window.WD_IMG||{}).forEach(([n,u])=>{if(!PH[n])PH[n]=u+(u.includes('?')?'&':'?')+'width=320'})`);
   return JSON.parse(run(`JSON.stringify({G:window.__G,GSRC:window.__GSRC,GFILMS:window.__GFILMS,NAMES:window.__NAMES,PH,FAMS})`));
 }

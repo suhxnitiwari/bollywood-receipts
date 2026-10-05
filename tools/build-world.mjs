@@ -59,7 +59,8 @@ for (let pass = 0; pass < 3; pass++) NAMES.forEach(n => {
 
 // ---------- gravity: who holds Bollywood together. Gossip counts more than filmographies ----------
 const score = {};
-NAMES.forEach(n => { score[n] = personal[n] * 2 + Math.sqrt(films[n].size) * 3 + (PH[n] ? 4 : 0); });
+// regulars count: a long filmography makes a bigger guest, alongside the gossip
+NAMES.forEach(n => { score[n] = personal[n] * 2 + Math.pow(films[n].size, .7) * 3 + (PH[n] ? 4 : 0); });
 const ranked = [...NAMES].sort((a, b) => score[b] - score[a]);
 const tier = {}; ranked.forEach((n, i) => { tier[n] = i < 24 ? 0 : i < 130 ? 1 : 2; });
 

@@ -28,7 +28,7 @@ const NEUTRAL='#CDB1AA';
 // what each guest does in the industry: actors, directors, producers, singers, crew; the rest are family & circle
 const ROLE_ORDER=['actor','director','producer','singer','crew'];
 const ROLE={actor:{c:'#EFA068',k:'Actor'},director:{c:'#D96B84',k:'Director'},producer:{c:'#9DB89A',k:'Producer'},singer:{c:'#A890C2',k:'Singer'},crew:{c:'#7FB3C4',k:'Behind the scenes'},circle:{c:'#8A7470',k:'Family & circle'}};
-const CREW_AS={director:'director',producer:'producer','playback singer':'singer',writer:'crew','assistant director':'crew',creator:'crew',choreographer:'crew'};
+const CREW_AS={director:'director',producer:'producer','playback singer':'singer',composer:'singer',writer:'crew','assistant director':'crew',creator:'crew',choreographer:'crew'};
 
 const P=WD.people.map((p,i)=>({...p,i,sc:p.s,wx:p.x,wy:p.y,ph:(hash(p.n)%6283)/1000,
   k3:p.t===0?1:p.t===1?.985:.955,                 // parallax: the back of the room moves a touch slower than the front

@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="How Bollywood Receipts is built: Wikidata for the records, hand-checked receipts for the gossip, an offline graph layout and a canvas map.">
+<title>How It Is Built · Bollywood Receipts</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%23F3EADB'/%3E%3Ctext x='32' y='43' font-family='Georgia,serif' font-size='30' font-weight='700' text-anchor='middle' fill='%23C8261C'%3EBR%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rozha+One&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..800;1,6..96,400..800&family=Mukta:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Caveat:wght@500;700&display=swap">
+<link rel="stylesheet" href="assets/site.css?v=pp20">
+</head>
+<body data-page="how">
+<a class="skip" href="#main">Skip to the build</a>
+<div id="top"></div>
+<main id="main" class="wrap">
+<header class="phead"><p class="eyebrow">Under the hood</p><h1>How it's built</h1><p class="dek">A gossip site with a data pipeline: public records for the facts, a receipt for every rumour, and a map computed once so your browser never has to.</p></header>
+
+<section class="kt hw" aria-labelledby="hwstats">
+  <div class="kicker">The numbers</div>
+  <h2 id="hwstats">What's in the room</h2>
+  <div class="hw-stats">
+    <div><b>1,979</b><span>people on the Guest List</span></div>
+    <div><b>34,000+</b><span>links between them</span></div>
+    <div><b>5,196</b><span>films on file</span></div>
+    <div><b>848</b><span>hand-checked rishtas, the gossip</span></div>
+    <div><b>538</b><span>family links from Wikidata</span></div>
+    <div><b>351</b><span>clickable sources under the features</span></div>
+  </div>
+</section>
+
+<section class="kt hw" aria-labelledby="hwpipe">
+  <div class="kicker">The pipeline</div>
+  <h2 id="hwpipe">From a database to a dinner party</h2>
+  <ol class="hw-steps">
+    <li><b>Pull the records</b><span>A Python script queries Wikidata's public SPARQL endpoint for every Hindi-language film since 1930 (about 6,900) with its cast, director, producers and composer, then fetches spouses, parents, children, siblings, birth years and Commons photos for everyone involved. All of it is CC0.</span></li>
+    <li><b>Decide who's a guest</b><span>Anyone with 5 or more acting credits, or 3 or more as director, producer or composer, gets a seat, plus everyone the hand-checked layer already mentions. Names are matched to Wikidata ids once, so "Kareena Kapoor" and "Kareena Kapoor Khan" stay one person.</span></li>
+    <li><b>Layer the gossip on top</b><span>Dating, feuds, friendships, engagements and rumours aren't in any database. They're written by hand, one fact-checked line each, and they always win: if the hand-checked data already relates two people, Wikidata's version is ignored.</span></li>
+    <li><b>Run the site's own code to build the graph</b><span>The build loads the real page scripts in a headless DOM (jsdom), so the offline tools see exactly the graph the browser will build. Nothing is maintained twice.</span></li>
+    <li><b>Lay out the room once, offline</b><span>A Node script uses graphology to cluster and seat everyone, then writes plain coordinates. The browser only draws.</span></li>
+    <li><b>Cut the portraits</b><span>Photos are fetched politely (three at a time, backing off on rate limits), cropped square with sharp and saved as small WebP files, so the map never pulls multi-megabyte originals.</span></li>
+    <li><b>Ship static files</b><span>No server, no framework: HTML, CSS and vanilla JavaScript on GitHub Pages, with the map drawn on a canvas.</span></li>
+  </ol>
+</section>
+
+<section class="kt hw" aria-labelledby="hwtrust">
+  <div class="kicker">The receipts</div>
+  <h2 id="hwtrust">Every rishta carries a stamp</h2>
+  <p style="max-width:64ch;margin:0">A gossip site is only worth reading if you can tell what's proven. So every hand-written link is stamped with how sure we are, and the map's "Receipts only" switch hides everything that isn't proven.</p>
+  <div class="hw-tiers">
+    <div><b class="tier ic">Receipt</b><span>757 links</span><p>On the record: a statement, an interview, a filing or a credit.</p></div>
+    <div><b class="tier mn">Alleged</b><span>70 links</span><p>Reported by credible outlets, never confirmed by the people involved.</p></div>
+    <div><b class="tier cx">Rumour</b><span>17 links</span><p>Persistent gossip with nothing behind it, shown so you know it's only gossip.</p></div>
+    <div><b class="tier dp">Faux</b><span>4 links</span><p>Debunked or manufactured, like a romance a film's PR team planted.</p></div>
+  </div>
+  <p style="max-width:64ch;margin:12px 0 0">Every pasted lead is checked before it goes in, and plenty don't survive: quotes that can't be found are cut, not softened. The features each end with their sources, and every link was tested for dead pages.</p>
+</section>
+
+<section class="kt hw" aria-labelledby="hwgraph">
+  <div class="kicker">The graph</div>
+  <h2 id="hwgraph">Why the map looks like families, not a hairball</h2>
+  <p style="max-width:64ch;margin:0">Thirty co-stars in one film are not thirty relationships. So every kind of link pulls with its own strength when the room is laid out:</p>
+  <table class="tscore hw-pull"><thead><tr><th>Rishta</th><th>Pull</th></tr></thead><tbody>
+    <tr><td>Family</td><td>7</td></tr><tr><td>Married</td><td>6</td></tr><tr><td>Married, later split</td><td>4</td></tr><tr><td>Engaged</td><td>3</td></tr><tr><td>Dated</td><td>2.5</td></tr><tr><td>Friends</td><td>2</td></tr><tr><td>Linked (rumoured)</td><td>1.2</td></tr><tr><td>Feud</td><td>1</td></tr><tr><td>Directed</td><td>0.6</td></tr><tr><td>Worked together</td><td>0.2 per film, up to 4 films</td></tr><tr><td>Sang for</td><td>0.15</td></tr><tr><td>Cameo, song appearance</td><td>0.03 to 0.04</td></tr>
+  </tbody></table>
+  <ul class="hw-list">
+    <li><b>Khandaans start at their own tables.</b> Each of the 20 family trees gets a seat on a golden-angle spiral, so the Kapoors and the Khans begin apart.</li>
+    <li><b>ForceAtlas2 settles the room.</b> 1,600 iterations in LinLog mode, then a no-overlap pass so faces don't sit on each other.</li>
+    <li><b>Louvain finds the circles.</b> Community detection on the weighted graph names the friend groups and eras that aren't a family.</li>
+    <li><b>Size is gravity.</b> Gossip counts twice, a filmography counts on a curve (films<sup>0.7</sup>), so a long career makes a bigger guest without drowning out the drama.</li>
+    <li><b>It's reproducible.</b> The layout uses a seeded random number generator, so the same data always gives the same room.</li>
+  </ul>
+</section>
+
+<section class="kt hw" aria-labelledby="hwthread">
+  <div class="kicker">The connector</div>
+  <h2 id="hwthread">Pulling the thread</h2>
+  <p style="max-width:64ch;margin:0">"Name any two guests" runs Dijkstra's shortest path over the whole graph, in your browser. Each step costs 100 plus a small weight for the kind of link, so the answer is always the fewest hops, and among equally short routes it prefers a marriage over a cameo. Filters reuse the same search: "Family" walks only blood and marriage, and "Receipts only" refuses any link that isn't proven.</p>
+</section>
+
+<section class="kt hw" aria-labelledby="hwstack">
+  <div class="kicker">The stack</div>
+  <h2 id="hwstack">What it's made of</h2>
+  <div class="branches"><div class="branch"><h3>In the browser</h3><p style="margin:0;font-size:15px">HTML, CSS and vanilla JavaScript. Canvas 2D for the map, the intro and the skyline. No framework, no build step for the pages, hosted free on GitHub Pages.</p></div><div class="branch"><h3>In the build</h3><p style="margin:0;font-size:15px">Python and SPARQL against Wikidata. Node with graphology, ForceAtlas2, noverlap and Louvain for the layout, jsdom to run the site's own scripts headless, and sharp for the portraits.</p></div></div>
+  <p class="sub" style="margin:10px 0 0;font-family:var(--mono);font-size:11px;color:var(--muted)">Film, family and photo data from Wikidata and Wikimedia Commons (CC0 and the photos' own licences). Gossip, verdicts and writing by Bollywood Receipts.</p>
+</section>
+</main>
+<dialog id="rx" aria-label="Receipt"><article class="slip" id="rxin"></article></dialog>
+<script src="assets/casefiles.js?v=pp8"></script>
+<script src="assets/files.js?v=pp8"></script>
+<script src="assets/movies.js?v=pp27"></script>
+<script src="assets/wd.js?v=wd1"></script>
+<script src="assets/site.js?v=pp46"></script>
+</body>
+</html>
