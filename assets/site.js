@@ -678,7 +678,7 @@ const G=[
 ["Raj Kundra","Kavita Kundra","d","married 2003, divorced 2006; in 2021 he alleged she'd had an affair with his sister's husband",2003,"a"],
 ["Kavita Kundra","Shilpa Shetty","v","Kavita blamed Shilpa for the end of her marriage; Shilpa and Raj say it was over before they met",null,"a"],
 ["Raveena Tandon","Shilpa Shetty","b","both dated Akshay; Raveena: they're all friends who've moved on",null,"t"],
-["Jade Goody","Shilpa Shetty","v","Celebrity Big Brother 2007: \"go back to the slums\"; Jade was evicted, Shilpa won, Jade apologised",2007,"t"],
+["Jade Goody","Shilpa Shetty","v","Celebrity Big Brother 2007: the racism row; Jade was evicted, Shilpa won, Jade apologised",2007,"t"],
 ["Raveena Tandon","Rasha Thadani","f","mother and daughter",null,"t"],
 ["Rasha Thadani","Aaman Devgan","c","Azaad",2025,"t"],
 ["Ajay Devgn","Aaman Devgan","f","uncle and nephew",null,"t"],

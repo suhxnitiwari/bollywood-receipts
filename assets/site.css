@@ -1085,3 +1085,16 @@ svg.thr .spk{fill:#FFE2CC;filter:drop-shadow(0 0 6px #F2703A)}
 .tscore th{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600}
 @media (max-width:720px){.trow{grid-template-columns:1fr;gap:10px}.tlab{display:flex;align-items:baseline;gap:10px}.tlab span{margin:0}}
 .tscore .pp{text-align:left}
+/* the receipts under every feature: real, clickable sources */
+.srcs{margin:14px 0 0;border-top:1px solid var(--rule);padding-top:10px;max-width:72ch}
+.srcs summary{cursor:pointer;list-style:none;display:inline-flex;align-items:baseline;gap:10px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#E8B07A}
+.srcs summary::-webkit-details-marker{display:none}
+.srcs summary::before{content:"+";font-size:13px;width:10px}
+.srcs[open] summary::before{content:"\2212"}
+.srcs summary span{color:var(--muted);letter-spacing:.08em}
+.srcs ol{margin:10px 0 0;padding-left:22px;display:grid;gap:7px;font-size:13.5px;line-height:1.4}
+.srcs li::marker{color:var(--muted);font-family:var(--mono);font-size:11px}
+.srcs a{color:inherit;text-decoration:underline;text-decoration-color:rgba(232,176,122,.45);text-underline-offset:3px}
+.srcs a:hover{text-decoration-color:#E8B07A}
+.srcs a b{font-weight:600;color:#E8B07A}
+.srcs li span{display:block;color:var(--muted);font-size:12.5px}
