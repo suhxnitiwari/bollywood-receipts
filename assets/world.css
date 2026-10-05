@@ -72,6 +72,10 @@ body.gl{margin:0;padding:0;height:100%;overflow:hidden;background:var(--gl-bg);c
 .gl-seg button{flex:1;border:0;background:none;color:var(--gl-dim);border-radius:999px;padding:5px 4px;cursor:pointer;font:500 10px/1 var(--gl-mono);letter-spacing:.08em;text-transform:uppercase}
 .gl-seg button[aria-pressed="true"]{background:rgba(239,160,104,.18);color:var(--gl-ivory)}
 .gl-eras[hidden]{display:none}
+.gl-roles[hidden]{display:none}
+.gl-roles{display:grid;grid-template-columns:1fr 1fr;gap:6px 10px;margin-top:9px;font:500 9.5px/1.2 var(--gl-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--gl-dim)}
+.gl-roles span{display:flex;align-items:center;gap:7px}
+.gl-roles i{flex:none;width:10px;height:10px;border-radius:50%;border:2px solid}
 .gl-eras{display:flex;gap:2px;margin-top:8px}
 .gl-eras span{flex:1;font:500 8.5px/1 var(--gl-mono);color:var(--gl-faint);text-align:center;padding-top:9px;position:relative}
 .gl-eras span::before{content:"";position:absolute;left:0;right:0;top:0;height:5px;border-radius:2px;background:var(--c)}

@@ -14,7 +14,7 @@ Bollywood gossip, sorted by how solid the receipt actually is. Every story is st
 ## Pages
 
 - `receipts.html`: every receipt, filed by drawer, with search (`?f=feud`, `?q=Ranbir`)
-- `index.html`: the front door and the flagship. It opens on an invitation over the live map: name two guests and you walk straight into the room with the thread pulled. The Guest List: all of Bollywood on one full-screen map, seated by khandaan and circle. Pull the thread between any two people and watch the chain reveal itself, open anyone's little black book, filter by family, love, friends, feuds or films, and read every receipt without leaving the room
+- `index.html`: the front door and the flagship. First visit each session plays the opening titles (`assets/intro.js`): night over Bombay, every guest's face a city light, rising to spell the title in gold neon (`?intro` replays it, `?intro=9` freezes on that second). Then it opens on an invitation over the live map: name two guests and you walk straight into the room with the thread pulled. The Guest List: all of Bollywood on one full-screen map, seated by khandaan and circle. Pull the thread between any two people and watch the chain reveal itself, open anyone's little black book, filter by family, love, friends, feuds or films, and read every receipt without leaving the room
 - `latest.html`: the paper's front page (lead story, Spotted, receipts, the Reel, the Web, Khandaan, the archive, Watch next)
 - `guest-list.html` and `rishta.html`: redirect to the Guest List, so old `?a=…&b=…` links still work
 - `the-web.html`: the quick connector, the bridges leaderboard and the case files

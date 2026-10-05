@@ -9,8 +9,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rozha+One&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..800;1,6..96,400..800&family=Mukta:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Caveat:wght@500;700&display=swap">
-<link rel="stylesheet" href="assets/site.css?v=glam5">
-<link rel="stylesheet" href="assets/world.css?v=glam5">
+<link rel="stylesheet" href="assets/site.css?v=pp15">
+<link rel="stylesheet" href="assets/world.css?v=pp1">
 </head>
 <body data-page="rishta" class="gl inviting">
 <canvas id="room" role="img" aria-label="The Guest List: a map of everyone in Bollywood, grouped by family and circle. Use the search panel to connect two people."></canvas>
@@ -64,10 +64,11 @@
   <div id="keybody">
     <ul class="gl-legend" id="legend"></ul>
     <p class="gl-sub">Colour the guests by</p>
-    <div class="gl-seg" role="group" aria-label="Colour by" data-set="color"><button type="button" data-v="house" aria-pressed="true">Khandaan</button><button type="button" data-v="era" aria-pressed="false">Era</button><button type="button" data-v="none" aria-pressed="false">Plain</button></div>
+    <div class="gl-seg" role="group" aria-label="Colour by" data-set="color"><button type="button" data-v="role" aria-pressed="true">Role</button><button type="button" data-v="house" aria-pressed="false">Khandaan</button><button type="button" data-v="era" aria-pressed="false">Era</button><button type="button" data-v="none" aria-pressed="false">Plain</button></div>
     <p class="gl-sub">Size by</p>
     <div class="gl-seg" role="group" aria-label="Size by" data-set="size"><button type="button" data-v="gossip" aria-pressed="true">Gossip</button><button type="button" data-v="films" aria-pressed="false">Films</button><button type="button" data-v="equal" aria-pressed="false">Equal</button></div>
     <div class="gl-eras" id="eras" hidden></div>
+    <div class="gl-roles" id="roles"></div>
   </div>
 </section>
 
@@ -92,11 +93,13 @@
 <p class="sr" id="say" aria-live="assertive"></p>
 
 <dialog id="rx" aria-label="Receipt"><article class="slip" id="rxin"></article></dialog>
-<script src="assets/casefiles.js"></script>
-<script src="assets/files.js"></script>
-<script src="assets/movies.js"></script>
-<script src="assets/site.js?v=glam5"></script>
-<script src="assets/world-data.js"></script>
-<script src="assets/world.js?v=glam5"></script>
+<script src="assets/casefiles.js?v=pp8"></script>
+<script src="assets/files.js?v=pp8"></script>
+<script src="assets/movies.js?v=pp20"></script>
+<script src="assets/site.js?v=pp26"></script>
+<script src="assets/roles.js?v=pp10"></script>
+<script src="assets/world-data.js?v=pp26"></script>
+<script src="assets/world.js?v=pp1"></script>
+<script src="assets/intro.js?v=pp1"></script>
 </body>
 </html>

@@ -32,7 +32,7 @@ FAMS.forEach(f => {
 });
 
 // ---------- weights: how hard each kind of rishta pulls two people together ----------
-const PULL = { m: 6, d: 4, e: 3, f: 7, x: 2.5, r: 1.2, b: 2, v: 1, k: .4, g: .5, s: .3, c: .2, o: .04, q: .03 };
+const PULL = { m: 6, d: 4, e: 3, f: 7, x: 2.5, r: 1.2, b: 2, v: 1, k: .4, g: .5, s: .3, w: .6, c: .2, p: .15, o: .04, q: .03 };
 const graph = new Graph({ type: 'undirected' });
 NAMES.forEach(n => graph.addNode(n));
 const personal = {}, films = {};

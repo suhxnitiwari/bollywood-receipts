@@ -25,11 +25,22 @@ const houseCol=k=>HC[Math.max(0,HOUSES.findIndex(f=>f.k===k))%HC.length];
 const ERA={1940:'#7A3A44',1950:'#94404A',1960:'#B04A48',1970:'#C9583F',1980:'#E0703A',1990:'#EB915A',2000:'#EFA97E',2010:'#E2829A',2020:'#D96B84'};
 const eraCol=y=>y?ERA[clamp(Math.floor(y/10)*10,1940,2020)]:'#A08A86';
 const NEUTRAL='#CDB1AA';
+// what each guest does in the industry: actors, directors, producers, singers, crew; the rest are family & circle
+const ROLE_ORDER=['actor','director','producer','singer','crew'];
+const ROLE={actor:{c:'#EFA068',k:'Actor'},director:{c:'#D96B84',k:'Director'},producer:{c:'#9DB89A',k:'Producer'},singer:{c:'#A890C2',k:'Singer'},crew:{c:'#7FB3C4',k:'Behind the scenes'},circle:{c:'#8A7470',k:'Family & circle'}};
+const CREW_AS={director:'director',producer:'producer','playback singer':'singer',writer:'crew','assistant director':'crew',creator:'crew',choreographer:'crew'};
 
 const P=WD.people.map((p,i)=>({...p,i,sc:p.s,wx:p.x,wy:p.y,ph:(hash(p.n)%6283)/1000,
   k3:p.t===0?1:p.t===1?.985:.955,                 // parallax: the back of the room moves a touch slower than the front
   a:0,ta:0,m:1,tm:1,s:{x:0,y:0,r:0},arrive:0}));
 const BY=new Map(P.map(p=>[p.n,p]));
+{const give=(n,r)=>{const p=BY.get(n)||(typeof who==='function'&&BY.get(who(n)));if(p&&r)(p.roles??=new Set()).add(r)};
+  (window.MOVIES||[]).forEach(([,,,d])=>{if(!d)return;(d.cast||[]).forEach(n=>give(n,'actor'));(d.special||[]).forEach(n=>give(n,'cameo'));(d.crew||[]).forEach(([n,r])=>give(n,CREW_AS[r]||(/presenter/.test(r)?'producer':'crew')))});
+  Object.entries(window.ROLES||{}).forEach(([r,ns])=>ns.forEach(n=>give(n,r)));
+  // a cameo or an assistant's credit only counts when it's the whole story
+  P.forEach(p=>{const h=p.roles||new Set(),main=['actor','director','producer','singer'].filter(r=>h.has(r));
+    p.roles=main.length?main:h.has('cameo')?['actor']:h.has('crew')?['crew']:[];p.works=p.roles.length>0})}
+const roleCols=p=>p.works?p.roles.map(r=>ROLE[r].c):[ROLE.circle.c];
 const smax=Math.max(...P.map(p=>p.sc)),fmax=Math.max(1,...P.map(p=>p.fd));
 
 /* ---------- the rishtas ---------- */
@@ -46,20 +57,22 @@ const ST={   // how each kind of rishta looks: colour, line style, its name in t
   g:{c:'#A890C2',st:'dash',dash:[6,3],w:1,k:'Glam team',v:'shares a glam team with',grp:['films']},
   s:{c:'#E8B07A',st:'dash',dash:[8,3,2,3],w:1,k:'Replaced in a film',v:'was swapped with',grp:['films']},
   c:{c:'#C9AFA8',st:'solid',w:.8,k:'Worked together',v:'worked with',grp:['films']},
+  w:{c:'#D9B46A',st:'dash',dash:[9,2.5],w:.9,k:'Directed',v:'directed',grp:['films']},
+  p:{c:'#EBDDC6',st:'dash',dash:[2.5,2.5],w:.8,k:'Sang for',v:'sang for',grp:['films']},
   o:{c:'#C9AFA8',st:'solid',w:.7,k:'Cameo',v:'shared a cameo with',grp:['films']},
   q:{c:'#C9AFA8',st:'solid',w:.7,k:'Song',v:'shared a song with',grp:['films']}};
-const TAG={f:'FAMILY',m:'MARRIED',d:'MARRIED · SPLIT',e:'ENGAGED',x:'DATED',r:'LINKED',k:'ON-SCREEN KISS',b:'FRIENDS',v:'FEUD',g:'GLAM TEAM',s:'REPLACED',c:'WORKED TOGETHER',o:'CAMEO',q:'SONG'};
+const TAG={f:'FAMILY',m:'MARRIED',d:'MARRIED · SPLIT',e:'ENGAGED',x:'DATED',r:'LINKED',k:'ON-SCREEN KISS',b:'FRIENDS',v:'FEUD',g:'GLAM TEAM',s:'REPLACED',c:'WORKED TOGETHER',w:'DIRECTED',p:'SANG FOR',o:'CAMEO',q:'SONG'};
 const E=GG.map((e,i)=>({i,a:BY.get(e[0]),b:BY.get(e[1]),t:e[2],d:e[3]||'',y:e[4],v:e[5]||'t',film:!!GSRC[i],bow:((hash(e[0]+e[1])%2)?1:-1)*(.06+(hash(e[1]+e[0])%60)/1000)})).filter(e=>e.a&&e.b&&e.a!==e.b);
 P.forEach(p=>{p.E=[];});E.forEach(e=>{e.a.E.push(e);e.b.E.push(e)});
 const other=(e,p)=>e.a===p?e.b:e.a;
-const personal=e=>!e.film&&e.t!=='o'&&e.t!=='q';
+const personal=e=>!e.film&&!'oqwp'.includes(e.t);
 const MOV=new Map((window.MOVIES||[]).map(([id,title,year])=>['film:'+id,[title,year]]));
 // "1999–2002; she later alleged…" → "1999–2002". Films answer with their title and year.
 function when(e){if(e.film){const f=(GFILMS[e.i]||[]).map(id=>MOV.get(id)).filter(Boolean);if(f.length>1)return `${f.length} films together`;return f.length?`${f[0][0]}, ${f[0][1]}`:(e.y?String(e.y):'')}
   const d=e.d.split(';')[0].trim();if(/\d{4}/.test(d)&&d.length<=30)return d;if(e.t==='f'&&d&&d.length<=30)return d;return e.y?String(e.y):''}
 
 /* ---------- state ---------- */
-const S={mode:'room',sel:null,path:null,hover:null,filter:'all',verified:false,color:'house',size:'gossip',stateAt:0};
+const S={mode:'room',sel:null,path:null,hover:null,filter:'all',verified:false,color:'role',size:'gossip',stateAt:0};
 const shown=e=>(S.filter==='all'||ST[e.t].grp.includes(S.filter))&&(!S.verified||(e.v==='t'&&e.t!=='r'));
 
 /* ---------- portraits: circular, cached, loaded as the camera reaches them ---------- */
@@ -114,8 +127,8 @@ function fitPeople(ps,pad=1){if(!ps.length)return;const xs=ps.map(p=>p.wx),ys=ps
 const home=()=>flyTo(0,0,fitZ,3.2);
 
 /* ---------- how big and how bright each guest is right now ---------- */
-function baseR(p){if(S.size==='equal')return 7;const v=S.size==='films'?p.fd/fmax:p.sc/smax;return 3.2+33*Math.pow(v,.72)}
-function colOf(p){return S.color==='house'?(p.k?houseCol(p.k):NEUTRAL):S.color==='era'?eraCol(p.yr):NEUTRAL}
+function baseR(p){const k=p.works?1:.45;if(S.size==='equal')return 7*(p.works?1:.7);const v=S.size==='films'?p.fd/fmax:p.sc/smax;return (3.2+33*Math.pow(v,.72))*k}
+function colOf(p){return S.color==='role'?roleCols(p)[0]:S.color==='house'?(p.k?houseCol(p.k):NEUTRAL):S.color==='era'?eraCol(p.yr):NEUTRAL}
 const TIERA=[1,.8,.4];
 function targets(){const m=S.mode,hv=S.hover;
   const lit=new Set();if(S.filter!=='all'||S.verified){E.forEach(e=>{if(shown(e)&&(S.filter!=='films'||!S.verified)){lit.add(e.a);lit.add(e.b)}})}
@@ -209,7 +222,9 @@ function draw(now,dt){
     if(r<4.6){const br=Math.max(1.6,r*.8);g.globalAlpha=p.a;g.fillStyle='#12050A';diamond(x,y,br+1.2);g.fill();g.fillStyle=col;g.globalAlpha=p.a*.85;diamond(x,y,br);g.fill();continue}
     const img=face(p);g.globalAlpha=p.a;
     if(img)g.drawImage(img,x-r,y-r,2*r,2*r);else if(r>=9)g.drawImage(mono(p,col),x-r,y-r,2*r,2*r);else{g.fillStyle=col;g.beginPath();g.arc(x,y,r*.55,0,7);g.fill()}
-    g.strokeStyle=p.m>1.6?'#F2703A':col;g.lineWidth=p.m>1.6?2.2:r>14?1.4:1;g.beginPath();g.arc(x,y,r+.5,0,7);g.stroke();
+    if(S.color==='role'){const cs=roleCols(p),n=cs.length,gap=n>1?.12:0;g.lineWidth=p.m>1.6?2.6:r>14?2:1.4;
+      cs.forEach((c,k)=>{const a0=-Math.PI/2+k*2*Math.PI/n+gap/2;g.strokeStyle=c;g.beginPath();g.arc(x,y,r+.8,a0,a0+2*Math.PI/n-gap);g.stroke()})}
+    else{g.strokeStyle=p.m>1.6?'#F2703A':col;g.lineWidth=p.m>1.6?2.2:r>14?1.4:1;g.beginPath();g.arc(x,y,r+.5,0,7);g.stroke()}
     if(r>13){g.globalAlpha=p.a*.55;g.strokeStyle='#EFA068';g.lineWidth=.8;g.beginPath();g.arc(x,y,r+4,0,7);g.stroke();g.globalAlpha=p.a}
     if(p.m>1.6||p===S.hover){const n=Math.max(14,Math.round(r*.95)),br=r+(r>13?9:6),star=p.m>1.6;
       // marquee bulbs chasing round the frame
@@ -420,6 +435,8 @@ function finishPath(){const R=S.path;if(!R)return;const now=performance.now();R.
   targets();skipBtn.hidden=true;capOut();spotted();fitPeople(R.ids,.85)}
 function sentence(e,from,to){const st=ST[e.t],A=`<button type="button" data-go="${esc(from.n)}">${esc(first(from.n))}</button>`,B=`<button type="button" data-go="${esc(to.n)}">${esc(first(to.n))}</button>`,w=when(e);
   if(e.t==='f')return `${A} and ${B} are family${e.d?`: ${esc(e.d.split(';')[0])}`:''}.`;
+  // directed and sang-for read one way round: the director (or singer) is always the edge's first person
+  if(e.t==='w'||e.t==='p'){const [X,Y]=e.a===from?[A,B]:[B,A],ww=w.replace(/ together$/,'');return e.t==='w'?`${X} directed ${Y}${ww?` (${esc(ww)})`:''}.`:`${X} sang for ${Y}${ww?` in ${esc(ww)}`:''}.`}
   if(e.film||e.t==='c')return `${A} worked with ${B}${w?` (${esc(w)})`:''}.`;
   return `${A} ${st.v} ${B}${w?`, ${esc(w)}`:''}.`}
 function spotted(){const R=S.path;if(!R)return;const a=R.ids[0],b=R.ids[R.ids.length-1],L=R.es.length,el=$('#spotted');
@@ -495,13 +512,14 @@ $('#invfaces').innerHTML=NAMES.filter(p=>faceUrl(p)).slice(0,9).map(p=>`<img src
 document.querySelectorAll('.gl-pills button').forEach(b=>b.onclick=()=>{S.filter=b.dataset.f;document.querySelectorAll('.gl-pills button').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));targets()});
 $('#verified').onclick=e=>{S.verified=!S.verified;e.currentTarget.setAttribute('aria-pressed',String(S.verified));targets();if(S.mode==='path'&&!S.seq){const R=S.path;connect(R.ids[0].n,R.ids[R.ids.length-1].n,{instant:true})}};
 document.querySelectorAll('.gl-seg').forEach(seg=>seg.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;S[seg.dataset.set]=b.dataset.v;
-  seg.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));$('#eras').hidden=S.color!=='era'}));
+  seg.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));$('#eras').hidden=S.color!=='era';$('#roles').hidden=S.color!=='role'}));
+$('#roles').innerHTML=[...ROLE_ORDER,'circle'].map(r=>`<span><i style="border-color:${ROLE[r].c}"></i>${ROLE[r].k}</span>`).join('');
 $('#eras').innerHTML=Object.entries(ERA).map(([y,c])=>`<span style="--c:${c}">${String(y).slice(2)}s</span>`).join('');
 const sw=(t)=>{const st=ST[t],d=st.st==='dash'?`stroke-dasharray="${st.dash.join(' ')}"`:st.st==='break'?'stroke-dasharray="11 4 30"':'';
   if(st.st==='double')return `<svg width="26" height="8" aria-hidden="true"><path d="M1 2.4H25M1 5.6H25" stroke="${st.c}" stroke-width="1.1"/></svg>`;
   if(st.st==='jag')return `<svg width="26" height="8" aria-hidden="true"><path d="M1 4L4 1.5L7 6.5L10 1.5L13 6.5L16 1.5L19 6.5L22 1.5L25 4" fill="none" stroke="${st.c}" stroke-width="1.2"/></svg>`;
   return `<svg width="26" height="8" aria-hidden="true"><path d="M1 4H25" stroke="${st.c}" stroke-width="${Math.max(1.2,st.w)}" stroke-linecap="round" ${d}/></svg>`};
-$('#legend').innerHTML=['f','m','d','x','r','b','v','c'].map(t=>`<li>${sw(t)}${ST[t].k}</li>`).join('');
+$('#legend').innerHTML=['f','m','d','x','r','b','v','c','w','p'].map(t=>`<li>${sw(t)}${ST[t].k}</li>`).join('');
 $('#keyfold').onclick=e=>{const b=e.currentTarget,open=b.getAttribute('aria-expanded')==='true';b.setAttribute('aria-expanded',String(!open));$('#keybody').hidden=open;b.querySelector('span').textContent=open?'+':'–'};
 $('#zin').onclick=()=>flyTo(goal.x,goal.y,goal.z*1.6,5);$('#zout').onclick=()=>flyTo(goal.x,goal.y,goal.z/1.6,5);$('#zfit').onclick=()=>{if(S.mode==='path')fitPeople(S.path.ids,.85);else home()};
 skipBtn.onclick=()=>S.seq&&S.seq.skip();
