@@ -541,8 +541,26 @@ a{color:inherit}
 @media (max-width:900px){.trending{border-left:0;padding-left:0;border-top:1px solid var(--ink);padding-top:14px}}
 .rail{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--red);margin:0 0 6px}
 .trending ol{list-style:none;margin:0;padding:0}
-.trending li a{display:grid;grid-template-columns:52px 1fr;gap:10px;align-items:baseline;padding:14px 0;border-bottom:1px solid var(--rule2);text-decoration:none;font-family:var(--display);font-weight:600;font-size:20px;line-height:1.15}
-.trending .num{font-family:var(--display);font-weight:800;font-style:italic;font-size:34px;color:var(--red);line-height:.8}
+.trending li a{display:grid;grid-template-columns:40px 1fr;gap:8px;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--rule2);text-decoration:none;font-family:var(--display);font-weight:600;font-size:17px;line-height:1.18}
+.trending .num{font-family:var(--display);font-weight:800;font-style:italic;font-size:26px;color:var(--red);line-height:.8}
+/* breaking: the lead story as a carousel */
+.bk{display:flex;flex-direction:column;gap:12px;min-width:0}
+.bk-top{display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.22em;text-transform:uppercase}
+.bk-live{color:var(--red);display:inline-flex;align-items:center;gap:8px}
+.bk-live::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--red);animation:bkPulse 1.6s ease-in-out infinite}
+@keyframes bkPulse{50%{opacity:.25}}
+.bk-n{color:var(--muted);letter-spacing:.14em}
+.bk-track{display:grid}
+.bk .hero h2.long{font-size:clamp(26px,2.9vw,42px)}
+.bk-s{grid-area:1/1;align-self:start;opacity:0;visibility:hidden;transition:opacity .6s ease,visibility 0s .6s}
+.bk-s.on{opacity:1;visibility:visible;transition:opacity .6s ease}
+.bk-nav{display:flex;align-items:center;gap:14px}
+.bk-nav>button{border:1px solid var(--rule2);background:none;color:var(--ink);width:38px;height:38px;border-radius:50%;cursor:pointer;font-size:15px}
+.bk-nav>button:hover{border-color:var(--red);color:var(--red)}
+.bk-dots{display:flex;gap:8px}
+.bk-dots button{width:26px;height:3px;padding:0;border:0;background:var(--rule2);cursor:pointer}
+.bk-dots button[aria-current]{background:var(--red)}
+@media (prefers-reduced-motion:reduce){.bk-s,.bk-s.on{transition:none}.bk-live::before{animation:none}}
 .trending li a:hover span+span{text-decoration:underline;text-decoration-color:var(--red)}
 
 /* front: spotted, contact sheet */
@@ -569,7 +587,7 @@ a{color:inherit}
 .chip small{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 .chip:hover{border-color:var(--red)}.chip:hover b{color:var(--red)}
 .chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}.chip[aria-pressed="true"] small{color:#CFC2AC}.chip[aria-pressed="true"] b{color:var(--bg)}
-.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:stretch;background:var(--bg);top:50px;padding:12px 0;border-bottom:2px solid var(--ink)}
+.controls{position:static;display:flex;flex-wrap:wrap;gap:8px;align-items:stretch;background:var(--bg);padding:12px 0;border-bottom:2px solid var(--ink)}
 .controls .chip{flex:1 1 150px}
 #q{flex:1 1 260px;font:inherit;font-size:17px;border:0;border-bottom:3px solid var(--ink);border-radius:0;background:transparent;padding:8px 4px}
 #q:focus{outline:none;border-bottom-color:var(--red)}
