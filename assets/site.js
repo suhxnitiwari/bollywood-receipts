@@ -656,8 +656,11 @@ const G=[
 ["Kajol","Rani Mukerji","f","cousins",null,"t"],
 ["Kajol","Tanuja","f","daughter and mother",null,"t"],
 ["Akshay Kumar","Twinkle Khanna","m","",2001,"t"],
-["Akshay Kumar","Raveena Tandon","e","after Mohra",1995,"t"],
-["Akshay Kumar","Shilpa Shetty","x","",1994,"t"],
+["Akshay Kumar","Raveena Tandon","e","after Mohra; she told Stardust in 1999 they were secretly engaged in a temple. Friends again: Welcome to the Jungle, 2026",1995,"t"],
+["Akshay Kumar","Shilpa Shetty","x","2000: \"Akshay Kumar used me and conveniently dropped me after he found someone else\"",1994,"t"],
+["Akshay Kumar","Mallika Dua","v","2017, Laughter Challenge: \"aap bell bajao, main aap ko bajata hoon\"",2017,"t"],
+["Vinod Dua","Akshay Kumar","v","called him a \"cretin\" on Facebook over the remark to his daughter",2017,"t"],
+["Vinod Dua","Mallika Dua","f","father",null,"t"],
 ["Rajesh Khanna","Dimple Kapadia","m","she was 15",1973,"t"],
 ["Rajesh Khanna","Twinkle Khanna","f","father and daughter",null,"t"],
 ["Dimple Kapadia","Twinkle Khanna","f","mother and daughter",null,"t"],
@@ -1275,7 +1278,7 @@ const NAV=[
   {k:'receipts',t:'Receipts',href:'receipts.html',sub:[['All receipts','receipts.html?f=all'],['Affairs & triangles','receipts.html?f=triangle'],['Feuds & fallouts','receipts.html?f=feud'],['Friendship breakups','receipts.html?f=dost'],['Engagements & divorces','receipts.html?f=engaged'],['Court cases','receipts.html?f=court'],['Archive scandals','receipts.html?f=legend'],['Rumors','receipts.html?f=chupke']]},
   {k:'people',t:'People',href:'people.html',sub:[['Khandaan: the families','people.html#trees'],['Stars A–Z','people.html#az']]},
   {k:'web',t:'The Web',href:'the-web.html',sub:[['Connect two people','the-web.html#connecth'],['In this issue','the-web.html#files'],['Six Degrees of Bollywood','web.html']]},
-  {k:'features',t:'Features',href:'features.html',sub:[["Why doesn't Ranveer Singh wear pants?",'features.html#ranveerk'],['Before Aditya: Yami Gautam','features.html#yamik'],["Radhika Apte's fake boyfriend",'features.html#radhikak'],["Rashmika didn't leave one man for another",'features.html#rashmikak'],['Toxic is selling a catfight','features.html#toxick'],['The breakup that may have broken a movie','features.html#dostanak'],["Urvashi Rautela's upgrades",'features.html#urvashik'],['Andaz Apna Apna, off camera','features.html#aaak'],['Why does everything Alia does look familiar?','features.html#aliak'],["Kangana Ranaut doesn't do shade",'features.html#kanganak'],['Kareena Kapoor, before the media training','features.html#bebok'],['Sonam Kapoor, said out loud','features.html#sonamk'],["Arjun Kapoor's Khan family loop",'features.html#loopk'],['A century of the sexy heroine','features.html#sensh'],['How Bollywood actually gets in','features.html#careerh'],['The school pipeline','features.html#schh'],["Alia's inheritance board",'features.html#inhh']]},
+  {k:'features',t:'Features',href:'features.html',sub:[['The Akshay Kumar hate club, audited','features.html#akshayk'],["Why doesn't Ranveer Singh wear pants?",'features.html#ranveerk'],['Before Aditya: Yami Gautam','features.html#yamik'],["Radhika Apte's fake boyfriend",'features.html#radhikak'],["Rashmika didn't leave one man for another",'features.html#rashmikak'],['Toxic is selling a catfight','features.html#toxick'],['The breakup that may have broken a movie','features.html#dostanak'],["Urvashi Rautela's upgrades",'features.html#urvashik'],['Andaz Apna Apna, off camera','features.html#aaak'],['Why does everything Alia does look familiar?','features.html#aliak'],["Kangana Ranaut doesn't do shade",'features.html#kanganak'],['Kareena Kapoor, before the media training','features.html#bebok'],['Sonam Kapoor, said out loud','features.html#sonamk'],["Arjun Kapoor's Khan family loop",'features.html#loopk'],['A century of the sexy heroine','features.html#sensh'],['How Bollywood actually gets in','features.html#careerh'],['The school pipeline','features.html#schh'],["Alia's inheritance board",'features.html#inhh']]},
   {k:'watch',t:'Watch',href:'watch.html',sub:[['The Reel','watch.html#reelh'],['What to watch','watch.html#watchh']]}];
 const navHtml=(cls)=>`<ul class="${cls}">`+NAV.map(n=>`<li class="nv${n.k===PAGE||(PAGE==='front'&&n.k==='latest')?' on':''}${n.k==='rishta'?' star':''}"><a href="${n.href}">${n.t}</a><div class="dd"><ul>${n.sub.map(([t,h])=>`<li><a href="${h}">${t}</a></li>`).join('')}</ul></div></li>`).join('')+`</ul>`;
 const MONTH=new Date().toLocaleDateString('en-US',{month:'long',year:'numeric'}).toUpperCase();
