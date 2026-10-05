@@ -113,6 +113,7 @@ const zmin=()=>fitZ*.35,zmax=()=>fitZ*10;
 function flyTo(x,y,z,r=5,lo=zmin()){goal.x=x;goal.y=y;goal.z=clamp(z,lo,zmax());rate=r;vel=null}
 // the open part of the screen, clear of the panels and the captions: framed shots land here
 function frameBox(){const path=S.mode==='path';
+  if(document.body.classList.contains('gl-demo'))return {x0:W*.14,x1:W*.86,y0:H*.2,y1:H*.8};
   const box=el=>el&&!el.hidden&&el.getClientRects().length?el.getBoundingClientRect():null;
   if(W>760){const key=box(document.getElementById('key')),bar=box(document.querySelector('.gl-show'));
     return {x0:430,x1:Math.min(W-(S.mode==='person'?350:290),key?key.left-36:W),y0:path?250:110,y1:Math.min(H-(path?110:90),bar?bar.top-40:H)}}
@@ -122,7 +123,7 @@ function frameBox(){const path=S.mode==='path';
   return {x0:24,x1:W-24,y0,y1:Math.max(y1,y0+140)}}
 function fitPeople(ps,pad=1){if(!ps||!ps.length)return;const xs=ps.map(p=>p.wx),ys=ps.map(p=>p.wy);
   const x0=Math.min(...xs),x1=Math.max(...xs),y0=Math.min(...ys),y1=Math.max(...ys),B=frameBox();
-  const z=clamp(Math.min((B.x1-B.x0)/Math.max(80,x1-x0),(B.y1-B.y0)/Math.max(80,y1-y0))*pad,fitZ*.12,Math.min(zmax(),fitZ*4.5)),c=stage();
+  const demo=document.body.classList.contains('gl-demo'),z=clamp(Math.min((B.x1-B.x0)/Math.max(demo?40:80,x1-x0),(B.y1-B.y0)/Math.max(demo?40:80,y1-y0))*pad,fitZ*.12,Math.min(zmax(),fitZ*(demo?10:4.5))),c=stage();
   flyTo((x0+x1)/2-((B.x0+B.x1)/2-c.x)/z,(y0+y1)/2-((B.y0+B.y1)/2-c.y)/z,z,5,fitZ*.12)}
 const home=()=>flyTo(0,0,fitZ,3.2);
 
@@ -419,7 +420,7 @@ function connect(aN,bN,{instant=false}={}){stopSeq();closeDrawer();hideTip();
   (async()=>{
     caption(`<span class="who">${esc(a.n)}</span><span class="line">Let’s follow the receipts.</span>`);
     const span=Math.max(...es.map(e=>Math.hypot(e.a.wx-e.b.wx,e.a.wy-e.b.wy)));
-    const zStep=clamp(Math.min(W>760?W-760:W,H*.6)/Math.max(160,span*1.25),fitZ*1.2,fitZ*5.5);
+    const zStep=document.body.classList.contains('gl-demo')?clamp(Math.min(W*.7,H*.6)/Math.max(90,span*1.1),fitZ*3.5,fitZ*10):clamp(Math.min(W>760?W-760:W,H*.6)/Math.max(160,span*1.25),fitZ*1.2,fitZ*5.5);
     flyTo(a.wx,a.wy,zStep*1.15,4.5);flash(a);await wait(RM?0:820);if(seq.cancelled)return;
     for(let i=0;i<L;i++){const to=ids[i+1];goal.z=zStep;rate=6;
       await new Promise(done=>{seq.follow={i,t0:performance.now(),ms:D,done}});if(seq.cancelled)return;
