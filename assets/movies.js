@@ -226,6 +226,7 @@ window.MOVIES=[
 ['therapist','The Rapist',2021,{lang:'en',cast:['Konkona Sen Sharma','Arjun Rampal','Tanmay Dhanania'],crew:[['Aparna Sen','director']]}],
 ['bootpolish','Boot Polish',1954,{cast:['Baby Naaz','Rattan Kumar','David Abraham','Chand Burke'],crew:[['Raj Kapoor','producer']]}],
 ['wttj','Welcome to the Jungle',2026,{cast:['Akshay Kumar','Suniel Shetty','Paresh Rawal','Raveena Tandon','Jacqueline Fernandez','Disha Patani'],crew:[['Ahmed Khan','director'],['Firoz Nadiadwala','producer']]}],
+['wazir','Wazir',2016,{cast:['Amitabh Bachchan','Farhan Akhtar','Aditi Rao Hydari','Neil Nitin Mukesh'],crew:[['Bejoy Nambiar','director'],['Vidhu Vinod Chopra','producer']]}],
 ['kirikparty','Kirik Party',2016,{lang:'kn',cast:['Rakshit Shetty','Rashmika Mandanna'],crew:[['Rishab Shetty','director'],['Rakshit Shetty','producer']]}],
 ['geethagovindam','Geetha Govindam',2018,{lang:'te',cast:['Vijay Deverakonda','Rashmika Mandanna']}],
 ['dearcomrade','Dear Comrade',2019,{lang:'te',cast:['Vijay Deverakonda','Rashmika Mandanna']}],
