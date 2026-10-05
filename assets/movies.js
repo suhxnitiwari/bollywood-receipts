@@ -365,7 +365,8 @@ window.MOVIES=[
 ['baaghi4','Baaghi 4',2025,{cast:['Tiger Shroff'],crew:[['Sajid Nadiadwala','producer']]}],
 ['dhurandhar','Dhurandhar',2025,{cast:['Ranveer Singh','Akshaye Khanna','Sanjay Dutt','R. Madhavan','Arjun Rampal','Sara Arjun','Rakesh Bedi','Gaurav Gera','Danish Pandor','Manav Gohil'],crew:[['Aditya Dhar','director']]}],
 ['dhurandhar2','Dhurandhar: The Revenge',2026,{cast:['Ranveer Singh','Akshaye Khanna','Sanjay Dutt','R. Madhavan','Arjun Rampal','Sara Arjun','Rakesh Bedi','Gaurav Gera','Danish Pandor','Manav Gohil','Yami Gautam'],crew:[['Aditya Dhar','director']]}],
-['toxic','Toxic',2026,{lang:'kn',cast:['Yash','Kiara Advani']}],
+['toxic','Toxic',2026,{lang:'kn',cast:['Yash','Kiara Advani','Nayanthara','Huma Qureshi','Tara Sutaria','Rukmini Vasanth'],crew:[['Geetu Mohandas','director']]}],
+['marjaavaan','Marjaavaan',2019,{cast:['Sidharth Malhotra','Riteish Deshmukh','Tara Sutaria'],crew:[['Milap Zaveri','director']]}],
 ['pralay','Pralay',2027,{upcoming:1,cast:['Ranveer Singh']}],
 ['lagjaagale','Lag Jaa Gale',2027,{upcoming:1,cast:['Tiger Shroff']}],
 // The shadow filmography: films someone left or was replaced in. exited: [person, what happened, evidence]

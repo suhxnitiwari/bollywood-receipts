@@ -397,6 +397,8 @@ const G=[
 ["Nikhil Nanda","Shweta Bachchan","m","",1997,"t"],
 ["Reema Jain","Aadar Jain","f","mother and son",null,"t"],
 ["Aadar Jain","Tara Sutaria","x","about 2020–23",2020,"t"],
+["Tara Sutaria","Alekha Advani","b","friends; Alekha called herself the \"third wheel\" on Tara and Aadar's trips. She married Aadar in 2025",2022,"t"],
+["Orry","Tara Sutaria","b","posted the full concert footage to back her and Veer after the AP Dhillon clip, Dec 2025",2025,"t"],
 ["Aadar Jain","Alekha Advani","m","the \"time pass\" wedding speech",2025,"t"],
 ["Karisma Kapoor","Abhishek Bachchan","e","announced at Amitabh's 60th; called off 2003",2002,"t"],
 ["Karisma Kapoor","Sunjay Kapur","d","married 2003, divorced 2016; he died in 2025",2003,"t"],
@@ -516,7 +518,7 @@ const G=[
 ["Janhvi Kapoor","Sara Ali Khan","b","close since lockdown",2020,"t"],
 ["Shikhar Pahariya","Veer Pahariya","f","brothers",null,"t"],
 ["Veer Pahariya","Sara Ali Khan","x","Sara has acknowledged it",null,"t"],
-["Veer Pahariya","Tara Sutaria","x","",2025,"a"],
+["Veer Pahariya","Tara Sutaria","x","Insta-official in 2025; reported split in January 2026, days after the AP Dhillon concert clip",2025,"a"],
 ["Sharmila Tagore","Saif Ali Khan","f","mother and son",null,"t"],
 ["Saif Ali Khan","Amrita Singh","d","eloped 1991, divorced 2004",1991,"t"],
 ["Saif Ali Khan","Sara Ali Khan","f","father and daughter",null,"t"],
@@ -1253,7 +1255,7 @@ const NAV=[
   {k:'receipts',t:'Receipts',href:'receipts.html',sub:[['All receipts','receipts.html?f=all'],['Affairs & triangles','receipts.html?f=triangle'],['Feuds & fallouts','receipts.html?f=feud'],['Friendship breakups','receipts.html?f=dost'],['Engagements & divorces','receipts.html?f=engaged'],['Court cases','receipts.html?f=court'],['Archive scandals','receipts.html?f=legend'],['Rumors','receipts.html?f=chupke']]},
   {k:'people',t:'People',href:'people.html',sub:[['Khandaan: the families','people.html#trees'],['Stars A–Z','people.html#az']]},
   {k:'web',t:'The Web',href:'the-web.html',sub:[['Connect two people','the-web.html#connecth'],['In this issue','the-web.html#files'],['Six Degrees of Bollywood','web.html']]},
-  {k:'features',t:'Features',href:'features.html',sub:[['The breakup that may have broken a movie','features.html#dostanak'],["Urvashi Rautela's upgrades",'features.html#urvashik'],['Andaz Apna Apna, off camera','features.html#aaak'],['Why does everything Alia does look familiar?','features.html#aliak'],["Kangana Ranaut doesn't do shade",'features.html#kanganak'],['Kareena Kapoor, before the media training','features.html#bebok'],['Sonam Kapoor, said out loud','features.html#sonamk'],["Arjun Kapoor's Khan family loop",'features.html#loopk'],['A century of the sexy heroine','features.html#sensh'],['How Bollywood actually gets in','features.html#careerh'],['The school pipeline','features.html#schh'],["Alia's inheritance board",'features.html#inhh']]},
+  {k:'features',t:'Features',href:'features.html',sub:[['Toxic is selling a catfight','features.html#toxick'],['The breakup that may have broken a movie','features.html#dostanak'],["Urvashi Rautela's upgrades",'features.html#urvashik'],['Andaz Apna Apna, off camera','features.html#aaak'],['Why does everything Alia does look familiar?','features.html#aliak'],["Kangana Ranaut doesn't do shade",'features.html#kanganak'],['Kareena Kapoor, before the media training','features.html#bebok'],['Sonam Kapoor, said out loud','features.html#sonamk'],["Arjun Kapoor's Khan family loop",'features.html#loopk'],['A century of the sexy heroine','features.html#sensh'],['How Bollywood actually gets in','features.html#careerh'],['The school pipeline','features.html#schh'],["Alia's inheritance board",'features.html#inhh']]},
   {k:'watch',t:'Watch',href:'watch.html',sub:[['The Reel','watch.html#reelh'],['What to watch','watch.html#watchh']]}];
 const navHtml=(cls)=>`<ul class="${cls}">`+NAV.map(n=>`<li class="nv${n.k===PAGE||(PAGE==='front'&&n.k==='latest')?' on':''}${n.k==='rishta'?' star':''}"><a href="${n.href}">${n.t}</a><div class="dd"><ul>${n.sub.map(([t,h])=>`<li><a href="${h}">${t}</a></li>`).join('')}</ul></div></li>`).join('')+`</ul>`;
 const MONTH=new Date().toLocaleDateString('en-US',{month:'long',year:'numeric'}).toUpperCase();
