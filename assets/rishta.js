@@ -15,7 +15,7 @@ function cost(i,o){if(o.fast)return 1;const e=G[i],t=e[2];
   if(t==='c'){if((GF[i]||[]).length>1)return .8;if(!SRC[i])return 1.2;const d=e[3]||'';return /\(writer/.test(d)?1.2:/\(producer/.test(d)?1.1:1}
   return WT[t]||2}
 const COL={o:'#9C8F7C',q:'#B0186B',m:'#6B1E5A',d:'#8C5A7E',e:'#4A3B6E',x:'#4A3B6E',r:'#A8740F',c:'#7E7262',f:'#15110E',b:'#2E7D6B',v:'#C8261C',k:'#D94A6E',g:'#1F5F8B',s:'#B05A00'};
-const KIND={o:'cameo in the same film',q:'song appearance in the same film',m:'married',d:'married, then split',e:'engaged',x:'dated',r:'rumored',c:'worked together',f:'family',b:'friends',v:'feud',k:'on-screen kiss',g:'glam team',s:'replaced in a film'};
+const KIND={w:'directed',p:'sang for',o:'cameo in the same film',q:'song appearance in the same film',m:'married',d:'married, then split',e:'engaged',x:'dated',r:'rumored',c:'worked together',f:'family',b:'friends',v:'feud',k:'on-screen kiss',g:'glam team',s:'replaced in a film'};
 const STAMP={t:['RECEIPT ✓','v-true'],a:['ALLEGED ?','v-alleged'],r:['RUMOR ~','v-rumor'],c:['FAUX ✕','v-cap']};
 const first=n=>({'Shah Rukh Khan':'SRK'})[n]||n.split(' ')[0];
 
@@ -23,7 +23,7 @@ const first=n=>({'Shah Rukh Khan':'SRK'})[n]||n.split(' ')[0];
 function role(i){const e=G[i],t=e[2],d=(e[3]||'').toLowerCase();
   if(t==='f'){if(/sibling|brother|sister/.test(d))return 'sibling';if(/cousin/.test(d))return 'cousin';if(/uncle|aunt|niece|nephew/.test(d))return 'relative';return 'family'}
   if(t==='c')return SRC[i]?(/\((director|producer)/.test(e[3]||'')?'collaborator':'co-star'):'collaborator';
-  return {o:'cameo co-star',q:'song co-star',m:'spouse',d:'ex-spouse',e:'ex-fiancé(e)',x:'ex',r:'rumored flame',b:'friend',v:'rival',k:'on-screen kiss',g:'glam team',s:'casting replacement'}[t]||'link'}
+  return {w:'collaborator',p:'collaborator',o:'cameo co-star',q:'song co-star',m:'spouse',d:'ex-spouse',e:'ex-fiancé(e)',x:'ex',r:'rumored flame',b:'friend',v:'rival',k:'on-screen kiss',g:'glam team',s:'casting replacement'}[t]||'link'}
 function sentence(a,b,p){if(!p.length)return '';const rs=p.map(([,i])=>role(i));
   if(rs.length===1)return `${esc(first(b))} is ${esc(first(a))}'s ${rs[0]}.`;
   if(rs.length<=6)return `${esc(first(b))} is ${esc(first(a))}'s ${rs.map(esc).join("'s ")}.`;

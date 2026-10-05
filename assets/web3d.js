@@ -181,7 +181,7 @@ window.cxWebShow=function(a,b,pth){const box=document.getElementById('cxweb');if
   const w=BW,I=w.idx,chainIds=[a];BW.nodes.forEach(n=>{n.big=false;n.lead=false});
   const F={edges:new Set(),chain:[],near:new Set()};
   if(pth)pth.forEach(([p,gi,c])=>{chainIds.push(c);const e=w.edges.find(e=>e.gi===gi);if(e){F.edges.add(e.i);F.chain.push([e.i,w.nodes[e.a].id===p]);
-    const ge=G[gi],d=(ge[3]||'').split(';')[0].trim();e.lab=ge[2]==='f'&&d&&d.length<=24?d:(({m:'married',d:'married, split',e:'engaged',x:'dated',r:'linked',c:'worked together',f:'family',b:'friends',v:'feud'})[ge[2]]||'')+(ge[4]?' '+ge[4]:'')}});
+    const ge=G[gi],d=(ge[3]||'').split(';')[0].trim();e.lab=ge[2]==='f'&&d&&d.length<=24?d:(({m:'married',d:'married, split',e:'engaged',x:'dated',r:'linked',c:'worked together',w:'directed',p:'sang for',f:'family',b:'friends',v:'feud'})[ge[2]]||'')+(ge[4]?' '+ge[4]:'')}});
   else chainIds.push(b);
   chainIds.forEach((id,i)=>{const n=w.nodes[I.get(id)];if(!n)return;n.big=true;n.lead=i===0||i===chainIds.length-1;(window.__ADJ[id]||[]).forEach(([o])=>F.near.add(o))});
   w.focus=F;

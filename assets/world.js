@@ -46,13 +46,15 @@ const ST={   // how each kind of rishta looks: colour, line style, its name in t
   g:{c:'#A890C2',st:'dash',dash:[6,3],w:1,k:'Glam team',v:'shares a glam team with',grp:['films']},
   s:{c:'#E8B07A',st:'dash',dash:[8,3,2,3],w:1,k:'Replaced in a film',v:'was swapped with',grp:['films']},
   c:{c:'#C9AFA8',st:'solid',w:.8,k:'Worked together',v:'worked with',grp:['films']},
+  w:{c:'#D9B46A',st:'dash',dash:[9,2.5],w:.9,k:'Directed',v:'directed',grp:['films']},
+  p:{c:'#EBDDC6',st:'dash',dash:[2.5,2.5],w:.8,k:'Sang for',v:'sang for',grp:['films']},
   o:{c:'#C9AFA8',st:'solid',w:.7,k:'Cameo',v:'shared a cameo with',grp:['films']},
   q:{c:'#C9AFA8',st:'solid',w:.7,k:'Song',v:'shared a song with',grp:['films']}};
-const TAG={f:'FAMILY',m:'MARRIED',d:'MARRIED · SPLIT',e:'ENGAGED',x:'DATED',r:'LINKED',k:'ON-SCREEN KISS',b:'FRIENDS',v:'FEUD',g:'GLAM TEAM',s:'REPLACED',c:'WORKED TOGETHER',o:'CAMEO',q:'SONG'};
+const TAG={f:'FAMILY',m:'MARRIED',d:'MARRIED · SPLIT',e:'ENGAGED',x:'DATED',r:'LINKED',k:'ON-SCREEN KISS',b:'FRIENDS',v:'FEUD',g:'GLAM TEAM',s:'REPLACED',c:'WORKED TOGETHER',w:'DIRECTED',p:'SANG FOR',o:'CAMEO',q:'SONG'};
 const E=GG.map((e,i)=>({i,a:BY.get(e[0]),b:BY.get(e[1]),t:e[2],d:e[3]||'',y:e[4],v:e[5]||'t',film:!!GSRC[i],bow:((hash(e[0]+e[1])%2)?1:-1)*(.06+(hash(e[1]+e[0])%60)/1000)})).filter(e=>e.a&&e.b&&e.a!==e.b);
 P.forEach(p=>{p.E=[];});E.forEach(e=>{e.a.E.push(e);e.b.E.push(e)});
 const other=(e,p)=>e.a===p?e.b:e.a;
-const personal=e=>!e.film&&e.t!=='o'&&e.t!=='q';
+const personal=e=>!e.film&&!'oqwp'.includes(e.t);
 const MOV=new Map((window.MOVIES||[]).map(([id,title,year])=>['film:'+id,[title,year]]));
 // "1999–2002; she later alleged…" → "1999–2002". Films answer with their title and year.
 function when(e){if(e.film){const f=(GFILMS[e.i]||[]).map(id=>MOV.get(id)).filter(Boolean);if(f.length>1)return `${f.length} films together`;return f.length?`${f[0][0]}, ${f[0][1]}`:(e.y?String(e.y):'')}
@@ -420,6 +422,8 @@ function finishPath(){const R=S.path;if(!R)return;const now=performance.now();R.
   targets();skipBtn.hidden=true;capOut();spotted();fitPeople(R.ids,.85)}
 function sentence(e,from,to){const st=ST[e.t],A=`<button type="button" data-go="${esc(from.n)}">${esc(first(from.n))}</button>`,B=`<button type="button" data-go="${esc(to.n)}">${esc(first(to.n))}</button>`,w=when(e);
   if(e.t==='f')return `${A} and ${B} are family${e.d?`: ${esc(e.d.split(';')[0])}`:''}.`;
+  // directed and sang-for read one way round: the director (or singer) is always the edge's first person
+  if(e.t==='w'||e.t==='p'){const [X,Y]=e.a===from?[A,B]:[B,A],ww=w.replace(/ together$/,'');return e.t==='w'?`${X} directed ${Y}${ww?` (${esc(ww)})`:''}.`:`${X} sang for ${Y}${ww?` in ${esc(ww)}`:''}.`}
   if(e.film||e.t==='c')return `${A} worked with ${B}${w?` (${esc(w)})`:''}.`;
   return `${A} ${st.v} ${B}${w?`, ${esc(w)}`:''}.`}
 function spotted(){const R=S.path;if(!R)return;const a=R.ids[0],b=R.ids[R.ids.length-1],L=R.es.length,el=$('#spotted');
@@ -501,7 +505,7 @@ const sw=(t)=>{const st=ST[t],d=st.st==='dash'?`stroke-dasharray="${st.dash.join
   if(st.st==='double')return `<svg width="26" height="8" aria-hidden="true"><path d="M1 2.4H25M1 5.6H25" stroke="${st.c}" stroke-width="1.1"/></svg>`;
   if(st.st==='jag')return `<svg width="26" height="8" aria-hidden="true"><path d="M1 4L4 1.5L7 6.5L10 1.5L13 6.5L16 1.5L19 6.5L22 1.5L25 4" fill="none" stroke="${st.c}" stroke-width="1.2"/></svg>`;
   return `<svg width="26" height="8" aria-hidden="true"><path d="M1 4H25" stroke="${st.c}" stroke-width="${Math.max(1.2,st.w)}" stroke-linecap="round" ${d}/></svg>`};
-$('#legend').innerHTML=['f','m','d','x','r','b','v','c'].map(t=>`<li>${sw(t)}${ST[t].k}</li>`).join('');
+$('#legend').innerHTML=['f','m','d','x','r','b','v','c','w','p'].map(t=>`<li>${sw(t)}${ST[t].k}</li>`).join('');
 $('#keyfold').onclick=e=>{const b=e.currentTarget,open=b.getAttribute('aria-expanded')==='true';b.setAttribute('aria-expanded',String(!open));$('#keybody').hidden=open;b.querySelector('span').textContent=open?'+':'–'};
 $('#zin').onclick=()=>flyTo(goal.x,goal.y,goal.z*1.6,5);$('#zout').onclick=()=>flyTo(goal.x,goal.y,goal.z/1.6,5);$('#zfit').onclick=()=>{if(S.mode==='path')fitPeople(S.path.ids,.85);else home()};
 skipBtn.onclick=()=>S.seq&&S.seq.skip();
