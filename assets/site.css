@@ -1053,3 +1053,7 @@ svg.thr .spk{fill:#FFE2CC;filter:drop-shadow(0 0 6px #F2703A)}
 .board .pins img{animation:pinLit var(--T,6s) linear infinite;animation-delay:var(--d,0s)}
 @keyframes pinLit{0%,100%{box-shadow:0 6px 12px -6px rgba(0,0,0,.6);transform:rotate(var(--r,0deg))}4%{box-shadow:0 0 0 2px #E25A3C,0 0 26px 2px rgba(226,90,60,.55);transform:rotate(var(--r,0deg)) scale(1.06)}14%{box-shadow:0 0 0 2px rgba(226,90,60,.5),0 6px 12px -6px rgba(0,0,0,.6);transform:rotate(var(--r,0deg))}}
 @media (prefers-reduced-motion:reduce){svg.thr .str{animation:none;stroke-dashoffset:0}svg.thr .spk{display:none}.board .pins img{animation:none}}
+
+/* feature labels: how bad was it */
+.tier{display:inline-block;font-family:var(--mono);font-size:9.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;border:1px solid currentColor;padding:2px 6px 1px;margin-left:6px;vertical-align:3px;line-height:1.3;white-space:nowrap}
+.tier.ic{color:#E8B07A}.tier.sv{color:#F3DCD2}.tier.mn{color:#F2703A}.tier.cx{color:#E2475A}.tier.dp{color:#A890C2}
