@@ -784,7 +784,7 @@ window.ACTORPAGES={
    ['Nora → Soha in three','Nora → Madgaon Express → its director Kunal Kemmu → married to Soha Ali Khan → the Pataudis.','t'],
    ['The price of a headline','Nora says being linked to Sukesh cost her brands and jobs and left her traumatised and alone. She denies any involvement in money laundering. Her own account, on the record.','t'],
    ['Victim or witness, not accused','In the Sukesh case Nora was questioned and says she was a victim. Unlike Jacqueline, she has not been named an accused.','t']],
-  extra:[['Nora Fatehi','Angad Bedi','rom','reported relationship, about 2015–16','a'],['Angad Bedi','Neha Dhupia','wed','♥ married 2018','t'],
+  extra:[['Nora Fatehi','Angad Bedi','ex','about 2016–17; Angad has called it his past relationship, Nora says she never dated him','a'],['Angad Bedi','Neha Dhupia','wed','♥ married 2018','t'],
    ['Nora Fatehi','Salman Khan','work','Bigg Boss 9 host · Bharat','t'],
    ['Nora Fatehi','evt:bb9','evt','wildcard contestant','t'],['Salman Khan','evt:bb9','evt','host','t'],['Nora Fatehi','evt:dilbar','evt','','t'],['John Abraham','evt:dilbar','evt','his film','t'],
    ['Nora Fatehi','evt:fifa','evt','performed','t'],['Nora Fatehi','evt:gifts','evt','questioned · says she was a victim','t'],['Sukesh Chandrashekhar','evt:gifts','evt','','t'],
