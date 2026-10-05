@@ -100,9 +100,10 @@ const zmin=()=>fitZ*.35,zmax=()=>fitZ*10;
 function flyTo(x,y,z,r=5,lo=zmin()){goal.x=x;goal.y=y;goal.z=clamp(z,lo,zmax());rate=r;vel=null}
 // the open part of the screen, clear of the panels and the captions: framed shots land here
 function frameBox(){const path=S.mode==='path';
-  if(W>760)return {x0:430,x1:W-(S.mode==='person'?350:290),y0:path?250:110,y1:H-(path?110:90)};
-  // phones: measure the real gap between the title and whichever card is open
   const box=el=>el&&!el.hidden&&el.getClientRects().length?el.getBoundingClientRect():null;
+  if(W>760){const key=box(document.getElementById('key')),bar=box(document.querySelector('.gl-show'));
+    return {x0:430,x1:Math.min(W-(S.mode==='person'?350:290),key?key.left-36:W),y0:path?250:110,y1:Math.min(H-(path?110:90),bar?bar.top-40:H)}}
+  // phones: measure the real gap between the title and whichever card is open
   const hb=box(document.querySelector('.gl-brand')),cb=box(document.getElementById('spotted'))||box(document.getElementById('dossier'))||box(document.querySelector('.gl-ask'));
   const y0=Math.max(path?170:120,hb?hb.bottom+36:0),y1=Math.min(H*(S.mode==='room'?.6:.62),cb?cb.top-30:H);
   return {x0:24,x1:W-24,y0,y1:Math.max(y1,y0+140)}}
@@ -184,6 +185,7 @@ function draw(now,dt){
   for(const p of P){const s=toScreen(p);p.s.x=s.x+Math.sin(t*.6+p.ph)*drift;p.s.y=s.y+Math.cos(t*.5+p.ph*1.3)*drift;
     const kk=1-Math.exp(-dt/1000*(S.seq?9:6));p.a+=(p.ta*p.arrive-p.a)*kk;p.m+=(p.tm-p.m)*kk;
     p.s.r=baseR(p)*Math.pow(cam.z,.8)*p.m*(.85+.15*p.arrive)}
+  spread(dt);
   g.lineCap='round';g.lineJoin='round';
   // ---------- threads ----------
   if(S.mode==='room'){
@@ -228,10 +230,21 @@ function draw(now,dt){
     g.globalAlpha=.55;const ox=-(Math.floor(t*14)%7)*23%180,oy=-(Math.floor(t*14)%5)*37%180;g.fillStyle=GPAT||(GPAT=g.createPattern(GRAIN,'repeat'));g.save();g.translate(ox,oy);g.fillRect(-ox,-oy,W,H);g.restore()}
   g.globalAlpha=1}
 
+/* families sit at one table, so close that once the camera leans in on a thread they land in each other's laps:
+   the faces in focus are nudged apart on screen (frames, bulbs and reticles included), and drift home when the focus goes */
+function spread(dt){const F=S.mode==='room'?[]:P.filter(p=>p.ta>=.9&&p.a>.2),halo=p=>p.m>1.6?20:p===S.hover?10:6;
+  for(const p of P){p.tx=0;p.ty=0}
+  for(let it=0;it<10;it++)for(let i=0;i<F.length;i++)for(let j=i+1;j<F.length;j++){const a=F[i],b=F[j];
+    let dx=(b.s.x+b.tx)-(a.s.x+a.tx),dy=(b.s.y+b.ty)-(a.s.y+a.ty),d=Math.hypot(dx,dy);const need=a.s.r+b.s.r+halo(a)+halo(b)+22+(d>.5?34*Math.abs(dy)/d:0);   // stacked faces also need room for the name between them
+    if(d>=need)continue;if(d<.5){const ang=a.ph+b.ph;dx=Math.cos(ang);dy=Math.sin(ang);d=1}
+    const push=(need-d)/2/d;a.tx-=dx*push;a.ty-=dy*push;b.tx+=dx*push;b.ty+=dy*push}
+  const k=1-Math.exp(-dt/1000*7);
+  for(const p of P){p.ox=(p.ox||0)+(p.tx-(p.ox||0))*k;p.oy=(p.oy||0)+(p.ty-(p.oy||0))*k;p.s.x+=p.ox;p.s.y+=p.oy}}
+
 /* names: the room only labels who matters at this zoom, placed so no two names collide */
 function drawLabels(now,zr){const boxes=[],R=S.path,focus=S.mode!=='room';
-  // the title block and any open card are no-go zones for names and tags
-  for(const el of [document.querySelector('.gl-brand'),document.getElementById('spotted'),document.getElementById('dossier')])
+  // the title block, the key, the pills, the zoom and any open card are no-go zones for names and tags
+  for(const el of [document.querySelector('.gl-brand'),document.getElementById('spotted'),document.getElementById('dossier'),document.getElementById('key'),document.querySelector('.gl-show'),document.querySelector('.gl-zoom'),skipBtn])
     if(el&&!el.hidden&&el.getClientRects().length){const b=el.getBoundingClientRect();boxes.push([b.left-6,b.top-6,b.right+6,b.bottom+6])}
   const fits=(x0,y0,x1,y1)=>{for(const b of boxes)if(x0<b[2]&&x1>b[0]&&y0<b[3]&&y1>b[1])return false;boxes.push([x0,y0,x1,y1]);return true};
   g.textAlign='center';g.textBaseline='top';
@@ -240,6 +253,7 @@ function drawLabels(now,zr){const boxes=[],R=S.path,focus=S.mode!=='room';
   if(hA>.02){g.font='italic 500 12.5px "Bodoni Moda",Georgia,serif';setSpacing('2.5px');
     WD.khandaans.forEach(h=>{const s=toScreen({wx:h.x,wy:h.y-h.r-30}),txt=h.t.toUpperCase(),w=g.measureText(txt).width;
       if(!fits(s.x-w/2,s.y,s.x+w/2,s.y+16))return;g.globalAlpha=hA;g.fillStyle=houseCol(h.k);g.fillText(txt,s.x,s.y)});setSpacing('0px')}
+  if(focus)P.forEach(p=>{if(p.ta>=.9&&p.a>.2){const {x,y,r}=p.s;boxes.push([x-r-2,y-r-2,x+r+2,y+r+2])}});
   const want=[];
   if(S.mode==='path')R.ids.forEach((p,i)=>{if(R.reached.has(p))want.push([p,3])});
   if(S.mode==='person'){want.push([S.sel,3]);S.sel.E.forEach(e=>{const o=other(e,S.sel);if(personal(e)&&shown(e))want.push([o,1])})}
@@ -260,7 +274,6 @@ function drawLabels(now,zr){const boxes=[],R=S.path,focus=S.mode!=='room';
     if(lvl===3&&S.mode==='person'&&p===S.sel&&p.k){g.font='500 9px "IBM Plex Mono",monospace';setSpacing('2px');g.fillStyle='#EFA068';g.fillText((HT[p.k]||'').toUpperCase(),x,ly+18)}});
   setSpacing('0px');
   // receipts tags on the thread: what the rishta is called and when
-  if(S.mode==='path'){R.ids.forEach(p=>{if(R.reached.has(p)){const {x,y,r}=p.s;boxes.push([x-r-2,y-r-2,x+r+2,y+r+2])}})}
   const clear=(x0,y0,x1,y1)=>{for(const b of boxes)if(x0<b[2]&&x1>b[0]&&y0<b[3]&&y1>b[1])return false;return true};
   if(S.mode==='path')R.es.forEach((e,i)=>{if(R.prog[i]<1)return;const q=quad(e),a=clamp((now-(R.doneAt[i]||0))/300,0,1);
     const top=TAG[e.t],sub=when(e);g.font='600 10px "IBM Plex Mono",monospace';setSpacing('2px');const w1=g.measureText(top).width;g.font='italic 400 12.5px "Bodoni Moda",Georgia,serif';setSpacing('0px');
@@ -412,11 +425,11 @@ function sentence(e,from,to){const st=ST[e.t],A=`<button type="button" data-go="
 function spotted(){const R=S.path;if(!R)return;const a=R.ids[0],b=R.ids[R.ids.length-1],L=R.es.length,el=$('#spotted');
   const head=L===1?`${esc(a.n)} and ${esc(b.n)} are directly linked.`:`${esc(a.n)} and ${esc(b.n)} are only ${NUM[L]||L} degrees apart.`;
   const mid=R.ids.length>2?R.ids[Math.floor(R.ids.length/2)]:b;
-  el.innerHTML=`<p class="k">Spotted<span>${L} degree${L===1?'':'s'}</span></p><h3>${head}</h3>
+  el.innerHTML=`<button type="button" class="dx" aria-label="Close and see the whole room">✕</button><p class="k">Spotted<span>${L} degree${L===1?'':'s'}</span></p><h3>${head}</h3>
     <ol>${R.es.map((e,i)=>`<li><i style="background:${ST[e.t].c}"></i><span>${sentence(e,R.ids[i],R.ids[i+1])} <span class="vt ${e.v}">${{t:'RECEIPT',a:'ALLEGED',r:'RUMOR',c:'FAUX'}[e.v]||''}</span></span></li>`).join('')}</ol>
     <p class="chain">${R.ids.map((p,i)=>esc(first(p.n))+(i<R.es.length?' → '+TAG[R.es[i].t]+' → ':'')).join('')}</p>
     <div class="acts"><button type="button" data-act="rec">Show the receipts</button><button type="button" data-act="exp">Explore ${esc(first(mid.n))}</button><button type="button" data-act="new">Set me up</button></div>`;
-  el.hidden=false;el.querySelector('[data-act="rec"]').onclick=()=>openReceipts(R.es,R.ids);el.querySelector('[data-act="exp"]').onclick=()=>select(mid);el.querySelector('[data-act="new"]').onclick=setMeUp;
+  el.hidden=false;el.querySelector('.dx').onclick=clearAll;el.querySelector('[data-act="rec"]').onclick=()=>openReceipts(R.es,R.ids);el.querySelector('[data-act="exp"]').onclick=()=>select(mid);el.querySelector('[data-act="new"]').onclick=setMeUp;
   say(`${head} ${R.es.map((e,i)=>`${R.ids[i].n} ${ST[e.t].k.toLowerCase()} ${R.ids[i+1].n}`).join('; ')}.`)}
 
 /* ---------- the receipt drawer ---------- */
