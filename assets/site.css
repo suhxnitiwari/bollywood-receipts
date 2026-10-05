@@ -1116,3 +1116,19 @@ svg.thr .spk{fill:#FFE2CC;filter:drop-shadow(0 0 6px #F2703A)}
 .hw-pull{max-width:420px;margin-top:12px}
 .hw-list{max-width:68ch;margin:14px 0 0;padding-left:18px;display:grid;gap:8px;line-height:1.5}
 @media (max-width:720px){.hw-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.hw-tiers{grid-template-columns:repeat(2,minmax(0,1fr))}}
+/* the Guest List, as the front page's lead */
+.glhero{margin:18px 0 26px}
+.glh-card{position:relative;padding:clamp(22px,4vw,40px) clamp(18px,4vw,44px);text-align:center;border:1px solid rgba(239,160,104,.3);border-radius:4px;
+  background:radial-gradient(ellipse 80% 120% at 50% 0%,rgba(207,48,68,.22),transparent 60%),linear-gradient(180deg,rgba(40,10,18,.9),rgba(28,7,12,.92));overflow:hidden}
+.glh-card::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:linear-gradient(90deg,#9E2A4A,#CF3044 30%,#E25A3C 65%,#EFA068)}
+.glh-kick{margin:0 0 6px;font:600 10.5px/1.3 var(--mono);letter-spacing:.3em;text-transform:uppercase;color:#EFA068}
+.glh-card h2{margin:0;font:italic 500 clamp(40px,6.5vw,76px)/1 'Bodoni Moda',Georgia,serif;letter-spacing:-.015em;color:#F8E6DC}
+.glh-dek{max-width:46ch;margin:10px auto 0;color:var(--muted);font-size:16px;line-height:1.5}
+.glh-form{display:grid;grid-template-columns:1fr 1fr auto;gap:10px;align-items:end;max-width:760px;margin:20px auto 0;text-align:left}
+.glh-form label span{display:block;margin:0 0 6px 14px;font:600 10px/1 var(--mono);letter-spacing:.2em;text-transform:uppercase;color:#EFA068}
+.glh-form input{width:100%;box-sizing:border-box;background:rgba(248,230,220,.06);border:1px solid rgba(239,160,104,.4);border-radius:999px;color:#F8E6DC;font:400 18px/1.2 'Bodoni Moda',Georgia,serif;padding:11px 16px;outline:none}
+.glh-form input:focus{border-color:#EFA068;background:rgba(248,230,220,.1)}
+.glh-form button{border:0;border-radius:999px;padding:14px 26px;color:#FFF0E8;cursor:pointer;font:600 12px/1 var(--mono);letter-spacing:.2em;text-transform:uppercase;background:linear-gradient(100deg,#CF3044,#E25A3C);box-shadow:0 12px 34px -12px rgba(226,90,60,.8)}
+.glh-alt{margin:14px 0 0;font:500 11px/1 var(--mono);letter-spacing:.16em;text-transform:uppercase}
+.glh-alt a{color:var(--muted);text-decoration:none}.glh-alt a:hover{color:#EFA068}
+@media (max-width:640px){.glh-form{grid-template-columns:1fr}.glh-form button{width:100%}}

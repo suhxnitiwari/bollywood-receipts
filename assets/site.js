@@ -1347,8 +1347,8 @@ const FILES=(()=>{const legacy=[{"id": "web3h", "file": "003", "t": "Six degrees
 const PAGE=document.body.dataset.page||'front';
 const enc=encodeURIComponent;
 const NAV=[
-  {k:'latest',t:'Latest',href:'latest.html',sub:[['Spotted','latest.html#spotted'],['Trending','latest.html#trending'],['The Reel','latest.html#reel']]},
-  {k:'rishta',t:'The Guest List',href:'index.html',sub:[['Pull any thread','index.html'],['SRK × Salman','index.html?a=Shah%20Rukh%20Khan&b=Salman%20Khan'],['Alia × Deepika','index.html?a=Alia%20Bhatt&b=Deepika%20Padukone'],['Rhea × Shraddha','index.html?a=Rhea%20Chakraborty&b=Shraddha%20Kapoor']]},
+  {k:'latest',t:'Latest',href:'index.html',sub:[['Spotted','index.html#spotted'],['Trending','index.html#trending'],['The Reel','index.html#reel']]},
+  {k:'rishta',t:'The Guest List',href:'guest-list.html',sub:[['Pull any thread','guest-list.html'],['SRK × Salman','guest-list.html?a=Shah%20Rukh%20Khan&b=Salman%20Khan'],['Alia × Deepika','guest-list.html?a=Alia%20Bhatt&b=Deepika%20Padukone'],['Rhea × Shraddha','guest-list.html?a=Rhea%20Chakraborty&b=Shraddha%20Kapoor']]},
   {k:'receipts',t:'Receipts',href:'receipts.html',sub:[['All receipts','receipts.html?f=all'],['Affairs & triangles','receipts.html?f=triangle'],['Feuds & fallouts','receipts.html?f=feud'],['Friendship breakups','receipts.html?f=dost'],['Engagements & divorces','receipts.html?f=engaged'],['Court cases','receipts.html?f=court'],['Archive scandals','receipts.html?f=legend'],['Rumors','receipts.html?f=chupke']]},
   {k:'people',t:'People',href:'people.html',sub:[['Khandaan: the families','people.html#trees'],['Stars A–Z','people.html#az']]},
   {k:'web',t:'The Web',href:'the-web.html',sub:[['Connect two people','the-web.html#connecth'],['In this issue','the-web.html#files'],['Six Degrees of Bollywood','web.html'],["How it's built",'how.html']]},

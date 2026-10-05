@@ -3,114 +3,98 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="The Guest List: all of Bollywood on one map. Pick any two people and pull the thread between them, every rishta dated and stamped with its receipt.">
-<title>Bollywood Receipts · The Guest List</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%2316070B'/%3E%3Ctext x='32' y='43' font-family='Georgia,serif' font-size='30' font-weight='700' text-anchor='middle' fill='%23EFA068'%3EBR%3C/text%3E%3C/svg%3E">
+<meta name="description" content="Bollywood gossip, sorted by how solid the receipt is: every story stamped RECEIPT, ALLEGED, RUMOR or FAUX. Plus who is connected to whom, family trees and the files.">
+<title>Bollywood Receipts</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%23F3EADB'/%3E%3Ctext x='32' y='43' font-family='Georgia,serif' font-size='30' font-weight='700' text-anchor='middle' fill='%23C8261C'%3EBR%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rozha+One&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..800;1,6..96,400..800&family=Mukta:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Caveat:wght@500;700&display=swap">
-<link rel="stylesheet" href="assets/site.css?v=pp20">
-<link rel="stylesheet" href="assets/world.css?v=pp2">
+<link rel="stylesheet" href="assets/site.css?v=pp21">
 </head>
-<body data-page="rishta" class="gl inviting">
-<canvas id="room" role="img" aria-label="The Guest List: a map of everyone in Bollywood, grouped by family and circle. Use the search panel to connect two people."></canvas>
-
-<section class="gl-invite" id="invite" aria-labelledby="invh">
-  <div class="gl-card">
-    <div class="gl-faces" id="invfaces" aria-hidden="true"></div>
-    <p class="gl-inv-kick">Bollywood Receipts · you're invited</p>
-    <h1 id="invh">The Guest List</h1>
-    <p class="gl-inv-dek">All of Bollywood in one room. Name any two guests and we'll pull the thread between them.</p>
-    <form id="invf" autocomplete="off">
-      <div class="gl-inv-pair">
-        <div class="gl-pick"><label for="ia">Guest one</label><input id="ia" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="ial" spellcheck="false" placeholder="Aishwarya Rai"><ul id="ial" class="gl-list" role="listbox" hidden></ul></div>
-        <button type="button" class="gl-inv-swap" id="iswap" aria-label="Swap the two names">⇄</button>
-        <div class="gl-pick"><label for="ib">Guest two</label><input id="ib" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="ibl" spellcheck="false" placeholder="Katrina Kaif"><ul id="ibl" class="gl-list" role="listbox" hidden></ul></div>
-      </div>
-      <p class="gl-err" id="inverr" role="alert" hidden></p>
-      <div class="gl-inv-btns"><button type="submit" class="gl-inv-go">Pull the thread</button><button type="button" class="gl-inv-ghost" id="isurprise">Surprise me</button></div>
+<body data-page="front">
+<a class="skip" href="#main">Skip to the receipts</a>
+<div id="top"></div>
+<main id="main" class="wrap">
+<section class="glhero" aria-labelledby="glh">
+  <div class="glh-card">
+    <p class="glh-kick">Bollywood Receipts · you're invited</p>
+    <h2 id="glh">The Guest List</h2>
+    <p class="glh-dek">All of Bollywood in one room. Name any two guests and we'll pull the thread between them.</p>
+    <form id="glf" class="glh-form" autocomplete="off" action="guest-list.html">
+      <label><span>Guest one</span><input name="a" list="glnames" placeholder="Aishwarya Rai" spellcheck="false"></label>
+      <label><span>Guest two</span><input name="b" list="glnames" placeholder="Katrina Kaif" spellcheck="false"></label>
+      <button type="submit">Pull the thread</button>
+      <datalist id="glnames"></datalist>
     </form>
-    <p class="gl-inv-stat">Seven degrees, max. Usually three.</p>
-    <button type="button" class="gl-inv-walk" id="iwalk">Or just walk in and look around →</button>
+    <p class="glh-alt"><a href="guest-list.html">Or walk into the room →</a></p>
   </div>
-  <nav class="gl-explore" aria-labelledby="exploreh">
-    <p class="gl-explore-k" id="exploreh">Or see the rest of the site</p>
-    <div class="gl-tiles">
-      <a href="latest.html"><b>The paper</b><span>Breaking news, ten trending files, the Reel</span></a>
-      <a href="receipts.html"><b>Receipts</b><span>Affairs, feuds, divorces and court cases, each one stamped</span></a>
-      <a href="features.html"><b>Features</b><span>The long reads, from Dostana 2 to the A-list</span></a>
-      <a href="people.html"><b>Khandaan</b><span>The families, tree by tree</span></a>
-      <a href="the-web.html"><b>The files</b><span>Case files and six degrees of Bollywood</span></a>
-      <a href="watch.html"><b>Watch</b><span>The Reel and what to watch next</span></a>
-    </div>
-  </nav>
 </section>
-
-<div class="gl-left">
-<header class="gl-brand">
-  <nav class="gl-more" aria-label="More from Bollywood Receipts"><a href="latest.html">Bollywood Receipts</a><a href="receipts.html">Receipts</a><a href="people.html">Khandaan</a><a href="watch.html">Watch</a></nav>
-  <p class="gl-h1">The Guest List</p>
-  <p class="gl-tag">Everyone knows everyone. Pull the thread.</p>
-  <p class="gl-meta" id="glmeta"></p>
-</header>
-
-<section class="gl-panel gl-ask" aria-labelledby="askh">
-  <h2 id="askh">Yeh rishta kya kehlata hai?</h2>
-  <form id="askf" autocomplete="off">
-    <div class="gl-pair">
-      <div class="gl-pick"><label for="pa" class="sr">Person one</label><input id="pa" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="pal" spellcheck="false" placeholder="Aishwarya Rai"><ul id="pal" class="gl-list" role="listbox" hidden></ul></div>
-      <button type="button" class="gl-x" id="swap" aria-label="Swap the two people">×</button>
-      <div class="gl-pick"><label for="pb" class="sr">Person two</label><input id="pb" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="pbl" spellcheck="false" placeholder="Katrina Kaif"><ul id="pbl" class="gl-list" role="listbox" hidden></ul></div>
+<section class="front-top" aria-label="Lead story">
+  <div id="hero"></div>
+  <aside id="trending" class="trending" aria-label="Trending"></aside>
+</section>
+<section class="band" aria-labelledby="spotted">
+  <div class="bandhead"><h2 id="spotted">Spotted</h2><p>Khabar garam hai. Here's what Bombay is whispering.</p><a class="more" href="receipts.html">See all spotted →</a></div>
+  <div class="spots" id="spots"></div>
+</section>
+<section class="band" aria-labelledby="rech">
+  <div class="bandhead"><h2 id="rech">The Receipts</h2><p>Every secret stamped. Pick a file drawer, or search the whole archive.</p><a class="more" href="receipts.html">All receipts →</a></div>
+  <form class="bigsearch" action="receipts.html" role="search"><label for="fq" class="sr">Search receipts</label><input id="fq" name="q" type="search" placeholder="Naam toh suna hoga… search a star, family or scandal"><button type="submit">Search</button></form>
+  <div class="drawers"><a class="chip" href="receipts.html?f=triangle"><b>Pati, Patni Aur Woh</b><small>affairs & triangles</small></a><a class="chip" href="receipts.html?f=feud"><b>Kalesh</b><small>feuds & fallouts</small></a><a class="chip" href="receipts.html?f=dost"><b>Dost Dost Na Raha</b><small>friendship breakups</small></a><a class="chip" href="receipts.html?f=engaged"><b>Shaadi Cancel</b><small>broken engagements & divorces</small></a><a class="chip" href="receipts.html?f=court"><b>Tareekh Pe Tareekh</b><small>court cases</small></a><a class="chip" href="receipts.html?f=legend"><b>Purani Picture</b><small>archive scandals</small></a><a class="chip" href="receipts.html?f=chupke"><b>Chupke Chupke</b><small>rumors & secrets</small></a><a class="chip" href="receipts.html?f=nepo"><b>Filmi Khandaan</b><small>star kids & dynasties</small></a><a class="chip" href="receipts.html?f=khan"><b>Khan-daan</b><small>the Khans</small></a><a class="chip" href="receipts.html?f=faux"><b>Jhooth Bole Kauwa Kaate</b><small>debunked viral claims</small></a></div>
+  <div class="mag trr" id="trr"></div>
+  <div class="stamps-key" data-stampkey></div>
+</section>
+<section class="band" aria-labelledby="connecth" id="connect">
+<div class="invite">
+  <div class="inv-faces" id="invfaces" aria-hidden="true"></div>
+  <p class="inv-kick">You're invited</p>
+  <h2 id="connecth">The Guest List</h2>
+  <p class="inv-dek">All of Bollywood in one room. Name any two guests and we'll pull the thread between them.</p>
+  <form id="cxf" class="inv-form" autocomplete="off" data-go="guest">
+    <div class="cx-row">
+      <label for="cxa">Guest one<input id="cxa" placeholder="Aishwarya Rai"></label>
+      <button type="button" class="inv-swap" id="cxswap" aria-label="Swap the two names">⇄</button>
+      <label for="cxb">Guest two<input id="cxb" placeholder="Katrina Kaif"></label>
     </div>
-    <button type="submit" class="gl-go">Pull the thread</button>
-    <button type="button" class="gl-ghost" id="setup">Set me up →</button>
+    <div class="inv-btns"><button class="inv-go" type="submit">Pull the thread</button><button class="inv-ghost" type="button" id="cxrand">Surprise me</button></div>
   </form>
-  <p class="gl-err" id="askerr" role="alert" hidden></p>
-</section>
+  <p class="inv-stat">Seven degrees, max. Usually three.</p>
 </div>
-
-<section class="gl-panel gl-key" id="key" aria-labelledby="keyh">
-  <button type="button" class="gl-fold" id="keyfold" aria-expanded="true" aria-controls="keybody"><h2 id="keyh">Rishta key</h2><span aria-hidden="true">–</span></button>
-  <div id="keybody">
-    <ul class="gl-legend" id="legend"></ul>
-    <p class="gl-sub">Colour the guests by</p>
-    <div class="gl-seg" role="group" aria-label="Colour by" data-set="color"><button type="button" data-v="role" aria-pressed="true">Role</button><button type="button" data-v="house" aria-pressed="false">Khandaan</button><button type="button" data-v="era" aria-pressed="false">Era</button><button type="button" data-v="none" aria-pressed="false">Plain</button></div>
-    <p class="gl-sub">Size by</p>
-    <div class="gl-seg" role="group" aria-label="Size by" data-set="size"><button type="button" data-v="gossip" aria-pressed="true">Gossip</button><button type="button" data-v="films" aria-pressed="false">Films</button><button type="button" data-v="equal" aria-pressed="false">Equal</button></div>
-    <div class="gl-eras" id="eras" hidden></div>
-    <div class="gl-roles" id="roles"></div>
-  </div>
+</section>
+<section class="band" aria-labelledby="reel">
+  <div class="bandhead"><h2 id="reel">The Reel</h2><p>Roll the tape. Receipts hit harder when they said it on camera.</p><a class="more" href="watch.html#reelh">All 22 clips →</a></div>
+  <div class="rrow" data-reel="5"></div>
+</section>
+<section class="band" aria-labelledby="webhd">
+  <div class="bandhead"><h2 id="webhd">The Web</h2><p>Seven degrees, max. Usually three. Bollywood is a very small party.</p><a class="more" href="the-web.html#files">All the files →</a></div>
+  <div class="boards" id="webfiles"></div>
+</section>
+<section class="band" aria-labelledby="khh">
+  <div class="bandhead"><h2 id="khh">Khandaan</h2><p>Har khandaan ki apni kahani. Who's whose, five generations deep.</p><a class="more" href="people.html#trees">Every family →</a></div>
+  <div class="dyns" id="dyn"></div>
+</section>
+<section class="band" aria-labelledby="archh">
+  <a class="feature" href="features.html#sensh"><div class="ftx"><p class="eyebrow">From the archive</p><h2 id="archh">100 years of the “sexy heroine”</h2><p class="dek">How Hindi cinema spent a century deciding what a “respectable” woman was allowed to desire.</p><span class="cta">Read the feature →</span></div><div class="fimg" id="fimg"></div></a>
+</section>
+<section class="band" aria-labelledby="watchh2">
+  <div class="bandhead"><h2 id="watchh2">Watch next</h2><p>Picture abhi baaki hai, mere dost.</p><a class="more" href="watch.html#watchh">The full list →</a></div>
+  <div class="watch">
+  <div class="prow"><article class="poster" tabindex="0"><div class="pimg"><img loading="lazy" class="key" src="https://upload.wikimedia.org/wikipedia/commons/2/22/Maheep_Kapoor%2C_Seema_Khan_grace_the_Lions_Gold_Awards_2022.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled" alt="Maheep Kapoor" title="Maheep Kapoor, photo via Wikimedia Commons" onerror="imgFail(this)"><span class="plat">Netflix</span><div class="pbot"><div class="faces"><img loading="lazy" class="face" src="https://upload.wikimedia.org/wikipedia/commons/8/88/Photos-Ananya-Panday-Chunky-Pandey-and-Bhavana-Pandey-snapped-in-Bandra-6.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled" alt="Bhavana Pandey" title="Bhavana Pandey, photo via Wikimedia Commons" onerror="imgFail(this)"><img loading="lazy" class="face" src="https://thumb.wikimedia.org/wikipedia/commons/thumb/1/14/Neelam_Kothari_fizaa_store_launch.jpg/330px-Neelam_Kothari_fizaa_store_launch.jpg" alt="Neelam Kothari" title="Neelam Kothari, photo via Wikimedia Commons" onerror="imgFail(this)"></div><h3>Fabulous Lives of Bollywood Wives</h3><span class="yr">2020–<b>Start here</b></span></div><div class="pwhy"><p>Seema's nameplate, Maheep on Sanjay's cheating, SRK and Gauri cameos.</p></div></div></article><article class="poster" tabindex="0"><div class="pimg"><img loading="lazy" class="key" src="https://upload.wikimedia.org/wikipedia/commons/a/a0/Ranbir_Kapoor_snapped_at_Kalina_airport.jpg" alt="Ranbir Kapoor" title="Ranbir Kapoor, photo via Wikimedia Commons" onerror="imgFail(this)"><span class="plat">Netflix</span><div class="pbot"><div class="faces"><img loading="lazy" class="face" src="https://upload.wikimedia.org/wikipedia/commons/2/29/Kareena_Kapoor_Khan_in_2023_%281%29_%28cropped%29.jpg" alt="Kareena Kapoor" title="Kareena Kapoor, photo via Wikimedia Commons" onerror="imgFail(this)"><img loading="lazy" class="face" src="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c0/Karisma_Kapoor_snapped_at_Rotary_Club_of_Bombay_West_%286%29_%28cropped%29.jpg/330px-Karisma_Kapoor_snapped_at_Rotary_Club_of_Bombay_West_%286%29_%28cropped%29.jpg" alt="Karisma Kapoor" title="Karisma Kapoor, photo via Wikimedia Commons" onerror="imgFail(this)"><img loading="lazy" class="face" src="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c9/Neetu_Singh.jpg/330px-Neetu_Singh.jpg" alt="Neetu Singh" title="Neetu Singh, photo via Wikimedia Commons" onerror="imgFail(this)"></div><h3>Dining with the Kapoors</h3><span class="yr">Raj Kapoor's family<b>Start here</b></span></div><div class="pwhy"><p>The whole Kapoor khandaan at one table, telling stories.</p></div></div></article><article class="poster" tabindex="0"><div class="pimg"><img loading="lazy" class="key" src="https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6b/Karan_Johar_at_2025_Cannes_Homebound_Photocall_2_%28cropped%29.jpg/330px-Karan_Johar_at_2025_Cannes_Homebound_Photocall_2_%28cropped%29.jpg" alt="Karan Johar" title="Karan Johar, photo via Wikimedia Commons" onerror="imgFail(this)"><span class="plat">JioHotstar</span><div class="pbot"><div class="faces"><img loading="lazy" class="face" src="https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f4/Kangana_Ranaut_at_Ira_Khan%27s_wedding_reception_%28cropped%29.jpg/330px-Kangana_Ranaut_at_Ira_Khan%27s_wedding_reception_%28cropped%29.jpg" alt="Kangana Ranaut" title="Kangana Ranaut, photo via Wikimedia Commons" onerror="imgFail(this)"><img loading="lazy" class="face" src="https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e8/Alia_Bhatt_attends_at_the_2026_Cannes_Film_Festival_%28cropped%29_%28cropped%29.jpg/330px-Alia_Bhatt_attends_at_the_2026_Cannes_Film_Festival_%28cropped%29_%28cropped%29.jpg" alt="Alia Bhatt" title="Alia Bhatt, photo via Wikimedia Commons" onerror="imgFail(this)"><img loading="lazy" class="face" src="https://upload.wikimedia.org/wikipedia/commons/1/1c/Kajol_snapped_promoting_Maa_%28cropped%29_%28cropped%29.jpg" alt="Kajol" title="Kajol, photo via Wikimedia Commons" onerror="imgFail(this)"></div><h3>Koffee with Karan</h3><span class="yr">2004–<b>Where feuds start</b></span></div><div class="pwhy"><p>"Flag bearer of nepotism," "Prithviraj Chauhan," two Pahariya brothers.</p></div></div></article><article class="poster" tabindex="0"><div class="pimg"><img loading="lazy" class="key" src="https://upload.wikimedia.org/wikipedia/commons/b/bb/Aryan_Khan_at_the_launch_of_Netflix_Slate_2025_%28cropped%29.jpg" alt="Aryan Khan" title="Aryan Khan, photo via Wikimedia Commons" onerror="imgFail(this)"><span class="plat">Netflix</span><div class="pbot"><div class="faces"><img loading="lazy" class="face" src="https://thumb.wikimedia.org/wikipedia/commons/thumb/0/01/Lord_Bobby_2024.jpg/330px-Lord_Bobby_2024.jpg" alt="Bobby Deol" title="Bobby Deol, photo via Wikimedia Commons" onerror="imgFail(this)"><img loading="lazy" class="face" src="https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6e/Shah_Rukh_Khan_graces_the_launch_of_the_new_Santro.jpg/330px-Shah_Rukh_Khan_graces_the_launch_of_the_new_Santro.jpg" alt="Shah Rukh Khan" title="Shah Rukh Khan, photo via Wikimedia Commons" onerror="imgFail(this)"></div><h3>The Ba***ds of Bollywood</h3><span class="yr">2025<b>Aryan Khan directs</b></span></div><div class="pwhy"><p>Aryan's satire of the industry that arrested, then adored, him.</p></div></div></article><article class="poster" tabindex="0"><div class="pimg"><img loading="lazy" class="key" src="https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6e/Shah_Rukh_Khan_graces_the_launch_of_the_new_Santro.jpg/330px-Shah_Rukh_Khan_graces_the_launch_of_the_new_Santro.jpg" alt="Shah Rukh Khan" title="Shah Rukh Khan, photo via Wikimedia Commons" onerror="imgFail(this)"><span class="plat">Netflix</span><div class="pbot"><div class="faces"><img loading="lazy" class="face" src="https://upload.wikimedia.org/wikipedia/commons/1/1c/Kajol_snapped_promoting_Maa_%28cropped%29_%28cropped%29.jpg" alt="Kajol" title="Kajol, photo via Wikimedia Commons" onerror="imgFail(this)"><img loading="lazy" class="face" src="https://thumb.wikimedia.org/wikipedia/commons/thumb/7/76/Rani_Mukerji_snapped_at_Hema_Malini%E2%80%99s_75th_birthday_celebration_%28cropped%29%282%29.jpg/330px-Rani_Mukerji_snapped_at_Hema_Malini%E2%80%99s_75th_birthday_celebration_%28cropped%29%282%29.jpg" alt="Rani Mukerji" title="Rani Mukerji, photo via Wikimedia Commons" onerror="imgFail(this)"><img loading="lazy" class="face" src="https://upload.wikimedia.org/wikipedia/commons/3/32/Ranveer_Singh_in_2023_%281%29_%28cropped%29.jpg" alt="Ranveer Singh" title="Ranveer Singh, photo via Wikimedia Commons" onerror="imgFail(this)"></div><h3>The Romantics</h3><span class="yr">2023<b>The Yash Raj story</b></span></div><div class="pwhy"><p>Aditya Chopra on camera, and how YRF made its stars.</p></div></div></article><article class="poster" tabindex="0"><div class="pimg"><img loading="lazy" class="key" src="https://upload.wikimedia.org/wikipedia/commons/4/40/SalimKhan.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled" alt="Salim Khan" title="Salim Khan, photo via Wikimedia Commons" onerror="imgFail(this)"><span class="plat">Prime Video</span><div class="pbot"><div class="faces"><img loading="lazy" class="face" src="https://thumb.wikimedia.org/wikipedia/commons/thumb/7/70/Javed_Akhtar_at_Jaipur_Literature_Festival_2026.jpg/330px-Javed_Akhtar_at_Jaipur_Literature_Festival_2026.jpg" alt="Javed Akhtar" title="Javed Akhtar, photo via Wikimedia Commons" onerror="imgFail(this)"><img loading="lazy" class="face" src="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c6/Indian_actor_Amitabh_Bachchan.jpg/330px-Indian_actor_Amitabh_Bachchan.jpg" alt="Amitabh Bachchan" title="Amitabh Bachchan, photo via Wikimedia Commons" onerror="imgFail(this)"><img loading="lazy" class="face" src="https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/Salman_Khan_in_2023_%28cropped%29.jpg/330px-Salman_Khan_in_2023_%28cropped%29.jpg" alt="Salman Khan" title="Salman Khan, photo via Wikimedia Commons" onerror="imgFail(this)"></div><h3>Angry Young Men</h3><span class="yr">2024<b>Salim–Javed</b></span></div><div class="pwhy"><p>The writers behind Sholay and Deewaar, and their families.</p></div></div></article><article class="poster" tabindex="0"><div class="pimg"><img loading="lazy" class="key" src="https://upload.wikimedia.org/wikipedia/commons/d/d1/SimiGarewal.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled" alt="Simi Garewal" title="Simi Garewal, photo via Wikimedia Commons" onerror="imgFail(this)"><span class="plat">YouTube</span><div class="pbot"><div class="faces"><img loading="lazy" class="face" src="https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a2/Rekha_2023.jpg/330px-Rekha_2023.jpg" alt="Rekha" title="Rekha, photo via Wikimedia Commons" onerror="imgFail(this)"><img loading="lazy" class="face" src="https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3a/Aishwarya_Rai_Cannes_2017.jpg/330px-Aishwarya_Rai_Cannes_2017.jpg" alt="Aishwarya Rai" title="Aishwarya Rai, photo via Wikimedia Commons" onerror="imgFail(this)"><img loading="lazy" class="face" src="https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c6/Indian_actor_Amitabh_Bachchan.jpg/330px-Indian_actor_Amitabh_Bachchan.jpg" alt="Amitabh Bachchan" title="Amitabh Bachchan, photo via Wikimedia Commons" onerror="imgFail(this)"></div><h3>Rendezvous with Simi Garewal</h3><span class="yr">1997–2009<b>The original tell-all</b></span></div><div class="pwhy"><p>Rekha on Amitabh. Aishwarya on losing SRK's films.</p></div></div></article></div>
+</div>
 </section>
 
-<nav class="gl-show" aria-label="Show rishtas">
-  <span class="gl-show-k">Show me</span>
-  <div class="gl-pills" role="group" aria-label="Rishta type">
-    <button type="button" data-f="all" aria-pressed="true">All</button><button type="button" data-f="family" aria-pressed="false">Family</button><button type="button" data-f="love" aria-pressed="false">Love</button><button type="button" data-f="friends" aria-pressed="false">Friends</button><button type="button" data-f="feuds" aria-pressed="false">Feuds</button><button type="button" data-f="films" aria-pressed="false">Films</button>
-  </div>
-  <button type="button" class="gl-verified" id="verified" aria-pressed="false">Receipts only</button>
-</nav>
-
-<div class="gl-zoom" role="group" aria-label="Zoom">
-  <button type="button" id="zin" aria-label="Zoom in">+</button><button type="button" id="zout" aria-label="Zoom out">−</button><button type="button" id="zfit" aria-label="Show the whole room">⤢</button>
-</div>
-
-<div class="gl-cap" id="cap" aria-hidden="true"></div>
-<div class="gl-tip" id="tip" hidden></div>
-<aside class="gl-panel gl-dossier" id="dossier" aria-live="polite" hidden></aside>
-<section class="gl-panel gl-spotted" id="spotted" aria-live="polite" hidden></section>
-<section class="gl-drawer" id="drawer" role="dialog" aria-modal="false" aria-labelledby="drawerh" hidden></section>
-<button type="button" class="gl-skip" id="skip" hidden>Skip →</button>
-<p class="sr" id="say" aria-live="assertive"></p>
-
+</main>
 <dialog id="rx" aria-label="Receipt"><article class="slip" id="rxin"></article></dialog>
-<script src="assets/casefiles.js?v=pp8"></script>
+<footer id="foot" class="wrap"></footer>
 <script src="assets/files.js?v=pp8"></script>
 <script src="assets/movies.js?v=pp27"></script>
 <script src="assets/wd.js?v=wd1"></script>
-<script src="assets/site.js?v=pp46"></script>
-<script src="assets/roles.js?v=pp12"></script>
+<script src="assets/web3d.js?v=pp1"></script>
+<script src="assets/site.js?v=pp47"></script>
+<script>(()=>{const d=document.getElementById('glnames'),N=window.__NAMES||[];if(d)d.innerHTML=N.slice().sort().map(n=>'<option value="'+n.replace(/"/g,'&quot;')+'">').join('');
+document.getElementById('glf').addEventListener('submit',e=>{e.preventDefault();const a=e.target.a.value.trim(),b=e.target.b.value.trim();location.href='guest-list.html'+(a&&b?'?a='+encodeURIComponent(a)+'&b='+encodeURIComponent(b):'')})})();</script>
 <script src="assets/world-data.js?v=pp48"></script>
-<script src="assets/world.js?v=pp2"></script>
-<script src="assets/intro.js?v=pp3"></script>
+<script src="assets/intro.js?v=pp7"></script>
+<script src="assets/casefiles.js?v=pp8"></script>
 </body>
 </html>
