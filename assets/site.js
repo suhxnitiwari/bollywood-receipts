@@ -512,7 +512,7 @@ const G=[
 ["Sonam Kapoor","Anand Ahuja","m","",2018,"t"],
 ["Janhvi Kapoor","Shikhar Pahariya","x","first around 2016, back together 2022",2016,"t"],
 ["Janhvi Kapoor","Ishaan Khatter","r","Dhadak",2018,"a"],
-["Janhvi Kapoor","Kartik Aaryan","r","Dostana 2",2020,"a"],
+["Janhvi Kapoor","Kartik Aaryan","r","Dostana 2 co-stars; Goa together at New Year 2021, a brief unfollow that month; never confirmed",2020,"a"],
 ["Janhvi Kapoor","Sara Ali Khan","b","close since lockdown",2020,"t"],
 ["Shikhar Pahariya","Veer Pahariya","f","brothers",null,"t"],
 ["Veer Pahariya","Sara Ali Khan","x","Sara has acknowledged it",null,"t"],
@@ -1253,7 +1253,7 @@ const NAV=[
   {k:'receipts',t:'Receipts',href:'receipts.html',sub:[['All receipts','receipts.html?f=all'],['Affairs & triangles','receipts.html?f=triangle'],['Feuds & fallouts','receipts.html?f=feud'],['Friendship breakups','receipts.html?f=dost'],['Engagements & divorces','receipts.html?f=engaged'],['Court cases','receipts.html?f=court'],['Archive scandals','receipts.html?f=legend'],['Rumors','receipts.html?f=chupke']]},
   {k:'people',t:'People',href:'people.html',sub:[['Khandaan: the families','people.html#trees'],['Stars A–Z','people.html#az']]},
   {k:'web',t:'The Web',href:'the-web.html',sub:[['Connect two people','the-web.html#connecth'],['In this issue','the-web.html#files'],['Six Degrees of Bollywood','web.html']]},
-  {k:'features',t:'Features',href:'features.html',sub:[["Urvashi Rautela's upgrades",'features.html#urvashik'],['Andaz Apna Apna, off camera','features.html#aaak'],['Why does everything Alia does look familiar?','features.html#aliak'],["Kangana Ranaut doesn't do shade",'features.html#kanganak'],['Kareena Kapoor, before the media training','features.html#bebok'],['Sonam Kapoor, said out loud','features.html#sonamk'],["Arjun Kapoor's Khan family loop",'features.html#loopk'],['A century of the sexy heroine','features.html#sensh'],['How Bollywood actually gets in','features.html#careerh'],['The school pipeline','features.html#schh'],["Alia's inheritance board",'features.html#inhh']]},
+  {k:'features',t:'Features',href:'features.html',sub:[['The breakup that may have broken a movie','features.html#dostanak'],["Urvashi Rautela's upgrades",'features.html#urvashik'],['Andaz Apna Apna, off camera','features.html#aaak'],['Why does everything Alia does look familiar?','features.html#aliak'],["Kangana Ranaut doesn't do shade",'features.html#kanganak'],['Kareena Kapoor, before the media training','features.html#bebok'],['Sonam Kapoor, said out loud','features.html#sonamk'],["Arjun Kapoor's Khan family loop",'features.html#loopk'],['A century of the sexy heroine','features.html#sensh'],['How Bollywood actually gets in','features.html#careerh'],['The school pipeline','features.html#schh'],["Alia's inheritance board",'features.html#inhh']]},
   {k:'watch',t:'Watch',href:'watch.html',sub:[['The Reel','watch.html#reelh'],['What to watch','watch.html#watchh']]}];
 const navHtml=(cls)=>`<ul class="${cls}">`+NAV.map(n=>`<li class="nv${n.k===PAGE||(PAGE==='front'&&n.k==='latest')?' on':''}${n.k==='rishta'?' star':''}"><a href="${n.href}">${n.t}</a><div class="dd"><ul>${n.sub.map(([t,h])=>`<li><a href="${h}">${t}</a></li>`).join('')}</ul></div></li>`).join('')+`</ul>`;
 const MONTH=new Date().toLocaleDateString('en-US',{month:'long',year:'numeric'}).toUpperCase();
