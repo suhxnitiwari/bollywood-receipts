@@ -232,6 +232,7 @@ window.MOVIES=[
 ['umraojaan06','Umrao Jaan',2006,{cast:['Aishwarya Rai','Abhishek Bachchan','Shabana Azmi'],crew:[['J. P. Dutta','director']]}],
 ['sarkarraj','Sarkar Raj',2008,{cast:['Amitabh Bachchan','Abhishek Bachchan','Aishwarya Rai'],crew:[['Ram Gopal Varma','director']]}],
 ['raavan','Raavan',2010,{cast:['Abhishek Bachchan','Aishwarya Rai','Vikram'],crew:[['Mani Ratnam','director']]}],
+['guzaarish','Guzaarish',2010,{cast:['Hrithik Roshan','Aishwarya Rai','Aditya Roy Kapur'],crew:[['Sanjay Leela Bhansali','director']]}],
 ['kirikparty','Kirik Party',2016,{lang:'kn',cast:['Rakshit Shetty','Rashmika Mandanna'],crew:[['Rishab Shetty','director'],['Rakshit Shetty','producer']]}],
 ['geethagovindam','Geetha Govindam',2018,{lang:'te',cast:['Vijay Deverakonda','Rashmika Mandanna']}],
 ['dearcomrade','Dear Comrade',2019,{lang:'te',cast:['Vijay Deverakonda','Rashmika Mandanna']}],
