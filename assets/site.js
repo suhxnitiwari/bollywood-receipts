@@ -1458,7 +1458,11 @@ window.renderFront=function(){if(PAGE!=='front')return;USED=new Set();
   const TRR=['Saif and Amrita','Hrithik & Sussanne','Mahesh & Pooja Bhatt','Priyanka & Gauri'].map(byH).filter(Boolean);
   document.getElementById('trr').innerHTML=TRR.map(r=>cardHtml(r,false)).join('');
   requestAnimationFrame(()=>window.threadBoards&&threadBoards());
-  document.getElementById('webfiles').innerHTML=FILES.filter(x=>['webh','spy','web5h','genzh'].includes(x.id)).map((x,i)=>`<a class="board${i===0||i===3?' wide':''}" href="the-web.html#${x.id}"><div class="pins">${polaroids(x.p,4,x.ctx)}</div><p class="hnote">${x.d.split(/(?<=[.!?])\s/)[0]}</p><div class="btx"><span class="fno">File ${x.file}</span><h3>${x.t}</h3><p>${x.n} subjects · ${x.e} threads</p><span class="cta">Open the file →</span></div></a>`).join('');
+  /* the files as video tiles: a widescreen mosaic of the people in them, a play button, the title over the picture */
+  {const wf=document.getElementById('webfiles');if(wf){wf.className='vids';
+    const faces=(names,max,ctx)=>{const out=[];for(const n0 of names){const n=whoIn(n0,ctx);if(PH[n]&&!out.includes(n))out.push(n);if(out.length>=max)break}return out};
+    wf.innerHTML=FILES.filter(x=>['webh','spy','web5h','genzh'].includes(x.id)).map(x=>{const f=faces(x.p,6,x.ctx);
+      return `<a class="vid" href="the-web.html#${x.id}"><div class="vid-th" style="--c:${Math.max(1,Math.ceil(f.length/(f.length>3?2:1)))};--r:${f.length>3?2:1}">${f.map(n=>`<img loading="lazy" src="${PH[n]}" alt="" title="${n}" onerror="this.remove()">`).join('')}<span class="vid-play" aria-hidden="true"></span><span class="vid-badge">File ${x.file}</span><span class="vid-dur">${x.e} threads</span></div><div class="vid-tx"><h3>${x.t}</h3><p>${x.d.split(/(?<=[.!?])\s/)[0]}</p><span class="vid-meta">${x.n} people · open the file →</span></div></a>`}).join('')}}
   document.getElementById('dyn').innerHTML=['kapoor','bachchan','pataudi'].map(k=>FAMS.find(f=>f.k===k)).filter(Boolean).map(f=>`<a class="dcard" href="people.html?k=${f.k}#trees"><h3>${f.t}</h3><p class="dd2">${f.d}</p><p class="gens">${famLine(f)}</p><span class="cta">Enter the family →</span></a>`).join('');
   const fi=document.getElementById('fimg');if(fi)fi.innerHTML=['Helen','Zeenat Aman','Madhubala'].filter(n=>PH[n]).map(n=>`<img loading="lazy" src="${PH[n]}" alt="${n}">`).join('');
   TOPUSED=USED;USED=null}

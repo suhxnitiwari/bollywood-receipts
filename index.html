@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rozha+One&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..800;1,6..96,400..800&family=Mukta:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Caveat:wght@500;700&display=swap">
-<link rel="stylesheet" href="assets/site.css?v=pp23">
+<link rel="stylesheet" href="assets/site.css?v=pp27">
 </head>
 <body data-page="front">
 <a class="skip" href="#main">Skip to the receipts</a>
@@ -49,23 +49,6 @@
   <div class="mag trr" id="trr"></div>
   <div class="stamps-key" data-stampkey></div>
 </section>
-<section class="band" aria-labelledby="connecth" id="connect">
-<div class="invite">
-  <div class="inv-faces" id="invfaces" aria-hidden="true"></div>
-  <p class="inv-kick">You're invited</p>
-  <h2 id="connecth">The Guest List</h2>
-  <p class="inv-dek">All of Bollywood in one room. Name any two guests and we'll pull the thread between them.</p>
-  <form id="cxf" class="inv-form" autocomplete="off" data-go="guest">
-    <div class="cx-row">
-      <label for="cxa">Guest one<input id="cxa" placeholder="Aishwarya Rai"></label>
-      <button type="button" class="inv-swap" id="cxswap" aria-label="Swap the two names">⇄</button>
-      <label for="cxb">Guest two<input id="cxb" placeholder="Katrina Kaif"></label>
-    </div>
-    <div class="inv-btns"><button class="inv-go" type="submit">Pull the thread</button><button class="inv-ghost" type="button" id="cxrand">Surprise me</button></div>
-  </form>
-  <p class="inv-stat">Seven degrees, max. Usually three.</p>
-</div>
-</section>
 <section class="band" aria-labelledby="reel">
   <div class="bandhead"><h2 id="reel">The Reel</h2><p>Roll the tape. Receipts hit harder when they said it on camera.</p><a class="more" href="watch.html#reelh">All 22 clips →</a></div>
   <div class="rrow" data-reel="5"></div>
@@ -79,7 +62,8 @@
   <div class="dyns" id="dyn"></div>
 </section>
 <section class="band" aria-labelledby="archh">
-  <a class="feature" href="features.html#sensh"><div class="ftx"><p class="eyebrow">From the archive</p><h2 id="archh">100 years of the “sexy heroine”</h2><p class="dek">How Hindi cinema spent a century deciding what a “respectable” woman was allowed to desire.</p><span class="cta">Read the feature →</span></div><div class="fimg" id="fimg"></div></a>
+  <h2 id="archh" class="sr">From the features</h2>
+  <div class="fcar" id="fcar"></div>
 </section>
 <section class="band" aria-labelledby="watchh2">
   <div class="bandhead"><h2 id="watchh2">Watch next</h2><p>Picture abhi baaki hai, mere dost.</p><a class="more" href="watch.html#watchh">The full list →</a></div>
@@ -95,10 +79,25 @@
 <script src="assets/movies.js?v=pp27"></script>
 <script src="assets/wd.js?v=wd1"></script>
 <script src="assets/web3d.js?v=pp1"></script>
-<script src="assets/site.js?v=pp47"></script>
+<script src="assets/site.js?v=pp50"></script>
 <script>(()=>{const d=document.getElementById('glnames'),N=window.__NAMES||[];if(d)d.innerHTML=N.slice().sort().map(n=>'<option value="'+n.replace(/"/g,'&quot;')+'">').join('');
 addEventListener('message',e=>{const d=e.data;if(d&&d.gl==='pair'){const n=document.getElementById('glnow');if(n)n.textContent=d.a+' → '+d.b}});
 document.getElementById('glf').addEventListener('submit',e=>{e.preventDefault();const a=e.target.a.value.trim(),b=e.target.b.value.trim();location.href='guest-list.html'+(a&&b?'?a='+encodeURIComponent(a)+'&b='+encodeURIComponent(b):'')})})();</script>
+<script>(()=>{const F=[
+['aliak','Why does everything Alia Bhatt does look familiar?',"Kareena's attitude, Deepika's styling, Katrina's aesthetic. A decade of copycat accusations, and how much of the case holds up.",['Alia Bhatt','Kareena Kapoor','Deepika Padukone']],
+['dostanak','The breakup that may have broken a movie','Janhvi, Kartik, Karan and the death of Dostana 2: three versions, and nobody involved will say which is true.',['Janhvi Kapoor','Kartik Aaryan','Karan Johar']],
+['dominok','The Salman Khan domino effect','Sangeeta, then Somy, then Aishwarya, then Vivek, and the same man in the middle of every handover.',['Sangeeta Bijlani','Somy Ali','Aishwarya Rai']],
+['roomk',"The woman who wasn't in the room",'Two men fought twice over Aishwarya Rai. She lost the films.',['Aishwarya Rai','Shah Rukh Khan','Salman Khan']],
+['ranveerk',"Why doesn't Ranveer Singh wear pants?","Twelve years of Bollywood's most consistently underdressed man, sourced.",['Ranveer Singh','Parineeti Chopra','Anushka Sharma']],
+['sensh','100 years of the “sexy heroine”','How Hindi cinema spent a century deciding what a “respectable” woman was allowed to desire.',['Helen','Zeenat Aman','Madhubala']]];
+const el=document.getElementById('fcar');if(!el)return;const ph=n=>(typeof PH!=='undefined'&&PH[n])||'';
+el.innerHTML='<div class="fc-track">'+F.map(([id,t,d,ns],i)=>`<a class="feature fc-s${i?'':' on'}" href="features.html#${id}"${i?' aria-hidden="true" tabindex="-1"':''}><div class="ftx"><p class="eyebrow">From the features</p><h3>${t}</h3><p class="dek">${d}</p><span class="cta">Read the feature →</span></div><div class="fimg">${ns.filter(ph).map(n=>`<img loading="lazy" src="${ph(n)}" alt="${n}">`).join('')}</div></a>`).join('')+'</div>'
+ +`<div class="bk-nav fc-nav"><button type="button" class="fc-prev" aria-label="Previous feature">←</button><div class="bk-dots">${F.map((_,i)=>`<button type="button" aria-label="Feature ${i+1}"${i?'':' aria-current="true"'}></button>`).join('')}</div><button type="button" class="fc-next" aria-label="Next feature">→</button></div>`;
+const sl=[...el.querySelectorAll('.fc-s')],dots=[...el.querySelectorAll('.bk-dots button')];let at=0,timer=null;
+const go=i=>{at=(i+sl.length)%sl.length;sl.forEach((s,k)=>{s.classList.toggle('on',k===at);s.toggleAttribute('aria-hidden',k!==at);s.tabIndex=k===at?0:-1});dots.forEach((d,k)=>k===at?d.setAttribute('aria-current','true'):d.removeAttribute('aria-current'))};
+const auto=()=>{clearInterval(timer);if(!matchMedia('(prefers-reduced-motion: reduce)').matches)timer=setInterval(()=>go(at+1),7000)};
+el.querySelector('.fc-prev').onclick=()=>{go(at-1);auto()};el.querySelector('.fc-next').onclick=()=>{go(at+1);auto()};dots.forEach((d,k)=>d.onclick=()=>{go(k);auto()});
+el.addEventListener('mouseenter',()=>clearInterval(timer));el.addEventListener('mouseleave',auto);auto()})();</script>
 <script src="assets/world-data.js?v=pp48"></script>
 <script src="assets/intro.js?v=pp9"></script>
 <script src="assets/casefiles.js?v=pp8"></script>
