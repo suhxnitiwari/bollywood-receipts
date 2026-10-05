@@ -234,6 +234,7 @@ window.MOVIES=[
 ['raavan','Raavan',2010,{cast:['Abhishek Bachchan','Aishwarya Rai','Vikram'],crew:[['Mani Ratnam','director']]}],
 ['guzaarish','Guzaarish',2010,{cast:['Hrithik Roshan','Aishwarya Rai','Aditya Roy Kapur'],crew:[['Sanjay Leela Bhansali','director']]}],
 ['ramanraghav','Raman Raghav 2.0',2016,{cast:['Nawazuddin Siddiqui','Vicky Kaushal','Sobhita Dhulipala'],crew:[['Anurag Kashyap','director']]}],
+['madeinheaven','Made in Heaven (series)',2019,{cast:['Sobhita Dhulipala','Arjun Mathur','Kalki Koechlin','Jim Sarbh','Shashank Arora'],crew:[['Zoya Akhtar','creator'],['Reema Kagti','creator']]}],
 ['kirikparty','Kirik Party',2016,{lang:'kn',cast:['Rakshit Shetty','Rashmika Mandanna'],crew:[['Rishab Shetty','director'],['Rakshit Shetty','producer']]}],
 ['geethagovindam','Geetha Govindam',2018,{lang:'te',cast:['Vijay Deverakonda','Rashmika Mandanna']}],
 ['dearcomrade','Dear Comrade',2019,{lang:'te',cast:['Vijay Deverakonda','Rashmika Mandanna']}],
