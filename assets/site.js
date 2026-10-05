@@ -420,7 +420,7 @@ const G=[
 ["Shweta Bachchan","Navya Naveli Nanda","f","mother and daughter",null,"t"],
 ["Shweta Bachchan","Agastya Nanda","f","mother and son",null,"t"],
 ["Navya Naveli Nanda","Agastya Nanda","f","siblings",null,"t"],
-["Abhishek Bachchan","Aishwarya Rai","m","daughter Aaradhya born 2011",2007,"t"],
+["Abhishek Bachchan","Aishwarya Rai","m","co-stars from Dhaai Akshar Prem Ke (2000); he proposed in New York after Guru; married April 2007; daughter Aaradhya born 2011",2007,"t"],
 ["Abhishek Bachchan","Rani Mukerji","r","Yuva and Bunty Aur Babli",2004,"a"],
 ["Abhishek Bachchan","Nimrat Kaur","r","Dasvi; unverified, both pushed back",2022,"c"],
 ["Amitabh Bachchan","Rani Mukerji","c","the Black kiss",2005,"t"],
@@ -433,7 +433,7 @@ const G=[
 ["Aishwarya Rai","Vivek Oberoi","r","reported relationship, c. 2003; never confirmed by her",2003,"a"],
 ["Aishwarya Rai","Sushmita Sen","v","Miss India 1994 rivalry",1994,"r"],
 ["Aishwarya Rai","Rani Mukerji","v","Rani replaced her in Chalte Chalte",2002,"a"],
-["Aishwarya Rai","Shah Rukh Khan","c","dropped from Chalte Chalte; later Ae Dil Hai Mushkil",2002,"t"],
+["Aishwarya Rai","Shah Rukh Khan","c","Josh, Mohabbatein, Devdas; dropped from Chalte Chalte (\"my hands were tied\"); together again in Ae Dil Hai Mushkil",2002,"t"],
 ["Aishwarya Rai","Shweta Bachchan","v","rift rumors",null,"r"],
 ["Aishwarya Rai","Sonam Kapoor","v","the \"aunty\" comment",2009,"t"],
 ["Shah Rukh Khan","Gauri Khan","m","met 1984",1991,"t"],
@@ -474,7 +474,7 @@ const G=[
 ["Salman Khan","Somy Ali","x","about eight years; she says Aishwarya came between them and that he cheated; she has since alleged abuse",1991,"t"],
 ["Salman Khan","Katrina Kaif","x","about 2003–09",2003,"t"],
 ["Salman Khan","Juhi Chawla","r","he asked her father for her hand and was refused",null,"t"],
-["Salman Khan","Vivek Oberoi","v","the 41-calls press conference",2003,"t"],
+["Salman Khan","Vivek Oberoi","v","the 41-calls press conference, April 2003; in 2019 Vivek asked: \"Do you truly believe in forgiveness?\"",2003,"t"],
 ["Salman Khan","Iulia Vantur","r","",2014,"a"],
 ["Salman Khan","Preity Zinta","b","close friends",null,"t"],
 ["Arbaaz Khan","Malaika Arora","d","married 1998, divorced 2017",1998,"t"],
@@ -1318,7 +1318,7 @@ const NAV=[
   {k:'receipts',t:'Receipts',href:'receipts.html',sub:[['All receipts','receipts.html?f=all'],['Affairs & triangles','receipts.html?f=triangle'],['Feuds & fallouts','receipts.html?f=feud'],['Friendship breakups','receipts.html?f=dost'],['Engagements & divorces','receipts.html?f=engaged'],['Court cases','receipts.html?f=court'],['Archive scandals','receipts.html?f=legend'],['Rumors','receipts.html?f=chupke']]},
   {k:'people',t:'People',href:'people.html',sub:[['Khandaan: the families','people.html#trees'],['Stars A–Z','people.html#az']]},
   {k:'web',t:'The Web',href:'the-web.html',sub:[['Connect two people','the-web.html#connecth'],['In this issue','the-web.html#files'],['Six Degrees of Bollywood','web.html']]},
-  {k:'features',t:'Features',href:'features.html',sub:[["Bollywood's group chats",'features.html#groupsk'],['The Salman Khan domino effect','features.html#dominok'],['The friendships that survived their receipts','features.html#survivedk'],['The friendships with no receipts','features.html#friendsk'],["Shilpa Shetty's feuds, and the ones that weren't",'features.html#shilpak'],['Alia vs Shraddha, the feud that keeps not happening','features.html#aliashk'],["Kangana's exes don't agree on anything",'features.html#kanganaexk'],['Two wives, one law','features.html#twowivesk'],['A Hindu astrologer named A. R. Rahman','features.html#rahmank'],["Farhan Akhtar's three suspects",'features.html#farhank'],['The Akshay Kumar hate club, audited','features.html#akshayk'],["Why doesn't Ranveer Singh wear pants?",'features.html#ranveerk'],['Before Aditya: Yami Gautam','features.html#yamik'],["Radhika Apte's fake boyfriend",'features.html#radhikak'],["Rashmika didn't leave one man for another",'features.html#rashmikak'],['Toxic is selling a catfight','features.html#toxick'],['The breakup that may have broken a movie','features.html#dostanak'],["Urvashi Rautela's upgrades",'features.html#urvashik'],['Andaz Apna Apna, off camera','features.html#aaak'],['Why does everything Alia does look familiar?','features.html#aliak'],["Kangana Ranaut doesn't do shade",'features.html#kanganak'],['Kareena Kapoor, before the media training','features.html#bebok'],['Sonam Kapoor, said out loud','features.html#sonamk'],["Arjun Kapoor's Khan family loop",'features.html#loopk'],['A century of the sexy heroine','features.html#sensh'],['How Bollywood actually gets in','features.html#careerh'],['The school pipeline','features.html#schh'],["Alia's inheritance board",'features.html#inhh']]},
+  {k:'features',t:'Features',href:'features.html',sub:[["The woman who wasn't in the room",'features.html#roomk'],["Bollywood's group chats",'features.html#groupsk'],['The Salman Khan domino effect','features.html#dominok'],['The friendships that survived their receipts','features.html#survivedk'],['The friendships with no receipts','features.html#friendsk'],["Shilpa Shetty's feuds, and the ones that weren't",'features.html#shilpak'],['Alia vs Shraddha, the feud that keeps not happening','features.html#aliashk'],["Kangana's exes don't agree on anything",'features.html#kanganaexk'],['Two wives, one law','features.html#twowivesk'],['A Hindu astrologer named A. R. Rahman','features.html#rahmank'],["Farhan Akhtar's three suspects",'features.html#farhank'],['The Akshay Kumar hate club, audited','features.html#akshayk'],["Why doesn't Ranveer Singh wear pants?",'features.html#ranveerk'],['Before Aditya: Yami Gautam','features.html#yamik'],["Radhika Apte's fake boyfriend",'features.html#radhikak'],["Rashmika didn't leave one man for another",'features.html#rashmikak'],['Toxic is selling a catfight','features.html#toxick'],['The breakup that may have broken a movie','features.html#dostanak'],["Urvashi Rautela's upgrades",'features.html#urvashik'],['Andaz Apna Apna, off camera','features.html#aaak'],['Why does everything Alia does look familiar?','features.html#aliak'],["Kangana Ranaut doesn't do shade",'features.html#kanganak'],['Kareena Kapoor, before the media training','features.html#bebok'],['Sonam Kapoor, said out loud','features.html#sonamk'],["Arjun Kapoor's Khan family loop",'features.html#loopk'],['A century of the sexy heroine','features.html#sensh'],['How Bollywood actually gets in','features.html#careerh'],['The school pipeline','features.html#schh'],["Alia's inheritance board",'features.html#inhh']]},
   {k:'watch',t:'Watch',href:'watch.html',sub:[['The Reel','watch.html#reelh'],['What to watch','watch.html#watchh']]}];
 const navHtml=(cls)=>`<ul class="${cls}">`+NAV.map(n=>`<li class="nv${n.k===PAGE||(PAGE==='front'&&n.k==='latest')?' on':''}${n.k==='rishta'?' star':''}"><a href="${n.href}">${n.t}</a><div class="dd"><ul>${n.sub.map(([t,h])=>`<li><a href="${h}">${t}</a></li>`).join('')}</ul></div></li>`).join('')+`</ul>`;
 const MONTH=new Date().toLocaleDateString('en-US',{month:'long',year:'numeric'}).toUpperCase();
