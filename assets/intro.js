@@ -177,12 +177,7 @@ function frame(now){
   const gild=seg(t,6.0,7.0);
   if(gild>0){const flick=t<7.2&&Math.sin(t*61)>.55?.3:1;g.globalAlpha=gild*flick;g.drawImage(title.neon,0,0,W,H);
     /* the line falls out of the p */
-    const drop=easeOut(seg(t,6.6,8.0));if(drop>0){const y0=title.py-1,y1=y0+(H-y0)*drop,lw=Math.max(1.6,title.fs*.012);g.lineCap='round';
-      const fade=(a)=>{const gr=g.createLinearGradient(0,y0,0,H);gr.addColorStop(0,`rgba(239,160,104,${a})`);gr.addColorStop(.7,`rgba(239,160,104,${a*.55})`);gr.addColorStop(1,'rgba(239,160,104,0)');return gr};
-      g.save();g.shadowColor=GOLD;g.shadowBlur=title.fs*.3;g.globalAlpha=.45;g.strokeStyle=fade(1);g.lineWidth=title.fs*.03;g.beginPath();g.moveTo(title.px,y0);g.lineTo(title.px,y1);g.stroke();
-      g.shadowBlur=title.fs*.07;g.globalAlpha=.9;g.lineWidth=title.fs*.012;g.beginPath();g.moveTo(title.px,y0);g.lineTo(title.px,y1);g.stroke();
-      g.shadowBlur=0;g.globalAlpha=1;const core=g.createLinearGradient(0,y0,0,H);core.addColorStop(0,'#FFE2B8');core.addColorStop(.75,'rgba(255,226,184,.5)');core.addColorStop(1,'rgba(255,226,184,0)');
-      g.strokeStyle=core;g.lineWidth=1.4;g.beginPath();g.moveTo(title.px,y0);g.lineTo(title.px,y1);g.stroke();g.restore()}
+    /* no falling line: the title has no descender to drop it from */
     g.globalAlpha=1}
 
   /* the sign-off */
@@ -191,11 +186,8 @@ function frame(now){
     const sp=c=>c.split('').join('\u200A'),k=clamp(tag*1.25),A='BOLLYWOOD HAS A LONG MEMORY.',B='WE KEPT THE RECEIPTS.';
     const ty=Math.min(H-60,title.top+(title.lines.length-1)*title.lh+title.fs*.62);
     g.font=`500 ${fz}px "IBM Plex Mono",monospace`;const wa=g.measureText(sp(A)).width,wb=g.measureText(sp(B)).width,gap=fz*1.6;
-    /* either side of the falling line when there is room, otherwise stacked beside it */
-    if(title.px-gap-wa>16&&title.px+gap+wb<W-16){g.textAlign='right';g.fillText(sp(A.slice(0,Math.ceil(A.length*k))),title.px-gap,ty);
-      g.textAlign='left';g.fillText(sp(B.slice(0,Math.ceil(B.length*clamp(k*1.6-.6)))),title.px+gap,ty)}
-    else{g.textAlign='left';const x=title.px+gap*.8;[A,B].forEach((m,i)=>{const sh=m.slice(0,Math.ceil(m.length*clamp(k*2-i)));
-      sh.split(/(?<=HAS|LONG|KEPT) /).forEach((ln,j)=>g.fillText(ln,x,ty+(i*2+j)*fz*1.7))})}}
+    /* one centred line under the title */
+    const line=A+'   '+B,shown=line.slice(0,Math.ceil(line.length*clamp(k*1.1)));g.textAlign='center';g.fillText(sp(shown),W/2,ty)}
   g.globalAlpha=1;
   if(t>10.6&&isNaN(freeze))return finish();
   if(!isNaN(freeze)&&++frozen>30)return;
