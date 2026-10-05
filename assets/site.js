@@ -454,7 +454,7 @@ const G=[
 ["Shah Rukh Khan","Deepika Padukone","c","Om Shanti Om",2007,"t"],
 ["Shah Rukh Khan","Anushka Sharma","c","Rab Ne Bana Di Jodi",2008,"t"],
 ["Aryan Khan","Sameer Wankhede","v","2021 arrest; 2025 lawsuit over his show",2021,"t"],
-["Suhana Khan","Ananya Panday","b","childhood best friends",null,"t"],
+["Suhana Khan","Ananya Panday","b","childhood best friends; with Shanaya, the \"Charlie's Angels\" group chat",null,"t"],
 ["Suhana Khan","Shanaya Kapoor","b","childhood best friends",null,"t"],
 ["Ananya Panday","Shanaya Kapoor","b","childhood best friends",null,"t"],
 ["Navya Naveli Nanda","Suhana Khan","b","childhood friend group",null,"t"],
@@ -649,7 +649,7 @@ const G=[
 ["Nargis Fakhri","Huma Qureshi","b","friends; still in touch, Nargis says",null,"t"],
 ["Karisma Kapoor","Malaika Arora","b","the girl gang: two pairs of sisters, one circle; Malaika calls it \"sister sister bonding\"",null,"t"],
 ["Karisma Kapoor","Amrita Arora","b","the girl gang",null,"t"],
-["Kareena Kapoor","Malaika Arora","b","the girl gang",null,"t"],
+["Kareena Kapoor","Malaika Arora","b","the girl gang; their WhatsApp group is called Guts",null,"t"],
 ["Rasha Thadani","Tamannaah Bhatia","b","Rasha calls Tamannaah and Vijay Varma her \"godparents\" and \"the closest to me\"",null,"t"],
 ["Rasha Thadani","Vijay Varma","b","one of her two \"godparents\", with Tamannaah",null,"t"],
 ["Priyanka Chopra","Nick Jonas","m","",2018,"t"],
@@ -1093,6 +1093,11 @@ const G=[
 ["Ranveer Singh","Arjun Kapoor","b","Gunday, 2014, and the friendship that outlasted it",2014,"t"],
 ["Shah Rukh Khan","Shirish Kunder","v","a scuffle at the Agneepath success party, 2012; SRK and Farah made Happy New Year anyway",2012,"t"],
 ["Somy Ali","Sangeeta Bijlani","v","Somy: Salman and Sangeeta \"broke up due to me. It was wrong, but I was too young to realize that.\" She later apologised",null,"t"],
+["Maheep Kapoor","Neelam Kothari","b","Fabulous Lives of Bollywood Wives",2020,"t"],
+["Seema Sajdeh","Bhavana Pandey","b","Fabulous Lives of Bollywood Wives",2020,"t"],
+["Navya Naveli Nanda","Ananya Panday","b","the \"Ananya's fans\" group chat, with Suhana and Shanaya",null,"t"],
+["Karan Johar","Manish Malhotra","b","decades-long best friends",null,"t"],
+["Karan Johar","Gauri Khan","b","old friends; Koffee regular",null,"t"],
 ["Rakshit Shetty","Rishab Shetty","b","Kirik Party: Rakshit starred and co-produced, Rishab directed",2016,"t"],
 ["Rashmika Mandanna","Kriti Sanon","b","Cocktail 2; Kriti shielded her when a Pune mall crowd broke the barricades",2026,"t"],
 ["Rakul Preet Singh","Jackky Bhagnani","m","married 2024",2024,"t"],
@@ -1313,7 +1318,7 @@ const NAV=[
   {k:'receipts',t:'Receipts',href:'receipts.html',sub:[['All receipts','receipts.html?f=all'],['Affairs & triangles','receipts.html?f=triangle'],['Feuds & fallouts','receipts.html?f=feud'],['Friendship breakups','receipts.html?f=dost'],['Engagements & divorces','receipts.html?f=engaged'],['Court cases','receipts.html?f=court'],['Archive scandals','receipts.html?f=legend'],['Rumors','receipts.html?f=chupke']]},
   {k:'people',t:'People',href:'people.html',sub:[['Khandaan: the families','people.html#trees'],['Stars A–Z','people.html#az']]},
   {k:'web',t:'The Web',href:'the-web.html',sub:[['Connect two people','the-web.html#connecth'],['In this issue','the-web.html#files'],['Six Degrees of Bollywood','web.html']]},
-  {k:'features',t:'Features',href:'features.html',sub:[['The Salman Khan domino effect','features.html#dominok'],['The friendships that survived their receipts','features.html#survivedk'],['The friendships with no receipts','features.html#friendsk'],["Shilpa Shetty's feuds, and the ones that weren't",'features.html#shilpak'],['Alia vs Shraddha, the feud that keeps not happening','features.html#aliashk'],["Kangana's exes don't agree on anything",'features.html#kanganaexk'],['Two wives, one law','features.html#twowivesk'],['A Hindu astrologer named A. R. Rahman','features.html#rahmank'],["Farhan Akhtar's three suspects",'features.html#farhank'],['The Akshay Kumar hate club, audited','features.html#akshayk'],["Why doesn't Ranveer Singh wear pants?",'features.html#ranveerk'],['Before Aditya: Yami Gautam','features.html#yamik'],["Radhika Apte's fake boyfriend",'features.html#radhikak'],["Rashmika didn't leave one man for another",'features.html#rashmikak'],['Toxic is selling a catfight','features.html#toxick'],['The breakup that may have broken a movie','features.html#dostanak'],["Urvashi Rautela's upgrades",'features.html#urvashik'],['Andaz Apna Apna, off camera','features.html#aaak'],['Why does everything Alia does look familiar?','features.html#aliak'],["Kangana Ranaut doesn't do shade",'features.html#kanganak'],['Kareena Kapoor, before the media training','features.html#bebok'],['Sonam Kapoor, said out loud','features.html#sonamk'],["Arjun Kapoor's Khan family loop",'features.html#loopk'],['A century of the sexy heroine','features.html#sensh'],['How Bollywood actually gets in','features.html#careerh'],['The school pipeline','features.html#schh'],["Alia's inheritance board",'features.html#inhh']]},
+  {k:'features',t:'Features',href:'features.html',sub:[["Bollywood's group chats",'features.html#groupsk'],['The Salman Khan domino effect','features.html#dominok'],['The friendships that survived their receipts','features.html#survivedk'],['The friendships with no receipts','features.html#friendsk'],["Shilpa Shetty's feuds, and the ones that weren't",'features.html#shilpak'],['Alia vs Shraddha, the feud that keeps not happening','features.html#aliashk'],["Kangana's exes don't agree on anything",'features.html#kanganaexk'],['Two wives, one law','features.html#twowivesk'],['A Hindu astrologer named A. R. Rahman','features.html#rahmank'],["Farhan Akhtar's three suspects",'features.html#farhank'],['The Akshay Kumar hate club, audited','features.html#akshayk'],["Why doesn't Ranveer Singh wear pants?",'features.html#ranveerk'],['Before Aditya: Yami Gautam','features.html#yamik'],["Radhika Apte's fake boyfriend",'features.html#radhikak'],["Rashmika didn't leave one man for another",'features.html#rashmikak'],['Toxic is selling a catfight','features.html#toxick'],['The breakup that may have broken a movie','features.html#dostanak'],["Urvashi Rautela's upgrades",'features.html#urvashik'],['Andaz Apna Apna, off camera','features.html#aaak'],['Why does everything Alia does look familiar?','features.html#aliak'],["Kangana Ranaut doesn't do shade",'features.html#kanganak'],['Kareena Kapoor, before the media training','features.html#bebok'],['Sonam Kapoor, said out loud','features.html#sonamk'],["Arjun Kapoor's Khan family loop",'features.html#loopk'],['A century of the sexy heroine','features.html#sensh'],['How Bollywood actually gets in','features.html#careerh'],['The school pipeline','features.html#schh'],["Alia's inheritance board",'features.html#inhh']]},
   {k:'watch',t:'Watch',href:'watch.html',sub:[['The Reel','watch.html#reelh'],['What to watch','watch.html#watchh']]}];
 const navHtml=(cls)=>`<ul class="${cls}">`+NAV.map(n=>`<li class="nv${n.k===PAGE||(PAGE==='front'&&n.k==='latest')?' on':''}${n.k==='rishta'?' star':''}"><a href="${n.href}">${n.t}</a><div class="dd"><ul>${n.sub.map(([t,h])=>`<li><a href="${h}">${t}</a></li>`).join('')}</ul></div></li>`).join('')+`</ul>`;
 const MONTH=new Date().toLocaleDateString('en-US',{month:'long',year:'numeric'}).toUpperCase();
