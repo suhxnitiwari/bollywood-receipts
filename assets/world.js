@@ -544,7 +544,7 @@ else if(qp){const p=BY.get(resolve(qp));if(p)walkIn();if(p)setTimeout(()=>select
 window.__guest={S,P,E,BY,connect,select,cam,goal};
 /* demo mode, for the front page's live window: no panels; the room pulls long, unlikely threads made only of rishtas, no co-star shortcuts */
 if(qs.has('demo')){document.body.classList.add('gl-demo');S.demo=true;walkIn();
-  const PAIRS=[['Prem Chopra','Sonakshi Sinha'],['Mumtaz','Janhvi Kapoor'],['Jeetendra','Ananya Panday'],['Sunil Dutt','Ranveer Singh'],['Sanjeev Kumar','Parineeti Chopra'],['Nutan','Anushka Sharma'],['Rekha','Varun Dhawan']].map(([a,b])=>[resolve(a),resolve(b)]).filter(([a,b])=>a&&b);
+  const PAIRS=[['Prem Chopra','Sonakshi Sinha'],['Mumtaz','Janhvi Kapoor'],['Rekha','Varun Dhawan']].map(([a,b])=>[resolve(a),resolve(b)]).filter(([a,b])=>a&&b);
   let k=0;const next=()=>{const [a,b]=PAIRS[k++%PAIRS.length];let n=3;try{n=(path(a,b,'pers')||[]).length||3}catch(e){}
     connect(a,b);try{parent.postMessage({gl:'pair',a,b,n},'*')}catch(e){}setTimeout(next,(RM?4000:5200)+n*1900)};
   setTimeout(next,RM?0:900)}
