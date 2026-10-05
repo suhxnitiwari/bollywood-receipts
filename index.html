@@ -24,7 +24,7 @@
   <div class="glh-card">
     <p class="glh-kick">The Bandra Bulletin · you're invited</p>
     <h2 id="glh">The Guest List</h2>
-    <p class="glh-dek">All of Bollywood in one room, 1,979 guests. Watch it find the shortest thread between two stars, then try your own.</p>
+    <p class="glh-dek">All of Bollywood in one room, 1,979 guests. Watch it link stars who seem to have nothing in common, through marriages, exes, families and feuds. Then try your own.</p>
     <form id="glf" class="glh-form" autocomplete="off" action="guest-list.html">
       <label><span>Guest one</span><input name="a" list="glnames" placeholder="Aishwarya Rai" spellcheck="false"></label>
       <label><span>Guest two</span><input name="b" list="glnames" placeholder="Katrina Kaif" spellcheck="false"></label>
@@ -79,9 +79,9 @@
 <script src="assets/movies.js?v=pp27"></script>
 <script src="assets/wd.js?v=wd1"></script>
 <script src="assets/web3d.js?v=pp1"></script>
-<script src="assets/site.js?v=pp50"></script>
+<script src="assets/site.js?v=pp51"></script>
 <script>(()=>{const d=document.getElementById('glnames'),N=window.__NAMES||[];if(d)d.innerHTML=N.slice().sort().map(n=>'<option value="'+n.replace(/"/g,'&quot;')+'">').join('');
-addEventListener('message',e=>{const d=e.data;if(d&&d.gl==='pair'){const n=document.getElementById('glnow');if(n)n.textContent=d.a+' → '+d.b}});
+addEventListener('message',e=>{const d=e.data;if(d&&d.gl==='pair'){const n=document.getElementById('glnow');if(n)n.textContent=d.a+' → '+d.b+(d.n?' · '+d.n+' degrees':'')}});
 document.getElementById('glf').addEventListener('submit',e=>{e.preventDefault();const a=e.target.a.value.trim(),b=e.target.b.value.trim();location.href='guest-list.html'+(a&&b?'?a='+encodeURIComponent(a)+'&b='+encodeURIComponent(b):'')})})();</script>
 <script>(()=>{const F=[
 ['aliak','Why does everything Alia Bhatt does look familiar?',"Kareena's attitude, Deepika's styling, Katrina's aesthetic. A decade of copycat accusations, and how much of the case holds up.",['Alia Bhatt','Kareena Kapoor','Deepika Padukone']],

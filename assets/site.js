@@ -1274,7 +1274,7 @@ function resolveName(q){q=(q||'').trim().toLowerCase();if(!q)return null;
 function path(a,b,fam,clean){const dist={[a]:0},prev={},done=new Set();
   while(true){let u=null,best=Infinity;for(const k in dist)if(!done.has(k)&&dist[k]<best){best=dist[k];u=k}
     if(u===null)return null;if(u===b)break;done.add(u);
-    for(const [v,i] of ADJ[u]){if(fam&&!"fmd".includes(G[i][2]))continue;if(clean&&(G[i][5]!=='t'||G[i][2]==='r'))continue;const nd=dist[u]+100+WT[G[i][2]];if(dist[v]===undefined||nd<dist[v]){dist[v]=nd;prev[v]=[u,i]}}}
+    for(const [v,i] of ADJ[u]){if(fam==='pers'?!"mdexrbvf".includes(G[i][2]):fam&&!"fmd".includes(G[i][2]))continue;if(clean&&(G[i][5]!=='t'||G[i][2]==='r'))continue;const nd=dist[u]+100+WT[G[i][2]];if(dist[v]===undefined||nd<dist[v]){dist[v]=nd;prev[v]=[u,i]}}}
   const out=[];let c=b;while(c!==a){const [p,i]=prev[c];out.unshift([p,i,c]);c=p}return out}
 const av=n=>PH[n]?`<img src="${PH[n]}" alt="" onerror="this.remove()">`:'';
 const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));

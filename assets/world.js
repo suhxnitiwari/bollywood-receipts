@@ -399,7 +399,7 @@ const wait=ms=>new Promise(r=>setTimeout(r,ms));
 function stopSeq(){if(S.seq){S.seq.cancelled=true;S.seq=null}skipBtn.hidden=true;capOut()}
 function connect(aN,bN,{instant=false}={}){stopSeq();closeDrawer();hideTip();
   const a=BY.get(aN),b=BY.get(bN);
-  let pth=null;try{pth=path(aN,bN,false,S.verified)}catch(err){}
+  let pth=null;try{pth=path(aN,bN,S.demo?'pers':false,S.verified)}catch(err){}
   if(!pth||!pth.length){err(`No chain between ${aN} and ${bN} on this guest list${S.verified?' using receipts alone. Try turning off “Receipts only”':''}. Yet.`);return}
   const ids=[a,...pth.map(s=>BY.get(s[2]))],es=pth.map(([u,i,v])=>E.find(e=>e.i===i));
   S.sel=null;dossier.hidden=true;$('#spotted').hidden=true;
@@ -427,7 +427,7 @@ function connect(aN,bN,{instant=false}={}){stopSeq();closeDrawer();hideTip();
       S.path.reached.add(to);targets();flash(to);
       caption(`<span class="who">${esc(to.n)}</span><span class="line">${esc(ST[es[i].t].k)}${when(es[i])?' · '+esc(when(es[i])):''}</span>`);
       await wait(PAUSE+260);if(seq.cancelled)return}
-    fitPeople(ids,.85);rate=3.2;
+    if(S.demo)fitPeople(ids.slice(-3),1);else fitPeople(ids,.85);rate=3.2;
     caption(`<span class="deg">${L===1?'Directly linked.':cap1(NUM[L]||L)+' degrees.'}</span><span class="line">Small town, this Bollywood.</span>`);
     await wait(900);if(seq.cancelled)return;
     S.seq=null;skipBtn.hidden=true;spotted();if(W<=760)fitPeople(R.ids,.85);await wait(1700);if(!S.seq&&S.mode==='path')capOut()})()}
@@ -542,9 +542,10 @@ const qs=new URLSearchParams(location.search),qa=qs.get('a'),qb=qs.get('b'),qp=q
 if(qa&&qb){const a=resolve(qa),b=resolve(qb);if(a&&b&&a!==b){walkIn();$('#pa').value=a;$('#pb').value=b;setTimeout(()=>connect(a,b),RM?0:1500)}}
 else if(qp){const p=BY.get(resolve(qp));if(p)walkIn();if(p)setTimeout(()=>select(p,{push:false}),RM?0:1300)}
 window.__guest={S,P,E,BY,connect,select,cam,goal};
-/* demo mode, for the front page's live window: no panels, the room pulls famous threads on its own */
-if(qs.has('demo')){document.body.classList.add('gl-demo');walkIn();
-  const PAIRS=[['Shah Rukh Khan','Kangana Ranaut'],['Alia Bhatt','Deepika Padukone'],['Aishwarya Rai','Salman Khan'],['Ranveer Singh','Sonam Kapoor'],['Amitabh Bachchan','Ananya Panday'],['Katrina Kaif','Vicky Kaushal'],['Rekha','Kareena Kapoor'],['Akshay Kumar','Shilpa Shetty']].map(([a,b])=>[resolve(a),resolve(b)]).filter(([a,b])=>a&&b);
-  let k=0;const next=()=>{const [a,b]=PAIRS[k++%PAIRS.length];connect(a,b);try{parent.postMessage({gl:'pair',a,b},'*')}catch(e){}};
-  setTimeout(next,RM?0:900);setInterval(next,9000)}
+/* demo mode, for the front page's live window: no panels; the room pulls long, unlikely threads made only of rishtas, no co-star shortcuts */
+if(qs.has('demo')){document.body.classList.add('gl-demo');S.demo=true;walkIn();
+  const PAIRS=[['Prem Chopra','Sonakshi Sinha'],['Mumtaz','Janhvi Kapoor'],['Jeetendra','Ananya Panday'],['Sunil Dutt','Ranveer Singh'],['Sanjeev Kumar','Parineeti Chopra'],['Nutan','Anushka Sharma'],['Rekha','Varun Dhawan']].map(([a,b])=>[resolve(a),resolve(b)]).filter(([a,b])=>a&&b);
+  let k=0;const next=()=>{const [a,b]=PAIRS[k++%PAIRS.length];let n=3;try{n=(path(a,b,'pers')||[]).length||3}catch(e){}
+    connect(a,b);try{parent.postMessage({gl:'pair',a,b,n},'*')}catch(e){}setTimeout(next,(RM?4000:5200)+n*1900)};
+  setTimeout(next,RM?0:900)}
 })();
