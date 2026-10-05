@@ -124,6 +124,7 @@ window.MOVIES=[
 ['drishyam2','Drishyam 2',2022,{cast:['Ajay Devgn','Tabu','Shriya Saran','Akshaye Khanna','Ishita Dutta','Rajat Kapoor']}],
 ['kashmirfiles','The Kashmir Files',2022,{cast:['Mithun Chakraborty','Anupam Kher','Darshan Kumaar','Pallavi Joshi']}],
 ['phonebhoot','Phone Bhoot',2022,{cast:['Katrina Kaif','Ishaan Khatter','Siddhant Chaturvedi','Jackie Shroff']}],
+['nealnnikki','Neal \'n\' Nikki',2005,{cast:['Uday Chopra','Tanishaa Mukerji']}],
 ['homebound','Homebound',2025,{cast:['Ishaan Khatter','Vishal Jethwa','Janhvi Kapoor'],crew:[['Neeraj Ghaywan','director'],['Karan Johar','producer']]}],
 ['tjmm','Tu Jhoothi Main Makkaar',2023,{cast:['Ranbir Kapoor','Shraddha Kapoor','Dimple Kapadia','Boney Kapoor','Anubhav Singh Bassi'],special:['Kartik Aaryan','Nushrratt Bharuccha'],crew:[['Luv Ranjan','director'],['Rahul Mody','writer']]}],
 ['pathaan','Pathaan',2023,{cast:['Shah Rukh Khan','Deepika Padukone','John Abraham','Dimple Kapadia','Ashutosh Rana'],special:['Salman Khan'],crew:[['Aditya Chopra','producer']]}],
