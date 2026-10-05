@@ -3,7 +3,7 @@
    People are pinned polaroids, links are string coloured by relationship, and every thread carries a paper tag. */
 (function(){
 const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
-const PAPER={board:'#E9DDC7',ink:'#15110E',red:'#C8261C',tag:'#FBF6EC'};
+const PAPER={board:'#F2DDD2',ink:'#15110E',red:'#C8261C',tag:'#FBF6EC'};
 const COL={wed:'#6B1E5A',ptr:'#6B1E5A',div:'#8C5A7E',ex:'#4A3B6E',rom:'#A8740F',kiss:'#D94A6E',fic:'#D98AA6',work:'#7E7262',fam:'#15110E',fd:'#C8261C',cast:'#9C8F7C',crew:'#5E544A',evt:'#5E544A',glam:'#1F5F8B',shadow:'#C8261C',succ:'#B05A00',plays:'#C8261C',xover:'#C8261C',exit:'#C8261C',
   beef:'#C8261C',onesided:'#C8261C',fallout:'#8E1B14',alter:'#C8261C',excl:'#8E1B14',media:'#C98A0B',mend:'#5F7F55',alleg:'#C8261C',closed:'#8A847A',legal:'#5E544A',debut:'#B0186B',brk:'#C8571C',dirdeb:'#2F4FA8',annc:'#9A6A0C',back:'#2E7D6B',myth:'#8A847A',door:'#B0186B',
   co:'#9A6A0C',fr:'#2E7D6B',kid:'#15110E',rep:'#C8261C',weak:'#7E7262',rum:'#A8740F',link:'#5E544A'};
@@ -121,7 +121,7 @@ function draw(w,now,dt){const {g,W,H,o}=w;if(!W)return;const t=now-w.t0,c=w.cam,
       const txt=kind==='char'?`“${n.label}”`:kind==='exit'?`→ ${n.label}`:n.label,tw=g.measureText(txt).width,bw=tw+fs*1.4,bh=kind==='film'?fs*2.6:fs*1.9;n.r=Math.max(bw,bh)/2;
       g.save();g.translate(p.x,p.y);g.rotate((n.ph-3.14)*.012);g.shadowColor='rgba(40,25,10,.35)';g.shadowBlur=6;g.shadowOffsetY=3;
       g.fillStyle=kind==='film'?'#15110E':kind==='exit'?PAPER.red:kind==='char'?'#FFFDF7':'#F7EEDB';g.fillRect(-bw/2,-bh/2,bw,bh);g.shadowColor='transparent';
-      if(kind==='film'){g.fillStyle='#E9DDC7';for(let x=-bw/2+5;x<bw/2-3;x+=8){g.fillRect(x,-bh/2+2,3,2.4);g.fillRect(x,bh/2-4.4,3,2.4)}}
+      if(kind==='film'){g.fillStyle='#F2DDD2';for(let x=-bw/2+5;x<bw/2-3;x+=8){g.fillRect(x,-bh/2+2,3,2.4);g.fillRect(x,bh/2-4.4,3,2.4)}}
       else{g.strokeStyle=kind==='char'?PAPER.red:PAPER.ink;g.lineWidth=kind==='char'?1.6:1;g.setLineDash(kind==='evt'?[4,3]:[]);g.strokeRect(-bw/2+.5,-bh/2+.5,bw-1,bh-1);g.setLineDash([])}
       g.fillStyle=kind==='film'||kind==='exit'?'#FBF6EC':kind==='char'?PAPER.red:PAPER.ink;g.textAlign='center';g.textBaseline='middle';g.fillText(txt,0,kind==='film'&&n.year?-fs*.28:1);
       if(kind==='film'&&n.year){g.font=`600 ${Math.max(8,fs*.55)}px "IBM Plex Mono",monospace`;g.fillStyle='#C9B79A';g.fillText(String(n.year),0,fs*.62)}

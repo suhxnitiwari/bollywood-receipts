@@ -961,7 +961,7 @@ function connect(){const a=resolveName(ia.value),b=resolveName(ib.value);
   const direct=G.filter(e=>(e[0]===a&&e[1]===b)||(e[0]===b&&e[1]===a));
   if(direct.length>1)h+=`<p style="margin:0;font-size:14px;color:var(--muted)">They have ${direct.length} direct links on the board.</p>`;
   h+=`<details class="cx-more"><summary>Their full histories <span>${ADJ[a].length+ADJ[b].length} links</span></summary><div class="tls">${timeline(a,'b')}${timeline(b,'a')}</div><p style="margin:0;font-size:13px;color:var(--muted)">Tap any name in a history to connect it instead. "—" means no single date.</p></details>`;
-  h=`<p class="cx3d"><a class="cx-btn" href="guest-list.html?a=${encodeURIComponent(a)}&b=${encodeURIComponent(b)}">Pull this thread on the Guest List →</a></p>`+h;
+  h=`<p class="cx3d"><a class="cx-btn" href="index.html?a=${encodeURIComponent(a)}&b=${encodeURIComponent(b)}">Pull this thread on the Guest List →</a></p>`+h;
   out.innerHTML=h;window.cxWebShow&&window.cxWebShow(a,b,pth);
   out.querySelectorAll('.nm').forEach(x=>x.onclick=()=>{(x.dataset.slot==='a'?ia:ib).value=x.dataset.n;connect();document.getElementById('connecth').scrollIntoView({behavior:'smooth'})})}
 /* name picker for the connect form: faces, link counts, keyboard, no native datalist */
@@ -985,7 +985,7 @@ if(HASCX){
 /* on the front page and The Web the form is an invitation: it opens the Guest List */
 const GOGL=document.getElementById('cxf').dataset.go==='guest';
 const go=()=>{const a=resolveName(ia.value),b=resolveName(ib.value);if(!a||!b){const bad=a?ib:ia;bad.focus();bad.classList.add('inv-bad');setTimeout(()=>bad.classList.remove('inv-bad'),900);return}
-  location.href=`guest-list.html?a=${encodeURIComponent(a)}&b=${encodeURIComponent(b)}`};
+  location.href=`index.html?a=${encodeURIComponent(a)}&b=${encodeURIComponent(b)}`};
 const run=GOGL?go:connect;
 cxPick(ia,()=>{if(GOGL){if(!ib.value.trim())ib.focus()}else if(ib.value.trim())connect();else ib.focus()});
 cxPick(ib,()=>{if(GOGL){if(!ia.value.trim())ia.focus()}else if(ia.value.trim())connect();else ia.focus()});
@@ -1010,8 +1010,8 @@ const FILES=(()=>{const legacy=[{"id": "web3h", "file": "003", "t": "Six degrees
 const PAGE=document.body.dataset.page||'front';
 const enc=encodeURIComponent;
 const NAV=[
-  {k:'latest',t:'Latest',href:'index.html',sub:[['Spotted','index.html#spotted'],['Trending','index.html#trending'],['The Reel','index.html#reel']]},
-  {k:'rishta',t:'The Guest List',href:'guest-list.html',sub:[['Pull any thread','guest-list.html'],['SRK × Salman','guest-list.html?a=Shah%20Rukh%20Khan&b=Salman%20Khan'],['Alia × Deepika','guest-list.html?a=Alia%20Bhatt&b=Deepika%20Padukone'],['Rhea × Shraddha','guest-list.html?a=Rhea%20Chakraborty&b=Shraddha%20Kapoor']]},
+  {k:'latest',t:'Latest',href:'latest.html',sub:[['Spotted','latest.html#spotted'],['Trending','latest.html#trending'],['The Reel','latest.html#reel']]},
+  {k:'rishta',t:'The Guest List',href:'index.html',sub:[['Pull any thread','index.html'],['SRK × Salman','index.html?a=Shah%20Rukh%20Khan&b=Salman%20Khan'],['Alia × Deepika','index.html?a=Alia%20Bhatt&b=Deepika%20Padukone'],['Rhea × Shraddha','index.html?a=Rhea%20Chakraborty&b=Shraddha%20Kapoor']]},
   {k:'receipts',t:'Receipts',href:'receipts.html',sub:[['All receipts','receipts.html?f=all'],['Affairs & triangles','receipts.html?f=triangle'],['Feuds & fallouts','receipts.html?f=feud'],['Friendship breakups','receipts.html?f=dost'],['Engagements & divorces','receipts.html?f=engaged'],['Court cases','receipts.html?f=court'],['Archive scandals','receipts.html?f=legend'],['Rumors','receipts.html?f=chupke']]},
   {k:'people',t:'People',href:'people.html',sub:[['Khandaan: the families','people.html#trees'],['Stars A–Z','people.html#az']]},
   {k:'web',t:'The Web',href:'the-web.html',sub:[['Connect two people','the-web.html#connecth'],['In this issue','the-web.html#files'],['Six Degrees of Bollywood','web.html']]},
@@ -1042,9 +1042,8 @@ function renderChrome(){const top=document.getElementById('top');if(!top)return;
   bg.onclick=()=>{dr.hidden=false;bg.setAttribute('aria-expanded','true');dr.querySelector('a').focus()};
   top.querySelector('.dclose').onclick=()=>{dr.hidden=true;bg.setAttribute('aria-expanded','false');bg.focus()};
   dr.addEventListener('click',e=>{if(e.target.closest('a'))dr.hidden=true});
-  const ft=document.getElementById('foot');if(ft)ft.innerHTML=`<div class="fgrid"><div><a class="logo sm" href="index.html"><span>Bollywood</span><span>Receipts</span></a><p>Bollywood has a long memory. We kept the receipts.</p></div>${NAV.map(n=>`<div><a class="dh" href="${n.href}">${n.t}</a>${n.sub.slice(0,4).map(([t,h])=>`<a href="${h}">${t}</a>`).join('')}</div>`).join('')}</div>
-    <div class="stamps-key">${STAMPKEY}</div>
-    <p class="xo">You know you love me. XOXO, Bollywood Begum</p><p class="fine">Sources: interviews, court records and tabloid archives, current to October 2026. ALLEGED and RUMOR mean gossip, not fact. Photos: Wikimedia Commons (CC licensed). Clips: credited YouTube channels.</p>`}
+  const ft=document.getElementById('foot');if(ft)ft.innerHTML=`<div class="fbar"><a class="logo sm" href="index.html"><span>Bollywood</span><span>Receipts</span></a><nav aria-label="Footer">${NAV.map(n=>`<a href="${n.href}">${n.t}</a>`).join('')}</nav></div>
+    <p class="fine">${[['true','on the record'],['alleged','disputed'],['rumor','unconfirmed'],['cap','contradicted']].map(([k,t])=>`<span class="stmp ${V[k][1]}">${V[k][0]}</span> ${t}`).join(' ')} · Interviews, court records and tabloid archives to October 2026. Photos: Wikimedia Commons.</p>`}
 const STAMPKEY=[['true','On the record: an interview, filing, announcement or other documented evidence'],['alleged','Credibly reported, but disputed or never confirmed'],['rumor','Repeated around town without real confirmation'],['cap','Viral claim the available evidence contradicts']].map(([k,t])=>`<div class="sk"><span class="stmp ${V[k][1]}">${V[k][0]}</span><span>${t}</span></div>`).join('');
 
 /* ---------- search: one box for stars, receipts, families, files and clips ---------- */

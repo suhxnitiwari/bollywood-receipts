@@ -20,11 +20,11 @@ const initials=n=>n.split(/\s+/).filter(Boolean).slice(0,2).map(w=>w[0]).join(''
 
 /* ---------- the guests ---------- */
 const HOUSES=(typeof FAMS!=='undefined'?FAMS:[]),HT={};HOUSES.forEach(f=>HT[f.k]=f.t);
-const HC=['#D9B25F','#E07A5F','#D0587A','#8DB38B','#6FA8C7','#B48BD6','#E3A857','#E07AA8','#7FC4B0','#C9B48A','#F0907A','#9FA8E0','#D4C060','#A0C878','#E09A9A','#79B8D9','#CC8F5A','#BFA3E0','#E0B0C8','#90D0C0','#D8A070'];
+const HC=['#EFA068','#E0703A','#D96B84','#CF4A5A','#F2B88E','#B8566E','#E88A5C','#E6A0B2','#D4573F','#C98A7A','#F0C69E','#A8506A','#E57A6E','#CC6F4A','#F2A3A0','#B86A5C','#E6B07A','#C77C99','#DA8F6E','#9E4A5E','#F0B8B0'];
 const houseCol=k=>HC[Math.max(0,HOUSES.findIndex(f=>f.k===k))%HC.length];
-const ERA={1940:'#8C6E4A',1950:'#A88350',1960:'#C49A55',1970:'#D9B25F',1980:'#E39A55',1990:'#E07A5F',2000:'#D9566E',2010:'#E0457B',2020:'#F28AB8'};
-const eraCol=y=>y?ERA[clamp(Math.floor(y/10)*10,1940,2020)]:'#9C8E80';
-const NEUTRAL='#C9BBA8';
+const ERA={1940:'#7A3A44',1950:'#94404A',1960:'#B04A48',1970:'#C9583F',1980:'#E0703A',1990:'#EB915A',2000:'#EFA97E',2010:'#E2829A',2020:'#D96B84'};
+const eraCol=y=>y?ERA[clamp(Math.floor(y/10)*10,1940,2020)]:'#A08A86';
+const NEUTRAL='#CDB1AA';
 
 const P=WD.people.map((p,i)=>({...p,i,sc:p.s,wx:p.x,wy:p.y,ph:(hash(p.n)%6283)/1000,
   k3:p.t===0?1:p.t===1?.985:.955,                 // parallax: the back of the room moves a touch slower than the front
@@ -34,20 +34,20 @@ const smax=Math.max(...P.map(p=>p.sc)),fmax=Math.max(1,...P.map(p=>p.fd));
 
 /* ---------- the rishtas ---------- */
 const ST={   // how each kind of rishta looks: colour, line style, its name in the key and in a sentence
-  f:{c:'#EFE4CF',st:'solid',w:1,k:'Family',grp:['family']},
-  m:{c:'#D9B25F',st:'double',w:1,k:'Married',v:'married',grp:['family','love']},
-  d:{c:'#C9A04E',st:'break',w:1.2,k:'Married, later split',v:'was married to',grp:['family','love']},
-  e:{c:'#D9B25F',st:'dash',dash:[5,4],w:1.2,k:'Engaged',v:'was engaged to',grp:['love']},
-  x:{c:'#D23A4E',st:'break',w:1.5,k:'Dated',v:'dated',grp:['love']},
-  r:{c:'#D23A4E',st:'dash',dash:[1.5,4.5],w:1.6,k:'Linked (rumoured)',v:'was linked to',grp:['love']},
-  k:{c:'#E0457B',st:'dash',dash:[3,4],w:1.2,k:'Kissed on screen',v:'kissed',grp:['love']},
-  b:{c:'#8DB38B',st:'solid',w:1.3,k:'Friends',v:'is friends with',grp:['friends']},
-  v:{c:'#FF5A36',st:'jag',w:1.3,k:'Feud',v:'feuded with',grp:['feuds']},
-  g:{c:'#7C9CC4',st:'dash',dash:[6,3],w:1,k:'Glam team',v:'shares a glam team with',grp:['films']},
-  s:{c:'#E3A857',st:'dash',dash:[8,3,2,3],w:1,k:'Replaced in a film',v:'was swapped with',grp:['films']},
-  c:{c:'#BFB2A0',st:'solid',w:.8,k:'Worked together',v:'worked with',grp:['films']},
-  o:{c:'#BFB2A0',st:'solid',w:.7,k:'Cameo',v:'shared a cameo with',grp:['films']},
-  q:{c:'#BFB2A0',st:'solid',w:.7,k:'Song',v:'shared a song with',grp:['films']}};
+  f:{c:'#F3DCD2',st:'solid',w:1,k:'Family',grp:['family']},
+  m:{c:'#EFA068',st:'double',w:1,k:'Married',v:'married',grp:['family','love']},
+  d:{c:'#D08A55',st:'break',w:1.2,k:'Married, later split',v:'was married to',grp:['family','love']},
+  e:{c:'#EFA068',st:'dash',dash:[5,4],w:1.2,k:'Engaged',v:'was engaged to',grp:['love']},
+  x:{c:'#D7363F',st:'break',w:1.5,k:'Dated',v:'dated',grp:['love']},
+  r:{c:'#D7363F',st:'dash',dash:[1.5,4.5],w:1.6,k:'Linked (rumoured)',v:'was linked to',grp:['love']},
+  k:{c:'#D96B84',st:'dash',dash:[3,4],w:1.2,k:'Kissed on screen',v:'kissed',grp:['love']},
+  b:{c:'#9DB89A',st:'solid',w:1.3,k:'Friends',v:'is friends with',grp:['friends']},
+  v:{c:'#F2703A',st:'jag',w:1.3,k:'Feud',v:'feuded with',grp:['feuds']},
+  g:{c:'#A890C2',st:'dash',dash:[6,3],w:1,k:'Glam team',v:'shares a glam team with',grp:['films']},
+  s:{c:'#E8B07A',st:'dash',dash:[8,3,2,3],w:1,k:'Replaced in a film',v:'was swapped with',grp:['films']},
+  c:{c:'#C9AFA8',st:'solid',w:.8,k:'Worked together',v:'worked with',grp:['films']},
+  o:{c:'#C9AFA8',st:'solid',w:.7,k:'Cameo',v:'shared a cameo with',grp:['films']},
+  q:{c:'#C9AFA8',st:'solid',w:.7,k:'Song',v:'shared a song with',grp:['films']}};
 const TAG={f:'FAMILY',m:'MARRIED',d:'MARRIED · SPLIT',e:'ENGAGED',x:'DATED',r:'LINKED',k:'ON-SCREEN KISS',b:'FRIENDS',v:'FEUD',g:'GLAM TEAM',s:'REPLACED',c:'WORKED TOGETHER',o:'CAMEO',q:'SONG'};
 const E=GG.map((e,i)=>({i,a:BY.get(e[0]),b:BY.get(e[1]),t:e[2],d:e[3]||'',y:e[4],v:e[5]||'t',film:!!GSRC[i],bow:((hash(e[0]+e[1])%2)?1:-1)*(.06+(hash(e[1]+e[0])%60)/1000)})).filter(e=>e.a&&e.b&&e.a!==e.b);
 P.forEach(p=>{p.E=[];});E.forEach(e=>{e.a.E.push(e);e.b.E.push(e)});
@@ -68,12 +68,12 @@ function face(p){if(!p.f)return null;let f=FACE.get(p.n);if(f)return f.ready?f.c
   f={ready:false};FACE.set(p.n,f);const im=new Image();im.decoding='async';
   im.onload=()=>{const c=document.createElement('canvas');c.width=c.height=128;const x=c.getContext('2d');x.beginPath();x.arc(64,64,64,0,7);x.clip();
     x.filter='saturate(.9) contrast(1.06)';x.drawImage(im,0,0,128,128);x.filter='none';
-    const v=x.createRadialGradient(64,64,40,64,64,64);v.addColorStop(0,'rgba(20,6,6,0)');v.addColorStop(1,'rgba(20,6,6,.45)');x.fillStyle=v;x.fillRect(0,0,128,128);
+    const v=x.createRadialGradient(64,64,40,64,64,64);v.addColorStop(0,'rgba(22,7,11,0)');v.addColorStop(1,'rgba(22,7,11,.45)');x.fillStyle=v;x.fillRect(0,0,128,128);
     f.cv=c;f.ready=true};
   im.src='assets/faces/'+p.f+'.webp';return null}
 const MONO=new Map();
 function mono(p,col){const key=p.n+col;let c=MONO.get(key);if(c)return c;c=document.createElement('canvas');c.width=c.height=96;const x=c.getContext('2d');
-  x.fillStyle='#2A1214';x.beginPath();x.arc(48,48,48,0,7);x.fill();x.fillStyle=col;x.textAlign='center';x.textBaseline='middle';
+  x.fillStyle='#33111A';x.beginPath();x.arc(48,48,48,0,7);x.fill();x.fillStyle=col;x.textAlign='center';x.textBaseline='middle';
   x.font='italic 500 38px "Bodoni Moda",Georgia,serif';x.fillText(initials(p.n),48,51);MONO.set(key,c);return c}
 const GLOW=new Map();
 function glow(col){let s=GLOW.get(col);if(s)return s;s=document.createElement('canvas');s.width=s.height=64;const x=s.getContext('2d'),gr=x.createRadialGradient(32,32,0,32,32,32);
@@ -126,10 +126,11 @@ function setMode(m){S.mode=m;S.stateAt=performance.now();targets()}
 /* ---------- drawing ---------- */
 let BG=null;
 function background(){const c=document.createElement('canvas');c.width=W;c.height=H;const x=c.getContext('2d');
-  x.fillStyle='#120707';x.fillRect(0,0,W,H);
-  let gr=x.createRadialGradient(W*.55,H*.45,0,W*.55,H*.45,Math.max(W,H)*.75);gr.addColorStop(0,'#2A0D0F');gr.addColorStop(.45,'#1A0809');gr.addColorStop(1,'#0B0405');x.fillStyle=gr;x.fillRect(0,0,W,H);
-  gr=x.createRadialGradient(W*.15,H*.95,0,W*.15,H*.95,W*.5);gr.addColorStop(0,'rgba(120,20,28,.18)');gr.addColorStop(1,'rgba(120,20,28,0)');x.fillStyle=gr;x.fillRect(0,0,W,H);
-  gr=x.createRadialGradient(W/2,H/2,Math.min(W,H)*.35,W/2,H/2,Math.max(W,H)*.78);gr.addColorStop(0,'rgba(0,0,0,0)');gr.addColorStop(1,'rgba(0,0,0,.55)');x.fillStyle=gr;x.fillRect(0,0,W,H);
+  let gr=x.createLinearGradient(0,0,0,H);gr.addColorStop(0,'#12050C');gr.addColorStop(.45,'#22070F');gr.addColorStop(.78,'#3A0B14');gr.addColorStop(1,'#561318');x.fillStyle=gr;x.fillRect(0,0,W,H);
+  // the sun has just gone under: a low glow of blood orange, rose above it
+  gr=x.createRadialGradient(W*.5,H*1.12,0,W*.5,H*1.12,Math.max(W,H)*.7);gr.addColorStop(0,'rgba(232,112,58,.42)');gr.addColorStop(.35,'rgba(200,48,52,.22)');gr.addColorStop(.7,'rgba(160,48,84,.08)');gr.addColorStop(1,'rgba(160,48,84,0)');x.fillStyle=gr;x.fillRect(0,0,W,H);
+  gr=x.createRadialGradient(W*.82,H*.08,0,W*.82,H*.08,W*.45);gr.addColorStop(0,'rgba(150,40,80,.16)');gr.addColorStop(1,'rgba(150,40,80,0)');x.fillStyle=gr;x.fillRect(0,0,W,H);
+  gr=x.createRadialGradient(W/2,H/2,Math.min(W,H)*.4,W/2,H/2,Math.max(W,H)*.8);gr.addColorStop(0,'rgba(0,0,0,0)');gr.addColorStop(1,'rgba(8,2,4,.5)');x.fillStyle=gr;x.fillRect(0,0,W,H);
   return c}
 function quad(e){const A=e.a.s,B=e.b.s,dx=B.x-A.x,dy=B.y-A.y,L=Math.hypot(dx,dy)||1,nx=-dy/L,ny=dx/L,k=(S.mode==='path'&&e.pb!=null?e.pb:e.bow)*L;
   return {ax:A.x,ay:A.y,bx:B.x,by:B.y,cx:(A.x+B.x)/2+nx*k,cy:(A.y+B.y)/2+ny*k,nx,ny,L}}
@@ -162,7 +163,7 @@ function draw(now,dt){
   const t=now/1000,zr=cam.z/fitZ,focus=S.mode!=='room';
   // a slow spotlight wandering the room
   if(!RM){const lx=W*(.5+.32*Math.sin(t*.07)),ly=H*(.45+.22*Math.sin(t*.053+1)),gr=g.createRadialGradient(lx,ly,0,lx,ly,Math.max(W,H)*.45);
-    gr.addColorStop(0,'rgba(255,190,150,.05)');gr.addColorStop(1,'rgba(255,190,150,0)');g.fillStyle=gr;g.fillRect(0,0,W,H)}
+    gr.addColorStop(0,'rgba(255,150,110,.06)');gr.addColorStop(1,'rgba(255,150,110,0)');g.fillStyle=gr;g.fillRect(0,0,W,H)}
   // khandaan tables: a warm pool of light under each house, and its name above it
   const tableA=focus?.25:clamp(1.25-zr*.18,.25,1);
   WD.khandaans.forEach(h=>{const s=toScreen({wx:h.x,wy:h.y}),r=Math.max(40,(h.r+70)*cam.z),col=houseCol(h.k);
@@ -176,35 +177,35 @@ function draw(now,dt){
   g.lineCap='round';g.lineJoin='round';
   // ---------- threads ----------
   if(S.mode==='room'){
-    if(S.filter==='all'&&!S.verified){g.globalAlpha=.07;g.strokeStyle='#D9B25F';g.lineWidth=.7;g.beginPath();   // the barest hint of who married whom
+    if(S.filter==='all'&&!S.verified){g.globalAlpha=.07;g.strokeStyle='#EFA068';g.lineWidth=.7;g.beginPath();   // the barest hint of who married whom
       for(const e of E)if((e.t==='m'||e.t==='f')&&e.a.a>.3&&e.b.a>.3){g.moveTo(e.a.s.x,e.a.s.y);g.lineTo(e.b.s.x,e.b.s.y)}g.stroke()}
-    else if(S.filter==='films'){g.globalAlpha=.05;g.strokeStyle='#E8DCCB';g.lineWidth=.5;g.beginPath();for(const e of E)if(shown(e)){g.moveTo(e.a.s.x,e.a.s.y);g.lineTo(e.b.s.x,e.b.s.y)}g.stroke()}
+    else if(S.filter==='films'){g.globalAlpha=.05;g.strokeStyle='#F0D6CC';g.lineWidth=.5;g.beginPath();for(const e of E)if(shown(e)){g.moveTo(e.a.s.x,e.a.s.y);g.lineTo(e.b.s.x,e.b.s.y)}g.stroke()}
     else for(const e of E)if(shown(e))drawEdge(e,.42,1)}
   if(S.mode==='person'){const s=S.sel,fade=clamp((now-S.stateAt)/450,0,1);
-    g.globalAlpha=.1*fade;g.strokeStyle='#E8DCCB';g.lineWidth=.6;g.beginPath();for(const e of s.E)if(!personal(e)&&shown(e)){g.moveTo(e.a.s.x,e.a.s.y);g.lineTo(e.b.s.x,e.b.s.y)}g.stroke();
+    g.globalAlpha=.1*fade;g.strokeStyle='#F0D6CC';g.lineWidth=.6;g.beginPath();for(const e of s.E)if(!personal(e)&&shown(e)){g.moveTo(e.a.s.x,e.a.s.y);g.lineTo(e.b.s.x,e.b.s.y)}g.stroke();
     for(const e of s.E)if(personal(e)&&shown(e))drawEdge(e,.95*fade,1.25)}
   if(S.mode==='path'){const R=S.path;
     R.ids.forEach(p=>{if(!R.reached.has(p))return;for(const e of p.E)if(personal(e)&&!R.es.includes(e))drawEdge(e,.12,.8)});
     R.es.forEach((e,i)=>{const pr=R.prog[i];if(pr<=0)return;
       // the thread itself, with a soft underglow so it reads against the dark
       g.save();if(!RM){g.shadowColor=ST[e.t].c;g.shadowBlur=12}drawEdge(e,1,2,pr,R.ids[i]);g.restore();
-      if(pr<1){const [x,y]=edgeTip(e,pr,R.ids[i]);g.globalAlpha=1;g.drawImage(glow('#FF6A4A'),x-18,y-18,36,36);g.fillStyle='#FFF1E6';g.beginPath();g.arc(x,y,2.6,0,7);g.fill()}})}
+      if(pr<1){const [x,y]=edgeTip(e,pr,R.ids[i]);g.globalAlpha=1;g.drawImage(glow('#F2703A'),x-18,y-18,36,36);g.fillStyle='#FFEDE4';g.beginPath();g.arc(x,y,2.6,0,7);g.fill()}})}
   if(S.hover&&!(S.mode==='path'&&S.seq)){const h=S.hover;for(const e of h.E)if(shown(e)&&!(S.mode==='person'&&(h===S.sel)))drawEdge(e,personal(e)?.6:.14,personal(e)?1:.6)}
   // ---------- faces ----------
   const order=P.filter(p=>p.a>.012).sort((a,b)=>a.m-b.m||b.t-a.t);
   for(const p of order){const {x,y,r}=p.s;if(x<-r-20||x>W+r+20||y<-r-20||y>H+r+20)continue;const col=colOf(p);
-    if(r<4.6){const br=Math.max(1.3,r*.62);g.globalAlpha=p.a;g.fillStyle='#0E0405';g.beginPath();g.arc(x,y,br+.9,0,7);g.fill();g.fillStyle=col;g.globalAlpha=p.a*.82;g.beginPath();g.arc(x,y,br,0,7);g.fill();
-      if(br>2.2){g.globalAlpha=p.a*.5;g.fillStyle='#FFF4E6';g.beginPath();g.arc(x-br*.3,y-br*.3,br*.28,0,7);g.fill()}continue}
+    if(r<4.6){const br=Math.max(1.3,r*.62);g.globalAlpha=p.a;g.fillStyle='#12050A';g.beginPath();g.arc(x,y,br+.9,0,7);g.fill();g.fillStyle=col;g.globalAlpha=p.a*.82;g.beginPath();g.arc(x,y,br,0,7);g.fill();
+      if(br>2.2){g.globalAlpha=p.a*.5;g.fillStyle='#FFEEE6';g.beginPath();g.arc(x-br*.3,y-br*.3,br*.28,0,7);g.fill()}continue}
     const img=face(p);g.globalAlpha=p.a;
-    if(p.m>1.3||p===S.hover){const gs=r*4;g.globalAlpha=p.a*.5;g.drawImage(glow(p.m>1.6?'#FF7A55':col),x-gs/2,y-gs/2,gs,gs);g.globalAlpha=p.a}
+    if(p.m>1.3||p===S.hover){const gs=r*4;g.globalAlpha=p.a*.5;g.drawImage(glow(p.m>1.6?'#F2803F':col),x-gs/2,y-gs/2,gs,gs);g.globalAlpha=p.a}
     if(img)g.drawImage(img,x-r,y-r,2*r,2*r);else if(r>=9)g.drawImage(mono(p,col),x-r,y-r,2*r,2*r);else{g.fillStyle=col;g.beginPath();g.arc(x,y,r*.55,0,7);g.fill()}
-    g.strokeStyle=p.m>1.6?'#FF6A4A':col;g.lineWidth=p.m>1.6?2.2:r>14?1.4:1;g.beginPath();g.arc(x,y,r+.5,0,7);g.stroke()}
+    g.strokeStyle=p.m>1.6?'#F2703A':col;g.lineWidth=p.m>1.6?2.2:r>14?1.4:1;g.beginPath();g.arc(x,y,r+.5,0,7);g.stroke()}
   // paparazzi: a white bloom and a ring when someone is found
   for(let i=FLASH.length-1;i>=0;i--){const f=FLASH[i],u=(now-f.t)/650;if(u>1){FLASH.splice(i,1);continue}const {x,y,r}=f.p.s;
-    g.globalAlpha=(1-u)*.85;const gs=r*(3+u*5);g.drawImage(glow('#FFFFFF'),x-gs/2,y-gs/2,gs,gs);g.globalAlpha=(1-u)*.7;g.strokeStyle='#FFF4E6';g.lineWidth=1.5;g.beginPath();g.arc(x,y,r+4+u*30,0,7);g.stroke()}
+    g.globalAlpha=(1-u)*.85;const gs=r*(3+u*5);g.drawImage(glow('#FFFFFF'),x-gs/2,y-gs/2,gs,gs);g.globalAlpha=(1-u)*.7;g.strokeStyle='#FFEEE6';g.lineWidth=1.5;g.beginPath();g.arc(x,y,r+4+u*30,0,7);g.stroke()}
   drawLabels(now,zr);
   // dust in the projector beam, then grain over everything
-  if(!RM){g.fillStyle='#F4E3CF';for(const d of DUST){d.y-=d.v*dt/1000;if(d.y<-.02)d.y=1.02;const x=(d.x+Math.sin(t*.2+d.ph)*.01)*W,y=d.y*H;g.globalAlpha=.12+.1*Math.sin(t+d.ph);g.fillRect(x,y,d.s,d.s)}
+  if(!RM){g.fillStyle='#FFD6BE';for(const d of DUST){d.y-=d.v*dt/1000;if(d.y<-.02)d.y=1.02;const x=(d.x+Math.sin(t*.2+d.ph)*.01)*W,y=d.y*H;g.globalAlpha=.12+.1*Math.sin(t+d.ph);g.fillRect(x,y,d.s,d.s)}
     g.globalAlpha=.55;const ox=-(Math.floor(t*14)%7)*23%180,oy=-(Math.floor(t*14)%5)*37%180;g.fillStyle=GPAT||(GPAT=g.createPattern(GRAIN,'repeat'));g.save();g.translate(ox,oy);g.fillRect(-ox,-oy,W,H);g.restore()}
   g.globalAlpha=1}
 
@@ -236,8 +237,8 @@ function drawLabels(now,zr){const boxes=[],R=S.path,focus=S.mode!=='room';
       let done=false;for(const [tx,ty] of tries)if(fits(tx-w/2-3,ty,tx+w/2+3,ty+hgt)){lx=tx;ly=ty;done=true;break}
       if(!done)boxes.push([lx-w/2-3,ly,lx+w/2+3,ly+hgt])}
     g.globalAlpha=Math.min(1,p.a*(lvl?1.1:.95));
-    g.fillStyle=lvl===3?'#FFF6EA':lvl===2?'#FFF1E3':'rgba(244,235,221,.82)';g.shadowColor='#000';g.shadowBlur=6;g.fillText(txt,lx,ly);g.shadowBlur=0;
-    if(lvl===3&&S.mode==='person'&&p===S.sel&&p.k){g.font='500 9px "IBM Plex Mono",monospace';setSpacing('2px');g.fillStyle='#D9B25F';g.fillText((HT[p.k]||'').toUpperCase(),x,ly+18)}});
+    g.fillStyle=lvl===3?'#FFF0E8':lvl===2?'#FCEAE0':'rgba(248,230,220,.82)';g.shadowColor='#000';g.shadowBlur=6;g.fillText(txt,lx,ly);g.shadowBlur=0;
+    if(lvl===3&&S.mode==='person'&&p===S.sel&&p.k){g.font='500 9px "IBM Plex Mono",monospace';setSpacing('2px');g.fillStyle='#EFA068';g.fillText((HT[p.k]||'').toUpperCase(),x,ly+18)}});
   setSpacing('0px');
   // receipts tags on the thread: what the rishta is called and when
   if(S.mode==='path'){R.ids.forEach(p=>{if(R.reached.has(p)){const {x,y,r}=p.s;boxes.push([x-r-2,y-r-2,x+r+2,y+r+2])}})}
@@ -253,9 +254,9 @@ function drawLabels(now,zr){const boxes=[],R=S.path,focus=S.mode!=='room';
       if(mx===undefined){mx=cx;my=cy}}
     boxes.push([mx-w/2,my-h/2,mx+w/2,my+h/2]);
     if(lead){g.globalAlpha=.6*a;g.strokeStyle=ST[e.t].c;g.lineWidth=1;g.beginPath();g.moveTo(lead[0],lead[1]);g.lineTo(mx,my);g.stroke()}
-    g.globalAlpha=.92*a;g.fillStyle='#160809';g.strokeStyle=ST[e.t].c;g.lineWidth=1;g.beginPath();g.roundRect?g.roundRect(mx-w/2,my-h/2,w,h,4):g.rect(mx-w/2,my-h/2,w,h);g.fill();g.stroke();
+    g.globalAlpha=.92*a;g.fillStyle='#1C070D';g.strokeStyle=ST[e.t].c;g.lineWidth=1;g.beginPath();g.roundRect?g.roundRect(mx-w/2,my-h/2,w,h,4):g.rect(mx-w/2,my-h/2,w,h);g.fill();g.stroke();
     g.globalAlpha=a;g.textBaseline='middle';g.font='600 10px "IBM Plex Mono",monospace';setSpacing('2px');g.fillStyle=ST[e.t].c;g.fillText(top,mx,my-(sub?8:0));setSpacing('0px');
-    if(sub){g.font='italic 400 12.5px "Bodoni Moda",Georgia,serif';g.fillStyle='#F4EBDD';g.fillText(sub,mx,my+8)}g.textBaseline='top'});
+    if(sub){g.font='italic 400 12.5px "Bodoni Moda",Georgia,serif';g.fillStyle='#F8E6DC';g.fillText(sub,mx,my+8)}g.textBaseline='top'});
   setSpacing('0px')}
 
 /* ---------- the loop ---------- */
@@ -315,7 +316,7 @@ const faceUrl=p=>p&&p.f?'assets/faces/'+p.f+'.webp':null;
 const chip=p=>`<button type="button" data-go="${esc(p.n)}">${faceUrl(p)?`<img src="${faceUrl(p)}" alt="">`:`<span class="mono">${initials(p.n)}</span>`}${esc(p.n)}</button>`;
 const dossier=$('#dossier');
 function select(p,{fly=true,push=true}={}){stopSeq();S.sel=p;S.path=null;setMode('person');hideTip();$('#spotted').hidden=true;closeDrawer();
-  const groups=[['Family',['f','m','d'],'#EFE4CF'],['Love',['x','r','e','k'],'#D23A4E'],['Friends',['b'],'#8DB38B'],['Feuds',['v'],'#FF5A36'],['Work',['g','s','c'],'#7C9CC4']];
+  const groups=[['Family',['f','m','d'],'#F3DCD2'],['Love',['x','r','e','k'],'#D7363F'],['Friends',['b'],'#9DB89A'],['Feuds',['v'],'#F2703A'],['Work',['g','s','c'],'#A890C2']];
   const out=groups.map(([t,ts,c])=>{const ps=[...new Set(p.E.filter(e=>personal(e)&&ts.includes(e.t)).map(e=>other(e,p)))];if(!ps.length)return '';
     return `<div class="grp"><h4 style="color:${c}"><i style="background:${c}"></i>${t} · ${ps.length}</h4><div class="ppl">${ps.slice(0,10).map(chip).join('')}${ps.length>10?`<span class="more">+${ps.length-10}</span>`:''}</div></div>`}).join('');
   const co={};p.E.forEach(e=>{if(e.film){const o=other(e,p);co[o.n]=(co[o.n]||0)+(GFILMS[e.i]||[1]).length}});
@@ -326,7 +327,7 @@ function select(p,{fly=true,push=true}={}){stopSeq();S.sel=p;S.path=null;setMode
     <div class="hd"><span class="kick">${p.k?esc(HT[p.k]||'')+(p.sp?' · married in':''):'The Little Black Book'}</span><h3>${esc(p.n)}</h3></div>
     <div class="stats"><div><b>${pe}</b>rishtas</div><div><b>${p.fd}</b>films on file</div><div><b>${rc}</b>receipts</div></div>
     ${out||'<div class="grp"><h4>No personal rishtas on file yet</h4></div>'}
-    ${costars.length?`<div class="grp"><h4 style="color:#BFB2A0"><i style="background:#BFB2A0"></i>Most-shared films</h4><div class="ppl">${costars.map(chip).join('')}</div></div>`:''}
+    ${costars.length?`<div class="grp"><h4 style="color:#C9AFA8"><i style="background:#C9AFA8"></i>Most-shared films</h4><div class="ppl">${costars.map(chip).join('')}</div></div>`:''}
     <div class="acts"><button type="button" data-act="from">Connect from here</button>${rc?`<a href="receipts.html?q=${encodeURIComponent(p.n)}">All receipts →</a>`:''}</div>`;
   dossier.hidden=false;
   dossier.querySelector('.dx').onclick=clearAll;
@@ -421,17 +422,17 @@ const NAMES=[...P].sort((a,b)=>b.sc-a.sc);
 function suggest(q){q=q.trim().toLowerCase();if(!q)return [];const out=[];
   for(const p of NAMES){const n=p.n.toLowerCase();const r=n.startsWith(q)?0:n.split(' ').some(w=>w.startsWith(q))?1:n.includes(q)?2:-1;if(r>=0)out.push([r,p]);if(out.length>60)break}
   return out.sort((a,b)=>a[0]-b[0]).slice(0,7).map(x=>x[1])}
-function combo(inp,list){let items=[],act=-1;
+function combo(inp,list,next){let items=[],act=-1;
   const close=()=>{list.hidden=true;inp.setAttribute('aria-expanded','false');act=-1};
   const pick=p=>{inp.value=p.n;close()};
   const paint=()=>{list.innerHTML=items.map((p,i)=>`<li role="option" id="${list.id}-${i}" aria-selected="${i===act}" data-i="${i}">${faceUrl(p)?`<img src="${faceUrl(p)}" alt="">`:`<span class="mono">${initials(p.n)}</span>`}${esc(p.n)}${p.k?`<small>${esc((HT[p.k]||'').replace(/^The /,''))}</small>`:''}</li>`).join('');
     if(act>=0)inp.setAttribute('aria-activedescendant',`${list.id}-${act}`);else inp.removeAttribute('aria-activedescendant')};
   inp.addEventListener('input',()=>{items=suggest(inp.value);act=items.length?0:-1;paint();list.hidden=!items.length;inp.setAttribute('aria-expanded',String(!!items.length))});
   inp.addEventListener('keydown',e=>{if(list.hidden)return;if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();act=(act+(e.key==='ArrowDown'?1:-1)+items.length)%items.length;paint()}
-    else if(e.key==='Enter'&&act>=0){pick(items[act]);if(inp.id==='pa'&&!$('#pb').value){e.preventDefault();$('#pb').focus()}}else if(e.key==='Escape'){e.stopPropagation();close()}});
-  list.addEventListener('pointerdown',e=>{const li=e.target.closest('li');if(li){e.preventDefault();pick(items[+li.dataset.i]);if(inp.id==='pa'&&!$('#pb').value)$('#pb').focus()}});
+    else if(e.key==='Enter'&&act>=0){pick(items[act]);if(next&&!next.value){e.preventDefault();next.focus()}}else if(e.key==='Escape'){e.stopPropagation();close()}});
+  list.addEventListener('pointerdown',e=>{const li=e.target.closest('li');if(li){e.preventDefault();pick(items[+li.dataset.i]);if(next&&!next.value)next.focus()}});
   inp.addEventListener('blur',()=>setTimeout(close,120))}
-combo($('#pa'),$('#pal'));combo($('#pb'),$('#pbl'));
+combo($('#pa'),$('#pal'),$('#pb'));combo($('#pb'),$('#pbl'));combo($('#ia'),$('#ial'),$('#ib'));combo($('#ib'),$('#ibl'));
 const resolve=q=>{q=(q||'').trim();if(!q)return null;if(BY.has(q))return q;const s=suggest(q);if(s.length)return s[0].n;try{return resolveName(q)}catch(e){return null}};
 const errEl=$('#askerr');function err(m){errEl.textContent=m;errEl.hidden=!m}
 $('#askf').addEventListener('submit',e=>{e.preventDefault();err('');
@@ -442,6 +443,20 @@ $('#swap').onclick=()=>{const ia=$('#pa'),ib=$('#pb');[ia.value,ib.value]=[ib.va
 function setMeUp(){const pool=P.filter(p=>p.t<2);for(let k=0;k<40;k++){const a=pool[Math.floor(Math.random()*pool.length)],b=pool[Math.floor(Math.random()*pool.length)];
     if(a===b)continue;let pth=null;try{pth=path(a.n,b.n,false,S.verified)}catch(e){}if(pth&&pth.length>=2&&pth.length<=4){$('#pa').value=a.n;$('#pb').value=b.n;err('');connect(a.n,b.n);return}}}
 $('#setup').onclick=setMeUp;
+
+/* ---------- the front door: the invitation, then the room ---------- */
+const inviting=()=>document.body.classList.contains('inviting');
+function walkIn(){document.body.classList.remove('inviting');$('#invite').setAttribute('aria-hidden','true');$('#invite').inert=true}
+const invErr=$('#inverr');
+$('#invf').addEventListener('submit',e=>{e.preventDefault();invErr.hidden=true;
+  const ia=$('#ia'),ib=$('#ib');const a=resolve(ia.value||ia.placeholder),b=resolve(ib.value||ib.placeholder);
+  const bad=m=>{invErr.textContent=m;invErr.hidden=false};
+  if(!a)return bad(`No one called “${ia.value}” on the guest list yet.`);if(!b)return bad(`No one called “${ib.value}” on the guest list yet.`);
+  if(a===b)return bad('Pick two different people.');$('#pa').value=a;$('#pb').value=b;walkIn();setTimeout(()=>connect(a,b),RM?0:550)});
+$('#iswap').onclick=()=>{const ia=$('#ia'),ib=$('#ib');[ia.value,ib.value]=[ib.value,ia.value]};
+$('#isurprise').onclick=()=>{walkIn();setTimeout(setMeUp,RM?0:550)};
+$('#iwalk').onclick=()=>{walkIn();setTimeout(()=>$('#pa').focus({preventScroll:true}),400)};
+$('#invfaces').innerHTML=NAMES.filter(p=>faceUrl(p)).slice(0,9).map(p=>`<img src="${faceUrl(p)}" alt="" title="${esc(p.n)}">`).join('');
 
 /* ---------- show me: filter pills, receipts only, the key ---------- */
 document.querySelectorAll('.gl-pills button').forEach(b=>b.onclick=()=>{S.filter=b.dataset.f;document.querySelectorAll('.gl-pills button').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));targets()});
@@ -457,7 +472,7 @@ $('#legend').innerHTML=['f','m','d','x','r','b','v','c'].map(t=>`<li>${sw(t)}${S
 $('#keyfold').onclick=e=>{const b=e.currentTarget,open=b.getAttribute('aria-expanded')==='true';b.setAttribute('aria-expanded',String(!open));$('#keybody').hidden=open;b.querySelector('span').textContent=open?'+':'–'};
 $('#zin').onclick=()=>flyTo(goal.x,goal.y,goal.z*1.6,5);$('#zout').onclick=()=>flyTo(goal.x,goal.y,goal.z/1.6,5);$('#zfit').onclick=()=>{if(S.mode==='path')fitPeople(S.path.ids,.85);else home()};
 skipBtn.onclick=()=>S.seq&&S.seq.skip();
-document.addEventListener('keydown',e=>{if(e.key!=='Escape')return;if(document.querySelector('#rx[open]'))return;
+document.addEventListener('keydown',e=>{if(e.key!=='Escape')return;if(document.querySelector('#rx[open]'))return;if(inviting()){walkIn();return}
   if(S.seq){S.seq.skip();return}if(!drawer.hidden){closeDrawer();return}if(S.mode!=='room')clearAll()});
 
 /* ---------- the address bar remembers the rishta ---------- */
@@ -472,7 +487,7 @@ if(document.fonts)document.fonts.ready.then(()=>MONO.clear());
 // preload the front row's faces so the opening view is already portraits
 P.filter(p=>p.t<2).forEach(face);
 const qs=new URLSearchParams(location.search),qa=qs.get('a'),qb=qs.get('b'),qp=qs.get('p');
-if(qa&&qb){const a=resolve(qa),b=resolve(qb);if(a&&b&&a!==b){$('#pa').value=a;$('#pb').value=b;setTimeout(()=>connect(a,b),RM?0:1500)}}
-else if(qp){const p=BY.get(resolve(qp));if(p)setTimeout(()=>select(p,{push:false}),RM?0:1300)}
+if(qa&&qb){const a=resolve(qa),b=resolve(qb);if(a&&b&&a!==b){walkIn();$('#pa').value=a;$('#pb').value=b;setTimeout(()=>connect(a,b),RM?0:1500)}}
+else if(qp){const p=BY.get(resolve(qp));if(p)walkIn();if(p)setTimeout(()=>select(p,{push:false}),RM?0:1300)}
 window.__guest={S,P,E,BY,connect,select,cam,goal};
 })();

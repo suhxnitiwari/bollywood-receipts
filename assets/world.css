@@ -1,9 +1,9 @@
 /* ---------- The Guest List: the whole room on one canvas, the paper's furniture floating over it ----------
-   Lacquered oxblood, ivory type, gold for marriage and family, crimson for romance, sindoor for the selected. */
+   A bloody sunset: wine-dark sky, blush type, apricot for marriage and family, blood red for romance, burnt orange for the selected. */
 :root{
-  --gl-bg:#120707; --gl-bg2:#1E0A0B; --gl-ivory:#F4EBDD; --gl-dim:rgba(244,235,221,.62); --gl-faint:rgba(244,235,221,.38);
-  --gl-gold:#D9B25F; --gl-crimson:#D23A4E; --gl-sindoor:#E8402A; --gl-pink:#E0457B; --gl-green:#8DB38B;
-  --gl-glass:rgba(24,10,11,.74); --gl-line:rgba(217,178,95,.22); --gl-line2:rgba(244,235,221,.12);
+  --gl-bg:#16070B; --gl-bg2:#24090F; --gl-ivory:#F8E6DC; --gl-dim:rgba(248,230,220,.64); --gl-faint:rgba(248,230,220,.4);
+  --gl-gold:#EFA068; --gl-crimson:#CF3044; --gl-sindoor:#E25A3C; --gl-pink:#D96B84; --gl-green:#9DB89A;
+  --gl-glass:rgba(34,9,15,.72); --gl-line:rgba(239,160,104,.24); --gl-line2:rgba(248,230,220,.12);
   --gl-serif:"Bodoni Moda",Georgia,serif; --gl-mono:"IBM Plex Mono",ui-monospace,monospace; --gl-sans:Mukta,system-ui,sans-serif;
 }
 html:has(body.gl){background:var(--gl-bg);overflow:hidden;height:100%}
@@ -25,9 +25,11 @@ body.gl{margin:0;padding:0;height:100%;overflow:hidden;background:var(--gl-bg);c
 .gl-left .gl-panel{position:relative}
 .gl-brand{pointer-events:none}
 .gl-brand>*{pointer-events:auto}
-.gl-back{display:inline-block;font:500 10.5px/1 var(--gl-mono);letter-spacing:.16em;text-transform:uppercase;color:var(--gl-dim);text-decoration:none;padding:4px 0}
-.gl-back:hover,.gl-back:focus-visible{color:var(--gl-gold)}
-.gl-brand h1{margin:10px 0 2px;font:italic 500 clamp(34px,3.6vw,52px)/.95 var(--gl-serif);letter-spacing:-.01em;color:var(--gl-ivory);text-shadow:0 2px 30px rgba(0,0,0,.8)}
+.gl-more{display:flex;flex-wrap:wrap;gap:4px 14px}
+.gl-more a{font:500 10px/1 var(--gl-mono);letter-spacing:.16em;text-transform:uppercase;color:var(--gl-faint);text-decoration:none;padding:4px 0}
+.gl-more a:first-child{color:var(--gl-dim)}
+.gl-more a:hover,.gl-more a:focus-visible{color:var(--gl-gold)}
+.gl-brand .gl-h1{margin:10px 0 2px;font:italic 500 clamp(34px,3.6vw,52px)/.95 var(--gl-serif);letter-spacing:-.01em;color:var(--gl-ivory);text-shadow:0 2px 30px rgba(0,0,0,.8)}
 .gl-tag{margin:6px 0 0;font:400 16px/1.3 var(--gl-serif);color:var(--gl-dim);text-shadow:0 1px 12px #000}
 .gl-meta{margin:10px 0 0;font:500 10px/1.4 var(--gl-mono);letter-spacing:.16em;text-transform:uppercase;color:var(--gl-faint)}
 
@@ -40,17 +42,17 @@ body.gl{margin:0;padding:0;height:100%;overflow:hidden;background:var(--gl-bg);c
 .gl-ask{padding:16px 16px 14px}
 .gl-pair{display:flex;align-items:center;gap:6px;margin:12px 0 10px}
 .gl-pick{position:relative;flex:1;min-width:0}
-.gl-pick input{width:100%;box-sizing:border-box;background:rgba(244,235,221,.06);border:1px solid var(--gl-line2);border-radius:8px;color:var(--gl-ivory);
+.gl-pick input{width:100%;box-sizing:border-box;background:rgba(248,230,220,.06);border:1px solid var(--gl-line2);border-radius:8px;color:var(--gl-ivory);
   font:500 15px/1.2 var(--gl-sans);padding:9px 10px;outline:none;transition:border-color .2s,background .2s}
 .gl-pick input::placeholder{color:var(--gl-faint)}
-.gl-pick input:focus{border-color:var(--gl-gold);background:rgba(244,235,221,.1)}
+.gl-pick input:focus{border-color:var(--gl-gold);background:rgba(248,230,220,.1)}
 .gl-x{flex:none;width:26px;height:26px;border:0;background:none;color:var(--gl-gold);font:400 20px/1 var(--gl-serif);cursor:pointer;border-radius:50%}
-.gl-x:hover,.gl-x:focus-visible{background:rgba(217,178,95,.14)}
+.gl-x:hover,.gl-x:focus-visible{background:rgba(239,160,104,.14)}
 .gl-list{position:absolute;left:0;right:-60px;top:calc(100% + 4px);margin:0;padding:4px;list-style:none;z-index:9;max-height:260px;overflow:auto;
   background:#1C0C0D;border:1px solid var(--gl-line);border-radius:10px;box-shadow:0 20px 40px -10px #000}
 .gl-list li{display:flex;align-items:center;gap:9px;padding:5px 7px;border-radius:7px;cursor:pointer;font-size:14.5px}
-.gl-list li[aria-selected="true"],.gl-list li:hover{background:rgba(217,178,95,.16)}
-.gl-list img,.gl-list .mono{width:26px;height:26px;border-radius:50%;object-fit:cover;flex:none;background:#2A1416;display:grid;place-items:center;font:600 10px/1 var(--gl-serif);color:var(--gl-gold)}
+.gl-list li[aria-selected="true"],.gl-list li:hover{background:rgba(239,160,104,.16)}
+.gl-list img,.gl-list .mono{width:26px;height:26px;border-radius:50%;object-fit:cover;flex:none;background:#33111A;display:grid;place-items:center;font:600 10px/1 var(--gl-serif);color:var(--gl-gold)}
 .gl-list small{margin-left:auto;font:500 9.5px/1 var(--gl-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--gl-faint)}
 .gl-go{display:block;width:100%;border:0;border-radius:8px;padding:11px 12px;cursor:pointer;background:var(--gl-sindoor);color:#FFF6EE;
   font:600 11.5px/1 var(--gl-mono);letter-spacing:.18em;text-transform:uppercase;box-shadow:0 10px 30px -12px rgba(232,64,42,.9);transition:transform .15s,filter .15s}
@@ -68,7 +70,7 @@ body.gl{margin:0;padding:0;height:100%;overflow:hidden;background:var(--gl-bg);c
 .gl-sub{margin:12px 0 6px;font:500 9.5px/1 var(--gl-mono);letter-spacing:.16em;text-transform:uppercase;color:var(--gl-faint)}
 .gl-seg{display:flex;border:1px solid var(--gl-line2);border-radius:999px;padding:2px}
 .gl-seg button{flex:1;border:0;background:none;color:var(--gl-dim);border-radius:999px;padding:5px 4px;cursor:pointer;font:500 10px/1 var(--gl-mono);letter-spacing:.08em;text-transform:uppercase}
-.gl-seg button[aria-pressed="true"]{background:rgba(217,178,95,.18);color:var(--gl-ivory)}
+.gl-seg button[aria-pressed="true"]{background:rgba(239,160,104,.18);color:var(--gl-ivory)}
 .gl-eras[hidden]{display:none}
 .gl-eras{display:flex;gap:2px;margin-top:8px}
 .gl-eras span{flex:1;font:500 8.5px/1 var(--gl-mono);color:var(--gl-faint);text-align:center;padding-top:9px;position:relative}
@@ -91,7 +93,7 @@ body.gl{margin:0;padding:0;height:100%;overflow:hidden;background:var(--gl-bg);c
 
 .gl-zoom{position:fixed;right:24px;bottom:22px;z-index:3;display:flex;flex-direction:column;gap:2px;background:var(--gl-glass);border:1px solid var(--gl-line);border-radius:12px;padding:3px}
 .gl-zoom button{width:34px;height:32px;border:0;background:none;color:var(--gl-dim);font:400 18px/1 var(--gl-sans);cursor:pointer;border-radius:9px}
-.gl-zoom button:hover,.gl-zoom button:focus-visible{background:rgba(244,235,221,.08);color:var(--gl-ivory)}
+.gl-zoom button:hover,.gl-zoom button:focus-visible{background:rgba(248,230,220,.08);color:var(--gl-ivory)}
 
 /* ---------- the story captions drawn over the room during a reveal ---------- */
 .gl-cap{position:fixed;left:50%;top:13vh;transform:translateX(-50%);z-index:5;text-align:center;pointer-events:none;width:min(720px,90vw)}
@@ -116,8 +118,8 @@ body.gl{margin:0;padding:0;height:100%;overflow:hidden;background:var(--gl-bg);c
 .gl-dossier{right:24px;top:22px;width:300px;max-height:calc(100vh - 120px);overflow:auto;padding:0 0 14px;z-index:5;animation:dosIn .45s cubic-bezier(.2,.7,.2,1)}
 @keyframes dosIn{from{opacity:0;transform:translateX(16px)}}
 .gl-dossier .dx{position:absolute;right:8px;top:8px;width:30px;height:30px;border:0;border-radius:50%;background:rgba(0,0,0,.45);color:var(--gl-ivory);cursor:pointer;font-size:14px;z-index:2}
-.gl-dossier .face{height:150px;background:#2A1416 center 22%/cover no-repeat;border-radius:14px 14px 0 0;position:relative}
-.gl-dossier .face::after{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(to bottom,transparent 40%,rgba(24,10,11,.98))}
+.gl-dossier .face{height:150px;background:#33111A center 22%/cover no-repeat;border-radius:14px 14px 0 0;position:relative}
+.gl-dossier .face::after{content:"";position:absolute;inset:0;border-radius:inherit;background:linear-gradient(to bottom,transparent 40%,rgba(34,9,15,.98))}
 .gl-dossier .face.mono{display:grid;place-items:center;font:italic 500 56px/1 var(--gl-serif);color:var(--gl-gold)}
 .gl-dossier .hd{padding:0 16px;margin-top:-34px;position:relative}
 .gl-dossier .kick{font:500 9.5px/1.3 var(--gl-mono);letter-spacing:.16em;text-transform:uppercase;color:var(--gl-gold)}
@@ -129,10 +131,10 @@ body.gl{margin:0;padding:0;height:100%;overflow:hidden;background:var(--gl-bg);c
 .gl-dossier .grp h4{margin:6px 0 5px;font:500 9.5px/1 var(--gl-mono);letter-spacing:.16em;text-transform:uppercase;display:flex;align-items:center;gap:8px}
 .gl-dossier .grp h4 i{display:inline-block;width:14px;height:2px;border-radius:2px}
 .gl-dossier .ppl{display:flex;flex-wrap:wrap;gap:4px}
-.gl-dossier .ppl button{border:1px solid var(--gl-line2);background:rgba(244,235,221,.04);color:var(--gl-ivory);border-radius:999px;padding:3px 9px 3px 3px;cursor:pointer;
+.gl-dossier .ppl button{border:1px solid var(--gl-line2);background:rgba(248,230,220,.04);color:var(--gl-ivory);border-radius:999px;padding:3px 9px 3px 3px;cursor:pointer;
   font:400 12.5px/1.2 var(--gl-sans);display:inline-flex;align-items:center;gap:6px}
 .gl-dossier .ppl button:hover,.gl-dossier .ppl button:focus-visible{border-color:var(--gl-gold)}
-.gl-dossier .ppl img,.gl-dossier .ppl .mono{width:20px;height:20px;border-radius:50%;object-fit:cover;background:#2A1416;font:600 8px/20px var(--gl-serif);text-align:center;color:var(--gl-gold)}
+.gl-dossier .ppl img,.gl-dossier .ppl .mono{width:20px;height:20px;border-radius:50%;object-fit:cover;background:#33111A;font:600 8px/20px var(--gl-serif);text-align:center;color:var(--gl-gold)}
 .gl-dossier .more{font:500 10px/1 var(--gl-mono);color:var(--gl-faint);align-self:center;padding-left:4px}
 .gl-dossier .acts{display:flex;gap:8px;padding:14px 16px 0}
 .gl-dossier .acts button,.gl-dossier .acts a{flex:1;text-align:center;border:1px solid var(--gl-line);background:none;color:var(--gl-ivory);border-radius:8px;padding:9px 6px;cursor:pointer;text-decoration:none;
@@ -181,7 +183,7 @@ body.gl{margin:0;padding:0;height:100%;overflow:hidden;background:var(--gl-bg);c
 /* ---------- phones: the room stays full screen, the furniture tucks in ---------- */
 @media (max-width:760px){
   .gl-left{left:16px;right:16px;top:14px;bottom:12px;width:auto;justify-content:space-between}
-  .gl-brand h1{font-size:30px;margin-top:6px}
+  .gl-brand .gl-h1{font-size:30px;margin-top:6px}
   .gl-tag{font-size:14px}.gl-meta{display:none}
   .gl-ask{padding:12px;margin-bottom:52px}
   .gl-ask h2{display:none}.gl-pair{margin-top:0}
@@ -199,3 +201,47 @@ body.gl{margin:0;padding:0;height:100%;overflow:hidden;background:var(--gl-bg);c
 @media (prefers-reduced-motion:reduce){
   .gl-brand,.gl-panel,.gl-show,.gl-zoom,.gl-cap *,.gl-drawer,.gl-dossier{animation:none!important}
 }
+
+/* ---------- the front door: an invitation over the live room ---------- */
+.gl-invite{position:fixed;inset:0;z-index:20;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;padding:24px 16px;overflow:auto;
+  background:radial-gradient(ellipse 70% 60% at 50% 46%,rgba(22,7,11,.35),rgba(14,4,8,.82));transition:opacity .7s ease,visibility .7s}
+body:not(.inviting) .gl-invite{opacity:0;visibility:hidden;pointer-events:none}
+body.inviting .gl-left,body.inviting .gl-key,body.inviting .gl-show,body.inviting .gl-zoom{opacity:0;visibility:hidden}
+.gl-left,.gl-key,.gl-show,.gl-zoom{transition:opacity .8s ease .2s,visibility .8s}
+.gl-card{position:relative;width:min(760px,100%);box-sizing:border-box;text-align:center;padding:clamp(28px,5vw,52px) clamp(18px,5vw,56px) clamp(24px,4vw,40px);
+  background:linear-gradient(180deg,rgba(40,10,18,.86),rgba(28,7,12,.9) 60%,rgba(70,18,22,.88));border:1px solid rgba(239,160,104,.3);border-radius:4px;
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);box-shadow:0 50px 120px -40px #000,0 0 120px -30px rgba(226,90,60,.35);animation:glIn 1s cubic-bezier(.2,.7,.2,1) both}
+.gl-card::before{content:"";position:absolute;inset:9px;border:1px solid rgba(239,160,104,.22);pointer-events:none}
+.gl-card::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:linear-gradient(90deg,#9E2A4A,#CF3044 30%,#E25A3C 65%,#EFA068)}
+.gl-faces{display:flex;justify-content:center;min-height:50px}
+.gl-faces img{width:50px;height:50px;border-radius:50%;object-fit:cover;border:2px solid #1C070D;box-shadow:0 0 0 1.5px var(--gl-gold);margin-left:-12px;background:#33111A}
+.gl-faces img:first-child{margin-left:0}
+.gl-inv-kick{margin:20px 0 6px;font:600 10.5px/1.3 var(--gl-mono);letter-spacing:.3em;text-transform:uppercase;color:var(--gl-gold)}
+.gl-card h1{margin:0;font:italic 500 clamp(48px,8vw,92px)/1 var(--gl-serif);letter-spacing:-.015em;color:var(--gl-ivory);text-shadow:0 4px 40px rgba(207,48,68,.45)}
+.gl-inv-dek{max-width:44ch;margin:14px auto 0;color:var(--gl-dim);font-size:17px;line-height:1.5}
+#invf{margin:26px auto 0;max-width:620px;text-align:left}
+.gl-inv-pair{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:10px;align-items:end}
+.gl-inv-pair label{display:block;margin:0 0 7px 16px;font:600 10px/1 var(--gl-mono);letter-spacing:.2em;text-transform:uppercase;color:var(--gl-gold)}
+.gl-inv-pair input{width:100%;box-sizing:border-box;background:rgba(248,230,220,.06);border:1px solid rgba(239,160,104,.4);border-radius:999px;color:var(--gl-ivory);
+  font:400 19px/1.2 var(--gl-serif);padding:12px 18px;outline:none}
+.gl-inv-pair input::placeholder{color:rgba(248,230,220,.36)}
+.gl-inv-pair input:focus{border-color:var(--gl-gold);background:rgba(248,230,220,.1)}
+.gl-inv-pair .gl-list{right:0;background:#22090F;border:1px solid var(--gl-line)}
+.gl-inv-swap{width:44px;height:44px;border-radius:50%;border:1px solid rgba(239,160,104,.45);background:none;color:var(--gl-gold);font-size:18px;cursor:pointer}
+.gl-inv-swap:hover{background:rgba(239,160,104,.12)}
+#invf .gl-err{text-align:center;margin:12px 0 0}
+.gl-inv-btns{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:22px}
+.gl-inv-go,.gl-inv-ghost{border-radius:999px;font:600 12px/1 var(--gl-mono);letter-spacing:.24em;text-transform:uppercase;cursor:pointer}
+.gl-inv-go{border:0;padding:15px 36px;color:#FFF0E8;background:linear-gradient(100deg,#CF3044,#E25A3C);box-shadow:0 12px 34px -12px rgba(226,90,60,.8)}
+.gl-inv-go:hover{filter:brightness(1.08);transform:translateY(-1px)}
+.gl-inv-ghost{border:1px solid rgba(239,160,104,.5);padding:14px 26px;background:none;color:var(--gl-gold)}
+.gl-inv-ghost:hover{background:rgba(239,160,104,.12)}
+.gl-inv-stat{margin:24px 0 0;font:italic 400 19px/1.3 var(--gl-serif);color:var(--gl-pink)}
+.gl-inv-walk{margin-top:12px;border:0;background:none;cursor:pointer;color:var(--gl-faint);font:500 10.5px/1 var(--gl-mono);letter-spacing:.16em;text-transform:uppercase;padding:6px}
+.gl-inv-walk:hover,.gl-inv-walk:focus-visible{color:var(--gl-ivory)}
+.gl-inv-more{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 22px}
+.gl-inv-more a{font:500 10px/1 var(--gl-mono);letter-spacing:.18em;text-transform:uppercase;color:var(--gl-faint);text-decoration:none;padding:4px 0}
+.gl-inv-more a:hover,.gl-inv-more a:focus-visible{color:var(--gl-gold)}
+.gl-invite :focus-visible{outline:2px solid var(--gl-gold);outline-offset:3px}
+@media (max-width:560px){.gl-inv-pair{grid-template-columns:1fr}.gl-inv-swap{justify-self:center}.gl-faces img:nth-child(n+7){display:none}}
+@media (prefers-reduced-motion:reduce){.gl-invite,.gl-left,.gl-key,.gl-show,.gl-zoom{transition:none}.gl-card{animation:none}}
