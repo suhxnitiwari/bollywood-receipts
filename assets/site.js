@@ -1069,7 +1069,7 @@ const GSRC={},GFILMS={};
   const add=(a,b,t,d,y,v,src)=>{if(!a||!b||a===b||/^(film|char|evt|exit):/.test(a)||/^(film|char|evt|exit):/.test(b))return;const k=[a,b].sort().join('|')+'|'+t;
     if(have.has(k)){const i=have.get(k);if(src&&GSRC[i]&&!GFILMS[i].includes(src))GFILMS[i].push(src);return}have.set(k,G.length);G.push([a,b,t,d,y,v]);if(src){GSRC[G.length-1]=src;GFILMS[G.length-1]=[src]}};
   // feuds of every kind count as feuds; launches count as work; denials (FAUX), reconciliations, media-made rivalries and announced-only launches never become graph edges
-  const TM={wed:'m',ptr:'m',div:'d',ex:'x',rom:'r',kiss:'k',work:'c',fr:'b',fam:'f',fd:'v',succ:'s',beef:'v',onesided:'v',fallout:'v',alter:'v',excl:'v',debut:'c',brk:'c',dirdeb:'c',back:'c',door:'c'},yr=t=>{const m=String(t||'').match(/\b(19|20)\d{2}\b/);return m?+m[0]:null};
+  const TM={wed:'m',ptr:'x',div:'d',ex:'x',rom:'r',kiss:'k',work:'c',fr:'b',fam:'f',fd:'v',succ:'s',beef:'v',onesided:'v',fallout:'v',alter:'v',excl:'v',debut:'c',brk:'c',dirdeb:'c',back:'c',door:'c'},yr=t=>{const m=String(t||'').match(/\b(19|20)\d{2}\b/);return m?+m[0]:null};
   const thread=([a,b,t,lab,ev])=>{if(TM[t]&&ev!=='c')add(a,b,TM[t],String(lab||'').replace(/^♥ /,''),yr(lab),ev||'t')};
   (window.CASEFILES||[]).forEach(f=>(f.threads||[]).forEach(thread));
   Object.values(window.ACTORPAGES||{}).forEach(p=>(p.extra||[]).forEach(thread));
