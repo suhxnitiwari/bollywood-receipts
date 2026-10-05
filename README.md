@@ -2,6 +2,8 @@
 
 Bollywood has a long memory. We kept the receipts.
 
+**Live:** https://suhxnitiwari.github.io/bollywood-receipts/
+
 Bollywood gossip, sorted by how solid the receipt actually is. Every story is stamped:
 
 - **RECEIPT ✓**: on the record (interviews, court filings, announcements)
