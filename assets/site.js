@@ -1364,11 +1364,11 @@ function renderChrome(){const top=document.getElementById('top');if(!top)return;
   top.innerHTML=`<div class="ticker" aria-label="Khabar garam: latest lines"><span class="live"><span class="dot"></span>Khabar garam</span><div class="tkw"><div class="tk">${items}<i aria-hidden="true">✦</i>${items}</div></div></div>
   <header class="mast${PAGE==='front'?'':' slim'}">
     <div class="dateline"><span>Written in Austin, about Bombay</span><span>${MONTH}</span></div>
-    <a class="logo" href="index.html"><span>Bollywood</span><span>Receipts</span></a>
+    <a class="logo" href="index.html"><span>The Bandra</span><span>Bulletin</span></a>
     <p class="motto">Bombay remembers everything. We kept the receipts.</p>
     <nav class="mainnav" aria-label="Sections">${navHtml('nvl')}<div class="nvtools"><button type="button" class="srch" data-search aria-label="Search">⌕ <span>Search</span></button><button type="button" class="burger" aria-label="Menu" aria-expanded="false">☰</button></div></nav>
   </header>
-  <div class="sticky" aria-hidden="true"><a class="br" href="index.html" tabindex="-1">BR</a>${navHtml('nvl')}<button type="button" class="srch" data-search tabindex="-1">⌕</button></div>
+  <div class="sticky" aria-hidden="true"><a class="br" href="index.html" tabindex="-1">BB</a>${navHtml('nvl')}<button type="button" class="srch" data-search tabindex="-1">⌕</button></div>
   <div class="drawer" hidden><button type="button" class="dclose" aria-label="Close menu">✕</button>${NAV.map(n=>`<div class="dg"><a class="dh" href="${n.href}">${n.t}</a>${n.sub.map(([t,h])=>`<a href="${h}">${t}</a>`).join('')}</div>`).join('')}</div>`;
   top.querySelectorAll('.tki[data-n]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault()}));
   // collapse to the slim bar once the masthead nav scrolls away
@@ -1379,7 +1379,7 @@ function renderChrome(){const top=document.getElementById('top');if(!top)return;
   bg.onclick=()=>{dr.hidden=false;bg.setAttribute('aria-expanded','true');dr.querySelector('a').focus()};
   top.querySelector('.dclose').onclick=()=>{dr.hidden=true;bg.setAttribute('aria-expanded','false');bg.focus()};
   dr.addEventListener('click',e=>{if(e.target.closest('a'))dr.hidden=true});
-  const ft=document.getElementById('foot');if(ft)ft.innerHTML=`<div class="fbar"><a class="logo sm" href="index.html"><span>Bollywood</span><span>Receipts</span></a><nav aria-label="Footer">${NAV.map(n=>`<a href="${n.href}">${n.t}</a>`).join('')}</nav></div>
+  const ft=document.getElementById('foot');if(ft)ft.innerHTML=`<div class="fbar"><a class="logo sm" href="index.html"><span>The Bandra</span><span>Bulletin</span></a><nav aria-label="Footer">${NAV.map(n=>`<a href="${n.href}">${n.t}</a>`).join('')}</nav></div>
     <p class="fine">${[['true','on the record'],['alleged','disputed'],['rumor','unconfirmed'],['cap','contradicted']].map(([k,t])=>`<span class="stmp ${V[k][1]}">${V[k][0]}</span> ${t}`).join(' ')} · Interviews, court records and tabloid archives to October 2026. Photos: Wikimedia Commons.</p>`}
 const STAMPKEY=[['true','On the record: an interview, filing, announcement or other documented evidence'],['alleged','Credibly reported, but disputed or never confirmed'],['rumor','Repeated around town without real confirmation'],['cap','Viral claim the available evidence contradicts']].map(([k,t])=>`<div class="sk"><span class="stmp ${V[k][1]}">${V[k][0]}</span><span>${t}</span></div>`).join('');
 

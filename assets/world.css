@@ -261,3 +261,6 @@ body.inviting .gl-left,body.inviting .gl-key,body.inviting .gl-show,body.invitin
 .gl-invite :focus-visible{outline:2px solid var(--gl-gold);outline-offset:3px}
 @media (max-width:560px){.gl-inv-pair{grid-template-columns:1fr}.gl-inv-swap{justify-self:center}.gl-faces img:nth-child(n+7){display:none}}
 @media (prefers-reduced-motion:reduce){.gl-invite,.gl-left,.gl-key,.gl-show,.gl-zoom{transition:none}.gl-card{animation:none}}
+
+/* the front page's live window: just the room and the threads */
+body.gl-demo .gl-left,body.gl-demo .gl-key,body.gl-demo .gl-show,body.gl-demo .gl-zoom,body.gl-demo .gl-skip,body.gl-demo .gl-invite,body.gl-demo .gl-drawer,body.gl-demo .gl-dossier,body.gl-demo .gl-spotted{display:none!important}

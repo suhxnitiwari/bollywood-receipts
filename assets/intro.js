@@ -59,16 +59,16 @@ function layout(){
   sky=g.createLinearGradient(0,0,0,base);sky.addColorStop(0,'#0B0306');sky.addColorStop(.55,'#1C070D');sky.addColorStop(.86,'#4A0F1A');sky.addColorStop(1,'#8A2A22');
 
   /* the title, measured, then cut into a mosaic of tiles */
-  const two=W/H<1.9||W<900,lines=two?['bollywood','receipts']:['bollywood receipts'];
+  const two=W/H<1.9||W<900,lines=two?['the bandra','bulletin']:['the bandra bulletin'];
   const m=document.createElement('canvas').getContext('2d');m.font=`700 100px ${FONT}`;
   const widest=Math.max(...lines.map(l=>m.measureText(l).width));
   const fs=Math.min((W*.88)/widest*100,H*(two?.27:.34)),lh=fs*1.02,top=H*.47-(lines.length*lh)/2+fs*.78;
   const off=document.createElement('canvas');off.width=W;off.height=H;const o=off.getContext('2d');o.font=`700 ${fs}px ${FONT}`;o.textAlign='center';o.fillStyle='#fff';
   title={fs,lh,top,lines};lines.forEach((l,i)=>o.fillText(l,W/2,top+i*lh));
   /* the descender of the p in receipts: Gossip Girl's line, dropped to the floor */
-  const last=lines[lines.length-1],pi=last.indexOf('p');o.font=`700 ${fs}px ${FONT}`;
-  const lw=o.measureText(last).width,px=W/2-lw/2+o.measureText(last.slice(0,pi)).width+fs*.095;
-  title.px=px;title.py=top+(lines.length-1)*lh+fs*.2;
+  const last=lines[lines.length-1],pi=last.lastIndexOf('i');o.font=`700 ${fs}px ${FONT}`;
+  const lw=o.measureText(last).width,px=W/2-lw/2+o.measureText(last.slice(0,pi)).width+o.measureText('i').width/2;
+  title.px=px;title.py=top+(lines.length-1)*lh-fs*.3;
   const data=o.getImageData(0,0,W,H).data;
   /* find the p's real stem in the rendered letters, so the line comes out of its centre, from the very bottom of the descender */
   {const A=(x,y)=>data[(Math.round(y)*W+Math.round(x))*4+3]>140,y0=Math.round(title.py+fs*.06);let a=-1,b=-1;

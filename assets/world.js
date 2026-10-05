@@ -120,7 +120,7 @@ function frameBox(){const path=S.mode==='path';
   const hb=box(document.querySelector('.gl-brand')),cb=box(document.getElementById('spotted'))||box(document.getElementById('dossier'))||box(document.querySelector('.gl-ask'));
   const y0=Math.max(path?170:120,hb?hb.bottom+36:0),y1=Math.min(H*(S.mode==='room'?.6:.62),cb?cb.top-30:H);
   return {x0:24,x1:W-24,y0,y1:Math.max(y1,y0+140)}}
-function fitPeople(ps,pad=1){if(!ps.length)return;const xs=ps.map(p=>p.wx),ys=ps.map(p=>p.wy);
+function fitPeople(ps,pad=1){if(!ps||!ps.length)return;const xs=ps.map(p=>p.wx),ys=ps.map(p=>p.wy);
   const x0=Math.min(...xs),x1=Math.max(...xs),y0=Math.min(...ys),y1=Math.max(...ys),B=frameBox();
   const z=clamp(Math.min((B.x1-B.x0)/Math.max(80,x1-x0),(B.y1-B.y0)/Math.max(80,y1-y0))*pad,fitZ*.12,Math.min(zmax(),fitZ*4.5)),c=stage();
   flyTo((x0+x1)/2-((B.x0+B.x1)/2-c.x)/z,(y0+y1)/2-((B.y0+B.y1)/2-c.y)/z,z,5,fitZ*.12)}
@@ -541,4 +541,9 @@ const qs=new URLSearchParams(location.search),qa=qs.get('a'),qb=qs.get('b'),qp=q
 if(qa&&qb){const a=resolve(qa),b=resolve(qb);if(a&&b&&a!==b){walkIn();$('#pa').value=a;$('#pb').value=b;setTimeout(()=>connect(a,b),RM?0:1500)}}
 else if(qp){const p=BY.get(resolve(qp));if(p)walkIn();if(p)setTimeout(()=>select(p,{push:false}),RM?0:1300)}
 window.__guest={S,P,E,BY,connect,select,cam,goal};
+/* demo mode, for the front page's live window: no panels, the room pulls famous threads on its own */
+if(qs.has('demo')){document.body.classList.add('gl-demo');walkIn();
+  const PAIRS=[['Shah Rukh Khan','Kangana Ranaut'],['Alia Bhatt','Deepika Padukone'],['Aishwarya Rai','Salman Khan'],['Ranveer Singh','Sonam Kapoor'],['Amitabh Bachchan','Ananya Panday'],['Katrina Kaif','Vicky Kaushal'],['Rekha','Kareena Kapoor'],['Akshay Kumar','Shilpa Shetty']].map(([a,b])=>[resolve(a),resolve(b)]).filter(([a,b])=>a&&b);
+  let k=0;const next=()=>{const [a,b]=PAIRS[k++%PAIRS.length];connect(a,b);try{parent.postMessage({gl:'pair',a,b},'*')}catch(e){}};
+  setTimeout(next,RM?0:900);setInterval(next,9000)}
 })();
