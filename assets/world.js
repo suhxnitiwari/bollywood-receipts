@@ -265,7 +265,7 @@ function drawLabels(now,zr){const boxes=[],R=S.path,focus=S.mode!=='room';
   const fits=(x0,y0,x1,y1)=>{for(const b of boxes)if(x0<b[2]&&x1>b[0]&&y0<b[3]&&y1>b[1])return false;boxes.push([x0,y0,x1,y1]);return true};
   g.textAlign='center';g.textBaseline='top';
   // khandaan names first, in the open space above each table
-  const hA=focus?.14:clamp(1.15-zr*.22,0,.6);
+  const hA=S.demo&&focus?0:focus?.14:clamp(1.15-zr*.22,0,.6);
   if(hA>.02){g.font='italic 500 12.5px "Bodoni Moda",Georgia,serif';setSpacing('2.5px');
     WD.khandaans.forEach(h=>{const s=toScreen({wx:h.x,wy:h.y-h.r-30}),txt=h.t.toUpperCase(),w=g.measureText(txt).width;
       if(!fits(s.x-w/2,s.y,s.x+w/2,s.y+16))return;g.globalAlpha=hA;g.fillStyle=houseCol(h.k);g.fillText(txt,s.x,s.y)});setSpacing('0px')}
@@ -280,10 +280,10 @@ function drawLabels(now,zr){const boxes=[],R=S.path,focus=S.mode!=='room';
   want.sort((a,b)=>b[1]-a[1]||b[0].s.r-a[0].s.r).forEach(([p,lvl])=>{if(seen.has(p))return;seen.add(p);const {x,y,r}=p.s;if(x<-50||x>W+50||y<-20||y>H+20)return;
     const big=lvl>=2,txt=p.n.toUpperCase();g.font=big?'600 13.5px "Bodoni Moda",Georgia,serif':'500 10px "IBM Plex Mono",monospace';setSpacing(big?'1.5px':'1.2px');
     const w=g.measureText(txt).width,hgt=big?15:12,gap=big?7:5;let lx=x,ly=y+r+gap;
-    if(!fits(lx-w/2-3,ly,lx+w/2+3,ly+hgt)){if(lvl<3)return;
+    if(lvl===3||!fits(lx-w/2-3,ly,lx+w/2+3,ly+hgt)){if(lvl<3)return;
       // someone on the thread always gets a name: try above, beside, then further out
-      const tries=[[x,y-r-gap-hgt],[x+r+gap+w/2,y-hgt/2],[x-r-gap-w/2,y-hgt/2],[x,y+r+gap+hgt+4],[x,y-r-gap-2*hgt-4],[x+r+gap+w/2,y+hgt/2+3],[x-r-gap-w/2,y+hgt/2+3],[x+r+gap+w/2,y-hgt*1.5-3],[x-r-gap-w/2,y-hgt*1.5-3]];
-      let done=false;for(const [tx,ty] of tries)if(fits(tx-w/2-3,ty,tx+w/2+3,ty+hgt)){lx=tx;ly=ty;done=true;break}
+      const tries=[[x,y+r+gap],[x,y-r-gap-hgt],[x+r+gap+w/2,y-hgt/2],[x-r-gap-w/2,y-hgt/2],[x,y+r+gap+hgt+4],[x,y-r-gap-2*hgt-4],[x+r+gap+w/2,y+hgt/2+3],[x-r-gap-w/2,y+hgt/2+3],[x+r+gap+w/2,y-hgt*1.5-3],[x-r-gap-w/2,y-hgt*1.5-3]];
+      let done=false;const ord=p.lp!=null?[p.lp,...tries.keys()]:[...tries.keys()];for(const j of ord){const [tx,ty]=tries[j];if(tx-w/2>=4&&tx+w/2<=W-4&&ty>=4&&ty+hgt<=H-4&&fits(tx-w/2-4,ty-3,tx+w/2+4,ty+hgt+3)){lx=tx;ly=ty;done=true;p.lp=j;break}}
       if(!done)boxes.push([lx-w/2-3,ly,lx+w/2+3,ly+hgt])}
     g.globalAlpha=Math.min(1,p.a*(lvl?1.1:.95));
     g.fillStyle=lvl===3?'#FFF0E8':lvl===2?'#FCEAE0':'rgba(248,230,220,.82)';g.shadowColor='#000';g.shadowBlur=6;g.fillText(txt,lx,ly);g.shadowBlur=0;
@@ -291,7 +291,8 @@ function drawLabels(now,zr){const boxes=[],R=S.path,focus=S.mode!=='room';
   setSpacing('0px');
   // receipts tags on the thread: what the rishta is called and when
   const clear=(x0,y0,x1,y1)=>{for(const b of boxes)if(x0<b[2]&&x1>b[0]&&y0<b[3]&&y1>b[1])return false;return true};
-  if(S.mode==='path')R.es.forEach((e,i)=>{if(R.prog[i]<1)return;const q=quad(e),a=clamp((now-(R.doneAt[i]||0))/300,0,1);
+  const lastDone=R?R.prog.lastIndexOf(1):-1;
+  if(S.mode==='path')R.es.forEach((e,i)=>{if(R.prog[i]<1)return;if(S.demo&&(R.end||i!==lastDone))return;const q=quad(e),a=clamp((now-(R.doneAt[i]||0))/300,0,1);
     const top=TAG[e.t],sub=when(e);g.font='600 10px "IBM Plex Mono",monospace';setSpacing('2px');const w1=g.measureText(top).width;g.font='italic 400 12.5px "Bodoni Moda",Georgia,serif';setSpacing('0px');
     const w2=sub?g.measureText(sub).width:0,w=Math.max(w1,w2)+26,h=sub?40:24;
     // slide along the thread first; if it's too short, step off to the side on a leader line
@@ -397,7 +398,7 @@ function caption(html){capEl.classList.remove('out');capEl.innerHTML=html}
 function capOut(){capEl.classList.add('out')}
 const wait=ms=>new Promise(r=>setTimeout(r,ms));
 function stopSeq(){if(S.seq){S.seq.cancelled=true;S.seq=null}skipBtn.hidden=true;capOut()}
-function connect(aN,bN,{instant=false}={}){stopSeq();closeDrawer();hideTip();
+function connect(aN,bN,{instant=false}={}){stopSeq();P.forEach(p=>{p.lp=null});closeDrawer();hideTip();
   const a=BY.get(aN),b=BY.get(bN);
   let pth=null;try{pth=path(aN,bN,S.demo?'pers':false,S.verified)}catch(err){}
   if(!pth||!pth.length){err(`No chain between ${aN} and ${bN} on this guest list${S.verified?' using receipts alone. Try turning off “Receipts only”':''}. Yet.`);return}
@@ -427,7 +428,7 @@ function connect(aN,bN,{instant=false}={}){stopSeq();closeDrawer();hideTip();
       S.path.reached.add(to);targets();flash(to);
       caption(`<span class="who">${esc(to.n)}</span><span class="line">${esc(ST[es[i].t].k)}${when(es[i])?' · '+esc(when(es[i])):''}</span>`);
       await wait(PAUSE+260);if(seq.cancelled)return}
-    if(S.demo)fitPeople(ids.slice(-3),1);else fitPeople(ids,.85);rate=3.2;
+    if(S.demo){S.path.end=true;fitPeople(ids,.8)}else fitPeople(ids,.85);rate=3.2;
     if(S.demo)rate=1.4;caption(`<span class="deg">${L===1?'Directly linked.':cap1(NUM[L]||L)+' degrees.'}</span><span class="line">Small town, this Bollywood.</span>`);
     await wait(900);if(seq.cancelled)return;
     S.seq=null;skipBtn.hidden=true;spotted();if(W<=760)fitPeople(R.ids,.85);await wait(1700);if(!S.seq&&S.mode==='path')capOut()})()}
