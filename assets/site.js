@@ -1018,6 +1018,7 @@ const G=[
 ["Randeep Hooda","Lin Laishram","m","married 2023",2023,"t"],
 ["Randeep Hooda","Sushmita Sen","x","about 2006–09; he has called the breakup the best thing that happened to him",2006,"t"],
 ["Vijay Varma","Tamannaah Bhatia","x","met on Lust Stories 2; went public June 2023; split reported March 2025, never confirmed by either",2023,"t"],
+["Vijay Varma","Fatima Sana Shaikh","r","Gustaakh Ishq co-stars, photographed hugging outside a Mumbai café in 2025 after his split from Tamannaah; she says she's single",2025,"r"],
 ["Vikrant Massey","Sheetal Thakur","m","married 2022",2022,"t"],
 ["Shefali Shah","Harsh Chhaya","d","married 1997, divorced 2000",1997,"t"],
 ["Shefali Shah","Vipul Shah","m","married 2000",2000,"t"],

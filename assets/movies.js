@@ -534,6 +534,7 @@ window.MOVIES=[
 ['jalsa','Jalsa',2022,{cast:['Vidya Balan','Shefali Shah']}],
 ['missionmajnu','Mission Majnu',2023,{cast:['Sidharth Malhotra','Rashmika Mandanna']}],
 ['lust2','Lust Stories 2',2023,{cast:['Tamannaah Bhatia','Vijay Varma','Kajol','Kumud Mishra','Neena Gupta','Mrunal Thakur','Angad Bedi','Tillotama Shome'],segments:[['Tamannaah Bhatia','Vijay Varma'],['Kajol','Kumud Mishra'],['Neena Gupta','Mrunal Thakur','Angad Bedi'],['Tillotama Shome']]}],
+['gustaakhishq','Gustaakh Ishq',2025,{cast:['Vijay Varma','Fatima Sana Shaikh','Naseeruddin Shah'],crew:[['Manish Malhotra','producer']]}],  // shot as Ul-Jalool Ishq; directed by Vibhu Puri (not a guest)
 ['jaanejaan','Jaane Jaan',2023,{cast:['Kareena Kapoor','Jaideep Ahlawat','Vijay Varma'],crew:[['Sujoy Ghosh','director']]}],
 ['12thfail','12th Fail',2023,{cast:['Vikrant Massey','Medha Shankr'],crew:[['Vidhu Vinod Chopra','director']]}],
 ['faraaz','Faraaz',2023,{cast:['Zahan Kapoor','Aditya Rawal','Juhi Babbar'],crew:[['Hansal Mehta','director']]}],
