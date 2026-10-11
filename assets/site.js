@@ -1056,7 +1056,7 @@ const G=[
 ["Ramesh Sippy","Zahan Kapoor","f","grandfather",null,"t"],
 ["Rajkummar Rao","Patralekhaa","m","together since CityLights; married 2021",2021,"t"],
 ["Richa Chadha","Ali Fazal","m","met on Fukrey; married 2022",2022,"t"],
-["Rashmika Mandanna","Vijay Deverakonda","m","married in Udaipur, February 2026",2026,"t"],
+["Rashmika Mandanna","Vijay Deverakonda","m","met on Geetha Govindam (2018); married 26 February 2026 in Udaipur, Telugu and Kodava rites",2026,"t"],
 ["Rashmika Mandanna","Rakshit Shetty","e","engaged July 2017 in Virajpet, called off September 2018; he asked fans to \"stop judging her\"",2017,"t"],
 ["Rashmika Mandanna","Rishab Shetty","v","he directed her debut; 2022 he mimicked her air-quotes about the studio that launched her, then left her untagged on the Kirik Party anniversary",2022,"t"],
 ["Chand Burke","Ranveer Singh","f","his paternal grandmother, \"the Dancing Lily of the Punjab\"; Raj Kapoor cast her in Boot Polish",null,"t"],

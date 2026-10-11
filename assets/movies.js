@@ -137,6 +137,11 @@ window.MOVIES=[
 ['fighter','Fighter',2024,{cast:['Hrithik Roshan','Deepika Padukone','Anil Kapoor']}],
 ['kalki2898','Kalki 2898 AD',2024,{lang:'te',cast:['Prabhas','Amitabh Bachchan','Kamal Haasan','Deepika Padukone','Disha Patani'],crew:[['Nag Ashwin','director']]}],
 ['jigra','Jigra',2024,{cast:['Alia Bhatt','Vedang Raina'],crew:[['Karan Johar','producer']]}],
+// Ananya Panday's 2024–25 work (Tu Meri Main Tera is further down, as 'tmmt') (checked against Wikipedia, Netflix and Prime Video credits). Only co-stars already on the
+// Guest List are named: Vihaan Samat (her co-lead in CTRL and Call Me Bae) and Kesari 2's director Karan Singh Tyagi aren't guests yet
+['ctrl','CTRL',2024,{cast:['Ananya Panday'],crew:[['Vikramaditya Motwane','director']]}],
+['callmebae','Call Me Bae (series)',2024,{cast:['Ananya Panday','Vir Das','Gurfateh Pirzada']}],
+['kesari2','Kesari Chapter 2',2025,{cast:['Akshay Kumar','R. Madhavan','Ananya Panday']}],
 ['sa','Singham Again',2024,{cast:['Ajay Devgn','Akshay Kumar','Ranveer Singh','Tiger Shroff','Deepika Padukone','Kareena Kapoor','Arjun Kapoor','Jackie Shroff','Ravi Kishan'],special:['Salman Khan'],crew:[['Rohit Shetty','director']]}],
 ['hf5','Housefull 5',2025,{cast:['Akshay Kumar','Riteish Deshmukh','Abhishek Bachchan','Jacqueline Fernandez','Sonam Bajwa','Nargis Fakhri','Sanjay Dutt','Jackie Shroff','Nana Patekar','Chitrangda Singh','Fardeen Khan','Chunky Panday','Johnny Lever','Shreyas Talpade','Dino Morea','Ranjeet','Nikitin Dheer'],special:['Bobby Deol'],crew:[['Tarun Mansukhani','director'],['Sajid Nadiadwala','producer']]}],
 ['war2','War 2',2025,{cast:['Hrithik Roshan','NTR Jr.','Kiara Advani'],crew:[['Ayan Mukerji','director'],['Aditya Chopra','producer']]}],
@@ -415,7 +420,7 @@ window.MOVIES=[
 ['jayeshbhai','Jayeshbhai Jordaar',2022,{cast:['Ranveer Singh','Shalini Pandey','Boman Irani','Ratna Pathak Shah'],crew:[['Aditya Chopra','producer']]}],
 ['cirkus','Cirkus',2022,{cast:['Ranveer Singh','Jacqueline Fernandez','Pooja Hegde','Varun Sharma','Johnny Lever','Sanjay Mishra','Siddhartha Jadhav','Mukesh Tiwari'],special:['Deepika Padukone'],crew:[['Rohit Shetty','director']]}],
 ['spkk','Satyaprem Ki Katha',2023,{cast:['Kartik Aaryan','Kiara Advani'],crew:[['Sameer Vidwans','director']]}],
-['tmmt','Tu Meri Main Tera Main Tera Tu Meri',2025,{cast:['Kartik Aaryan','Ananya Panday'],crew:[['Sameer Vidwans','director'],['Karan Johar','producer']]}],
+['tmmt','Tu Meri Main Tera Main Tera Tu Meri',2025,{cast:['Kartik Aaryan','Ananya Panday','Neena Gupta','Jackie Shroff','Tiku Talsania'],crew:[['Sameer Vidwans','director'],['Karan Johar','producer']]}],
 ['ganapath','Ganapath',2023,{cast:['Tiger Shroff','Kriti Sanon','Amitabh Bachchan']}],
 ['yodha','Yodha',2024,{cast:['Sidharth Malhotra','Disha Patani','Raashii Khanna'],crew:[['Karan Johar','producer']]}],
 ['bmcm','Bade Miyan Chote Miyan',2024,{cast:['Akshay Kumar','Tiger Shroff','Prithviraj Sukumaran','Manushi Chhillar','Alaya F','Sonakshi Sinha']}],
