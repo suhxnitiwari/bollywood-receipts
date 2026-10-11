@@ -10,6 +10,9 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rozha+One&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..800;1,6..96,400..800&family=Mukta:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Caveat:wght@500;700&display=swap">
 <link rel="stylesheet" href="assets/site.css?v=pp27">
+<style>html.intro-cover body::after{content:"";position:fixed;inset:0;z-index:59;background:#0B0306}</style>
+<script>/* the opening titles cover the page from the first paint, so the front page never flashes before them */
+if(!matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.classList.add('intro-cover');setTimeout(()=>document.documentElement.classList.remove('intro-cover'),6000)}</script>
 </head>
 <body data-page="front">
 <a class="skip" href="#main">Skip to the receipts</a>
@@ -99,7 +102,7 @@ const auto=()=>{clearInterval(timer);if(!matchMedia('(prefers-reduced-motion: re
 el.querySelector('.fc-prev').onclick=()=>{go(at-1);auto()};el.querySelector('.fc-next').onclick=()=>{go(at+1);auto()};dots.forEach((d,k)=>d.onclick=()=>{go(k);auto()});
 el.addEventListener('mouseenter',()=>clearInterval(timer));el.addEventListener('mouseleave',auto);auto()})();</script>
 <script src="assets/world-data.js?v=pp48"></script>
-<script src="assets/intro.js?v=pp9"></script>
+<script src="assets/intro.js?v=pp10"></script>
 <script src="assets/casefiles.js?v=pp8"></script>
 </body>
 </html>

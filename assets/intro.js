@@ -2,11 +2,11 @@
 (()=>{
 const q=new URLSearchParams(location.search),force=q.has('intro'),freeze=parseFloat(q.get('intro'));
 /* it plays on every visit and every reload of the front page; Skip is always there */
-const seen=false;
+const seen=false,uncover=()=>document.documentElement.classList.remove('intro-cover');
 const home=document.body.classList.contains('inviting')||document.body.dataset.page==='front';
-if(!force&&(seen||!home||matchMedia('(prefers-reduced-motion: reduce)').matches))return;
+if(!force&&(seen||!home||matchMedia('(prefers-reduced-motion: reduce)').matches))return uncover();
 
-const W0=window.WORLD;if(!W0)return;
+const W0=window.WORLD;if(!W0)return uncover();
 const stars=W0.people.filter(p=>p.f).sort((a,b)=>b.s-a.s);
 const GOLD='#EFA068',FONT='"Quicksand",system-ui,sans-serif';
 
@@ -26,7 +26,7 @@ const font=document.createElement('link');font.rel='stylesheet';font.href='https
 
 const root=document.createElement('div');root.className='br-intro';root.setAttribute('role','presentation');
 const cv=document.createElement('canvas');const skip=document.createElement('button');skip.type='button';skip.className='br-intro-skip';skip.textContent='Skip intro';
-root.append(cv,skip);document.body.appendChild(root);document.body.classList.add('br-intro-on');
+root.append(cv,skip);document.body.appendChild(root);uncover();document.body.classList.add('br-intro-on');
 const invite=document.getElementById('invite');if(invite)invite.inert=true;
 const g=cv.getContext('2d');
 
