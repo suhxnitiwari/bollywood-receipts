@@ -1017,7 +1017,7 @@ const G=[
 ["Riteish Deshmukh","Genelia D'Souza","m","met on Tujhe Meri Kasam; married 2012",2012,"t"],
 ["Randeep Hooda","Lin Laishram","m","married 2023",2023,"t"],
 ["Randeep Hooda","Sushmita Sen","x","about 2006–09; he has called the breakup the best thing that happened to him",2006,"t"],
-["Vijay Varma","Tamannaah Bhatia","x","confirmed 2023 after Lust Stories 2; split reported 2025",2023,"t"],
+["Vijay Varma","Tamannaah Bhatia","x","met on Lust Stories 2; went public June 2023; split reported March 2025, never confirmed by either",2023,"t"],
 ["Vikrant Massey","Sheetal Thakur","m","married 2022",2022,"t"],
 ["Shefali Shah","Harsh Chhaya","d","married 1997, divorced 2000",1997,"t"],
 ["Shefali Shah","Vipul Shah","m","married 2000",2000,"t"],
